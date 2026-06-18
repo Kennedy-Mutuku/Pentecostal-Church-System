@@ -1,0 +1,237 @@
+:root {
+    --primary: #730051;
+    --primary-dark: #4a0033;
+    --accent: #980000;
+    --accent-light: #c41e1e;
+    --text-dark: #2d2d2d;
+    --text-light: #6b6b6b;
+    --bg-cream: #faf8f4;
+    --white: #ffffff;
+    --shadow: rgba(0, 0, 0, 0.08);
+}
+
+.leadership-page {
+    font-family: 'Inter', Arial, sans-serif;
+    color: var(--text-dark);
+    background: #ffffff1a;
+    line-height: 1.6;
+    overflow-x: hidden;
+    position: relative;
+    padding-top: 64px;
+}
+
+/* Blurred fixed background */
+.leadership-page::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image: url('../assets/IMG_0513.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    filter: blur(8px);
+    opacity: 0.15;
+    transform: scale(1.05);
+    z-index: -1;
+}
+
+/* Hero Section */
+.leadership-page .hero {
+    padding: 1rem 5% 0.5rem;
+    text-align: center;
+    position: relative;
+}
+
+.leadership-page .hero h1 {
+    font-size: clamp(1.3rem, 5.5vw, 2.8rem);
+    color: #cc0000; /* Professional red */
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+}
+
+.leadership-page .hero p {
+    font-size: clamp(0.9rem, 1.5vw, 1.1rem);
+    color: var(--text-light);
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+/* Main Content */
+.leadership-page .container {
+    max-width: 1000px;
+    margin: 0 auto 3rem;
+    padding: 0 4%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Section Styling */
+.leadership-page .section {
+    width: 100%;
+}
+
+.leadership-page .section-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.leadership-page .section-header h2 {
+    font-size: clamp(1.4rem, 3vw, 2rem);
+    color: var(--text-dark);
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.leadership-page .section-header h2::after,
+.leadership-page .section-header h2::before {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 2px;
+    opacity: 0.7;
+}
+
+.leadership-page .section-header p {
+    color: var(--text-light);
+    font-size: 0.95rem;
+    max-width: 600px;
+    margin: 0.5rem auto 0;
+}
+
+/* Executive Committee Grid - Centered Horizontal Cards */
+.leadership-page .committee-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1.25rem;
+}
+
+.leadership-page .profile-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(115, 0, 81, 0.1);
+    border-radius: 12px;
+    padding: 1.25rem;
+    display: flex;
+    align-items: center;
+    gap: 1.25rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.04);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    text-align: left;
+}
+
+.leadership-page .profile-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(115, 0, 81, 0.08);
+    border-color: rgba(115, 0, 81, 0.3);
+}
+
+.leadership-page .profile-image {
+    width: 75px;
+    height: 75px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--primary);
+    box-shadow: 0 4px 10px rgba(115, 0, 81, 0.15);
+    flex-shrink: 0;
+}
+
+.leadership-page .profile-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.leadership-page .profile-card h3 {
+    font-size: 0.85rem;
+    color: var(--primary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+}
+
+.leadership-page .profile-name {
+    font-size: 1.1rem;
+    color: var(--text-dark);
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.leadership-page .profile-phone {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    margin-bottom: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+}
+
+.leadership-page .profile-phone i {
+    color: var(--accent);
+    font-size: 0.75rem;
+}
+
+.leadership-page .profile-card .role {
+    color: var(--text-light);
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: rgba(115, 0, 81, 0.05);
+    display: inline-block;
+    padding: 0.15rem 0.5rem;
+    border-radius: 4px;
+    margin-top: 0.25rem;
+}
+
+/* ====== RESPONSIVE ====== */
+
+/* Small phones */
+@media (max-width: 480px) {
+    .leadership-page {
+        padding-top: 15px; /* Removed negative space */
+    }
+
+    .leadership-page .profile-card {
+        padding: 1rem;
+        gap: 1rem;
+    }
+
+    .leadership-page .profile-image {
+        width: 60px;
+        height: 60px;
+    }
+}
+
+/* Desktop */
+@media (min-width: 1024px) {
+
+    .leadership-page .profile-image {
+        width: 120px;
+        height: 120px;
+    }
+
+    .leadership-page .profile-card {
+        padding: 1.75rem;
+        gap: 1.75rem;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    
+    .leadership-page .committee-grid {
+        display: flex;
+        justify-content: center;
+    }
+}

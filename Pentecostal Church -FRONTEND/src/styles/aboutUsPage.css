@@ -1,0 +1,796 @@
+/* =====================================================
+   ABOUT PAGE — Premium Stylesheet
+   ===================================================== */
+
+.about-page {
+    --primary-color: #E53935;
+    --secondary-color: #B71C1C;
+    --primary-dark: #8E1111;
+    --text-color: #1A202C;
+    --text-light: #4A5568;
+    --bg-light: #F7FAFC;
+    --bg-white: #FFFFFF;
+    --border-color: #E2E8F0;
+    --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+    --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    --font-primary: 'Montserrat', sans-serif;
+    font-family: 'Inter', sans-serif;
+    color: var(--text-color);
+    background-color: var(--bg-light);
+}
+
+/* Sections padding */
+.about-page .section {
+    padding: 70px 0;
+}
+
+/* Scroll offset — all anchor sections clear the fixed header */
+#who-we-are,
+#our-history,
+#vision-mission,
+#leadership,
+#philosophy,
+#statement-of-faith {
+    scroll-margin-top: 110px;
+}
+
+/* Container limits */
+.about-page .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+}
+
+.about-page .section-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.about-page .section-subtitle {
+    display: block;
+    color: var(--primary-color);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 8px;
+}
+
+.about-page .section-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text-color);
+    margin: 0 0 16px;
+    font-family: var(--font-primary);
+}
+
+.about-page .section-description {
+    max-width: 600px;
+    margin: 0 auto;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+/* Page Header */
+.page-header {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 60%, var(--secondary-color) 100%);
+    padding: 100px 0 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.page-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.page-header h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    color: #ffffff;
+    margin: 0 0 12px;
+    font-family: var(--font-primary);
+    position: relative;
+}
+
+.breadcrumb {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    position: relative;
+}
+
+.breadcrumb a {
+    color: rgba(255, 255, 255, 0.95);
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.breadcrumb a:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+/* ── Who We Are ── */
+.about-who-section {
+    background: var(--bg-white);
+}
+
+.about-who-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 50px;
+    align-items: center;
+}
+
+.about-who-text .lead {
+    font-size: 1.05rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    margin-bottom: 20px;
+    line-height: 1.7;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 16px;
+}
+
+.about-who-text p {
+    color: var(--text-light);
+    margin-bottom: 16px;
+    line-height: 1.75;
+    font-size: 0.95rem;
+}
+
+.about-scripture {
+    background: var(--bg-light);
+    border-left: 4px solid var(--secondary-color);
+    border-radius: 0 8px 8px 0;
+    padding: 18px 20px;
+    margin: 24px 0;
+    font-style: italic;
+    color: var(--text-color);
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.about-scripture i {
+    color: var(--secondary-color);
+    font-size: 1rem;
+}
+
+.about-scripture span {
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.about-scripture cite {
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.location-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--bg-light);
+    border-radius: 30px;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    border: 1px solid rgba(229, 57, 53, 0.1);
+}
+
+.about-who-image {
+    position: relative;
+}
+
+.about-who-image img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    border-radius: 16px;
+    box-shadow: var(--shadow-lg);
+}
+
+.about-image-badge {
+    position: absolute;
+    bottom: -15px;
+    left: -15px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    color: #ffffff;
+    border-radius: 12px;
+    padding: 12px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    box-shadow: var(--shadow-lg);
+}
+
+.about-image-badge i {
+    font-size: 1.3rem;
+}
+
+.about-image-badge span {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap;
+}
+
+/* ── Our History ── */
+.our-history-section {
+    background: var(--bg-light);
+}
+
+.history-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+    align-items: start;
+}
+
+.history-text p {
+    color: var(--text-light);
+    line-height: 1.75;
+    margin-bottom: 16px;
+    font-size: 0.95rem;
+}
+
+.history-milestones {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.milestone {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--bg-white);
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.milestone:hover {
+    transform: translateX(4px);
+    box-shadow: var(--shadow-lg);
+}
+
+.milestone-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.milestone-icon i {
+    color: #ffffff;
+    font-size: 0.9rem;
+}
+
+.milestone-text h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin: 0 0 4px;
+    font-family: var(--font-primary);
+}
+
+.milestone-text p {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.5;
+    margin: 0;
+}
+
+/* ── Vision / Mission ── */
+.vm-section {
+    background: var(--bg-white);
+}
+
+.vm-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+}
+
+.vm-box {
+    background: var(--bg-white);
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    border-top: 4px solid transparent;
+}
+
+.vm-box:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-top-color: var(--secondary-color);
+}
+
+.vm-icon {
+    width: 58px;
+    height: 58px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.vm-icon i {
+    font-size: 1.3rem;
+    color: #ffffff;
+}
+
+.vm-box h3 {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0 0 12px;
+    color: var(--primary-color);
+    font-family: var(--font-primary);
+}
+
+.vm-box p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin: 0;
+}
+
+/* ── Leadership Section ── */
+.leadership-section {
+    background: var(--bg-light);
+}
+
+.leadership-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.leader-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px 16px;
+    text-align: center;
+    transition: var(--transition);
+}
+
+.leader-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
+    border-color: var(--secondary-color);
+}
+
+.leader-avatar {
+    width: 68px;
+    height: 68px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.leader-avatar i {
+    font-size: 1.4rem;
+    color: #ffffff;
+}
+
+.leader-card h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-color);
+    margin: 0 0 4px;
+    font-family: var(--font-primary);
+}
+
+.leader-role {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+}
+
+.leader-desc {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    line-height: 1.55;
+    margin: 0;
+}
+
+/* ── Philosophy Section ── */
+.philosophy-section {
+    background: var(--bg-white);
+}
+
+.philosophy-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.phil-card {
+    background: var(--bg-white);
+    border: 1.5px solid var(--border-color);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.25s ease, border-color 0.25s ease;
+    cursor: pointer;
+}
+
+.phil-card:hover {
+    box-shadow: 0 4px 18px rgba(229, 57, 53, 0.06);
+    border-color: #f5a5a5;
+}
+
+.phil-card--open {
+    box-shadow: 0 8px 28px rgba(229, 57, 53, 0.1);
+    border-color: var(--secondary-color);
+}
+
+.phil-card-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 20px;
+    user-select: none;
+    background: #fafafa;
+    transition: background 0.2s ease;
+}
+
+.phil-card--open .phil-card-header {
+    background: var(--bg-white);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.phil-card-icon {
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.phil-card-icon i {
+    font-size: 0.95rem;
+    color: #ffffff;
+}
+
+.phil-card-meta {
+    flex: 1;
+    min-width: 0;
+}
+
+.phil-number {
+    display: block;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--secondary-color);
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 3px;
+}
+
+.phil-title {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--text-color);
+    line-height: 1.3;
+    font-family: var(--font-primary);
+    margin: 0;
+}
+
+.phil-chevron {
+    color: var(--text-light);
+    font-size: 0.8rem;
+    flex-shrink: 0;
+    transition: transform 0.3s ease;
+}
+
+.phil-card--open .phil-chevron {
+    transform: rotate(180deg);
+    color: var(--secondary-color);
+}
+
+.phil-card-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.35s ease, padding 0.3s ease;
+    padding: 0 20px;
+}
+
+.phil-card--open .phil-card-body {
+    max-height: 800px;
+    padding: 20px;
+}
+
+.phil-card-body p {
+    color: var(--text-light);
+    font-size: 0.9rem;
+    line-height: 1.7;
+    margin-bottom: 14px;
+}
+
+.phil-scripture {
+    background: var(--bg-light);
+    border-left: 3px solid var(--secondary-color);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.phil-scripture i {
+    color: var(--secondary-color);
+    font-size: 0.8rem;
+}
+
+.phil-scripture span {
+    font-style: italic;
+    font-size: 0.85rem;
+    color: var(--text-color);
+    line-height: 1.55;
+}
+
+.phil-scripture cite {
+    font-style: normal;
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    letter-spacing: 0.5px;
+}
+
+/* ── Statement of Faith ── */
+.faith-section {
+    background: var(--bg-light);
+}
+
+.faith-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.faith-item {
+    background: var(--bg-white);
+    border-radius: 14px;
+    padding: 28px 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.faith-item:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg);
+}
+
+.faith-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 16px;
+}
+
+.faith-icon i {
+    font-size: 1rem;
+    color: #ffffff;
+}
+
+.faith-item h4 {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-family: var(--font-primary);
+}
+
+.faith-item p {
+    color: var(--text-light);
+    font-size: 0.85rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* ── Commitment Banner ── */
+.commitment-section {
+    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 50%, var(--secondary-color) 100%);
+    padding: 70px 0;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.commitment-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    opacity: 0.06;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+
+.commitment-inner {
+    max-width: 680px;
+    margin: 0 auto;
+    position: relative;
+    padding: 0 20px;
+}
+
+.commitment-icon {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(8px);
+    border: 2px solid rgba(255, 255, 255, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 20px;
+}
+
+.commitment-icon i {
+    font-size: 1.5rem;
+    color: #ffffff;
+}
+
+.commitment-inner h2 {
+    font-size: 2rem;
+    color: #ffffff;
+    margin-bottom: 16px;
+    font-family: var(--font-primary);
+}
+
+.commitment-inner p {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.commitment-inner blockquote {
+    background: rgba(255, 255, 255, 0.1);
+    border-left: 3px solid rgba(255, 255, 255, 0.4);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 18px;
+    font-style: italic;
+    color: #ffffff;
+    font-size: 0.95rem;
+    margin: 0 auto 24px;
+    text-align: left;
+}
+
+.commitment-inner blockquote cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 6px;
+}
+
+.btn-secondary {
+    display: inline-block;
+    background: #ffffff;
+    color: var(--primary-color);
+    font-weight: 700;
+    font-size: 0.875rem;
+    padding: 10px 24px;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: var(--bg-light);
+}
+
+/* ── About Page Responsive ── */
+@media (max-width: 1024px) {
+    .philosophy-grid {
+        grid-template-columns: 1fr;
+    }
+    .vm-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .faith-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    .history-content {
+        grid-template-columns: 1fr;
+        gap: 32px;
+    }
+    .leadership-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .about-page .section {
+        padding: 40px 0;
+    }
+    .page-header {
+        padding: 80px 0 50px;
+    }
+    .page-header h1 {
+        font-size: 2.2rem;
+    }
+    .about-who-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    .about-who-image {
+        order: -1;
+    }
+    .about-who-image img {
+        height: 260px;
+    }
+    .about-image-badge {
+        bottom: -10px;
+        left: -10px;
+        padding: 8px 14px;
+    }
+    .vm-grid {
+        grid-template-columns: 1fr;
+    }
+    .faith-grid {
+        grid-template-columns: 1fr;
+    }
+    .leadership-grid {
+        grid-template-columns: 1fr;
+    }
+    .commitment-inner h2 {
+        font-size: 1.6rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .phil-card-header {
+        padding: 14px 16px;
+    }
+    .phil-title {
+        font-size: 0.85rem;
+    }
+}

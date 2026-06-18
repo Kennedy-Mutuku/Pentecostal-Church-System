@@ -1,0 +1,13 @@
+CU Finance System - Test Login Credentials
+============================================
+URL: http://localhost:5173
+
+Role              Email                       Password
+----              -----                       --------
+Admin             admin@rpc.ac.ke           Admin@2026
+Treasurer         treasurer@rpc.ac.ke       Treasurer@2026
+Auditor           auditor@rpc.ac.ke         Auditor@2026
+Chair Accounts    accounts@rpc.ac.ke        Accounts@2026
+Chairperson       chairperson@rpc.ac.ke     Chair@2026
+Patron            patron@rpc.ac.ke          Patron@2026
+Member            member@rpc.ac.ke          Member@2026

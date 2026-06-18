@@ -1,0 +1,180 @@
+const mpesaService = require('../../services/mpesaService');
+const Transaction = require('../../models/financeTransaction');
+const User = require('../../models/user');
+const { logFinanceAction } = require('../../middlewares/financeAudit');
+
+// In-memory map of CheckoutRequestID → { userId, category } for linking callbacks to users
+const pendingPayments = new Map();
+
+exports.initiatePayment = async (req, res) => {
+  try {
+    const { phone, amount, category } = req.body;
+    if (!phone || !amount) {
+      return res.status(400).json({ message: 'Phone and amount are required.' });
+    }
+    const result = await mpesaService.stkPush({
+      phone,
+      amount: Math.round(amount),
+      accountReference: (category || 'Offering').charAt(0).toUpperCase() + (category || 'offering').slice(1),
+      transactionDesc: `CU ${category || 'offering'} payment`,
+    });
+    // Store pending payment for callback linking
+    if (result.CheckoutRequestID) {
+      pendingPayments.set(result.CheckoutRequestID, { userId: req.user?.id, category: category || 'offering' });
+      setTimeout(() => pendingPayments.delete(result.CheckoutRequestID), 300000);
+    }
+    res.json({ message: 'STK push sent. Check your phone.', data: result });
+  } catch (err) {
+    res.status(500).json({ message: 'M-Pesa request failed.', error: err.message });
+  }
+};
+
+// Member-facing STK push (authenticated via user_s cookie)
+exports.memberPayment = async (req, res) => {
+  try {
+    const { phone, amount, category } = req.body;
+    if (!phone || !amount) {
+      return res.status(400).json({ message: 'Phone number and amount are required.' });
+    }
+    if (amount < 1 || amount > 150000) {
+      return res.status(400).json({ message: 'Amount must be between KES 1 and KES 150,000.' });
+    }
+    const validCategories = ['offering', 'tithe', 'thanksgiving'];
+    const cat = validCategories.includes(category) ? category : 'offering';
+    const result = await mpesaService.stkPush({
+      phone,
+      amount: Math.round(amount),
+      accountReference: cat.charAt(0).toUpperCase() + cat.slice(1),
+      transactionDesc: `RPC ${cat} contribution`,
+    });
+    // Store user ID and category so callback can link the payment
+    if (result.CheckoutRequestID && req.user) {
+      pendingPayments.set(result.CheckoutRequestID, { userId: req.user.id, category: cat });
+      // Auto-clean after 5 minutes
+      setTimeout(() => pendingPayments.delete(result.CheckoutRequestID), 300000);
+    }
+    res.json({ message: 'STK push sent. Check your phone to complete payment.', data: result });
+  } catch (err) {
+    res.status(500).json({ message: 'M-Pesa request failed. Please try again.', error: err.message });
+  }
+};
+
+// Check STK push payment status
+exports.checkStatus = async (req, res) => {
+  try {
+    const { checkoutRequestID } = req.params;
+    if (!checkoutRequestID) {
+      return res.status(400).json({ message: 'CheckoutRequestID is required.' });
+    }
+    const result = await mpesaService.stkQuery(checkoutRequestID);
+
+    // Still processing — Safaricom returns errorCode/errorMessage when not yet resolved
+    if (result.errorCode || result.errorMessage) {
+      return res.json({ status: 'pending', message: 'Payment is being processed...' });
+    }
+
+    // No ResultCode means still processing
+    if (result.ResultCode === undefined || result.ResultCode === null) {
+      return res.json({ status: 'pending', message: 'Payment is being processed...' });
+    }
+
+    // If ResultDesc mentions processing, it's still pending
+    const desc = (result.ResultDesc || '').toLowerCase();
+    if (desc.includes('processing') || desc.includes('being processed')) {
+      return res.json({ status: 'pending', message: 'Payment is being processed...' });
+    }
+
+    const code = Number(result.ResultCode);
+    if (isNaN(code) || code === 4999) {
+      return res.json({ status: 'pending', message: 'Payment is being processed...' });
+    }
+
+    let status, message;
+    if (code === 0) {
+      status = 'success';
+      message = 'Payment completed successfully!';
+    } else if (code === 1032) {
+      status = 'cancelled';
+      message = 'You cancelled the payment. You can try again when ready.';
+    } else if (code === 1037) {
+      status = 'timeout';
+      message = 'The payment request timed out. Please try again.';
+    } else if (code === 1) {
+      status = 'failed';
+      message = 'Insufficient funds in your M-Pesa account.';
+    } else if (code === 2001) {
+      status = 'failed';
+      message = 'Wrong M-Pesa PIN entered.';
+    } else {
+      status = 'failed';
+      message = result.ResultDesc || 'Payment failed. Please try again.';
+    }
+    res.json({ status, message, resultCode: code });
+  } catch (err) {
+    // Any error during query means still processing
+    res.json({ status: 'pending', message: 'Payment is being processed...' });
+  }
+};
+
+exports.callback = async (req, res) => {
+  try {
+    const { Body } = req.body;
+    if (!Body || !Body.stkCallback) {
+      return res.status(400).json({ message: 'Invalid callback.' });
+    }
+    const { MerchantRequestID, CheckoutRequestID, ResultCode, ResultDesc, CallbackMetadata } = Body.stkCallback;
+    const io = req.app.get('io');
+
+    if (ResultCode === 0 && CallbackMetadata) {
+      const items = CallbackMetadata.Item;
+      const getValue = (name) => items.find(i => i.Name === name)?.Value;
+      const amount = getValue('Amount');
+      const mpesaCode = getValue('MpesaReceiptNumber');
+      const phone = getValue('PhoneNumber');
+      // Get stored user info from pending map
+      const pending = pendingPayments.get(CheckoutRequestID);
+      const phoneStr = String(phone);
+
+      // Look up payer name: first from pending user, then by phone in users collection
+      let payerName = null;
+      if (pending?.userId) {
+        try {
+          const user = await User.findById(pending.userId).select('username');
+          if (user) payerName = user.username;
+        } catch {}
+      }
+      if (!payerName) {
+        try {
+          // Try matching phone as 254... or 0...
+          const phone0 = phoneStr.startsWith('254') ? '0' + phoneStr.substring(3) : phoneStr;
+          const user = await User.findOne({ $or: [{ phone: phoneStr }, { phone: phone0 }] }).select('username');
+          if (user) payerName = user.username;
+        } catch {}
+      }
+
+      const txData = {
+        type: 'cash_in',
+        category: pending?.category || 'offering',
+        amount,
+        source: 'mpesa',
+        phone: phoneStr,
+        payer_name: payerName || phoneStr,
+        description: `M-Pesa payment ${mpesaCode}`,
+      };
+      if (pending?.userId) txData.recorded_by = pending.userId;
+      await Transaction.create(txData);
+      if (pending) pendingPayments.delete(CheckoutRequestID);
+      console.log(`M-Pesa payment received: ${mpesaCode}, KES ${amount}`);
+      if (io) io.emit('mpesa-payment-result', { checkoutRequestID: CheckoutRequestID, status: 'success', message: 'Payment completed successfully!' });
+    } else {
+      console.log(`M-Pesa payment failed: ${ResultDesc}`);
+      const status = ResultCode === 1032 ? 'cancelled' : ResultCode === 1037 ? 'timeout' : 'failed';
+      const message = ResultCode === 1032 ? 'You cancelled the payment.' : ResultCode === 1037 ? 'Payment request timed out.' : ResultDesc || 'Payment failed.';
+      if (io) io.emit('mpesa-payment-result', { checkoutRequestID: CheckoutRequestID, status, message });
+    }
+    res.json({ ResultCode: 0, ResultDesc: 'Accepted' });
+  } catch (err) {
+    console.error('M-Pesa callback error:', err);
+    res.json({ ResultCode: 0, ResultDesc: 'Accepted' });
+  }
+};

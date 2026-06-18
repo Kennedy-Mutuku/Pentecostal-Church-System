@@ -1,0 +1,1034 @@
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import cuLogo from '../assets/RPC logo updated document.png';
+import { Link, useNavigate } from 'react-router-dom';
+import styles from '../styles/changeDetails.module.css';
+import Cookies from 'js-cookie';
+import { ChevronDown, Eye, EyeOff } from 'lucide-react';
+import { getApiUrl, getImageUrl } from '../config/environment';
+import ProfilePhotoUpload from './ProfilePhotoUpload';
+import { Camera, Trash2, X as CloseIcon, Upload } from 'lucide-react';
+
+type FormData = {
+  username: string;
+  phone: string;
+  email: string;
+  idNumber: string;
+  gender: string;
+  ageGroup: string;
+  residence: string;
+  yearJoined: string;
+  ministry: string;
+  et: string;
+  currentPassword: string;
+  password: string;
+  profilePhoto?: string;
+};
+
+const ministriesList = [
+  { id: 'wananzambe', label: 'Wananzambe' },
+  { id: 'intercessory', label: 'Intercessory' },
+  { id: 'ushering', label: 'Ushering' },
+  { id: 'pw', label: 'Praise and Worship' },
+  { id: 'cs', label: 'Church School' },
+  { id: 'hs', label: 'High School' },
+  { id: 'compassion', label: 'Compassion' },
+  { id: 'creativity', label: 'Creativity' },
+  { id: 'choir', label: 'Choir' }
+];
+
+const ChangeDetails: React.FC = () => {
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState<FormData>({
+    username: '',
+    phone: '',
+    email: '',
+    idNumber: '',
+    gender: '',
+    ageGroup: '',
+    residence: '',
+    yearJoined: '',
+    ministry: '',
+    et: '',
+    currentPassword: '',
+    password: '',
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  const [error, setError] = useState('');
+  const [selectedMinistries, setSelectedMinistries] = useState<string[]>([]);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
+  const [userRole, setUserRole] = useState<'student' | 'associate'>('student');
+  const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+  const [pendingPayload, setPendingPayload] = useState<Record<string, string> | null>(null);
+  const [isAdminSession, setIsAdminSession] = useState(false);
+  const [fieldErrors, setFieldErrors] = useState<{ phone?: string }>({});
+  const [checkingField, setCheckingField] = useState<string | null>(null);
+  const [showPhotoUpload, setShowPhotoUpload] = useState(false);
+  const [showFullSize, setShowFullSize] = useState(false);
+  const [originalData, setOriginalData] = useState<{ phone: string }>({ phone: '' });
+
+  const isAssociate = userRole === 'associate';
+
+  const checkPhoneExists = async (value: string) => {
+    if (!value || value.trim() === '' || value === originalData.phone) {
+      setFieldErrors(prev => ({ ...prev, phone: undefined }));
+      return;
+    }
+    if (!/^0\d{9}$/.test(value)) return;
+    setCheckingField('phone');
+    try {
+      const response = await axios.post(getApiUrl('usersCheckExists'), { phone: value.trim() });
+      if (response.data.exists) {
+        setFieldErrors(prev => ({ ...prev, phone: 'Phone number already in use by another account.' }));
+      } else {
+        setFieldErrors(prev => ({ ...prev, phone: undefined }));
+      }
+    } catch (err) {
+      console.error('Error checking phone:', err);
+    } finally {
+      setCheckingField(null);
+    }
+  };
+
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
+  const toggleMinistrySelection = (id: string) => {
+    setSelectedMinistries(prevSelected =>
+      prevSelected.includes(id)
+        ? prevSelected.filter(ministry => ministry !== id)
+        : [...prevSelected, id]
+    );
+  };
+
+  // useEffect(() => {
+  //   setLoading(true)
+  //   const fetchUserData = async () => {
+  //     try {
+
+  //       const loginToken = Cookies.get('loginToken');
+
+
+  //       const response = await axios.get('https://rpc-nyamira.co.ke/users/data', { withCredentials: true } );
+
+  //       if(loginToken && !response.data.reg){
+  //         setError('Please complete your registration. Google sign-up doesn't provide this information.')
+  //       }else{
+  //         console.log('clear');
+
+  //       }
+
+  //       setFormData(response.data);
+  //       console.log(response.data);
+
+  //     } catch (error: any) { 
+  //       if(error.response.status = 400){
+  //       setError('Email/Reg/Phone already exist 😖')
+  //       setLoading(false)
+  //     }else{
+  //       setError('Unexpected error occured 💔')
+  //       setLoading(false)
+  //     }
+  //     }finally{
+  //       setLoading(false)
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, []);
+
+  const fetchUserData = async () => {
+    try {
+      setLoading(true);
+      const loginToken = Cookies.get('loginToken');
+      const response = await axios.get(getApiUrl('users'), { withCredentials: true });
+
+      if (loginToken && !response.data.reg) {
+        setError('Please complete your registration. Google sign-up doesn\'t provide this information.');
+      } else {
+        console.log('clear');
+      }
+      const ministriesArray = response.data.ministry
+        ? response.data.ministry.split(", ").map((m: string) => m.trim().toLocaleLowerCase())
+        : [];
+
+      if (response.data.role) {
+        setUserRole(response.data.role === 'associate' ? 'associate' : 'student');
+      }
+
+      setFormData({
+        username: response.data.username || '',
+        phone: response.data.phone || '',
+        email: response.data.email || '',
+        idNumber: response.data.idNumber || '',
+        gender: response.data.gender || '',
+        ageGroup: response.data.ageGroup || '',
+        residence: response.data.residence || '',
+        yearJoined: response.data.yearJoined || '',
+        ministry: response.data.ministry || '',
+        et: response.data.et || '',
+        currentPassword: '',
+        password: '',
+        profilePhoto: response.data.profilePhoto || '',
+      });
+
+      setSelectedMinistries(ministriesArray);
+      setOriginalData({ phone: response.data.phone || '' });
+
+    } catch (error: any) {
+      console.error('Error fetching user data:', error);
+      if (error.response && error.response.status === 400) {
+        setError('Email/Reg/Phone already exists 😖');
+      } else if (error.response && error.response.status === 401) {
+        if (localStorage.getItem('adminSession') === 'true') {
+          setIsAdminSession(true);
+        } else {
+          // Regular user whose session expired — redirect to login
+          navigate('/signIn');
+        }
+      } else {
+        setError('Failed to load user data. Please try again.');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserData();
+  }, []);
+
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const { id, value } = e.target;
+    setFormData(prevFormData => ({
+      ...prevFormData,
+      [id]: value
+    }));
+  };
+
+  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
+    if (!e.currentTarget.contains(e.relatedTarget)) {
+      setShowDropdown(false);
+    }
+  };
+
+  function validateYOS(input: string) {
+    const regex = /^[1-6]$/; // Matches only one digit between 1 and 6
+    return regex.test(input);
+  }
+
+  function validatePhone(input: string) {
+    const regex = /^0\d{9}$/; // Matches exactly 10 digits starting with 0, no spaces allowed
+    return regex.test(input);
+  }
+
+  function validatePassword(input: string) {
+    // Minimum 4 characters — kept simple since default password is phone number
+    return input.length >= 4;
+  }
+
+  const handleLogout = async () => {
+    try {
+      setLoading(true);
+      console.log('Starting logout process...');
+
+      // Call logout API
+      const response = await axios.post(getApiUrl('usersLogout'), {}, {
+        withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+
+      console.log('Logout API response:', response);
+
+      // Clear cookies more thoroughly
+      const cookiesToClear = ['loginToken', 'sessionToken', 'authToken', 'token'];
+      cookiesToClear.forEach(cookieName => {
+        Cookies.remove(cookieName);
+        Cookies.remove(cookieName, { path: '/' });
+        Cookies.remove(cookieName, { domain: window.location.hostname });
+        Cookies.remove(cookieName, { domain: `.${window.location.hostname}` });
+      });
+
+      // Clear all cookies fallback
+      document.cookie.split(";").forEach((cookie) => {
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname}`;
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${window.location.hostname}`;
+      });
+
+      // Clear local storage and session storage
+      localStorage.clear();
+      sessionStorage.clear();
+
+      console.log('Logout successful, redirecting to login...');
+
+      // Show success message briefly before redirecting
+      setSuccessMessage('Successfully logged out!');
+      setTimeout(() => {
+        navigate('/signIn', { replace: true });
+      }, 1000);
+
+    } catch (error: any) {
+      console.error('Logout API error:', error);
+
+      // Even if API fails, clear local data and redirect
+      const cookiesToClear = ['loginToken', 'sessionToken', 'authToken', 'token'];
+      cookiesToClear.forEach(cookieName => {
+        Cookies.remove(cookieName);
+        Cookies.remove(cookieName, { path: '/' });
+        Cookies.remove(cookieName, { domain: window.location.hostname });
+        Cookies.remove(cookieName, { domain: `.${window.location.hostname}` });
+      });
+
+      document.cookie.split(";").forEach((cookie) => {
+        const eqPos = cookie.indexOf("=");
+        const name = eqPos > -1 ? cookie.substr(0, eqPos).trim() : cookie.trim();
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/`;
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=${window.location.hostname}`;
+        document.cookie = `${name}=;expires=Thu, 01 Jan 1970 00:00:00 GMT;path=/;domain=.${window.location.hostname}`;
+      });
+
+      localStorage.clear();
+      sessionStorage.clear();
+
+      setError('Logged out successfully (with warning)');
+      setTimeout(() => {
+        navigate('/signIn', { replace: true });
+      }, 1000);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePhotoUploadSuccess = (photoUrl: string) => {
+    // Add timestamp to the photo URL to force immediate re-render everywhere
+    const timestampedUrl = `${photoUrl}?t=${Date.now()}`;
+    setFormData(prev => ({ ...prev, profilePhoto: timestampedUrl }));
+    setShowPhotoUpload(false);
+    setSuccessMessage('Profile photo updated successfully! 📸');
+    
+    // Dispatch custom event to notify Header and other components
+    window.dispatchEvent(new CustomEvent('userDataUpdated'));
+    
+    setTimeout(() => setSuccessMessage(''), 3000);
+  };
+
+  const handleRemovePhoto = async () => {
+    try {
+      setLoading(true);
+      await axios.delete(getApiUrl('api/users/profile-photo'), { withCredentials: true });
+      setFormData(prev => ({ ...prev, profilePhoto: '' }));
+      setSuccessMessage('Profile photo removed successfully! ✨');
+      
+      // Dispatch custom event to notify Header and other components
+      window.dispatchEvent(new CustomEvent('userDataUpdated'));
+      
+      setTimeout(() => setSuccessMessage(''), 3000);
+    } catch (err) {
+      console.error('Error removing photo:', err);
+      setError('Failed to remove profile photo.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (fieldErrors.phone) {
+      setError('Please fix the errors above before updating.');
+      return;
+    }
+
+    const { password, currentPassword } = formData;
+
+    // Only residence and ageGroup are user-editable
+    const finalFormData: Record<string, string> = {
+      residence: formData.residence,
+      ageGroup: formData.ageGroup,
+    };
+
+    if (!finalFormData.residence) {
+      setError('Please fill in your Residence 😊');
+      return;
+    }
+    if (!finalFormData.ageGroup) {
+      setError('Please select your Age Group 😊');
+      return;
+    }
+
+
+
+    // Password validation (only if new password is provided)
+    if (password && password.trim() !== '') {
+      if (!formData.currentPassword || formData.currentPassword.trim() === '') {
+        setError('Please enter your current password 😊');
+        return;
+      }
+      if (!validatePassword(password)) {
+        setError('Password must be at least 4 characters long 🤨');
+        return;
+      }
+
+      // Verify old password with backend FIRST before showing confirm dialog
+      setLoading(true);
+      setError('');
+      try {
+        await axios.post(getApiUrl('usersVerifyPassword'), { currentPassword: formData.currentPassword }, {
+          withCredentials: true,
+        });
+        // Old password is correct — now show confirmation dialog
+        const payload = { ...finalFormData, currentPassword: formData.currentPassword, password };
+        setPendingPayload(payload);
+        setShowConfirmDialog(true);
+      } catch (err: any) {
+        if (err.response && err.response.status === 401) {
+          setError('Current password is incorrect');
+        } else {
+          setError('Failed to verify password. Please try again.');
+        }
+      } finally {
+        setLoading(false);
+      }
+      return;
+    }
+
+    // No password change — submit directly
+    await submitUpdate(finalFormData);
+  };
+
+  const submitUpdate = async (payload: Record<string, string>) => {
+    setLoading(true);
+
+    try {
+      const response = await axios.put(getApiUrl('usersUpdate'), payload, {
+        withCredentials: true,
+      });
+
+      console.log(response.data);
+      setSuccessMessage('Details updated successfully');
+      setError('');
+
+      // Auto-dismiss success message after 3 seconds
+      setTimeout(() => setSuccessMessage(''), 3000);
+
+      // Re-fetch user data to show updated values
+      await fetchUserData();
+
+    } catch (error: any) {
+      console.error('Error updating details', error);
+      if (error.response && error.response.status === 401) {
+        setError('Current password is incorrect');
+      } else if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError('Error updating details');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleConfirmPasswordChange = async () => {
+    setShowConfirmDialog(false);
+    if (pendingPayload) {
+      await submitUpdate(pendingPayload);
+      setPendingPayload(null);
+    }
+  };
+
+  const handleCancelPasswordChange = () => {
+    setShowConfirmDialog(false);
+    setPendingPayload(null);
+    setFormData(prev => ({ ...prev, password: '', currentPassword: '' }));
+  };
+
+  if (isAdminSession) {
+    return (
+      <div className={styles.body}>
+        <div className={styles['container']}>
+          <Link to={"/"}>
+            <div className={styles['logo_signUp']}><img src={cuLogo} alt="RPC logo" /></div>
+          </Link>
+          <h2 className={styles['text']}>Admin Session</h2>
+
+          <div style={{ textAlign: 'center', marginBottom: '15px' }}>
+            <span style={{
+              display: 'inline-block',
+              background: 'linear-gradient(135deg, #2c3e50, #34495e)',
+              color: 'white',
+              padding: '4px 16px',
+              borderRadius: '20px',
+              fontSize: '12px',
+              fontWeight: 'bold',
+              letterSpacing: '0.5px'
+            }}>
+              Admin Account
+            </span>
+          </div>
+
+          <p style={{ textAlign: 'center', color: '#666', fontSize: '14px', margin: '20px 0' }}>
+            You are signed in as an admin. Account details cannot be changed from here.
+          </p>
+
+          <div style={{
+            marginTop: '30px',
+            paddingTop: '20px',
+            borderTop: '2px solid #e0e0e0',
+            textAlign: 'center'
+          }}>
+            <button
+              onClick={handleLogout}
+              disabled={loading}
+              style={{
+                backgroundColor: '#730051',
+                color: 'white',
+                border: 'none',
+                padding: '12px 30px',
+                borderRadius: '25px',
+                fontSize: '14px',
+                fontWeight: '600',
+                cursor: loading ? 'not-allowed' : 'pointer',
+                opacity: loading ? 0.6 : 1,
+                transition: 'all 0.3s ease',
+                boxShadow: '0 2px 10px rgba(115, 0, 81, 0.3)',
+              }}
+            >
+              {loading ? 'Processing...' : 'Log Out'}
+            </button>
+          </div>
+
+          <div className={styles['form-footer']}>
+            <p><Link to={"/"}>Home</Link></p>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className={styles.body}>
+      <div className={styles['container']}>
+        <Link to={"/"}>
+          <div className={styles['logo_signUp']}><img src={cuLogo} alt="RPC logo" /></div>
+        </Link>
+        <h2 className={styles['text']}>Update Details</h2>
+
+        {isAssociate && (
+          <div style={{ textAlign: 'center', marginBottom: '15px' }}>
+            <span style={{
+              display: 'inline-block',
+              background: 'linear-gradient(135deg, #730051, #a0006e)',
+              color: 'white',
+              padding: '4px 16px',
+              borderRadius: '20px',
+              fontSize: '12px',
+              fontWeight: 'bold',
+              letterSpacing: '0.5px'
+            }}>
+              Associate / Alumni
+            </span>
+          </div>
+        )}
+
+        {loading && (
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <p>Loading your details...</p>
+          </div>
+        )}
+
+        {error && <p className={styles.error}>{error}</p>}
+        {successMessage && <p className={styles.success}>{successMessage}</p>}
+
+        {/* Profile Photo Section */}
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          marginBottom: '24px',
+          gap: '12px'
+        }}>
+          <div style={{
+            position: 'relative',
+            width: window.innerWidth < 480 ? '90px' : '110px',
+            height: window.innerWidth < 480 ? '90px' : '110px',
+            borderRadius: '50%',
+            overflow: 'hidden',
+            border: '4px solid #73005120',
+            boxShadow: '0 4px 15px rgba(115, 0, 81, 0.1)',
+            backgroundColor: '#f8f0f5',
+            transition: 'all 0.3s ease',
+            cursor: formData.profilePhoto ? 'zoom-in' : 'default',
+          }}
+          onClick={() => formData.profilePhoto && setShowFullSize(true)}
+          title={formData.profilePhoto ? "Click to view full size" : ""}
+        >
+            {formData.profilePhoto ? (
+              <img
+                src={getImageUrl(formData.profilePhoto)}
+                alt="Profile"
+                style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            ) : (
+              <div style={{
+                width: '100%',
+                height: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#73005130'
+              }}>
+                <Upload size={40} />
+              </div>
+            )}
+          </div>
+
+          <div style={{ display: 'flex', gap: '8px', marginTop: window.innerWidth < 480 ? '-4px' : '0' }}>
+            <button
+              onClick={() => setShowPhotoUpload(true)}
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '6px',
+                padding: window.innerWidth < 480 ? '5px 12px' : '6px 14px',
+                backgroundColor: '#73005110',
+                color: '#730051',
+                border: '1.5px solid #73005130',
+                borderRadius: '20px',
+                fontSize: window.innerWidth < 480 ? '11px' : '12px',
+                fontWeight: '700',
+                cursor: 'pointer',
+                transition: 'all 0.2s ease',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.backgroundColor = '#73005120';
+                e.currentTarget.style.transform = 'translateY(-1px)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.backgroundColor = '#73005110';
+                e.currentTarget.style.transform = 'translateY(0)';
+              }}
+            >
+              <Camera size={window.innerWidth < 480 ? 12 : 14} />
+              {formData.profilePhoto ? 'Change' : 'Add'} Photo
+            </button>
+
+            {formData.profilePhoto && (
+              <button
+                onClick={handleRemovePhoto}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '6px',
+                  padding: window.innerWidth < 480 ? '5px 12px' : '6px 14px',
+                  backgroundColor: '#fee2e2',
+                  color: '#dc2626',
+                  border: '1.5px solid #fecaca',
+                  borderRadius: '20px',
+                  fontSize: window.innerWidth < 480 ? '11px' : '12px',
+                  fontWeight: '700',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.backgroundColor = '#fecaca';
+                  e.currentTarget.style.transform = 'translateY(-1px)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.backgroundColor = '#fee2e2';
+                  e.currentTarget.style.transform = 'translateY(0)';
+                }}
+              >
+                <Trash2 size={window.innerWidth < 480 ? 12 : 14} />
+                Remove
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Photo Upload Modal */}
+        {showPhotoUpload && (
+          <div style={{
+            position: 'fixed',
+            inset: 0,
+            zIndex: 10000,
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '20px',
+            backgroundColor: 'rgba(0,0,0,0.6)',
+            backdropFilter: 'blur(4px)',
+          }}>
+            <div style={{
+              position: 'relative',
+              width: '100%',
+              maxWidth: '500px',
+              animation: 'modalSlideUp 0.3s ease-out'
+            }}>
+              <button
+                onClick={() => setShowPhotoUpload(false)}
+                style={{
+                  position: 'absolute',
+                  top: '-40px',
+                  right: '0',
+                  backgroundColor: 'white',
+                  border: 'none',
+                  width: '32px',
+                  height: '32px',
+                  borderRadius: '50%',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  cursor: 'pointer',
+                  boxShadow: '0 2px 10px rgba(0,0,0,0.2)',
+                  zIndex: 1,
+                }}
+              >
+                <CloseIcon size={18} color="#730051" />
+              </button>
+              <ProfilePhotoUpload
+                onUploadSuccess={handlePhotoUploadSuccess}
+                onCancel={() => setShowPhotoUpload(false)}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Full Size Photo Viewer */}
+        {showFullSize && formData.profilePhoto && (
+          <div 
+            style={{
+              position: 'fixed',
+              inset: 0,
+              zIndex: 11000,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              backgroundColor: 'rgba(0,0,0,0.9)',
+              backdropFilter: 'blur(8px)',
+              cursor: 'zoom-out',
+              animation: 'fadeIn 0.3s ease-out'
+            }}
+            onClick={() => setShowFullSize(false)}
+          >
+            <div 
+              style={{
+                position: 'relative',
+                width: 'auto',
+                height: 'auto',
+                maxWidth: '90vw',
+                maxHeight: '90vh',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}
+              onClick={(e) => e.stopPropagation()}
+            >
+              <button
+                onClick={() => setShowFullSize(false)}
+                style={{
+                  position: 'absolute',
+                  top: '-50px',
+                  right: '0',
+                  background: 'none',
+                  border: 'none',
+                  color: 'white',
+                  cursor: 'pointer',
+                  padding: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '8px',
+                  fontSize: '14px',
+                  fontWeight: '600'
+                }}
+              >
+                <CloseIcon size={24} />
+                Close
+              </button>
+              <img
+                src={getImageUrl(formData.profilePhoto)}
+                alt="Full Profile"
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '80vh',
+                  borderRadius: '12px',
+                  boxShadow: '0 20px 50px rgba(0,0,0,0.5)',
+                  objectFit: 'contain'
+                }}
+              />
+            </div>
+          </div>
+        )}
+
+        <div className={styles['form']}>
+
+          <div className={styles['form-div']}>
+            <label htmlFor="username">NAME</label>
+            <input type="text" id="username" className={styles['input']} value={formData.username} disabled
+              style={{ background: '#f5f5f5', color: '#aaa', cursor: 'not-allowed', border: '1.5px solid #eee' }} />
+          </div>
+
+          <div className={styles['form-div']}>
+            <label htmlFor="phone">PHONE</label>
+            <input type="text" id="phone" className={styles['input']} value={formData.phone} disabled
+              style={{ background: '#f5f5f5', color: '#aaa', cursor: 'not-allowed', border: '1.5px solid #eee' }} />
+          </div>
+
+          <div className={styles['form-div']}>
+            <label htmlFor="email">E-mail</label>
+            <input type="email" id="email" className={styles['input']} value={formData.email} onChange={handleChange} disabled={true} />
+          </div>
+
+          <div className={styles['form-div']}>
+            <label htmlFor="idNumber">ID NUMBER</label>
+            <input type="text" id="idNumber" className={styles['input']} value={formData.idNumber} disabled
+              style={{ background: '#f5f5f5', color: '#aaa', cursor: 'not-allowed', border: '1.5px solid #eee' }} />
+          </div>
+
+          <div className={styles['form-div']}>
+            <label htmlFor="gender">GENDER</label>
+            <input type="text" id="gender" className={styles['input']} value={formData.gender} disabled
+              style={{ background: '#f5f5f5', color: '#aaa', cursor: 'not-allowed', border: '1.5px solid #eee' }} />
+          </div>
+
+          <div className={styles['form-div']}>
+            <label htmlFor="ageGroup">AGE GROUP</label>
+            <select id="ageGroup" className={styles['select']} value={formData.ageGroup} onChange={handleChange}>
+              <option value="">choose...</option>
+              <option value="Kid (12 and below)">Kid (12 and below)</option>
+              <option value="Youth (13-35)">Youth (13-35)</option>
+              <option value="Adult (36-59)">Adult (36-59)</option>
+              <option value="Elderly (60 and above)">Elderly (60 and above)</option>
+            </select>
+          </div>
+
+          <div className={styles['form-div']}>
+            <label htmlFor="residence">RESIDENCE</label>
+            <input type="text" id="residence" className={styles['input']} value={formData.residence} onChange={handleChange} placeholder="Area of residence" />
+          </div>
+
+          <div className={styles['form-div']}>
+            <label htmlFor="yearJoined">YEAR JOINED</label>
+            <input type="text" id="yearJoined" className={styles['input']} value={formData.yearJoined} disabled
+              style={{ background: '#f5f5f5', color: '#aaa', cursor: 'not-allowed', border: '1.5px solid #eee' }} />
+          </div>
+
+
+
+          {/* Password Change Section */}
+          <div style={{ marginTop: '20px', paddingTop: '16px', borderTop: '1px solid #e0e0e0', width: '100%' }}>
+            <h3 style={{ marginBottom: '16px', color: '#2c3e50', textAlign: 'center', fontSize: '0.95em' }}>Change Password (Optional)</h3>
+          </div>
+
+          <div className={styles['form-div']}>
+            <label htmlFor="currentPassword">OLD PSWD</label>
+            <div className={styles['password-wrapper']} style={{ position: 'relative', width: '65%' }}>
+              <input
+                type={showCurrentPassword ? "text" : "password"}
+                id="currentPassword"
+                className={styles['input']}
+                style={{ width: '100%' }}
+                value={formData.currentPassword}
+                onChange={handleChange}
+                placeholder="Current password"
+              />
+              <button
+                type="button"
+                onClick={() => setShowCurrentPassword(!showCurrentPassword)}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  border: 'none',
+                  background: 'none',
+                  cursor: 'pointer',
+                  color: '#666'
+                }}
+              >
+                {showCurrentPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </div>
+
+          <div className={styles['form-div']}>
+            <label htmlFor="password">NEW PSWD</label>
+            <div className={styles['password-wrapper']} style={{ position: 'relative', width: '65%' }}>
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                className={styles['input']}
+                style={{ width: '100%' }}
+                value={formData.password}
+                onChange={handleChange}
+                placeholder="New password"
+              />
+              <button
+                type="button"
+                onClick={togglePasswordVisibility}
+                style={{
+                  position: 'absolute',
+                  right: '10px',
+                  top: '50%',
+                  transform: 'translateY(-50%)',
+                  border: 'none',
+                  background: 'none',
+                  cursor: 'pointer',
+                  color: '#666'
+                }}
+              >
+                {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className={`${styles['submisions']} ${styles['submissions-change-details']}`}>
+          {loading ? <div className={styles['submitData']} >Updating</div> :
+            <div className={styles['submitData']} onClick={handleSubmit}>Update</div>
+          }
+        </div>
+
+        {/* Logout Button Section */}
+        <div style={{
+          marginTop: '30px',
+          paddingTop: '20px',
+          borderTop: '2px solid #e0e0e0',
+          textAlign: 'center'
+        }}>
+          <button
+            onClick={handleLogout}
+            disabled={loading}
+            style={{
+              backgroundColor: '#730051',
+              color: 'white',
+              border: 'none',
+              padding: '12px 30px',
+              borderRadius: '25px',
+              fontSize: '14px',
+              fontWeight: '600',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              opacity: loading ? 0.6 : 1,
+              transition: 'all 0.3s ease',
+              boxShadow: '0 2px 10px rgba(115, 0, 81, 0.3)',
+            }}
+            onMouseEnter={(e) => {
+              if (!loading) {
+                e.currentTarget.style.backgroundColor = '#5a0040';
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 4px 15px rgba(115, 0, 81, 0.4)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.backgroundColor = '#730051';
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 2px 10px rgba(115, 0, 81, 0.3)';
+            }}
+          >
+            {loading ? 'Processing...' : 'Log Out'}
+          </button>
+        </div>
+
+        <div className={styles['form-footer']}>
+          <p> <Link to={"/"}>Home</Link></p>
+        </div>
+      </div>
+
+      {/* Loading animation */}
+      <div className={`${styles.loading} ${loading ? styles['loading-active'] : ''}`}>
+        <p>Loading...</p>
+      </div>
+
+      {/* Password Confirmation Dialog */}
+      {showConfirmDialog && (
+        <div style={{
+          position: 'fixed',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: 'rgba(0,0,0,0.5)',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          zIndex: 1000,
+          padding: '20px'
+        }}>
+          <div style={{
+            backgroundColor: '#fff',
+            borderRadius: '16px',
+            padding: '30px',
+            maxWidth: '380px',
+            width: '100%',
+            textAlign: 'center',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.2)'
+          }}>
+            <div style={{
+              width: '50px',
+              height: '50px',
+              borderRadius: '50%',
+              background: 'linear-gradient(135deg, #730051, #a0006e)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              margin: '0 auto 16px'
+            }}>
+              <Eye size={24} color="#fff" />
+            </div>
+            <h3 style={{ margin: '0 0 8px', color: '#2c3e50', fontSize: '1.1rem' }}>Confirm Password Change</h3>
+            <p style={{ color: '#666', fontSize: '14px', marginBottom: '24px' }}>
+              Are you sure you want to change your password?
+            </p>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <button
+                onClick={handleCancelPasswordChange}
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  borderRadius: '10px',
+                  border: '1px solid #ddd',
+                  backgroundColor: '#f5f5f5',
+                  color: '#333',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleConfirmPasswordChange}
+                style={{
+                  flex: 1,
+                  padding: '12px',
+                  borderRadius: '10px',
+                  border: 'none',
+                  background: 'linear-gradient(135deg, #730051, #a0006e)',
+                  color: '#fff',
+                  fontSize: '14px',
+                  fontWeight: '600',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                Confirm
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+    </div>
+  );
+};
+
+export default ChangeDetails;

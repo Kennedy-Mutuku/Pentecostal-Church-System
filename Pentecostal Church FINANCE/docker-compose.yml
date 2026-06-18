@@ -1,0 +1,37 @@
+services:
+  mongo:
+    image: mongo:7
+    container_name: cu-finance-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  backend:
+    build: ./src/backend
+    container_name: cu-finance-backend
+    ports:
+      - "5000:5000"
+    env_file:
+      - ./src/backend/.env
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/cu-finance
+    volumes:
+      - ./src/backend:/app
+      - /app/node_modules
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./src/frontend
+    container_name: cu-finance-frontend
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./src/frontend:/app
+      - /app/node_modules
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:

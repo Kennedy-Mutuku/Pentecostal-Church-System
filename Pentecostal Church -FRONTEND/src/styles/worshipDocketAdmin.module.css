@@ -1,0 +1,875 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    min-height: calc(100vh - 120px);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background: linear-gradient(180deg, #fffafa 0%, #ffffff 100%);
+}
+
+/* Beautiful Red Header */
+.adminHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px 40px;
+    background: linear-gradient(135deg, #b71c1c 0%, #8e0000 100%);
+    border-radius: 16px;
+    margin-bottom: 40px;
+    box-shadow: 0 10px 30px rgba(183, 28, 28, 0.15);
+    color: white;
+    position: relative;
+    overflow: hidden;
+}
+
+.adminHeader::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    border-radius: 50%;
+    transform: translate(30%, -30%);
+    pointer-events: none;
+}
+
+.headerText {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 1;
+}
+
+.headerText h1 {
+    font-size: 1.8rem;
+    color: white;
+    margin: 0;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.headerText p {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.logoutBtn {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    backdrop-filter: blur(4px);
+    z-index: 1;
+}
+
+.logoutBtn:hover {
+    background: white;
+    color: #b71c1c;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+/* Vibrant Professional Cards */
+.premiumCardsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 40px;
+}
+
+.premiumCard {
+    background: white;
+    border-radius: 16px;
+    padding: 28px 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    cursor: pointer;
+    border: 1px solid rgba(183, 28, 28, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+.premiumCard::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(180deg, #b71c1c 0%, #ff5252 100%);
+    opacity: 0.7;
+    transition: width 0.4s ease;
+}
+
+.premiumCard:hover {
+    box-shadow: 0 12px 30px rgba(183, 28, 28, 0.12);
+    transform: translateY(-4px);
+    border-color: rgba(183, 28, 28, 0.2);
+}
+
+.premiumCard:hover::before {
+    width: 8px;
+    opacity: 1;
+}
+
+.iconWrapper {
+    width: 60px;
+    height: 60px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, rgba(183, 28, 28, 0.1) 0%, rgba(255, 82, 82, 0.05) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #b71c1c;
+    font-size: 1.6rem;
+    transition: all 0.4s ease;
+    flex-shrink: 0;
+    border: 1px solid rgba(183, 28, 28, 0.1);
+}
+
+.premiumCard:hover .iconWrapper {
+    background: linear-gradient(135deg, #b71c1c 0%, #ff5252 100%);
+    color: white;
+    transform: rotate(5deg) scale(1.05);
+    box-shadow: 0 8px 20px rgba(183, 28, 28, 0.2);
+}
+
+.cardContent {
+    flex: 1;
+}
+
+.cardContent h2 {
+    color: #111;
+    font-size: 1.4rem;
+    margin: 0 0 8px 0;
+    font-weight: 700;
+    transition: color 0.3s;
+}
+
+.premiumCard:hover .cardContent h2 {
+    color: #b71c1c;
+}
+
+.cardContent p {
+    color: #555;
+    margin: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.cardActionButton {
+    background: transparent;
+    border: 2px solid #e0e0e0;
+    color: #333;
+    padding: 12px 28px;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.4s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+.btnIcon {
+    font-size: 0.9rem;
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: all 0.4s ease;
+    width: 0;
+}
+
+.premiumCard:hover .cardActionButton {
+    background: linear-gradient(135deg, #b71c1c 0%, #d32f2f 100%);
+    color: white;
+    border-color: transparent;
+    box-shadow: 0 6px 15px rgba(183, 28, 28, 0.25);
+    padding: 12px 24px;
+}
+
+.premiumCard:hover .btnIcon {
+    opacity: 1;
+    transform: translateX(0);
+    width: 14px;
+}
+
+/* Message */
+.message {
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    padding: 10px 16px;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+/* Login Section */
+.loginCard {
+    background: linear-gradient(135deg, #730051, #5a003d);
+    border-radius: 16px;
+    padding: 40px 30px;
+    text-align: center;
+    box-shadow: 0 12px 30px rgba(115, 0, 81, 0.35);
+    color: white;
+    max-width: 400px;
+    margin: 60px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.loginCard::before {
+    display: none;
+}
+
+.loginCard h2 {
+    font-size: 1.6rem;
+    margin-bottom: 8px;
+}
+
+.loginCard p {
+    margin-bottom: 24px;
+    opacity: 0.9;
+    font-size: 0.95rem;
+}
+
+.loginForm,
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+    width: 100%;
+}
+
+.passwordInput {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 25px;
+    font-size: 1rem;
+    width: 100%;
+    max-width: 280px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.95);
+    color: #333;
+    transition: all 0.2s;
+}
+
+.passwordInput:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+}
+
+.loginButton {
+    background: linear-gradient(135deg, #a0006e, #c4007e);
+    color: white;
+    border: none;
+    padding: 12px 36px;
+    border-radius: 25px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 6px 20px rgba(160, 0, 110, 0.4);
+}
+
+.loginButton:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(160, 0, 110, 0.5);
+}
+
+.error {
+    background: rgba(244, 67, 54, 0.2);
+    border: 1px solid rgba(244, 67, 54, 0.4);
+    border-radius: 8px;
+    padding: 10px;
+    margin-bottom: 12px;
+    color: #ffcdd2;
+    font-size: 0.9rem;
+}
+
+/* News Display Section */
+.newsDisplaySection {
+    margin: 0 0 16px;
+    width: 100%;
+}
+
+.newsDisplayCard {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(115, 0, 81, 0.08);
+}
+
+.newsDisplayCard h2 {
+    color: #730051;
+    font-size: 1rem;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.newsDescription {
+    color: #888;
+    margin-bottom: 12px;
+    font-size: 0.85rem;
+}
+
+.newsDisplayContainer {
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+/* Loading */
+.loadingSection {
+    background: white;
+    border-radius: 10px;
+    padding: 2rem;
+    text-align: center;
+    margin-top: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.loadingMessage h3 {
+    color: #730051;
+    margin: 0.5rem 0;
+    font-size: 1rem;
+}
+
+.loadingMessage p {
+    color: #666;
+    margin: 0;
+    font-size: 0.85rem;
+}
+
+.loadingIcon {
+    font-size: 2rem;
+    color: #730051;
+    animation: pulse 2s infinite;
+}
+
+/* Unused button variants - keep for compatibility */
+.newsManagementButton,
+.mediaManagementButton,
+.requisitionsManagementButton {
+    display: none;
+}
+
+/* Session/Attendance styles */
+.sessionControlSection {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    margin: 12px 0;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(115, 0, 81, 0.08);
+}
+
+.sessionTitle {
+    color: #730051;
+    font-size: 1rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.sessionButtons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+}
+
+.sessionButton {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: all 0.2s;
+    justify-content: center;
+}
+
+.sessionButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.sessionButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.sessionStatus {
+    background: #f8f9fa;
+    border-left: 3px solid #730051;
+    padding: 10px 14px;
+    border-radius: 6px;
+    margin-top: 10px;
+}
+
+.sessionStatus p {
+    margin: 3px 0;
+    color: #555;
+    font-size: 0.85rem;
+}
+
+/* Selection controls */
+.ministrySelectionSection {
+    margin-bottom: 16px;
+}
+
+.selectionCard {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    border: 1px solid rgba(115, 0, 81, 0.08);
+}
+
+.selectionCard h2 {
+    color: #730051;
+    font-size: 1.1rem;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.selectionControls {
+    display: flex;
+    gap: 12px;
+    align-items: end;
+    flex-wrap: wrap;
+}
+
+.controlGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 180px;
+}
+
+.controlGroup label {
+    font-weight: 600;
+    color: #333;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.ministrySelect,
+.dateInput {
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    background: white;
+    transition: border-color 0.2s;
+}
+
+.ministrySelect:focus,
+.dateInput:focus {
+    outline: none;
+    border-color: #730051;
+    box-shadow: 0 0 0 2px rgba(115, 0, 81, 0.1);
+}
+
+.refreshButton {
+    padding: 8px 16px;
+    background: linear-gradient(135deg, #28a745, #20c997);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.85rem;
+}
+
+.refreshButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
+}
+
+/* Attendance */
+.attendanceSection {
+    background: white;
+    border-radius: 10px;
+    padding: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    animation: fadeIn 0.3s ease;
+}
+
+.attendanceHeader {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+}
+
+.attendanceHeader h2 {
+    color: #730051;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.attendanceInfo {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+}
+
+.dateDisplay {
+    color: #666;
+    font-size: 0.9rem;
+}
+
+.countBadge {
+    background: linear-gradient(135deg, #730051, #8e1a6b);
+    color: white;
+    padding: 4px 14px;
+    border-radius: 16px;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.downloadSection {
+    margin: 14px 0;
+    text-align: center;
+}
+
+.downloadPdfButton {
+    background: linear-gradient(135deg, #730051, #a0006e);
+    color: white;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.downloadPdfButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(115, 0, 81, 0.3);
+}
+
+.attendanceList {
+    overflow-x: auto;
+    margin-top: 12px;
+}
+
+.attendanceTable {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.9rem;
+}
+
+.attendanceTable thead {
+    background: linear-gradient(135deg, #730051, #8e1a6b);
+}
+
+.attendanceTable th {
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+
+.attendanceTable tbody tr {
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.attendanceTable tbody tr:hover {
+    background: #faf5f8;
+}
+
+.attendanceTable td {
+    padding: 10px 12px;
+    color: #333;
+}
+
+.numberCell {
+    font-weight: 700;
+    color: #730051;
+    text-align: center;
+    width: 40px;
+}
+
+.nameCell {
+    font-weight: 600;
+    color: #333;
+}
+
+.regCell {
+    font-family: monospace;
+    color: #730051;
+    font-weight: 500;
+}
+
+.yearCell {
+    color: #28a745;
+    font-weight: 500;
+}
+
+.timeCell {
+    color: #666;
+    font-size: 0.85rem;
+}
+
+.noAttendance {
+    text-align: center;
+    padding: 40px 16px;
+    color: #999;
+}
+
+.noAttendance svg {
+    font-size: 2.5rem;
+    margin-bottom: 12px;
+    color: #ddd;
+}
+
+.noAttendance p {
+    font-size: 1rem;
+    color: #666;
+    margin: 6px 0;
+}
+
+.noAttendance small {
+    color: #999;
+    font-style: italic;
+    display: block;
+    margin-top: 6px;
+    font-size: 0.85rem;
+}
+
+/* Leadership */
+.leadershipSelection {
+    margin-bottom: 1rem;
+}
+
+.leadershipDescription {
+    color: #666;
+    margin-bottom: 1rem;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.leadershipRoleGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 8px;
+}
+
+.leadershipRoleButton {
+    background: linear-gradient(135deg, #730051, #5a003d);
+    color: white;
+    border: none;
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: center;
+}
+
+.leadershipRoleButton:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(115, 0, 81, 0.3);
+}
+
+.leadershipRoleButton:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none !important;
+}
+
+.sectionDivider {
+    display: none;
+}
+
+.dividerText {
+    display: none;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulse {
+    0% { opacity: 0.6; }
+    50% { opacity: 1; }
+    100% { opacity: 0.6; }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+    .container {
+        padding: 10px;
+    }
+
+    .adminHeader {
+        padding: 16px 14px;
+        flex-direction: column;
+        gap: 12px;
+        justify-content: center;
+        border-radius: 10px;
+        margin-bottom: 20px;
+    }
+
+    .adminHeader h1 {
+        font-size: 1.15rem;
+    }
+
+    .logoutBtn {
+        position: static;
+        width: auto;
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .premiumCardsContainer {
+        gap: 16px;
+    }
+
+    .premiumCard {
+        padding: 20px;
+        flex-direction: column;
+        align-items: flex-start;
+        text-align: left;
+        gap: 16px;
+    }
+
+    .cardContent h2 {
+        font-size: 1.25rem;
+        margin-bottom: 6px;
+    }
+
+    .cardContent p {
+        font-size: 0.9rem;
+        margin-bottom: 0;
+    }
+
+    .cardActionButton {
+        width: 100%;
+        text-align: center;
+        padding: 12px;
+    }
+
+    .loginCard {
+        padding: 30px 20px;
+        margin: 30px auto;
+        border-radius: 14px;
+    }
+
+    .loginCard h2 {
+        font-size: 1.4rem;
+    }
+
+    .loginCard p {
+        font-size: 0.88rem;
+    }
+
+    .newsDisplayCard {
+        padding: 12px;
+    }
+
+    .newsDisplayCard h2 {
+        font-size: 0.95rem;
+    }
+
+    .selectionControls {
+        flex-direction: column;
+    }
+
+    .controlGroup {
+        width: 100%;
+        min-width: unset;
+    }
+
+    .sessionButtons {
+        flex-direction: column;
+    }
+
+    .sessionButton {
+        width: 100%;
+    }
+
+    .attendanceInfo {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .downloadPdfButton {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .attendanceTable {
+        font-size: 0.82rem;
+    }
+
+    .attendanceTable th,
+    .attendanceTable td {
+        padding: 8px 6px;
+    }
+
+    .leadershipRoleGrid {
+        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+}

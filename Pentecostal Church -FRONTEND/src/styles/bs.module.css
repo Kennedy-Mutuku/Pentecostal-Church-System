@@ -1,0 +1,596 @@
+@import url(global.css);
+
+.bsTitle {
+    margin: 10px auto 5px auto;
+    width: 90%;
+    max-width: 800px;
+    text-align: center;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #730051;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.bsTitle::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(135deg, #730051, #730051);
+    border-radius: 2px;
+}
+
+.container {
+    max-width: 650px; /* Slightly wider for grid balance */
+    margin: 10px auto;
+    padding: 15px 25px; /* Reduced vertical padding */
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    position: relative;
+    overflow: hidden;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 6px;
+    background: linear-gradient(135deg, #730051, #730051);
+}
+
+.text {
+    margin-bottom: 12px;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: #2d3748;
+    text-align: center;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.form > div {
+    margin-bottom: 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.form label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #4a5568;
+    margin-bottom: 2px;
+}
+
+.form input[type="text"],
+.form input[type="number"],
+.form select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    transition: all 0.2s ease;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+.form input[type="text"]:focus,
+.form input[type="number"]:focus,
+.form select:focus {
+    outline: none;
+    border-color: #730051;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(115, 0, 81, 0.1);
+    transform: translateY(-2px);
+}
+
+.form select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23730051' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 15px center;
+    padding-right: 45px;
+}
+
+.inputs {
+    width: 100%;
+}
+
+.payment-option {
+    padding: 10px;
+    font-size: 1rem;
+}
+
+/* Gender selection styling */
+.genderSection {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.radioGroup {
+    display: flex;
+    gap: 15px;
+}
+
+.radioItem {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    background: #f8fafc;
+    border: 2px solid #e2e8f0;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    flex: 1;
+}
+
+.radioItem:hover {
+    background: #ffffff;
+    border-color: #730051;
+    transform: translateY(-1px);
+}
+
+.radioItem input[type="radio"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #730051;
+    cursor: pointer;
+}
+
+.radioItem label {
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    flex: 1;
+    text-align: center;
+}
+
+/* Bible Study Pastor Section */
+.pastorSection {
+    margin: 12px 0;
+}
+
+.pastorCard {
+    background: #f8fafc;
+    border: 1.5px solid #730051;
+    border-radius: 10px;
+    padding: 12px 16px;
+    position: relative;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.pastorCard::after {
+    content: 'Click to select';
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: #730051;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 3px 8px;
+    border-radius: 4px;
+    opacity: 0.8;
+}
+
+.pastorCard:hover {
+    background: #f0f4ff;
+    border-color: #730051;
+    transform: translateY(-1px);
+    box-shadow: 0 6px 20px rgba(115, 0, 81, 0.2);
+}
+
+.pastorCard:hover::after {
+    background: #730051;
+    opacity: 1;
+}
+
+.checkboxContainer {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.pastorCheckbox {
+    width: 20px;
+    height: 20px;
+    accent-color: #730051;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pastorCheckbox:hover {
+    transform: scale(1.1);
+}
+
+.pastorCheckbox:checked {
+    accent-color: #730051;
+}
+
+.pastorLabel {
+    cursor: pointer;
+    margin: 0;
+    flex: 1;
+    user-select: none;
+}
+
+.pastorTitle {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #730051;
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.pastorSubtitle {
+    display: block;
+    font-size: 0.9rem;
+    color: #4a5568;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.submisions {
+    display: flex;
+    gap: 12px;
+    margin-top: 15px;
+    justify-content: center;
+    align-items: center;
+}
+
+.clearForm {
+    background: transparent;
+    color: #e53e3e;
+    border: 2px solid #e53e3e;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+    min-width: 100px;
+    text-align: center;
+}
+
+.clearForm:hover {
+    background: #e53e3e;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(229, 62, 62, 0.3);
+}
+
+.submitData {
+    background: linear-gradient(135deg, #730051, #730051);
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(115, 0, 81, 0.3);
+    min-width: 140px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.submitData:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(115, 0, 81, 0.4);
+}
+
+.submitDataButton {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.submitDataButton:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.form-footer {
+    text-align: center;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid #e2e8f0;
+}
+
+.form-footer p {
+    margin: 0;
+    font-size: 1rem;
+    color: #4a5568;
+}
+
+.form-footer a {
+    color: #730051;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.form-footer a:hover {
+    color: #730051;
+    text-decoration: underline;
+}
+
+.error {
+    margin: 20px auto;
+    max-width: 600px;
+    padding: 15px 20px;
+    border-radius: 12px;
+    text-align: center;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
+    animation: slideDown 0.3s ease-out;
+}
+
+.errorMsg {
+    background: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f1b1b3;
+    animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 8px;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        margin: 12px;
+        padding: 20px 16px;
+        border-radius: 12px;
+    }
+
+    .bsTitle {
+        font-size: 1.8rem;
+        margin: 12px auto 8px auto;
+    }
+
+    .text {
+        font-size: 1.2rem;
+        margin-bottom: 16px;
+    }
+
+    .form {
+        gap: 14px;
+    }
+
+    .radioGroup {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .pastorCard {
+        padding: 16px;
+    }
+
+    .pastorTitle {
+        font-size: 1rem;
+    }
+
+    .pastorSubtitle {
+        font-size: 0.8rem;
+    }
+
+    .pastorCard::after {
+        font-size: 0.65rem;
+        padding: 2px 6px;
+    }
+
+    .submisions {
+        flex-direction: column;
+        gap: 12px;
+        margin-top: 16px;
+    }
+
+    .clearForm,
+    .submitData {
+        width: 100%;
+        max-width: 280px;
+        padding: 10px 20px;
+    }
+
+    .form input[type="text"],
+    .form input[type="number"],
+    .form select {
+        padding: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        margin: 5px auto;
+        padding: 10px 8px;
+        border-radius: 8px;
+    }
+
+    .bsTitle {
+        font-size: 1.3rem; /* Smarter, smaller title */
+        margin: 4px auto 2px auto;
+    }
+
+    .bsTitle::after {
+        bottom: -4px;
+        width: 40px;
+        height: 2px;
+    }
+
+    .text {
+        font-size: 0.95rem;
+        margin-bottom: 6px;
+    }
+
+    .form {
+        gap: 6px; /* Tight gaps between fields */
+    }
+
+    .form > div {
+        gap: 2px;
+    }
+
+    .form label {
+        font-size: 0.8rem;
+        margin-bottom: 1px;
+    }
+
+    .form input[type="text"],
+    .form input[type="number"],
+    .form select {
+        padding: 6px 8px;
+        font-size: 0.85rem;
+        border-radius: 6px;
+    }
+
+    .genderSection {
+        gap: 4px;
+    }
+
+    .radioGroup {
+        flex-direction: row; /* FORCE horizontal to save massive vertical space */
+        gap: 6px;
+    }
+
+    .radioItem {
+        padding: 5px 8px;
+        border-radius: 6px;
+        gap: 4px;
+        flex: 1;
+    }
+
+    .radioItem label {
+        font-size: 0.8rem;
+    }
+
+    .pastorSection {
+        margin: 6px 0;
+    }
+
+    .pastorCard {
+        padding: 8px 10px; /* Slimmer card */
+        border-radius: 8px;
+    }
+
+    .pastorTitle {
+        font-size: 0.85rem;
+        margin-bottom: 1px;
+    }
+
+    .pastorSubtitle {
+        font-size: 0.7rem;
+        line-height: 1.1;
+    }
+
+    .pastorCard::after {
+        font-size: 0.5rem;
+        padding: 1px 3px;
+        top: 3px;
+        right: 3px;
+    }
+
+    .submisions {
+        margin-top: 8px;
+        gap: 8px;
+        flex-direction: row; /* Side-by-side buttons for extreme density */
+    }
+
+    .clearForm,
+    .submitData {
+        padding: 7px 10px;
+        font-size: 0.8rem;
+        border-radius: 15px;
+        min-width: 0;
+        flex: 1;
+    }
+
+    .submitDataButton {
+        font-size: 0.8rem;
+        gap: 3px;
+    }
+
+    .form-footer {
+        margin-top: 6px;
+        padding-top: 6px;
+    }
+
+    .form-footer p {
+        font-size: 0.8rem;
+    }
+
+    .error {
+        margin: 5px auto;
+        padding: 6px 10px;
+        font-size: 0.8rem;
+        border-radius: 6px;
+    }
+}

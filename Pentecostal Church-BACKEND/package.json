@@ -1,0 +1,46 @@
+{
+  "name": "banking_app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "dev": "set NODE_ENV=development && nodemon app.js",
+    "dev:unix": "NODE_ENV=development nodemon app.js",
+    "create-admission-admin": "node scripts/createAdmissionAdmin.js",
+    "create-user": "node scripts/createUser.js",
+    "create-message-admin": "node scripts/createMessageAdmin.js",
+    "create-super-admin": "node scripts/createSuperAdmin.js",
+    "create-polling-officer": "node scripts/createPollingOfficer.js",
+    "create-test-users": "node scripts/createTestUsers.js",
+    "reset-minutes-pin": "node scripts/resetMinutesPin.js",
+    "test:polling": "node tests/testPollingSystem.js"
+  },
+  "dependencies": {
+    "axios": "^1.6.8",
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.6",
+    "dotenv": "^16.4.5",
+    "emailjs-com": "^3.2.0",
+    "express": "^4.17.1",
+    "express-validator": "^7.3.1",
+    "fs": "^0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.0.11",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.13",
+    "nodemailer-sendgrid-transport": "^0.2.0",
+    "path": "^0.12.7",
+    "pdfkit": "^0.13.0",
+    "sharp": "^0.34.5",
+    "socket.io": "^4.8.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "colors": "^1.4.0",
+    "nodemon": "^3.1.0"
+  }
+}

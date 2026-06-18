@@ -1,0 +1,73 @@
+const express = require('express');
+const router = express.Router();
+const attendanceController = require('../controllers/attendanceController');
+const jwt = require('jsonwebtoken');
+const { overseerAuth } = require('../middlewares/overseerAuthMiddleware');
+
+// Middleware to verify JWT token specifically for attendance
+const verifyToken = (req, res, next) => {
+    const token = req.cookies.user_s; // Match userAuthMiddleware
+
+    if (!token) {
+        return res.status(401).json({ message: 'Access denied. No token provided.' });
+    }
+
+    try {
+        const secretKey = process.env.JWT_USER_SECRET; // Match userAuthMiddleware
+        const decoded = jwt.verify(token, secretKey);
+        req.user = decoded;
+        req.userId = decoded.userId; // For compatibility
+        next();
+    } catch (error) {
+        res.status(400).json({ message: 'Invalid token.' });
+    }
+};
+
+// --- Attendance Session Routes ---
+
+// Get current active session status
+router.get('/session/status', attendanceController.getSessionStatus);
+
+// Get session for ministry
+router.get('/session/:ministry', attendanceController.getSessionByMinistry);
+
+// Open new session (admin)
+router.post('/session/open', overseerAuth, attendanceController.openSession);
+
+// Close active session (admin)
+router.post('/session/close', overseerAuth, attendanceController.closeSession);
+
+// Extend session duration (admin)
+router.post('/session/extend', overseerAuth, attendanceController.extendSession);
+
+// Force close any active session
+router.post('/session/force-close', overseerAuth, attendanceController.forceCloseSession);
+
+// Reset session and clear records
+router.post('/session/reset', overseerAuth, attendanceController.resetSystem);
+
+// Delete session and records (admin)
+router.post('/session/delete', overseerAuth, attendanceController.deleteSession);
+
+// Re-open closed session (admin)
+router.post('/session/reopen', overseerAuth, attendanceController.reopenSession);
+
+
+// --- Attendance Signing Routes ---
+
+// Anonymous attendance signing
+router.post('/sign-anonymous', attendanceController.signAnonymous);
+
+// Sign attendance (for logged-in users)
+router.post('/sign', verifyToken, attendanceController.signStatus);
+
+
+// --- Attendance Record Routes ---
+
+// Get attendance records for a session
+router.get('/records/:sessionId', attendanceController.getRecords);
+
+// Get all sessions for a ministry
+router.get('/sessions/:ministry', attendanceController.getSessionsByMinistryList);
+
+module.exports = router;
