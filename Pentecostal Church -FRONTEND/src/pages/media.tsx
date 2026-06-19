@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import styles from '../styles/Media.module.css';
 import loadingAnime from '../assets/Animation - 1716747954931.gif';
 import { FaYoutube, FaFacebook, FaTiktok, FaTwitter, FaImage, FaNewspaper, FaBook, FaSearch, FaCamera, FaArrowLeft } from 'react-icons/fa';
@@ -212,13 +214,8 @@ const Media: React.FC = () => {
           setIsAuthenticated(true);
           return;
         }
-        // Allow gallery access in dev/local mode even without auth
-        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-          console.log('📱 Media: Local mode — bypassing auth for gallery');
-          setIsAuthenticated(true);
-          setShowMediaEvents(true);
-          return;
-        }
+        // If not authenticated, ensure it's false
+        setIsAuthenticated(false);
         setError('You need to login or sign up to access this page');
         return;
       }
@@ -234,13 +231,7 @@ const Media: React.FC = () => {
         setShowMediaEvents(true);
         return;
       }
-      // Allow gallery access in dev/local mode even without auth
-      if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
-        console.log('📱 Media: Local mode — bypassing auth for gallery (network error)');
-        setIsAuthenticated(true);
-        setShowMediaEvents(true);
-        return;
-      }
+      setIsAuthenticated(false);
       setError('You need to login or sign up to access this page');
     } finally {    
       document.body.style.overflow = '';  
@@ -306,9 +297,59 @@ const Media: React.FC = () => {
       return 0;
     });
   
+  const [redirectCountdown, setRedirectCountdown] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (redirectCountdown === null) return;
+    
+    if (redirectCountdown === 0) {
+      navigate('/signIn');
+      return;
+    }
+    
+    const timer = setTimeout(() => {
+      setRedirectCountdown(redirectCountdown - 1);
+    }, 1000);
+    
+    return () => clearTimeout(timer);
+  }, [redirectCountdown, navigate]);
+
+  // Helper to handle view photos click
+  const handleViewClick = (e: React.MouseEvent, link: string) => {
+    e.preventDefault();
+    if (isAuthenticated) {
+      window.open(link, '_blank', 'noopener,noreferrer');
+    } else {
+      setRedirectCountdown(4);
+    }
+  };
+
   return (
     <>
+      <ToastContainer />
       
+      {redirectCountdown !== null && (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(255,255,255,0.95)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(5px)' }}>
+          <div style={{ background: '#fff', padding: '0', borderRadius: '16px', textAlign: 'center', maxWidth: '420px', width: '90%', boxShadow: '0 20px 40px rgba(115, 0, 81, 0.15)', overflow: 'hidden', border: '1px solid rgba(115, 0, 81, 0.1)' }}>
+            <div style={{ backgroundColor: '#730051', padding: '24px 20px', color: 'white' }}>
+              <h3 style={{ margin: 0, fontSize: '22px', fontWeight: 800, letterSpacing: '0.5px' }}>Log In Required</h3>
+            </div>
+            <div style={{ padding: '30px 24px' }}>
+              <p style={{ margin: '0 0 20px', color: '#4b5563', fontSize: '16px', lineHeight: 1.6 }}>
+                Note well that for data security, only logged-in members are allowed to access this.
+              </p>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', marginTop: '25px', padding: '12px', background: '#fef2f2', borderRadius: '8px' }}>
+                <span style={{ height: '8px', width: '8px', borderRadius: '50%', backgroundColor: '#E53935' }}></span>
+                <p style={{ color: '#E53935', fontSize: '14px', fontWeight: 600, margin: 0 }}>
+                  Taking you to sign in in <span style={{ fontSize: '18px', fontWeight: 800, paddingLeft: '2px', paddingRight: '2px' }}>{redirectCountdown}</span> seconds
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {generalLoading && (
         <div className={styles['loading-screen']}>
           <p className={styles['loading-text']}>Please wait...🤗</p>
@@ -316,70 +357,7 @@ const Media: React.FC = () => {
         </div>
       )}
 
-      {error && !isAuthenticated && (
-        <div style={{
-          minHeight: '70vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '2rem'
-        }}>
-          <div style={{
-            textAlign: 'center',
-            padding: '2rem',
-            maxWidth: '500px',
-            background: 'transparent',
-            boxShadow: 'none',
-            border: 'none'
-          }}>
-            <div style={{ width: '56px', height: '56px', borderRadius: '50%', background: '#fef2f2', border: '1px solid #fca5a5', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', color: '#E53935', fontSize: '1.5rem' }}>
-              <FaCamera />
-            </div>
-            <h2 style={{ color: '#111827', fontSize: '1.75rem', fontWeight: 700, marginBottom: '1rem', letterSpacing: '-0.5px' }}>
-              Member Access Required
-            </h2>
-            <p style={{ color: '#4b5563', fontSize: '1rem', lineHeight: 1.6, marginBottom: '2.5rem' }}>
-              For privacy and security, our church's media gallery and photo albums are exclusively available to registered members. Please sign in to continue.
-            </p>
-            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link to="/signIn" style={{
-                padding: '12px 32px',
-                background: '#E53935',
-                color: 'white',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '0.95rem',
-                transition: 'background 0.2s'
-              }}
-              onMouseOver={e => e.currentTarget.style.background = '#c62828'}
-              onMouseOut={e => e.currentTarget.style.background = '#E53935'}>
-                Sign In
-              </Link>
-              <Link to="/" style={{
-                padding: '12px 32px',
-                background: 'transparent',
-                border: '1px solid #d1d5db',
-                color: '#374151',
-                borderRadius: '8px',
-                textDecoration: 'none',
-                fontWeight: 600,
-                fontSize: '0.95rem',
-                transition: 'background 0.2s'
-              }}
-              onMouseOver={e => e.currentTarget.style.background = '#f9fafb'}
-              onMouseOut={e => e.currentTarget.style.background = 'transparent'}>
-                Go to Homepage
-              </Link>
-            </div>
-          </div>
-        </div>
-      )}
-      {error && isAuthenticated && <div className={styles.error}>{error}</div>}
-
-      {isAuthenticated && (
-        <main className={styles.main}>
-
+      <main className={styles.main}>
 
         {/* Slim social strip */}
         <div style={{
@@ -485,7 +463,7 @@ const Media: React.FC = () => {
                   <div className={styles.galleryItemContent}>
                     <h4>{event.event}</h4>
                     <p className={styles.galleryDate}>{event.date}</p>
-                    <a href={event.link} target="_blank" rel="noopener noreferrer" className={styles.galleryViewBtn}>
+                    <a href={event.link} onClick={(e) => handleViewClick(e, event.link)} className={styles.galleryViewBtn}>
                       View Photos
                     </a>
                   </div>
@@ -495,8 +473,7 @@ const Media: React.FC = () => {
           </div>
         </section>
 
-        </main>
-      )}
+      </main>
 
     </>
   );

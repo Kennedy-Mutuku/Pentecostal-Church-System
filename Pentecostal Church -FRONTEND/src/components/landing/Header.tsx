@@ -178,6 +178,7 @@ const MobileSidebarItem = ({ item, depth = 0, onClose }: { item: NavItem; depth?
 const mobileNavTabs: { key: string; icon: React.ElementType; label: string; }[] = [
   { key: 'dashboard', icon: Home, label: 'Home' },
   { key: 'aboutUs', icon: Info, label: 'About Us' },
+  { key: 'philosophies', icon: BookOpen, label: 'Philosophies' },
   { key: 'financials', icon: Coins, label: 'Financials' },
   { key: 'leadership', icon: Crown, label: 'Leadership' },
   { key: 'media', icon: Tv2, label: 'Gallery' },
@@ -255,6 +256,13 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
       setExpandedNestedItem(null);
       setIsManualExpanded(false);
       onNavigate(userData ? '/changeDetails' : '/signIn');
+      return;
+    }
+    if (key === 'philosophies') {
+      setActiveTab(null);
+      setExpandedNestedItem(null);
+      setIsManualExpanded(false);
+      onNavigate('/philosophy');
       return;
     }
     if (key === 'biblestudy') {
@@ -615,7 +623,8 @@ const Header = () => {
 
   // Determine which nav group is active based on current path
   const getActiveNav = (path: string): string | null => {
-    if (path.startsWith('/about') || path.startsWith('/history') || path.startsWith('/vision-mission') || path.startsWith('/statement-of-faith') || path.startsWith('/philosophy')) return 'aboutUs';
+    if (path.startsWith('/about') || path.startsWith('/history') || path.startsWith('/vision-mission') || path.startsWith('/statement-of-faith')) return 'aboutUs';
+    if (path.startsWith('/philosophy')) return 'philosophies';
     if (path === '/') return 'dashboard';
     if (path.startsWith('/news') || path.startsWith('/media')) return 'mediadesk';
     if (path.startsWith('/ministries')) return 'ministries';
@@ -685,16 +694,28 @@ const Header = () => {
           setIsPatron(false);
           setIsAssistantPatron(false);
         } else if (localStorage.getItem('adminSession') === 'true') {
-          setIsAdmin(true);
-          setIsPatron(localStorage.getItem('patronSession') === 'true');
-          setIsAssistantPatron(localStorage.getItem('assistantPatronSession') === 'true');
+          // Verify admin session with backend
+          try {
+            const apiUrl = getApiUrl('superAdmin').replace('/login', '');
+            const adminRes = await fetch(`${apiUrl}/verify`, { credentials: 'include' });
+            if (adminRes.ok) {
+              setIsAdmin(true);
+              setIsPatron(localStorage.getItem('patronSession') === 'true');
+              setIsAssistantPatron(localStorage.getItem('assistantPatronSession') === 'true');
+            } else {
+              localStorage.removeItem('adminSession');
+              localStorage.removeItem('patronSession');
+              localStorage.removeItem('assistantPatronSession');
+              setIsAdmin(false);
+              setIsPatron(false);
+              setIsAssistantPatron(false);
+            }
+          } catch (e) {
+            console.error('Error verifying admin session:', e);
+          }
         }
-      } catch {
-        if (localStorage.getItem('adminSession') === 'true') {
-          setIsAdmin(true);
-          setIsPatron(localStorage.getItem('patronSession') === 'true');
-          setIsAssistantPatron(localStorage.getItem('assistantPatronSession') === 'true');
-        }
+      } catch (error) {
+        console.error('Error fetching user:', error);
       }
     };
     fetchUser();
@@ -885,6 +906,8 @@ const Header = () => {
                     </button>
                     {activeDropdown === 'aboutUs' && renderAboutUsPanel()}
                   </div>
+
+                  <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'philosophies' ? 'text-[#E53935] nav-link-active' : 'text-gray-700'}`}>Philosophies</Link>
 
                   <Link to="/financial" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'financials' ? 'text-[#E53935] nav-link-active' : 'text-gray-700'}`}>Financials</Link>
 

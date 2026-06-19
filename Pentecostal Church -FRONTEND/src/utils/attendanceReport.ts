@@ -16,14 +16,62 @@ export const downloadAttendancePDF = (records: any[], leadershipRole: string, se
             <style>
                 @page { size: A4; margin: 10mm; }
                 body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; font-size: 12px; }
-                .letterhead-img { width: 100%; max-width: 100%; height: auto; margin: 0 auto 15px; display: block; }
-                .header { text-align: center; margin-bottom: 15px; }
-                .header h2 { color: #730051; font-size: 18px; margin: 5px 0; font-weight: bold; }
+                
+                /* Letterhead Styles */
+                .letterhead-container {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 30px;
+                    padding-bottom: 20px;
+                    margin-bottom: 15px;
+                }
+                .letterhead-logo {
+                    width: 120px;
+                    height: 120px;
+                    object-fit: contain;
+                }
+                .letterhead-text-container {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                }
+                .letterhead-title {
+                    color: #111827; /* Dark almost black/blue */
+                    font-size: 26px;
+                    font-weight: 900;
+                    margin: 0 0 15px 0;
+                    text-transform: uppercase;
+                    letter-spacing: 1px;
+                }
+                .letterhead-subtitle-wrapper {
+                    display: flex;
+                    align-items: center;
+                    width: 100%;
+                }
+                .letterhead-line {
+                    flex-grow: 1;
+                    height: 2px;
+                    background-color: #ef4444; /* Red line */
+                }
+                .letterhead-subtitle {
+                    color: #ef4444; /* Red text */
+                    font-size: 20px;
+                    font-weight: bold;
+                    margin: 0 15px;
+                    text-transform: uppercase;
+                }
+
+                .header { text-align: center; margin: 20px 0 15px 0; }
+                .header h2 { color: #333; font-size: 18px; margin: 5px 0; font-weight: bold; text-transform: uppercase; text-decoration: underline; }
+                
                 .session-info {
-                    background: linear-gradient(135deg, #730051, #00C6FF);
-                    color: white;
+                    background: #f8f9fa;
+                    color: #333;
                     padding: 8px 15px;
-                    border-radius: 5px;
+                    border: 1px solid #ddd;
+                    border-left: 4px solid #111827;
                     margin: 10px 0;
                     display: flex;
                     justify-content: space-between;
@@ -36,12 +84,12 @@ export const downloadAttendancePDF = (records: any[], leadershipRole: string, se
                     font-size: 11px;
                 }
                 .attendance-table th {
-                    background: linear-gradient(135deg, #730051, #8e1a6b);
+                    background: #111827;
                     color: white;
                     padding: 8px 4px;
                     text-align: center;
                     font-weight: bold;
-                    border: 1px solid #fff;
+                    border: 1px solid #000;
                 }
                 .attendance-table td {
                     padding: 4px;
@@ -54,43 +102,78 @@ export const downloadAttendancePDF = (records: any[], leadershipRole: string, se
                     max-height: 26px;
                     object-fit: contain;
                 }
+                .biometric-badge {
+                    background: #ecfdf5;
+                    color: #059669;
+                    border: 1px solid #a7f3d0;
+                    padding: 4px 8px;
+                    border-radius: 4px;
+                    font-size: 9px;
+                    font-weight: bold;
+                    display: inline-block;
+                }
                 .footer {
                     margin-top: 15px;
                     text-align: center;
                     font-size: 9px;
                     color: #666;
-                    border-top: 2px solid #730051;
+                    border-top: 2px solid #ef4444;
                     padding-top: 10px;
                 }
             </style>
         </head>
         <body>
-            <img src="${window.location.origin}/img/letterhead.png" class="letterhead-img" alt="RPC Nyamira Letterhead" />
-            <div class="header"><h2>${session?.title || leadershipRole} - Attendance Report</h2></div>
-            <div class="session-info">
-                <div><strong>Leader:</strong> ${leadershipRole}</div>
+            <div class="letterhead-container">
+                <img src="${window.location.origin}/images/logo.png" class="letterhead-logo" alt="RPC Logo" onerror="this.style.display='none'" />
+                <div class="letterhead-text-container">
+                    <h1 class="letterhead-title">RIKURUMA PENTECOSTAL CHURCH</h1>
+                    <div class="letterhead-subtitle-wrapper">
+                        <div class="letterhead-line"></div>
+                        <h2 class="letterhead-subtitle">NYAMIRA</h2>
+                        <div class="letterhead-line"></div>
+                    </div>
+                    <div style="display: flex; gap: 12px; margin-top: 10px; color: #374151; font-weight: 700; font-size: 11px; align-items: center;">
+                        <span style="display: flex; align-items: center; gap: 4px;">
+                            <span style="color: #ef4444; font-size: 13px;">✉</span> communityofbelieversinjesus@gmail.com
+                        </span>
+                        <span style="color: #d1d5db;">|</span>
+                        <span style="display: flex; align-items: center; gap: 4px;">
+                            <span style="color: #ef4444; font-size: 13px;">📞</span> +254 762 053 876
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="header"><h2>${session?.title || leadershipRole} - ATTENDANCE REPORT</h2></div>
+            <div class="session-info" style="display: flex; justify-content: space-between; align-items: flex-start;">
                 <div>
-                    <strong>Total:</strong> ${sortedRecords.length}<br>
-                    <strong>Date:</strong> ${formatDateTime(session?.startTime || new Date(), { format: 'medium' })}
+                    <strong>Opened:</strong> ${session?.startTime ? new Date(session.startTime).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) : 'N/A'}<br>
+                    <strong style="display: inline-block; margin-top: 4px;">Closed:</strong> ${session?.endTime ? new Date(session.endTime).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', hour12: true }) : '<span style="color: #ef4444;">Ongoing</span>'}
+                </div>
+                <div style="text-align: right;">
+                    <strong>Total Present:</strong> <span style="font-size: 14px; font-weight: 900; color: #ef4444;">${sortedRecords.length}</span><br>
+                    <strong style="display: inline-block; margin-top: 4px;">Leader:</strong> ${leadershipRole}
                 </div>
             </div>
             <table class="attendance-table">
                 <thead>
                     <tr>
-                        <th>#</th><th>NAME</th><th>TYPE</th><th>REG NO.</th><th>COURSE</th><th>SIGN TIME</th><th>SIGNATURE</th>
+                        <th>#</th><th>NAME</th><th>TYPE</th><th>ID/REG NO.</th><th>GENDER/COURSE</th><th>PHONE</th><th>SIGN TIME</th><th>SIGNATURE</th>
                     </tr>
                 </thead>
                 <tbody>
                     ${sortedRecords.map((r, i) => `
                         <tr>
                             <td>${i + 1}</td>
-                            <td style="text-align: left; font-weight: bold;">${r.userName}</td>
-                            <td>${(r.userType === 'visitor' || r.regNo?.startsWith('VISITOR-')) ? 'VISITOR' : 'STUDENT'}</td>
-                            <td>${r.regNo?.startsWith('VISITOR-') ? 'N/A' : r.regNo}</td>
-                            <td>${r.course || 'N/A'}</td>
+                            <td style="text-align: left; font-weight: bold;">${r.userName || 'N/A'}</td>
+                            <td>${(r.userType === 'visitor' || r.idNumber?.startsWith('VISITOR-')) ? 'VISITOR' : 'MEMBER'}</td>
+                            <td>${r.idNumber?.startsWith('VISITOR-') ? 'N/A' : (r.idNumber || 'N/A')}</td>
+                            <td>${r.gender || r.course || 'N/A'}</td>
+                            <td>${r.phoneNumber || 'N/A'}</td>
                             <td>${formatDateTime(r.signedAt, { format: 'short' })}</td>
                             <td class="signature-cell">
-                                ${r.signature?.startsWith('data:image') ? `<img src="${r.signature}" alt="Sign" />` : 'N/A'}
+                                ${r.signature === 'Biometric Authenticated' ? '<span class="biometric-badge">✓ FINGERPRINT</span>' : 
+                                  r.signature?.startsWith('data:image') ? `<img src="${r.signature}" alt="Sign" />` : 'N/A'}
                             </td>
                         </tr>`).join('')}
                 </tbody>
@@ -122,18 +205,25 @@ export const downloadAttendancePDF = (records: any[], leadershipRole: string, se
         const images = iframeDoc.querySelectorAll('img');
         let loaded = 0;
         const totalImages = images.length;
+        const originalTitle = document.title;
+        const dateStr = session?.startTime ? new Date(session.startTime).toISOString().split('T')[0] : new Date().toISOString().split('T')[0];
+        const printTitle = `RPC Nyamira Attendance ${dateStr}`;
 
         const triggerPrint = () => {
             try {
+                document.title = printTitle; // Force PDF save filename
                 iframe.contentWindow?.focus();
                 iframe.contentWindow?.print();
+                document.title = originalTitle; // Restore original title
             } catch {
+                document.title = originalTitle; // Restore on error
                 // Fallback: if iframe print fails, open in new tab
                 const fallback = window.open('', '_blank');
                 if (fallback) {
                     fallback.document.open();
-                    fallback.document.write(htmlContent);
+                    fallback.document.write(htmlContent.replace('<title>RPC', `<title>${printTitle}`));
                     fallback.document.close();
+                    fallback.document.title = printTitle;
                     fallback.focus();
                     setTimeout(() => fallback.print(), 300);
                 }

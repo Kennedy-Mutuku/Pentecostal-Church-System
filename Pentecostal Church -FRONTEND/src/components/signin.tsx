@@ -221,6 +221,7 @@ const SignIn: React.FC = () => {
             { domain: '@rpcmcbsadmin.co.ke', endpoint: getApiUrl('bsAdmin'), route: '/adminBs' },
 
             { domain: '@rpcmcsuperadmin.co.ke', endpoint: getApiUrl('superAdmin'), route: '/admin' },
+            { domain: '@rikurumachurch.com', endpoint: getApiUrl('superAdmin'), route: '/admin' },
 
             { domain: '@rpcmcadmissionadmin.co.ke', endpoint: getApiUrl('admissionAdmin'), route: '/admission' },
         ];

@@ -29,7 +29,8 @@ export default defineConfig({
       '/attendance': {
         target: 'http://localhost:3000',
         changeOrigin: true,
-        secure: false
+        secure: false,
+        bypass: (req) => req.headers.accept?.includes('text/html') ? '/index.html' : null
       },
       '/api/finance': {
         target: 'http://localhost:5000',

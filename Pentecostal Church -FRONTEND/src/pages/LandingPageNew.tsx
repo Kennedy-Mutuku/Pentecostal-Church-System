@@ -38,18 +38,18 @@ const LandingPageNew = () => {
   const testimonials: Testimonial[] = [
     {
       quote: "Rikuruma Pentecostal Church has been a blessing to my family. The teachings are biblical, the worship is powerful, and the fellowship is genuine. God is truly in this place!",
-      author: "John Bosire",
-      location: "Nyamira Town"
+      author: "Susan Mokeira",
+      location: "Nyakoe"
     },
     {
       quote: "I found Christ at Rikuruma and my life was transformed. The youth ministry helped me grow in faith and discover my purpose. I am forever grateful to this church family.",
-      author: "Grace Kemunto",
-      location: "Nyamira County"
+      author: "Mirriam",
+      location: "Magwagwa"
     },
     {
       quote: "The prayers and support from this church carried me through difficult times. Rikuruma Pentecostal Church is more than a church - it's a family where God's love is demonstrated daily.",
-      author: "David Ombati",
-      location: "Nyamira"
+      author: "Kennedy Mutuku",
+      location: "Kisii"
     }
   ];
 
@@ -301,9 +301,7 @@ const LandingPageNew = () => {
               </div>
             </div>
 
-            <div className="events-cta">
-              <Link to="/fellowshipsandclasses" className="btn btn-primary">View Fellowships & Classes</Link>
-            </div>
+
           </div>
         </section>
 
@@ -378,53 +376,7 @@ const LandingPageNew = () => {
           </div>
         </section>
 
-        {/* Latest News Section */}
-        <section className="news-section section">
-          <div className="container">
-            <div className="section-header">
-              <span className="section-subtitle">News & Updates</span>
-              <h2 className="section-title">Latest From The Field</h2>
-            </div>
-            <div className="news-grid">
-              <div className="news-card">
-                <div className="news-image">
-                  <div className="image-placeholder"><i className="fas fa-image"></i></div>
-                  <div className="news-category">Missions</div>
-                </div>
-                <div className="news-content">
-                  <div className="news-date">January 15, 2026</div>
-                  <h3>New Year Miracle Service Testimonies</h3>
-                  <p>Our New Year service was marked by powerful testimonies of healing, deliverance, and breakthrough. God is moving mightily in Rikuruma...</p>
-                  <Link to="/news" className="news-link">Read More <i className="fas fa-arrow-right"></i></Link>
-                </div>
-              </div>
-              <div className="news-card">
-                <div className="news-image">
-                  <div className="image-placeholder"><i className="fas fa-image"></i></div>
-                  <div className="news-category">Training</div>
-                </div>
-                <div className="news-content">
-                  <div className="news-date">January 8, 2026</div>
-                  <h3>Youth Revival Weekend Impact</h3>
-                  <p>Our first youth revival of the year saw over 100 young people encounter God's presence. Many rededicated their lives to Christ...</p>
-                  <Link to="/news" className="news-link">Read More <i className="fas fa-arrow-right"></i></Link>
-                </div>
-              </div>
-              <div className="news-card">
-                <div className="news-image">
-                  <div className="image-placeholder"><i className="fas fa-image"></i></div>
-                  <div className="news-category">Outreach</div>
-                </div>
-                <div className="news-content">
-                  <div className="news-date">December 28, 2025</div>
-                  <h3>Christmas Outreach Blesses Community</h3>
-                  <p>Our Christmas outreach program brought joy to hundreds of families in Nyamira with food donations and the message of hope...</p>
-                  <Link to="/news" className="news-link">Read More <i className="fas fa-arrow-right"></i></Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+
       </div>
     </div>
   );

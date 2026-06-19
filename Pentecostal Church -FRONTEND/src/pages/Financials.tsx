@@ -176,6 +176,33 @@ const FinancialsPage: React.FC = () => {
         </div>
       </div>
 
+      {/* M-PESA Till Card */}
+      <div style={{
+        maxWidth: '420px', margin: '0 auto 36px',
+        background: '#D32F2F',
+        borderRadius: '16px', padding: '16px',
+        boxShadow: '0 10px 25px rgba(211, 47, 47, 0.25)',
+      }}>
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.15)',
+          backdropFilter: 'blur(8px)',
+          borderRadius: '12px', padding: '24px',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          textAlign: 'center'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+            <span style={{ color: '#86efac', fontWeight: 800, fontSize: '18px', letterSpacing: '1px' }}>LIPA NA</span>
+            <span style={{ color: '#ffffff', fontWeight: 900, fontStyle: 'italic', fontSize: '22px', letterSpacing: '0.5px' }}>M-PESA</span>
+          </div>
+          <div style={{ color: '#ffffff', fontSize: '15px', fontWeight: 700, letterSpacing: '2.5px', marginBottom: '8px' }}>
+            TILL NUMBER:
+          </div>
+          <div style={{ color: '#fbbf24', fontSize: '48px', fontWeight: 800, letterSpacing: '3px', textShadow: '0 2px 10px rgba(0,0,0,0.15)', fontFamily: 'Georgia, serif' }}>
+            5173289
+          </div>
+        </div>
+      </div>
+
       {/* Flat Categories Selection */}
       <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '4px' }}>
         {categoryCards.map(c => (

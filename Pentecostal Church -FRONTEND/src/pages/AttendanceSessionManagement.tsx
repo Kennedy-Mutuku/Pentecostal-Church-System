@@ -23,10 +23,12 @@ import { io } from 'socket.io-client';
 interface AttendanceRecord {
     _id: string;
     userName: string;
-    regNo: string;
-    year: number;
+    idNumber?: string;
+    regNo?: string; // Legacy support
+    gender?: string;
+    ageGroup?: string;
     course?: string;
-    phoneNumber: string;
+    phoneNumber?: string;
     signedAt: string;
     signature: string;
     ministry: string;
@@ -366,6 +368,16 @@ const AttendanceSessionManagement: React.FC = () => {
         setLoading(true);
         setMessage('Generating PDF...');
 
+        // Check for offline/local session
+        if (session._id.startsWith('local-')) {
+            const recordsObj = JSON.parse(localStorage.getItem('rpc-attendance-records') || '{}');
+            const records = recordsObj[session._id] || [];
+            downloadAttendancePDF(records, leadershipRole, session as any);
+            setMessage('PDF ready!');
+            setLoading(false);
+            return;
+        }
+
         try {
             const response = await fetch(`${getApiUrl('attendanceRecords')}/${session._id}?signatures=true&role=${encodeURIComponent(leadershipRole)}`, {
                 credentials: 'include'
@@ -376,9 +388,12 @@ const AttendanceSessionManagement: React.FC = () => {
                 downloadAttendancePDF(data.records || [], leadershipRole, session as any);
                 setMessage('PDF ready!');
             } else {
-                setMessage('Error generating PDF');
+                const errData = await response.json().catch(() => ({}));
+                console.error('PDF Backend Error:', errData);
+                setMessage(`Error generating PDF: ${errData.message || response.statusText}`);
             }
-        } catch {
+        } catch (err) {
+            console.error('PDF Network Error:', err);
             setMessage('Network error generating PDF');
         } finally {
             setLoading(false);
@@ -547,7 +562,7 @@ const AttendanceSessionManagement: React.FC = () => {
                                     <tr>
                                         <th>#</th>
                                         <th>Name</th>
-                                        <th>Reg No</th>
+                                        <th>ID/Reg No</th>
                                         <th>Type</th>
                                         <th>Time</th>
                                     </tr>
@@ -557,8 +572,8 @@ const AttendanceSessionManagement: React.FC = () => {
                                         <tr key={record._id} className={idx === 0 && viewingSession.isActive ? styles.newRow : ''}>
                                             <td className={styles.numCell}>{idx + 1}</td>
                                             <td><strong>{record.userName}</strong></td>
-                                            <td><span className={styles.regBadge}>{record.regNo}</span></td>
-                                            <td><span className={styles.typeBadge}>{record.userType || 'student'}</span></td>
+                                            <td><span className={styles.regBadge}>{record.idNumber || record.regNo || 'N/A'}</span></td>
+                                            <td><span className={styles.typeBadge}>{record.userType === 'visitor' ? 'Visitor' : 'Member'}</span></td>
                                             <td className={styles.timeCell}>{record.signedAt ? formatDateTime(record.signedAt).split(',')[1]?.trim() : '—'}</td>
                                         </tr>
                                     ))}

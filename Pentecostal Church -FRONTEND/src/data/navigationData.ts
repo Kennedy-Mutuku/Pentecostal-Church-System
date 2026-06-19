@@ -161,6 +161,5 @@ export const headerNavGroups = {
     { label: 'Our History', href: '/about#our-history' },
     { label: 'Vision & Mission', href: '/about#vision-mission' },
     { label: 'Statement of Faith', href: '/about#statement-of-faith' },
-    { label: 'Ministry Philosophy', href: '/about#philosophy' },
   ] as NavItem[],
 };

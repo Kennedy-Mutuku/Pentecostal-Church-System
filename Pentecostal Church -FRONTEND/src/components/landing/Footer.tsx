@@ -4,11 +4,12 @@ import cuLogo from '../../assets/RPC logo updated document.png';
 
 const quickLinks = [
   { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/#about' },
-  { label: 'Ministries', href: '/ministries' },
-  { label: 'Bible Study', href: '/Bs' },
-  { label: 'Library', href: '/library' },
-  { label: 'Constitution', href: '/pdfs/constitution.pdf', external: true },
+  { label: 'About Us', href: '/about' },
+  { label: 'Philosophies', href: '/philosophy' },
+  { label: 'Financials', href: '/financial' },
+  { label: 'Leadership', href: '/leadership' },
+  { label: 'Gallery', href: '/media' },
+  { label: 'Talk to us', href: '/recomendations' },
 ];
 
 const socialLinks = [
