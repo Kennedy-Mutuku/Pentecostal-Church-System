@@ -15,6 +15,7 @@ import patronImg from '../assets/IMG_8981.jpg';
 import assistantPatronImg from '../assets/Rev.Kephar.jpeg';
 import cmfImg from '../assets/cmf.jpg';
 import boardsCordImg from '../assets/boardscord.jpeg';
+import firstLadyImg from '../assets/susan.JPG';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Leadership.css'
@@ -114,6 +115,13 @@ const Leadership = () => {
     image: assistantPatronImg
   };
 
+  const firstLady = {
+    title: 'First Lady',
+    name: 'Mrs. Kephar Omondi',
+    role: 'First Lady, RPC Nyamira',
+    image: firstLadyImg
+  };
+
   return (
     <div className="leadership-page">
       {/* Page Content */}
@@ -131,7 +139,7 @@ const Leadership = () => {
           <section className="section">
             <div className="section-container">
               <div className="committee-grid">
-                {[assistantPatron].map((member, index) => (
+                {[assistantPatron, firstLady].map((member, index) => (
                   <div key={index} className="profile-card">
                     <img src={member.image} alt={member.title} className="profile-image"
                       style={{ objectFit: 'cover', objectPosition: 'top' }} />
