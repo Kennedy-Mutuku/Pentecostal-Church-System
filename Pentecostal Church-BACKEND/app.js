@@ -90,7 +90,8 @@ const corsOptions = {
       // More flexible matching for production
       if (!origin ||
         prodOrigins.includes(origin) ||
-        (origin && origin.includes('rpc-nyamira.co.ke'))) {
+        (origin && origin.includes('rpc-nyamira.co.ke')) ||
+        (origin && origin.includes('.netlify.app'))) {
         console.log(`CORS allowed for production origin: ${origin}`);
         callback(null, true);
       } else {

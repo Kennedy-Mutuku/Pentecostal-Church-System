@@ -28,24 +28,7 @@ const Media: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   // Default events as fallback
-  const defaultEvents: MediaItem[] = [
-    { event: "Subcomm photos", date: "2025-01-20", link: "https://photos.app.goo.gl/PrxWoMuyRNEet22b7" },
-    { event: "Sunday service", date: "2025-02-13", link: "https://photos.app.goo.gl/Vt6HDo1xEtgA3Nmn9" },
-    { event: "Worship Weekend", date: "2025-02-10", link: "https://photos.app.goo.gl/wbNV3coJREGEUSZX7" },
-    { event: "Bible Study weekend", date: "2025-01-26", link: "https://photos.app.goo.gl/otVcso25sG6fkxjR8" },
-    { event: "Evangelism photos", date: "2025-02-02", link: "https://photos.app.goo.gl/JvqV19BaGGZwrVFS7" },
-    { event: "Weekend Photos", date: "2025-02-09", link: "https://photos.app.goo.gl/HkBvW67gyDSvLqgS7" },
-    { event: "RPC Nyamira MEGA HIKE", date: "2025-02-15", link: "https://photos.app.goo.gl/RaNP4ikjEjXLHBmbA" },
-    { event: "Creative Night photos", date: "2025-02-11", link: "https://photos.app.goo.gl/qYjukQAuWAdzBpaA7" },
-    { event: "Valentine's concert ", date: "2025-02-17", link: "https://photos.app.goo.gl/BvYon9KCNPL1uMu87" },
-    { event: "Weekend Photos", date: "2025-02-17", link: "https://photos.app.goo.gl/gMuMfKPvCx3rTRRn8" },
-    { event: "Worship Weekend", date: "14th - 16th march", link: "https://photos.app.goo.gl/t2uVjvUSepDBcx3LA" },
-    { event: "Prayer Week", date: "7th - 9th March", link: "https://photos.app.goo.gl/24sm1zdBxdUege3Y6" },
-    { event: "Elders Day", date: "22nd March", link: "https://photos.app.goo.gl/L9Hkr8BxnVP1MSsD6" },
-    { event: "Hymn Sunday", date: "23nd March", link: "https://photos.app.goo.gl/RWWRM2zp9LkmVgtU6" },
-    { event: "Sunday service", date: "24nd March", link: "https://photos.app.goo.gl/UnA7f6Aqp3kHtsxaA" },
-    { event: "Missions Trip", date: "2025-03-30", link: "https://photos.app.goo.gl/example123" },
-  ];
+  const defaultEvents: MediaItem[] = [];
 
   useEffect(() => {
     // Environment debugging  
@@ -103,16 +86,21 @@ const Media: React.FC = () => {
       const apiUrl = `${getApiUrl('api/media-items')}?t=${timestamp}`;
       console.log('📱 Media: Fetching from:', apiUrl);
       
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 5000);
+      
       const response = await fetch(apiUrl, {
         method: 'GET',
         credentials: 'include',
         cache: 'no-cache',
+        signal: controller.signal,
         headers: {
           'Cache-Control': 'no-cache, no-store, must-revalidate',
           'Pragma': 'no-cache',
           'Expires': '0'
         }
       });
+      clearTimeout(timeoutId);
       
       console.log('📱 Media: Response status:', response.status);
       
@@ -156,31 +144,65 @@ const Media: React.FC = () => {
         localStorage.setItem('rpc-media-items', JSON.stringify(mergedItems));
       } else {
         console.log('📱 Media: API failed, using cached or default items');
-        // Try localStorage first
+        let parsedItems: MediaItem[] = [];
+        
         const savedItems = localStorage.getItem('rpc-media-items');
         if (savedItems) {
-          const parsedItems = JSON.parse(savedItems);
-          console.log('📱 Media: Using cached items:', parsedItems.length);
-          setEvents(parsedItems);
-        } else {
-          console.log('📱 Media: Using default events:', defaultEvents.length);
-          setEvents(defaultEvents);
-          localStorage.setItem('rpc-media-items', JSON.stringify(defaultEvents));
+          try {
+            const rawItems = JSON.parse(savedItems);
+            const dummyTitles = ["Subcomm photos", "Sunday service", "Worship Weekend", "Bible Study weekend", "Evangelism photos", "Weekend Photos", "RPC Nyamira MEGA HIKE", "Creative Night photos", "Valentine's concert ", "Prayer Week", "Elders Day", "Hymn Sunday", "Missions Trip", "Album Launch"];
+            parsedItems = rawItems.filter((item: MediaItem) => !dummyTitles.includes(item.event));
+          } catch (e) {
+            console.error('Error parsing saved items');
+          }
         }
+        
+        // Always merge default events even in fallback
+        const mergedFallback = [...parsedItems];
+        defaultEvents.forEach(defaultItem => {
+          const exists = mergedFallback.some((item: MediaItem) => 
+            item.event === defaultItem.event && 
+            item.link === defaultItem.link
+          );
+          if (!exists) {
+            mergedFallback.push(defaultItem);
+          }
+        });
+        
+        console.log('📱 Media: Using fallback/default items:', mergedFallback.length);
+        setEvents(mergedFallback);
+        localStorage.setItem('rpc-media-items', JSON.stringify(mergedFallback));
       }
     } catch (error) {
       console.error('📱 Media: Error loading from API:', error);
-      // Try localStorage first
+      let parsedItems: MediaItem[] = [];
+      
       const savedItems = localStorage.getItem('rpc-media-items');
       if (savedItems) {
-        const parsedItems = JSON.parse(savedItems);
-        console.log('📱 Media: Using cached items:', parsedItems.length);
-        setEvents(parsedItems);
-      } else {
-        console.log('📱 Media: Using default events:', defaultEvents.length);
-        setEvents(defaultEvents);
-        localStorage.setItem('rpc-media-items', JSON.stringify(defaultEvents));
+        try {
+          const rawItems = JSON.parse(savedItems);
+          const dummyTitles = ["Subcomm photos", "Sunday service", "Worship Weekend", "Bible Study weekend", "Evangelism photos", "Weekend Photos", "RPC Nyamira MEGA HIKE", "Creative Night photos", "Valentine's concert ", "Prayer Week", "Elders Day", "Hymn Sunday", "Missions Trip", "Album Launch"];
+          parsedItems = rawItems.filter((item: MediaItem) => !dummyTitles.includes(item.event));
+        } catch (e) {
+          console.error('Error parsing saved items');
+        }
       }
+      
+      // Always merge default events even in fallback
+      const mergedFallback = [...parsedItems];
+      defaultEvents.forEach(defaultItem => {
+        const exists = mergedFallback.some((item: MediaItem) => 
+          item.event === defaultItem.event && 
+          item.link === defaultItem.link
+        );
+        if (!exists) {
+          mergedFallback.push(defaultItem);
+        }
+      });
+      
+      console.log('📱 Media: Using fallback/default items:', mergedFallback.length);
+      setEvents(mergedFallback);
+      localStorage.setItem('rpc-media-items', JSON.stringify(mergedFallback));
     }
   };
   
@@ -275,8 +297,20 @@ const Media: React.FC = () => {
     return 0;
   };
 
+  // Merge default events into current events if they don't exist
+  const allEvents = [...events];
+  defaultEvents.forEach(defaultItem => {
+    const exists = allEvents.some((item: MediaItem) => 
+      item.event === defaultItem.event && 
+      item.link === defaultItem.link
+    );
+    if (!exists) {
+      allEvents.push(defaultItem);
+    }
+  });
+
   // Sort and filter events
-  const sortedEvents = [...events]
+  const sortedEvents = allEvents
     .filter(item => 
       item.event.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.date.toLowerCase().includes(searchTerm.toLowerCase())

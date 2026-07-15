@@ -242,7 +242,7 @@ const developmentConfig: ApiConfig = {
 };
 
 const productionConfig: ApiConfig = {
-  baseUrl: 'https://rpc-nyamira.co.ke',
+  baseUrl: import.meta.env.VITE_API_BASE_URL || 'https://pentecostal-church-backend.onrender.com',
   endpoints: {
     news: '/news/news',
     newsUpdate: '/news/news',
