@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { CheckCircle, AlertCircle, X, Search, ArrowLeft, User } from 'lucide-react';
+import { CheckCircle, AlertCircle, X, Search, ArrowLeft, User, Fingerprint, Info } from 'lucide-react';
 import axios from 'axios';
 import { getApiUrl } from '../../config/environment';
+import { startAuthentication } from '@simplewebauthn/browser';
 import SignaturePad from './SignaturePad';
 
 interface Session {
@@ -30,8 +31,8 @@ const initialAttendanceData: AttendanceData = {
     userType: 'student',
 };
 
-// Flow: search → found (confirm) / notFound (manual) → sign
-type Step = 'search' | 'found' | 'manual' | 'sign';
+// Flow: search → list (if multiple) → found (confirm) / manual (not found) → sign
+type Step = 'search' | 'list' | 'found' | 'manual' | 'sign';
 
 interface QuickAttendanceSignProps {
     session: Session;
@@ -45,8 +46,11 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
     const [error, setError] = useState('');
     const [showSuccess, setShowSuccess] = useState(false);
     const [successMessage, setSuccessMessage] = useState('');
+    const [showAlreadySigned, setShowAlreadySigned] = useState(false);
+    const [alreadySignedMessage, setAlreadySignedMessage] = useState('');
     const [attendanceData, setAttendanceData] = useState<AttendanceData>(initialAttendanceData);
     const [searchQuery, setSearchQuery] = useState('');
+    const [searchResults, setSearchResults] = useState<any[]>([]);
 
     const handleSearch = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -57,32 +61,19 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
         try {
             const query = searchQuery.trim();
 
-            // Try searching by regNo first
-            let response = await axios.post(getApiUrl('usersCheckExists'), {
-                regNo: query
-            }, { withCredentials: true });
+            const response = await axios.get(getApiUrl('usersSearch', `query=${encodeURIComponent(query)}`), { withCredentials: true });
 
-            // If not found by regNo, try by phone number
-            if (!response.data.exists) {
-                response = await axios.post(getApiUrl('usersCheckExists'), {
-                    phone: query
-                }, { withCredentials: true });
-            }
+            const users = response.data;
 
-            if (response.data.exists && response.data.user) {
-                const u = response.data.user;
-                setAttendanceData({
-                    ...initialAttendanceData,
-                    fullName: u.username,
-                    registrationNumber: u.regNo || '',
-                    course: u.course || '',
-                    yearOfStudy: u.year?.toString() || '',
-                    phoneNumber: u.phone || '',
-                    userType: 'student'
-                });
-                setCurrentStep('found');
+            if (users && users.length > 0) {
+                if (users.length === 1) {
+                    selectUser(users[0]);
+                } else {
+                    setSearchResults(users);
+                    setCurrentStep('list');
+                }
             } else {
-                // Not found by either — go to manual entry
+                // Not found — go to manual entry
                 const looksLikePhone = /^\d{10,}$/.test(query);
                 setAttendanceData({
                     ...initialAttendanceData,
@@ -93,7 +84,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                 setError('No profile found. Please fill in your details.');
                 setCurrentStep('manual');
             }
-        } catch {
+        } catch (err) {
             setError('Search failed. Please fill in your details.');
             const looksLikePhone = /^\d{10,}$/.test(searchQuery.trim());
             setAttendanceData({
@@ -108,8 +99,20 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
         }
     };
 
+    const selectUser = (u: any) => {
+        setAttendanceData({
+            ...initialAttendanceData,
+            fullName: u.username,
+            registrationNumber: u.idNumber || '',
+            course: u.gender || '',
+            yearOfStudy: u.ageGroup || '',
+            phoneNumber: u.phone || '',
+            userType: 'student'
+        });
+        setCurrentStep('found');
+    };
+
     const handleNotMe = () => {
-        // User said "Not me" — go to manual with blank data but keep reg no
         setAttendanceData({
             ...initialAttendanceData,
             registrationNumber: searchQuery.trim().toUpperCase(),
@@ -133,15 +136,53 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
         setCurrentStep('sign');
     };
 
-    const handleSubmitFinal = async () => {
-        if (!attendanceData.signature) {
-            setError('Please provide your signature.');
-            return;
-        }
-
+    const handleFingerprintAuth = async () => {
         setLoading(true);
         setError('');
 
+        try {
+            // 1. Get auth options from server
+            const optionsResp = await axios.post(getApiUrl('webauthnGenerateAuthenticate'), {
+                idNumber: attendanceData.registrationNumber,
+                phone: attendanceData.phoneNumber
+            }, { withCredentials: true });
+
+            const { options, userId } = optionsResp.data;
+
+            // 2. Browser interacts with authenticator
+            let attResp;
+            try {
+                attResp = await startAuthentication(options);
+            } catch (err: any) {
+                if (err.name === 'NotAllowedError') {
+                    throw new Error('Authentication cancelled.');
+                }
+                throw err;
+            }
+
+            // 3. Verify response on server
+            const verifyResp = await axios.post(getApiUrl('webauthnVerifyAuthenticate'), {
+                userId,
+                response: attResp
+            }, { withCredentials: true });
+
+            if (verifyResp.data.verified) {
+                // If verified, simulate signing and submit final
+                const authData = { ...attendanceData, signature: 'Biometric Authenticated' };
+                setAttendanceData(authData);
+                await submitAttendanceRecord(authData);
+            } else {
+                throw new Error('Biometric verification failed.');
+            }
+
+        } catch (err: any) {
+            setError(err.response?.data?.message || err.message || 'Fingerprint login failed.');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const submitAttendanceRecord = async (dataToSubmit: AttendanceData) => {
         const saveOffline = () => {
             try {
                 const localRecords = JSON.parse(localStorage.getItem('rpc-attendance-records') || '{}');
@@ -153,15 +194,15 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                 const offlinePayload = {
                     _id: `local-rec-${Date.now()}`,
                     session: sessionId,
-                    userType: attendanceData.userType,
+                    userType: dataToSubmit.userType,
                     student: {
-                        username: attendanceData.fullName.trim(),
-                        regNo: attendanceData.registrationNumber.trim().toUpperCase(),
-                        course: attendanceData.userType === 'student' ? attendanceData.course.trim() : 'Guest/Visitor',
-                        year: attendanceData.userType === 'student' ? parseInt(attendanceData.yearOfStudy) : 0,
-                        phone: attendanceData.phoneNumber.trim()
+                        username: dataToSubmit.fullName.trim(),
+                        regNo: dataToSubmit.registrationNumber.trim().toUpperCase(),
+                        course: dataToSubmit.userType === 'student' ? dataToSubmit.course.trim() : 'Guest/Visitor',
+                        year: dataToSubmit.userType === 'student' ? dataToSubmit.yearOfStudy : 'Adult',
+                        phone: dataToSubmit.phoneNumber.trim()
                     },
-                    signature: attendanceData.signature.trim(),
+                    signature: dataToSubmit.signature.trim(),
                     signedAt: new Date().toISOString()
                 };
 
@@ -171,12 +212,16 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                 );
 
                 if (isDuplicate) {
-                    setError('You have already signed for this session (Offline).');
+                    setAlreadySignedMessage('You have already signed for this session (Offline).');
+                    setShowAlreadySigned(true);
+                    setTimeout(() => {
+                        onClose();
+                        setShowAlreadySigned(false);
+                    }, 3500);
                 } else {
                     localRecords[sessionId].push(offlinePayload);
                     localStorage.setItem('rpc-attendance-records', JSON.stringify(localRecords));
                     
-                    // Increment attendance count in local sessions
                     try {
                         const localSessions = JSON.parse(localStorage.getItem('rpc-attendance-sessions') || '[]');
                         const sessionIndex = localSessions.findIndex((s: any) => s._id === sessionId);
@@ -188,7 +233,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                         console.error('Failed to update local session count', e);
                     }
 
-                    setSuccessMessage(`${attendanceData.fullName}, attendance recorded! (Offline Mode)`);
+                    setSuccessMessage(`${dataToSubmit.fullName}, attendance recorded! (Offline)`);
                     setShowSuccess(true);
                     
                     setTimeout(() => {
@@ -199,7 +244,6 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
             } catch (e) {
                 setError('Failed to save offline record.');
             }
-            setLoading(false);
         };
 
         if (session._id.startsWith('local-')) {
@@ -208,19 +252,19 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
 
         try {
             const payload = {
-                name: attendanceData.fullName.trim(),
-                idNumber: attendanceData.registrationNumber.trim().toUpperCase(),
-                gender: attendanceData.course || 'Other',
-                ageGroup: attendanceData.yearOfStudy || 'Adult',
-                phoneNumber: attendanceData.phoneNumber.trim(),
-                signature: attendanceData.signature.trim(),
-                userType: attendanceData.userType,
+                name: dataToSubmit.fullName.trim(),
+                idNumber: dataToSubmit.registrationNumber.trim().toUpperCase(),
+                gender: dataToSubmit.course || 'Other',
+                ageGroup: dataToSubmit.yearOfStudy || 'Adult',
+                phoneNumber: dataToSubmit.phoneNumber.trim(),
+                signature: dataToSubmit.signature.trim(),
+                userType: dataToSubmit.userType,
                 sessionId: session._id,
             };
 
             await axios.post(getApiUrl('attendanceSignAnonymous'), payload, { withCredentials: true });
 
-            setSuccessMessage(`${attendanceData.fullName}, attendance recorded!`);
+            setSuccessMessage(`${dataToSubmit.fullName}, attendance recorded!`);
             setShowSuccess(true);
 
             setTimeout(() => {
@@ -230,84 +274,44 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
 
         } catch (err: any) {
             if (err.response?.status === 400 && err.response.data?.message?.includes('already')) {
-                setError('You have already signed for this session.');
+                setAlreadySignedMessage('You have already signed for this session.');
+                setShowAlreadySigned(true);
+                setTimeout(() => {
+                    onClose();
+                    setShowAlreadySigned(false);
+                }, 3500);
             } else if (!err.response || err.response.status === 401) {
-                // Offline fallback logic for saving the record locally
-                try {
-                    const localRecords = JSON.parse(localStorage.getItem('rpc-attendance-records') || '{}');
-                    const sessionId = session._id;
-                    if (!localRecords[sessionId]) {
-                        localRecords[sessionId] = [];
-                    }
-
-                    const payload = {
-                        _id: `local-rec-${Date.now()}`,
-                        session: sessionId,
-                        userType: attendanceData.userType,
-                        student: {
-                            username: attendanceData.fullName.trim(),
-                            regNo: attendanceData.registrationNumber.trim().toUpperCase(),
-                            course: attendanceData.course || 'Other',
-                            year: attendanceData.yearOfStudy || 'Adult',
-                            phone: attendanceData.phoneNumber.trim()
-                        },
-                        signature: attendanceData.signature.trim(),
-                        signedAt: new Date().toISOString()
-                    };
-
-                    // Prevent duplicates in local storage for the same session
-                    const isDuplicate = localRecords[sessionId].some((r: any) => 
-                        r.student.regNo === payload.student.regNo &&
-                        payload.student.regNo !== ''
-                    );
-
-                    if (isDuplicate) {
-                        setError('You have already signed for this session (Offline).');
-                    } else {
-                        localRecords[sessionId].push(payload);
-                        localStorage.setItem('rpc-attendance-records', JSON.stringify(localRecords));
-                        
-                        // Increment attendance count in local sessions
-                        try {
-                            const localSessions = JSON.parse(localStorage.getItem('rpc-attendance-sessions') || '[]');
-                            const sessionIndex = localSessions.findIndex((s: any) => s._id === sessionId);
-                            if (sessionIndex !== -1) {
-                                localSessions[sessionIndex].attendanceCount = (localSessions[sessionIndex].attendanceCount || 0) + 1;
-                                localStorage.setItem('rpc-attendance-sessions', JSON.stringify(localSessions));
-                            }
-                        } catch (e) {
-                            console.error('Failed to update local session count', e);
-                        }
-
-                        setSuccessMessage(`${attendanceData.fullName}, attendance recorded! (Offline Mode)`);
-                        setShowSuccess(true);
-                        
-                        setTimeout(() => {
-                            onClose();
-                            setShowSuccess(false);
-                        }, 2500);
-                    }
-                } catch (e) {
-                    setError('Failed to save offline record.');
-                }
+                saveOffline();
             } else {
                 setError(err.response?.data?.message || 'Submission failed. Please try again.');
             }
-        } finally {
-            setLoading(false);
         }
     };
 
+    const handleSubmitFinal = async () => {
+        if (!attendanceData.signature) {
+            setError('Please provide your signature.');
+            return;
+        }
+
+        setLoading(true);
+        setError('');
+        await submitAttendanceRecord(attendanceData);
+        setLoading(false);
+    };
+
     const getBackStep = (): Step => {
-        if (currentStep === 'found') return 'search';
-        if (currentStep === 'manual') return 'search';
+        if (currentStep === 'list') return 'search';
+        if (currentStep === 'found') return searchResults.length > 0 ? 'list' : 'search';
+        if (currentStep === 'manual') return searchResults.length > 0 ? 'list' : 'search';
         if (currentStep === 'sign') return 'found';
         return 'search';
     };
 
     const getTitle = () => {
         switch (currentStep) {
-            case 'search': return 'Enter Reg No.';
+            case 'search': return 'Find Account';
+            case 'list': return 'Select Your Name';
             case 'found': return 'Confirm Identity';
             case 'manual': return 'Fill Your Details';
             case 'sign': return 'Your Signature';
@@ -318,7 +322,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
         <div className="fixed inset-0 z-[100] flex items-center justify-center pl-[56px] pr-3 py-3 md:px-3">
             <div className="absolute inset-0 bg-gray-900/50 backdrop-blur-sm" onClick={onClose} />
 
-            <div className="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+            <div className="relative bg-white w-full max-w-sm rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 max-h-[90vh] flex flex-col">
                 {/* Success overlay */}
                 {showSuccess && (
                     <div className="absolute inset-0 z-[110] bg-white/80 backdrop-blur-lg flex flex-col items-center justify-center text-center p-6 animate-in fade-in duration-300">
@@ -330,8 +334,19 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                     </div>
                 )}
 
+                {/* Already Signed overlay */}
+                {showAlreadySigned && (
+                    <div className="absolute inset-0 z-[110] bg-white/80 backdrop-blur-lg flex flex-col items-center justify-center text-center p-6 animate-in fade-in duration-300">
+                        <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white mb-3 shadow-lg shadow-blue-500/30">
+                            <Info size={24} />
+                        </div>
+                        <h3 className="text-lg font-bold text-gray-900 mb-1">Already Signed!</h3>
+                        <p className="text-sm text-gray-600 font-medium">{alreadySignedMessage}</p>
+                    </div>
+                )}
+
                 {/* Header */}
-                <div className="px-4 py-3 bg-gradient-to-r from-[#730051] to-[#9d176e] flex items-center justify-between">
+                <div className="px-4 py-3 bg-gradient-to-r from-[#730051] to-[#9d176e] flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-2 flex-1 min-w-0">
                         {currentStep !== 'search' && (
                             <button
@@ -351,7 +366,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                     </button>
                 </div>
 
-                <div className="p-4">
+                <div className="p-4 overflow-y-auto">
                     {/* Error */}
                     {error && (
                         <div className="mb-3 p-2.5 bg-red-50 border border-red-100 rounded-lg flex items-start gap-2">
@@ -360,18 +375,18 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                         </div>
                     )}
 
-                    {/* STEP 1: Search by Reg No */}
+                    {/* STEP 1: Search */}
                     {currentStep === 'search' && (
                         <form onSubmit={handleSearch} className="space-y-3">
-                            <p className="text-xs text-gray-500 font-medium text-center">Enter your registration number or phone number</p>
+                            <p className="text-xs text-gray-500 font-medium text-center">Enter your name or phone number</p>
                             <div className="relative">
                                 <input
                                     autoFocus
                                     type="text"
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="Reg No. or Phone (07...)"
-                                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#730051]/40 focus:ring-2 focus:ring-[#730051]/10 outline-none transition-all text-sm font-bold uppercase text-center"
+                                    placeholder="NAME OR PHONE NO"
+                                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#730051]/40 focus:ring-2 focus:ring-[#730051]/10 outline-none transition-all text-sm font-bold uppercase text-center text-red-600 placeholder:text-red-300 placeholder:lowercase placeholder:font-medium"
                                     required
                                 />
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
@@ -386,6 +401,36 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                         </form>
                     )}
 
+                    {/* STEP 1.5: List Results */}
+                    {currentStep === 'list' && (
+                        <div className="space-y-3">
+                            <p className="text-xs text-gray-500 font-medium text-center mb-2">We found multiple records. Select yours:</p>
+                            <div className="flex flex-col gap-2">
+                                {searchResults.map((u, i) => (
+                                    <button
+                                        key={i}
+                                        onClick={() => selectUser(u)}
+                                        className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-100 transition-colors text-left"
+                                    >
+                                        <div className="w-10 h-10 rounded-full bg-[#730051]/10 flex items-center justify-center flex-shrink-0">
+                                            <User size={18} className="text-[#730051]" />
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="text-sm font-bold text-gray-900 truncate">{u.username}</p>
+                                            <p className="text-[11px] font-semibold text-[#730051] tracking-wide">{u.phone}</p>
+                                        </div>
+                                    </button>
+                                ))}
+                            </div>
+                            <button
+                                onClick={handleNotMe}
+                                className="w-full mt-2 py-2 text-xs font-semibold text-gray-500 hover:text-[#730051] transition-colors"
+                            >
+                                None of these — enter details manually
+                            </button>
+                        </div>
+                    )}
+
                     {/* STEP 2a: Found — "Continue as ...?" */}
                     {currentStep === 'found' && (
                         <div className="space-y-3">
@@ -395,8 +440,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                                 </div>
                                 <div className="min-w-0 flex-1">
                                     <p className="text-sm font-bold text-gray-900 truncate">{attendanceData.fullName}</p>
-                                    <p className="text-[11px] font-semibold text-[#730051] tracking-wide">{attendanceData.registrationNumber}</p>
-                                    <p className="text-[10px] text-gray-400 font-medium">{attendanceData.course}{attendanceData.yearOfStudy ? ` · Year ${attendanceData.yearOfStudy}` : ''}</p>
+                                    <p className="text-[11px] font-semibold text-[#730051] tracking-wide">{attendanceData.phoneNumber}</p>
                                 </div>
                             </div>
                             <button
@@ -409,7 +453,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                                 onClick={handleNotMe}
                                 className="w-full py-2 text-xs font-semibold text-gray-500 hover:text-[#730051] transition-colors"
                             >
-                                Not me — enter details manually
+                                Not me — go back
                             </button>
                         </div>
                     )}
@@ -418,7 +462,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                     {currentStep === 'manual' && (
                         <form onSubmit={handleManualSubmit} className="space-y-2.5">
                             <div className="flex p-0.5 bg-gray-100 rounded-md mb-1">
-                                <button type="button" onClick={() => setAttendanceData(p => ({ ...p, userType: 'student' }))} className={`flex-1 py-1.5 text-[10px] font-bold rounded-md transition-all ${attendanceData.userType === 'student' ? 'bg-white shadow-sm text-[#730051]' : 'text-gray-500'}`}>STUDENT</button>
+                                <button type="button" onClick={() => setAttendanceData(p => ({ ...p, userType: 'student' }))} className={`flex-1 py-1.5 text-[10px] font-bold rounded-md transition-all ${attendanceData.userType === 'student' ? 'bg-white shadow-sm text-[#730051]' : 'text-gray-500'}`}>MEMBER</button>
                                 <button type="button" onClick={() => setAttendanceData(p => ({ ...p, userType: 'visitor' }))} className={`flex-1 py-1.5 text-[10px] font-bold rounded-md transition-all ${attendanceData.userType === 'visitor' ? 'bg-white shadow-sm text-[#730051]' : 'text-gray-500'}`}>VISITOR</button>
                             </div>
                             <input type="text" placeholder="Full Name" value={attendanceData.fullName} onChange={e => setAttendanceData(p => ({ ...p, fullName: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#730051]/30 outline-none transition-all text-sm font-medium" required />
@@ -460,20 +504,39 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                                 </div>
                                 <div className="min-w-0">
                                     <p className="text-xs font-bold text-gray-900 truncate">{attendanceData.fullName}</p>
-                                    <p className="text-[10px] text-gray-400 font-medium">{attendanceData.registrationNumber}</p>
+                                    <p className="text-[10px] text-gray-400 font-medium">{attendanceData.phoneNumber}</p>
                                 </div>
                             </div>
-                            <SignaturePad
-                                onSignatureChange={(sig) => setAttendanceData(p => ({ ...p, signature: sig }))}
-                                loading={loading}
-                            />
-                            <button
-                                onClick={handleSubmitFinal}
-                                disabled={loading || !attendanceData.signature}
-                                className="w-full py-2.5 bg-[#730051] text-white text-sm font-bold rounded-lg hover:bg-[#5a0040] transition-all active:scale-[0.98] disabled:opacity-50"
-                            >
-                                {loading ? 'Submitting...' : 'Submit Attendance'}
-                            </button>
+                            
+                            <div className="flex flex-col gap-3">
+                                {/* Fingerprint Option */}
+                                <button
+                                    onClick={handleFingerprintAuth}
+                                    disabled={loading}
+                                    className="w-full py-3 bg-[#f8f9fa] border-2 border-[#730051]/20 text-[#730051] text-sm font-bold rounded-lg hover:bg-[#730051]/5 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+                                >
+                                    <Fingerprint size={18} />
+                                    Use Fingerprint
+                                </button>
+                                
+                                <div className="relative flex py-1 items-center">
+                                    <div className="flex-grow border-t border-gray-200"></div>
+                                    <span className="flex-shrink-0 mx-4 text-gray-400 text-xs font-medium uppercase">Or Sign Manually</span>
+                                    <div className="flex-grow border-t border-gray-200"></div>
+                                </div>
+
+                                <SignaturePad
+                                    onSignatureChange={(sig) => setAttendanceData(p => ({ ...p, signature: sig }))}
+                                    loading={loading}
+                                />
+                                <button
+                                    onClick={handleSubmitFinal}
+                                    disabled={loading || !attendanceData.signature}
+                                    className="w-full py-2.5 bg-[#730051] text-white text-sm font-bold rounded-lg hover:bg-[#5a0040] transition-all active:scale-[0.98] disabled:opacity-50"
+                                >
+                                    {loading ? 'Submitting...' : 'Submit Attendance'}
+                                </button>
+                            </div>
                         </div>
                     )}
                 </div>

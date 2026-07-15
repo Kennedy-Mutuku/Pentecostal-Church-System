@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
+const webauthnController = require('../controllers/webauthnController');
 const userAuthMiddleware = require('../middlewares/userAuthMiddleware')
 const superAdminMiddleware = require('../middlewares/superAdmin')
 
@@ -20,5 +21,11 @@ router.post('/recomendations', userAuthMiddleware, userController.feedback)
 
 router.get('/search', userController.searchUsers);
 router.post('/advance-years', superAdminMiddleware, userController.advanceYears);
+
+// WebAuthn Routes
+router.get('/webauthn/register/generate', userAuthMiddleware, webauthnController.generateRegistration);
+router.post('/webauthn/register/verify', userAuthMiddleware, webauthnController.verifyRegistration);
+router.post('/webauthn/authenticate/generate', webauthnController.generateAuthentication);
+router.post('/webauthn/authenticate/verify', webauthnController.verifyAuthentication);
 
 module.exports = router;

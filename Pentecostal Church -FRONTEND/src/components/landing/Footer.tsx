@@ -4,11 +4,12 @@ import cuLogo from '../../assets/RPC logo updated document.png';
 
 const quickLinks = [
   { label: 'Home', href: '/' },
-  { label: 'About Us', href: '/#about' },
-  { label: 'Ministries', href: '/ministries' },
-  { label: 'Bible Study', href: '/Bs' },
-  { label: 'Library', href: '/library' },
-  { label: 'Constitution', href: '/pdfs/constitution.pdf', external: true },
+  { label: 'About Us', href: '/about' },
+  { label: 'Philosophies', href: '/philosophy' },
+  { label: 'Financials', href: '/financial' },
+  { label: 'Leadership', href: '/leadership' },
+  { label: 'Gallery', href: '/media' },
+  { label: 'Talk to us', href: '/recomendations' },
 ];
 
 const socialLinks = [
@@ -85,14 +86,14 @@ const Footer = () => {
               </li>
               <li className="flex items-center gap-3">
                 <Phone size={18} className="text-[#E53935] flex-shrink-0" />
-                <a href="tel:+254748290170" className="text-sm text-gray-400 hover:text-white transition-colors">
-                  +254 748 290 170
+                <a href="tel:+254762053876" className="text-sm text-gray-400 hover:text-white transition-colors">
+                  +254 762 053 876
                 </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={18} className="text-[#E53935] flex-shrink-0" />
-                <a href="mailto:rpcnyamira@gmail.com" className="text-sm text-gray-400 hover:text-white transition-colors break-all">
-                  rpcnyamira@gmail.com
+                <a href="mailto:communityofbelieversinjesus@gmail.com" className="text-sm text-gray-400 hover:text-white transition-colors break-all">
+                  communityofbelieversinjesus@gmail.com
                 </a>
               </li>
             </ul>
@@ -119,7 +120,7 @@ const Footer = () => {
               })}
             </div>
             <p className="text-sm text-gray-400">
-              Affiliated with <span className="font-semibold text-white">Rikuruma Pentecostal Churches</span>
+              A ministry of <span className="font-semibold text-white">Kisii Pentecostal Churches</span>
             </p>
             <p className="text-xs text-gray-500 mt-1">
               Spreading the Gospel of Grace

@@ -148,6 +148,7 @@ const FinancialsPage: React.FC = () => {
     { id: 'offering', label: 'Offering', icon: '\u2764', desc: 'Give your offering to support the work of the Lord' },
     { id: 'tithe', label: 'Tithe', icon: '\u2726', desc: 'A tenth of your increase, honouring God with your firstfruits' },
     { id: 'thanksgiving', label: 'Thanksgiving', icon: '\u2606', desc: 'Express gratitude to God for His faithfulness' },
+    { id: 'aob', label: 'AOB', icon: '\u2756', desc: 'Any other contributions to support the church' },
   ];
 
   return (
@@ -176,19 +177,47 @@ const FinancialsPage: React.FC = () => {
         </div>
       </div>
 
+      {/* M-PESA Till Card */}
+      <div style={{
+        maxWidth: '420px', margin: '0 auto 36px',
+        background: '#D32F2F',
+        borderRadius: '16px', padding: '16px',
+        boxShadow: '0 10px 25px rgba(211, 47, 47, 0.25)',
+      }}>
+        <div style={{
+          background: 'rgba(255, 255, 255, 0.15)',
+          backdropFilter: 'blur(8px)',
+          borderRadius: '12px', padding: '24px',
+          border: '1px solid rgba(255, 255, 255, 0.2)',
+          textAlign: 'center'
+        }}>
+          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '8px', marginBottom: '16px' }}>
+            <span style={{ color: '#86efac', fontWeight: 800, fontSize: '18px', letterSpacing: '1px' }}>LIPA NA</span>
+            <span style={{ color: '#ffffff', fontWeight: 900, fontStyle: 'italic', fontSize: '22px', letterSpacing: '0.5px' }}>M-PESA</span>
+          </div>
+          <div style={{ color: '#ffffff', fontSize: '15px', fontWeight: 700, letterSpacing: '2.5px', marginBottom: '8px' }}>
+            TILL NUMBER:
+          </div>
+          <div style={{ color: '#fbbf24', fontSize: '48px', fontWeight: 800, letterSpacing: '3px', textShadow: '0 2px 10px rgba(0,0,0,0.15)', fontFamily: 'Georgia, serif' }}>
+            5173289
+          </div>
+        </div>
+      </div>
+
       {/* Flat Categories Selection */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '4px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px', marginBottom: '24px' }}>
         {categoryCards.map(c => (
           <button
             key={c.id}
             onClick={() => setPayForm({ ...payForm, category: c.id })}
             style={{
-              flex: 1, minWidth: '110px', padding: '12px 8px',
+              padding: '12px 8px',
               border: payForm.category === c.id ? '2px solid #E53935' : '1px solid #d1d5db',
               background: payForm.category === c.id ? '#fef2f2' : 'transparent',
               color: payForm.category === c.id ? '#b91c1c' : '#374151',
               cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s ease',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px'
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
+              borderRadius: '8px'
             }}
           >
             <span style={{ fontSize: '20px' }}>{c.icon}</span>
@@ -203,7 +232,7 @@ const FinancialsPage: React.FC = () => {
         padding: '24px', marginBottom: '32px'
       }}>
         <div style={{ padding: '8px 12px', background: '#fefce8', color: '#854d0e', marginBottom: '16px', fontSize: '11px', textAlign: 'center', fontWeight: 600, border: '1px solid #fef08a' }}>
-          EBENEZER SOFTWARES — FOR TESTING ONLY
+          DOMINION SOFTWARES — FOR TESTING ONLY
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', borderBottom: '1px solid #f3f4f6', paddingBottom: '16px' }}>

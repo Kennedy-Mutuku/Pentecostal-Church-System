@@ -374,7 +374,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
       <form onSubmit={handleCreateTransaction} className={styles.form}>
         <div className={styles.formRow}>
           <label>Type<select value={txForm.type} onChange={e => setTxForm({ ...txForm, type: e.target.value })}><option value="cash_in">Cash In</option><option value="cash_out">Cash Out</option></select></label>
-          {txForm.type === 'cash_in' && <label>Category<select value={txForm.category} onChange={e => setTxForm({ ...txForm, category: e.target.value })}><option value="offering">Offering</option><option value="tithe">Tithe</option><option value="thanksgiving">Thanksgiving</option></select></label>}
+          {txForm.type === 'cash_in' && <label>Category<select value={txForm.category} onChange={e => setTxForm({ ...txForm, category: e.target.value })}><option value="offering">Offering</option><option value="tithe">Tithe</option><option value="thanksgiving">Thanksgiving</option><option value="aob">AOB</option></select></label>}
         </div>
         <div className={styles.formRow}>
           <label>Source<select value={txForm.source} onChange={e => setTxForm({ ...txForm, source: e.target.value })}><option value="cash">Cash</option><option value="mpesa">M-Pesa</option></select></label>
@@ -530,7 +530,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
   const renderMpesa = () => (
     <div>
       <h3 className={styles.tabTitle}>M-Pesa STK Push</h3>
-      <div style={{ padding: '10px 14px', background: '#fef3c7', color: '#92400e', borderRadius: '8px', marginBottom: '16px', fontSize: '12px', textAlign: 'center', fontWeight: 600, border: '1px solid #fde68a' }}>EBENEZER SOFTWARES — FOR TESTING ONLY</div>
+      <div style={{ padding: '10px 14px', background: '#fef3c7', color: '#92400e', borderRadius: '8px', marginBottom: '16px', fontSize: '12px', textAlign: 'center', fontWeight: 600, border: '1px solid #fde68a' }}>DOMINION SOFTWARES — FOR TESTING ONLY</div>
 
       {mpesaStatus === 'waiting' && (
         <div style={{ padding: '16px', background: '#fffbeb', borderRadius: '10px', marginBottom: '16px', border: '1px solid #fde68a', textAlign: 'center' }}>
@@ -549,7 +549,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
       <form onSubmit={handleMpesa} className={styles.form}>
         <label>Phone Number<input type="text" value={mpesaForm.phone} onChange={e => setMpesaForm({ ...mpesaForm, phone: e.target.value })} placeholder="0712345678" required /></label>
         <label>Amount (KES)<input type="number" value={mpesaForm.amount} onChange={e => setMpesaForm({ ...mpesaForm, amount: e.target.value })} required min="1" /></label>
-        <label>Category<select value={mpesaForm.category} onChange={e => setMpesaForm({ ...mpesaForm, category: e.target.value })}><option value="offering">Offering</option><option value="tithe">Tithe</option><option value="thanksgiving">Thanksgiving</option></select></label>
+        <label>Category<select value={mpesaForm.category} onChange={e => setMpesaForm({ ...mpesaForm, category: e.target.value })}><option value="offering">Offering</option><option value="tithe">Tithe</option><option value="thanksgiving">Thanksgiving</option><option value="aob">AOB</option></select></label>
         <button type="submit" className={styles.actionBtn} disabled={mpesaStatus === 'sending' || mpesaStatus === 'waiting'}>
           {mpesaStatus === 'sending' ? 'Sending...' : mpesaStatus === 'waiting' ? 'Waiting for payment...' : 'Send STK Push'}
         </button>

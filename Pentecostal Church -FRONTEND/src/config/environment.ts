@@ -17,6 +17,10 @@ interface ApiConfig {
     usersCountSaved: string;
     usersSearch: string;
     usersAdvanceYears: string;
+    webauthnGenerateRegister: string;
+    webauthnVerifyRegister: string;
+    webauthnGenerateAuthenticate: string;
+    webauthnVerifyAuthenticate: string;
     newsAdmin: string;
     newsAdminUpload: string;
     newsAdminLogout: string;
@@ -136,6 +140,10 @@ const developmentConfig: ApiConfig = {
     usersCountSaved: '/users/countSaved',
     usersSearch: '/users/search',
     usersAdvanceYears: '/users/advance-years',
+    webauthnGenerateRegister: '/users/webauthn/register/generate',
+    webauthnVerifyRegister: '/users/webauthn/register/verify',
+    webauthnGenerateAuthenticate: '/users/webauthn/authenticate/generate',
+    webauthnVerifyAuthenticate: '/users/webauthn/authenticate/verify',
     newsAdmin: '/adminnews/login',
     newsAdminUpload: '/adminnews/upload',
     newsAdminLogout: '/adminnews/logout',
@@ -252,6 +260,10 @@ const productionConfig: ApiConfig = {
     usersCountSaved: '/users/countSaved',
     usersSearch: '/users/search',
     usersAdvanceYears: '/users/advance-years',
+    webauthnGenerateRegister: '/users/webauthn/register/generate',
+    webauthnVerifyRegister: '/users/webauthn/register/verify',
+    webauthnGenerateAuthenticate: '/users/webauthn/authenticate/generate',
+    webauthnVerifyAuthenticate: '/users/webauthn/authenticate/verify',
     newsAdmin: '/adminnews/login',
     newsAdminUpload: '/adminnews/upload',
     newsAdminLogout: '/adminnews/logout',

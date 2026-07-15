@@ -3,144 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import '../styles/aboutUsPage.css';
 
-interface Scripture {
-  text: string;
-  ref: string;
-}
-
-interface Philosophy {
-  number: string;
-  icon: string;
-  title: string;
-  body: string;
-  scriptures: Scripture[];
-}
-
-const philosophies: Philosophy[] = [
-  {
-    number: '01',
-    icon: 'fas fa-cross',
-    title: 'Philosophy of Ministry',
-    body: 'Rikuruma Pentecostal Church exists to glorify God and advance His Kingdom by preaching the gospel of Jesus Christ, nurturing believers into spiritual maturity, and empowering them to serve under the anointing of the Holy Spirit. We believe that every believer is called, gifted, and commissioned to make a difference for Christ in their home, community, and generation.',
-    scriptures: [
-      { text: 'Go therefore and make disciples of all nations…', ref: 'Matthew 28:19–20' },
-      { text: '"Not by might nor by power, but by My Spirit," says the Lord of hosts.', ref: 'Zechariah 4:6' },
-    ],
-  },
-  {
-    number: '02',
-    icon: 'fas fa-music',
-    title: 'Philosophy of Worship',
-    body: 'We believe worship is the heartbeat of the church. True worship flows from a pure heart that has encountered God through Jesus Christ and is guided by the Holy Spirit. Our worship is lively, Spirit-led, and grounded in truth — expressed through prayer, praise, thanksgiving, and obedience.',
-    scriptures: [
-      { text: 'God is Spirit, and those who worship Him must worship in spirit and truth.', ref: 'John 4:24' },
-      { text: 'Let everything that has breath praise the Lord.', ref: 'Psalm 150:6' },
-    ],
-  },
-  {
-    number: '03',
-    icon: 'fas fa-book-open',
-    title: 'Philosophy of the Word',
-    body: 'We believe the Bible is the inspired, infallible Word of God — our supreme authority for faith and conduct. All preaching, teaching, and decision-making in our church must align with Scripture, which is profitable for doctrine, correction, and instruction in righteousness.',
-    scriptures: [
-      { text: 'All Scripture is given by inspiration of God…', ref: '2 Timothy 3:16' },
-    ],
-  },
-  {
-    number: '04',
-    icon: 'fas fa-hands',
-    title: 'Philosophy of Prayer',
-    body: 'We believe that prayer is the power that sustains the church and connects us to the will of God. As a praying church, we hold regular prayer meetings and encourage every member to live a life of intercession, thanksgiving, and dependence on God.',
-    scriptures: [
-      { text: 'Men ought always to pray, and not faint.', ref: 'Luke 18:1' },
-      { text: 'The effective, fervent prayer of a righteous man avails much.', ref: 'James 5:16' },
-    ],
-  },
-  {
-    number: '05',
-    icon: 'fas fa-fire',
-    title: 'Philosophy of the Holy Spirit',
-    body: 'We believe in the baptism of the Holy Spirit with the evidence of speaking in tongues, and in the continual manifestation of spiritual gifts within the church. The Holy Spirit empowers believers to witness, live holy lives, and serve effectively in the body of Christ.',
-    scriptures: [
-      { text: 'You shall receive power when the Holy Spirit has come upon you.', ref: 'Acts 1:8' },
-    ],
-  },
-  {
-    number: '06',
-    icon: 'fas fa-user-tie',
-    title: 'Philosophy of Leadership',
-    body: 'We believe that leadership is a divine calling to serve, not to rule. Our leaders must model humility, integrity, faithfulness, and spiritual maturity. Every decision and direction taken by leadership should be guided by prayer, wisdom, and the Word of God.',
-    scriptures: [
-      { text: 'Whoever wants to become great among you must be your servant.', ref: 'Matthew 20:26' },
-    ],
-  },
-  {
-    number: '07',
-    icon: 'fas fa-seedling',
-    title: 'Philosophy of Discipleship',
-    body: 'We believe that every believer should grow to become a true disciple of Christ — rooted in the Word, steadfast in prayer, and strong in character. Our discipleship process equips believers to live godly lives, discover their gifts, and serve effectively in the ministry.',
-    scriptures: [
-      { text: 'As you have therefore received Christ Jesus the Lord, so walk in Him.', ref: 'Colossians 2:6' },
-    ],
-  },
-  {
-    number: '08',
-    icon: 'fas fa-globe',
-    title: 'Philosophy of Evangelism & Mission',
-    body: 'We believe that the Great Commission is the heartbeat of the church. We are called to reach the lost with the gospel, both locally and beyond, through preaching, personal witness, and acts of love. Our church exists not only to gather believers but also to send them into the world as light and ambassadors of Christ.',
-    scriptures: [
-      { text: 'The Son of Man came to seek and to save the lost.', ref: 'Luke 19:10' },
-    ],
-  },
-  {
-    number: '09',
-    icon: 'fas fa-users',
-    title: 'Philosophy of Fellowship & Unity',
-    body: 'We believe that the church is one body under Christ. We value love, unity, forgiveness, and mutual care among believers. The church must be a family where everyone feels accepted, encouraged, and supported in their walk with God.',
-    scriptures: [
-      { text: 'How good and pleasant it is when brethren dwell together in unity.', ref: 'Psalm 133:1' },
-    ],
-  },
-  {
-    number: '10',
-    icon: 'fas fa-shield-halved',
-    title: 'Philosophy of Holiness & Integrity',
-    body: 'We believe that holiness is the mark of a true believer. As a Pentecostal church, we are committed to teaching and living out a lifestyle of purity, integrity, and godliness in all aspects of life — both public and private.',
-    scriptures: [
-      { text: 'Be holy, for I am holy.', ref: '1 Peter 1:16' },
-    ],
-  },
-  {
-    number: '11',
-    icon: 'fas fa-hand-holding-heart',
-    title: 'Philosophy of Service',
-    body: 'We believe that ministry is not for a few but for all. Every believer has been given gifts to serve in the church and in the world. We encourage active involvement in ministry, outreach, and acts of compassion as an expression of love for God and others.',
-    scriptures: [
-      { text: 'Each of you should use whatever gift you have received to serve others.', ref: '1 Peter 4:10' },
-    ],
-  },
-  {
-    number: '12',
-    icon: 'fas fa-city',
-    title: 'Philosophy of Community Transformation',
-    body: 'We believe the church must impact its community through love, compassion, and service. Rikuruma Pentecostal Church seeks to bring hope to the hopeless, help to the needy, and light to the dark corners of our society. Our goal is to see spiritual revival that brings social, moral, and economic transformation in Magwagwa and beyond.',
-    scriptures: [
-      { text: 'You are the light of the world. A city set on a hill cannot be hidden.', ref: 'Matthew 5:14' },
-    ],
-  },
-  {
-    number: '13',
-    icon: 'fas fa-trophy',
-    title: 'Philosophy of Growth & Excellence',
-    body: 'We believe that God desires His church to grow spiritually, numerically, and in influence. We commit to serving with excellence, accountability, and stewardship — doing all things as unto the Lord and not unto men.',
-    scriptures: [
-      { text: 'Whatever you do, do it heartily, as to the Lord.', ref: 'Colossians 3:23' },
-    ],
-  },
-];
 
 const AboutUsPage = () => {
-  const [openCard, setOpenCard] = useState<number | null>(null);
   const location = useLocation();
 
   useEffect(() => {
@@ -153,12 +17,6 @@ const AboutUsPage = () => {
       const el = document.querySelector(hash);
       if (!el) return;
       
-      // Expand card if it's a philosophy card and matches the hash
-      if (hash === '#philosophy') {
-        // Automatically open the first philosophy card or show philosophy list
-        setOpenCard(0);
-      }
-      
       const headerEl = document.querySelector('.main-header-wrapper');
       const headerH = headerEl ? (headerEl as HTMLElement).offsetHeight : 100;
       const top = el.getBoundingClientRect().top + window.scrollY - headerH - 16;
@@ -167,7 +25,6 @@ const AboutUsPage = () => {
     return () => clearTimeout(timer);
   }, [location]);
 
-  const toggle = (i: number) => setOpenCard(openCard === i ? null : i);
 
   return (
     <div className="about-page">
@@ -213,10 +70,6 @@ const AboutUsPage = () => {
             </div>
             <div className="about-who-image">
               <img src="/images/about-church.jpg" alt="Rikuruma Pentecostal Church congregation" />
-              <div className="about-image-badge">
-                <i className="fas fa-cross"></i>
-                <span>Est. Magwagwa</span>
-              </div>
             </div>
           </div>
         </div>
@@ -227,60 +80,86 @@ const AboutUsPage = () => {
         <div className="container">
           <div className="section-header">
             <span className="section-subtitle">Our Story</span>
-            <h2 className="section-title">Our History</h2>
+            <h2 className="section-title" style={{ fontFamily: 'var(--font-primary, sans-serif)', fontSize: '2.4rem', color: 'var(--primary-dark)', letterSpacing: '-0.5px' }}>History of Rikuruma Pentecostal Church</h2>
           </div>
-          <div className="history-content">
-            <div className="history-text">
+          <div className="history-content" style={{ display: 'block' }}>
+            <div className="history-text" style={{ width: '100%', maxWidth: '100%' }}>
+              <h3 style={{ color: '#E53935', marginTop: '1.5rem', marginBottom: '0.5rem', fontSize: '1.4rem' }}>The Beginning</h3>
               <p>
-                Rikuruma Pentecostal Church was founded in Magwagwa, Nyamira County, with a burning
-                vision to plant a Spirit-filled congregation that would bring the Gospel of Jesus
-                Christ to the community and beyond.
+                Rikuruma Pentecostal Church was established in August 2001 after separating from the Kiomanga Pentecostal Assemblies of God (PAG). Under the leadership of Pastor Jack Bolo Omondi, together with a small group of committed believers, the church initially began its fellowship in a home in Rikuruma, Magwagwa, Nyamira County. Although the congregation had separated from PAG, it retained the name Rikuruma Pentecostal Church, a name that continues to identify the ministry today.
+              </p>
+
+              <h3 style={{ color: '#E53935', marginTop: '1.5rem', marginBottom: '0.5rem', fontSize: '1.4rem' }}>Seeking Spiritual Covering</h3>
+              <p>
+                Following its establishment, the church sought spiritual affiliation since it could not operate independently without recognized oversight. An attempt was made to affiliate with Deliverance Church, and Pastor Arita from Deliverance Church Nyamira visited and ministered to the congregation during this period. However, despite the efforts made, the affiliation was not successful.
               </p>
               <p>
-                From humble beginnings — a small gathering of faithful believers — the church has
-                grown into a vibrant community of worshippers, intercessors, and disciples. Through
-                every season, God's faithfulness has been our testimony.
+                After consultations with Bishop Dr. Ezekiel Mosago Ndumbi of Kisii Pentecostal Church, Pastor Johnson Oanda was sent to shepherd the congregation. During this period, disagreements arose concerning the church's original property. Some members wished to retain the PAG identity, while others desired to continue under the newly established ministry. These differences eventually led to the loss of the church's original land.
+              </p>
+
+              <h3 style={{ color: '#E53935', marginTop: '1.5rem', marginBottom: '0.5rem', fontSize: '1.4rem' }}>A New Beginning</h3>
+              <p>
+                In 2006, through the leadership of Pastor James Mwagi, who served as the resident pastor, the church acquired the land on which it currently stands. This marked a significant milestone in the ministry's history, providing the congregation with a permanent place of worship and renewed hope for future growth.
               </p>
               <p>
-                Today, Rikuruma Pentecostal Church stands as a beacon of hope in Nyamira County,
-                committed to preaching the unadulterated Word of God, empowering believers through
-                the Holy Spirit, and transforming lives for the glory of Jesus Christ.
+                Pastor James Mwagi faithfully led the church until 2012. During his tenure, the congregation constructed a modest iron-sheet sanctuary that became the church's home for worship and ministry.
               </p>
-              <blockquote className="about-scripture">
-                <i className="fas fa-quote-left"></i>
-                <span>The Lord has done great things for us, and we are filled with joy.</span>
-                <cite>— Psalm 126:3</cite>
-              </blockquote>
-            </div>
-            <div className="history-milestones">
-              <div className="milestone">
-                <div className="milestone-icon"><i className="fas fa-flag"></i></div>
-                <div className="milestone-text">
-                  <h4>Church Founded</h4>
-                  <p>Established in Magwagwa with a core group of believers passionate about God's Kingdom.</p>
-                </div>
-              </div>
-              <div className="milestone">
-                <div className="milestone-icon"><i className="fas fa-users"></i></div>
-                <div className="milestone-text">
-                  <h4>Growing Congregation</h4>
-                  <p>The church grew steadily as God added to its numbers — families, youth, and children.</p>
-                </div>
-              </div>
-              <div className="milestone">
-                <div className="milestone-icon"><i className="fas fa-globe"></i></div>
-                <div className="milestone-text">
-                  <h4>Community Impact</h4>
-                  <p>Expanded outreach ministries reaching the needy, the lost, and the surrounding communities.</p>
-                </div>
-              </div>
-              <div className="milestone">
-                <div className="milestone-icon"><i className="fas fa-star"></i></div>
-                <div className="milestone-text">
-                  <h4>Continuing the Vision</h4>
-                  <p>Today we press forward with greater faith, excellence, and devotion to the call of God.</p>
-                </div>
-              </div>
+
+              <h3 style={{ color: '#E53935', marginTop: '1.5rem', marginBottom: '0.5rem', fontSize: '1.4rem' }}>Growth Under Rev. Kepher Omondi</h3>
+              <p>
+                In 2013, Rev. Kepher Omondi was appointed by Bishop Dr. Ezekiel Mosago Ndumbi to serve as the resident pastor of Rikuruma Pentecostal Church. Initially, he was reluctant to accept the appointment. The church was located in a rural village in Rikuruma, Nyamira County, a considerable distance from his home in Kisii Town, where he lived with his young family. In addition, he was serving as a civil servant, making the daily commute both demanding and challenging. As it was also his first pastoral assignment as the overall leader of a congregation, the responsibility seemed overwhelming.
+              </p>
+              <p>
+                The congregation, too, was initially hesitant to receive a new and relatively young pastor. Recognizing both the challenges and the potential, Bishop Dr. Ezekiel Mosago Ndumbi encouraged Rev. Kepher to serve for just three months while a more suitable person was sought to take over the ministry.
+              </p>
+              <p>
+                However, God's plans unfolded differently. During those first months of ministry, Rev. Kepher's dedication, humility, and commitment gradually won the confidence of the congregation. Rather than requesting another pastor, the church leadership unanimously expressed their desire for him to continue leading the ministry.
+              </p>
+              <p>
+                In 2014, the church leadership formally wrote to Bishop Dr. Ezekiel Mosago Ndumbi requesting that Rev. Kepher Omondi be confirmed and ordained as the resident pastor. The bishop graciously accepted the request, and in 2015, Rev. Kepher, together with other ministers, was ordained into the office of Reverend at Kisii Pentecostal Church.
+              </p>
+              <p>
+                Following the ordination service, Rikuruma Pentecostal Church held a joyous homecoming and thanksgiving celebration to honor Rev. Kepher. This occasion marked the beginning of a new chapter in the church's history.
+              </p>
+              <p>
+                Under Rev. Kepher's leadership, the church entered a season of remarkable spiritual and physical growth. Despite numerous financial and logistical challenges, he led the congregation with unwavering faith and perseverance. Construction of a permanent sanctuary began during his tenure, reflecting the church's vision of establishing a lasting place of worship for future generations. His ministry has continued to inspire the congregation through steadfast leadership, servant-hearted dedication, and a passion for seeing lives transformed by the Gospel.
+              </p>
+
+              <h3 style={{ color: '#E53935', marginTop: '1.5rem', marginBottom: '0.5rem', fontSize: '1.4rem' }}>A Ministry of Impact</h3>
+              <p>
+                Over the years, Rikuruma Pentecostal Church has grown into a vibrant center for worship, discipleship, and community transformation. (A center of excellence)
+              </p>
+              <p>
+                The church has hosted numerous spiritual gatherings, leadership seminars, academic empowerment programs, conferences, crusades, and revival meetings. These events have strengthened believers spiritually while also encouraging academic excellence, financial responsibility, and holistic personal development.
+              </p>
+              <p>
+                The ministry has been privileged to receive guest ministers and worship teams from various parts of Kenya as well as from countries including the United States, Ghana, India, and Tanzania. Many respected servants of God have ministered to the congregation, enriching the church through biblical teaching, evangelism, and missions.
+              </p>
+              <p>
+                The church has also actively participated in evangelistic outreach and mission work, including ministry among university students through missions at institutions such as Kisii University and the University of Nairobi.
+              </p>
+
+              <h3 style={{ color: '#E53935', marginTop: '1.5rem', marginBottom: '0.5rem', fontSize: '1.4rem' }}>Transforming Lives</h3>
+              <p>
+                By God's grace, Rikuruma Pentecostal Church has witnessed countless testimonies of transformed lives.
+              </p>
+              <p>
+                Many young people who grew up within the church have gone on to graduate from colleges and universities, becoming professionals and servant leaders in society. The church has celebrated numerous Christian marriages, raised families grounded in biblical values, and nurtured generations of believers committed to serving God.
+              </p>
+              <p>
+                Throughout its journey, the church has remained devoted to preaching the Gospel, making disciples, and impacting both the local community and beyond.
+              </p>
+
+              <h3 style={{ color: '#E53935', marginTop: '1.5rem', marginBottom: '0.5rem', fontSize: '1.4rem' }}>Looking Ahead</h3>
+              <p>
+                As the ministry continues to grow, Rikuruma Pentecostal Church remains committed to expanding the Kingdom of God through evangelism, discipleship, leadership development, and compassionate community outreach.
+              </p>
+              <p>
+                Among its future aspirations is strengthening its outreach ministries, including visiting and supporting orphanages and other vulnerable members of society, while continuing to proclaim the Gospel of Jesus Christ with faithfulness and excellence.
+              </p>
+              <p>
+                From humble beginnings in a home fellowship to becoming a thriving congregation in Rikuruma, the story of Rikuruma Pentecostal Church stands as a testimony to God's faithfulness, grace, and unwavering provision throughout every season.
+              </p>
             </div>
           </div>
         </div>
@@ -313,48 +192,6 @@ const AboutUsPage = () => {
         </div>
       </section>
 
-      {/* Philosophy of Ministry */}
-      <section id="philosophy" className="section philosophy-section">
-        <div className="container">
-          <div className="section-header">
-            <span className="section-subtitle">How We Function</span>
-            <h2 className="section-title">Our Ministry Philosophy</h2>
-            <p className="section-description">
-              The convictions and values that shape everything we do as a church family.
-            </p>
-          </div>
-          <div className="philosophy-grid">
-            {philosophies.map((p, i) => (
-              <div
-                key={i}
-                className={`phil-card${openCard === i ? ' phil-card--open' : ''}`}
-                onClick={() => toggle(i)}
-              >
-                <div className="phil-card-header">
-                  <div className="phil-card-icon">
-                    <i className={p.icon}></i>
-                  </div>
-                  <div className="phil-card-meta">
-                    <span className="phil-number">{p.number}</span>
-                    <h3 className="phil-title">{p.title}</h3>
-                  </div>
-                  <i className="fas fa-chevron-down phil-chevron"></i>
-                </div>
-                <div className="phil-card-body">
-                  <p>{p.body}</p>
-                  {p.scriptures.map((s, j) => (
-                    <blockquote key={j} className="phil-scripture">
-                      <i className="fas fa-quote-left"></i>
-                      <span>"{s.text}"</span>
-                      <cite>— {s.ref}</cite>
-                    </blockquote>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
 
       {/* Statement of Faith */}
       <section id="statement-of-faith" className="section faith-section">

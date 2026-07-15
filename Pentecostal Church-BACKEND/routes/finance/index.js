@@ -46,6 +46,10 @@ router.get('/mpesa/status/:checkoutRequestID', anyAuth, mpesaController.checkSta
 // M-Pesa callback (public, no auth - Safaricom calls this)
 router.post('/mpesa/callback', mpesaController.callback);
 
+// Finance authentication
+const authController = require('../../controllers/finance/authController');
+router.post('/auth/login', authController.login);
+
 // All other finance routes require admin/patron auth
 router.use(financeAuth);
 

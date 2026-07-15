@@ -15,6 +15,7 @@ const FeedbackForm: React.FC = () => {
 
     const [userData, setUserData] = useState<any>(null);
     const [loading, setLoading] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
     const navigate = useNavigate();
     
     useEffect(() => {
@@ -93,14 +94,7 @@ const FeedbackForm: React.FC = () => {
             });
 
             if (response.ok) {
-                toast.success('Feedback submitted successfully!', {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                });
+                setIsSubmitted(true);
 
                 setFormData({
                     subject: '',
@@ -111,7 +105,7 @@ const FeedbackForm: React.FC = () => {
 
                 setTimeout(() => {
                     navigate('/');
-                }, 3000);
+                }, 5000);
             } else {
                 throw new Error('Failed to send message');
             }
@@ -120,10 +114,6 @@ const FeedbackForm: React.FC = () => {
             toast.error('Failed to submit feedback. Please try again later.', {
                 position: "top-right",
                 autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
             });
         } finally {
             setLoading(false);
@@ -139,80 +129,94 @@ const FeedbackForm: React.FC = () => {
             </div>
 
             <div className={styles.container}>
-
-                <form className={styles.form} onSubmit={handleSubmit}>
-                    <div>
-                        <label htmlFor="subject">Subject</label>
-                        <input 
-                            type="text"
-                            id="subject" 
-                            value={formData.subject} 
-                            onChange={handleChange} 
-                            className={styles.inputs} 
-                            placeholder="Brief summary of your message..."
-                            required 
-                        />
-                    </div>
-
-                    <div>
-                        <label htmlFor="category">Category</label>
-                        <select id="category" value={formData.category} onChange={handleChange} className={styles.inputs} required>
-                            <option value="feedback">General Feedback</option>
-                            <option value="suggestion">Suggestion</option>
-                            <option value="complaint">Complaint</option>
-                            <option value="praise">Praise & Appreciation</option>
-                            <option value="prayer">Prayer Request</option>
-                            <option value="technical">Technical Issue</option>
-                            <option value="other">Other</option>
-                        </select>
-                    </div>
-
-                    <div>
-                        <label htmlFor="message">Message</label>
-                        <textarea 
-                            id="message" 
-                            value={formData.message} 
-                            onChange={handleChange} 
-                            className={styles.inputs} 
-                            placeholder="Share your thoughts, feedback, suggestions, or prayer requests..."
-                            required 
-                            rows={6}
-                        />
-                    </div>
-
-                    <div className={styles.checkboxContainer}>
-                        <label htmlFor="isAnonymous">
-                            {formData.isAnonymous ? '🕵️‍♂️ Anonymous (Your identity will remain confidential)' : '👤 Identified (For follow-up purposes)'}
-                        </label>
-                        <input 
-                            type="checkbox" 
-                            id="isAnonymous" 
-                            checked={formData.isAnonymous} 
-                            onChange={handleCheckboxChange} 
-                        />
-                    </div>
-
-                    {!formData.isAnonymous && userData && (
-                        <div className={styles.userInfo}>
-                            <p><strong>Your message will be sent from:</strong></p>
-                            <p>Name: {userData.username}</p>
-                            <p>Email: {userData.email}</p>
-                            <p>Ministry: {userData.ministry}</p>
+                {isSubmitted ? (
+                    <div style={{ textAlign: 'center', padding: '60px 20px', background: '#ffffff', borderRadius: '16px', border: '1px solid #f3f4f6', boxShadow: '0 10px 25px rgba(0,0,0,0.05)' }}>
+                        <div style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '80px', height: '80px', borderRadius: '50%', backgroundColor: '#dcfce7', color: '#16a34a', fontSize: '40px', marginBottom: '24px' }}>
+                            ✓
                         </div>
-                    )}
+                        <h2 style={{ color: '#111827', marginBottom: '16px', fontSize: '26px', fontWeight: 'bold' }}>Message Sent Successfully!</h2>
+                        <p style={{ color: '#4b5563', fontSize: '16px', lineHeight: '1.6', marginBottom: '32px', maxWidth: '400px', margin: '0 auto 32px' }}>
+                            Thank you for reaching out to Rikuruma Pentecostal Church. Your voice matters, and we have safely received your submission!
+                        </p>
+                        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}>
+                            <span style={{ height: '8px', width: '8px', borderRadius: '50%', backgroundColor: '#16a34a', animation: 'pulse 1.5s infinite' }}></span>
+                            <p style={{ color: '#16a34a', fontSize: '14px', fontWeight: 'bold', margin: 0 }}>Redirecting to homepage...</p>
+                        </div>
+                    </div>
+                ) : (
+                    <form className={styles.form} onSubmit={handleSubmit}>
+                        <div>
+                            <label htmlFor="subject">Subject</label>
+                            <input 
+                                type="text"
+                                id="subject" 
+                                value={formData.subject} 
+                                onChange={handleChange} 
+                                className={styles.inputs} 
+                                placeholder="Brief summary of your message..."
+                                required 
+                            />
+                        </div>
 
-                    <section className={styles.submission}>
-                        <button
-                            className={styles.submitButton}
-                            type={!formData.isAnonymous && !userData ? 'button' : 'submit'}
-                            onClick={!formData.isAnonymous && !userData ? () => navigate('/signIn') : undefined}
-                            disabled={loading}
-                        >
-                            {loading ? 'Submitting...' : (!formData.isAnonymous && !userData ? 'Login to Submit' : 'Submit')}
-                        </button>
-                    </section>
-                </form>
+                        <div>
+                            <label htmlFor="category">Category</label>
+                            <select id="category" value={formData.category} onChange={handleChange} className={styles.inputs} required>
+                                <option value="feedback">General Feedback</option>
+                                <option value="suggestion">Suggestion</option>
+                                <option value="complaint">Complaint</option>
+                                <option value="praise">Praise & Appreciation</option>
+                                <option value="prayer">Prayer Request</option>
+                                <option value="technical">Technical Issue</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
 
+                        <div>
+                            <label htmlFor="message">Message</label>
+                            <textarea 
+                                id="message" 
+                                value={formData.message} 
+                                onChange={handleChange} 
+                                className={styles.inputs} 
+                                placeholder="Share your thoughts, feedback, suggestions, or prayer requests..."
+                                required 
+                                rows={6}
+                            />
+                        </div>
+
+                        <div className={styles.checkboxContainer}>
+                            <label htmlFor="isAnonymous">
+                                {formData.isAnonymous ? '🕵️‍♂️ Anonymous (Your identity will remain confidential)' : '👤 Identified (For follow-up purposes)'}
+                            </label>
+                            <input 
+                                type="checkbox" 
+                                id="isAnonymous" 
+                                checked={formData.isAnonymous} 
+                                onChange={handleCheckboxChange} 
+                            />
+                        </div>
+
+                        {!formData.isAnonymous && userData && (
+                            <div className={styles.userInfo}>
+                                <p><strong>Your message will be sent from:</strong></p>
+                                <p>Name: {userData.username}</p>
+                                <p>Email: {userData.email}</p>
+                                <p>Ministry: {userData.ministry}</p>
+                            </div>
+                        )}
+
+                        <section className={styles.submission}>
+                            <button
+                                className={styles.submitButton}
+                                type={!formData.isAnonymous && !userData ? 'button' : 'submit'}
+                                onClick={!formData.isAnonymous && !userData ? () => navigate('/signIn') : undefined}
+                                disabled={loading}
+                            >
+                                {loading ? 'Submitting...' : (!formData.isAnonymous && !userData ? 'Login to Submit' : 'Submit')}
+                            </button>
+                        </section>
+                    </form>
+                )}
             </div>
         </>
     );

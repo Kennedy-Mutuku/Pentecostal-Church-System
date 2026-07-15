@@ -76,8 +76,8 @@
 
 /* Page Header */
 .page-header {
-    background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary-color) 60%, var(--secondary-color) 100%);
-    padding: 100px 0 60px;
+    background: linear-gradient(rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.75)), url('/images/about-church.jpg') center/cover no-repeat;
+    padding: 80px 0 50px;
     text-align: center;
     position: relative;
     overflow: hidden;
@@ -231,9 +231,15 @@
     white-space: nowrap;
 }
 
+.about-who-section {
+    padding-bottom: 30px !important;
+}
+
 /* ── Our History ── */
 .our-history-section {
     background: var(--bg-light);
+    padding-top: 30px !important;
+    padding-bottom: 20px !important;
 }
 
 .history-content {
@@ -306,6 +312,15 @@
 /* ── Vision / Mission ── */
 .vm-section {
     background: var(--bg-white);
+}
+
+.vm-section {
+    padding-top: 20px !important;
+    padding-bottom: 20px !important;
+}
+
+.faith-section {
+    padding-top: 20px !important;
 }
 
 .vm-grid {
@@ -752,7 +767,7 @@
         padding: 40px 0;
     }
     .page-header {
-        padding: 80px 0 50px;
+        padding: 40px 0 30px;
     }
     .page-header h1 {
         font-size: 2.2rem;
@@ -760,9 +775,6 @@
     .about-who-grid {
         grid-template-columns: 1fr;
         gap: 30px;
-    }
-    .about-who-image {
-        order: -1;
     }
     .about-who-image img {
         height: 260px;
@@ -774,6 +786,32 @@
     }
     .vm-grid {
         grid-template-columns: 1fr;
+        gap: 15px;
+    }
+    .vm-box {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 8px 15px;
+        text-align: left;
+        padding: 15px;
+        align-items: flex-start;
+    }
+    .vm-icon {
+        grid-column: 1;
+        grid-row: 1 / span 2;
+        margin: 0;
+        width: 45px;
+        height: 45px;
+    }
+    .vm-box h3 {
+        grid-column: 2;
+        grid-row: 1;
+        margin: 0 0 4px 0;
+        font-size: 1.1rem;
+    }
+    .vm-box p {
+        grid-column: 2;
+        grid-row: 2;
     }
     .faith-grid {
         grid-template-columns: 1fr;

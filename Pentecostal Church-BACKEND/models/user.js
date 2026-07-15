@@ -21,7 +21,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['treasurer', 'auditor', 'chair_accounts', 'chairperson', null],
     default: null
-  }
+  },
+  webAuthnCredentials: [{
+    credentialID: String,
+    credentialPublicKey: Buffer,
+    counter: Number,
+    transports: [String]
+  }],
+  currentChallenge: { type: String, default: null }
 }, { timestamps: true });
 
 module.exports = mongoose.model('User', userSchema);

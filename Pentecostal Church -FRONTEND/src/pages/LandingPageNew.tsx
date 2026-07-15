@@ -38,18 +38,18 @@ const LandingPageNew = () => {
   const testimonials: Testimonial[] = [
     {
       quote: "Rikuruma Pentecostal Church has been a blessing to my family. The teachings are biblical, the worship is powerful, and the fellowship is genuine. God is truly in this place!",
-      author: "John Bosire",
-      location: "Nyamira Town"
+      author: "Susan Mokeira",
+      location: "Nyakoe"
     },
     {
       quote: "I found Christ at Rikuruma and my life was transformed. The youth ministry helped me grow in faith and discover my purpose. I am forever grateful to this church family.",
-      author: "Grace Kemunto",
-      location: "Nyamira County"
+      author: "Mirriam",
+      location: "Magwagwa"
     },
     {
       quote: "The prayers and support from this church carried me through difficult times. Rikuruma Pentecostal Church is more than a church - it's a family where God's love is demonstrated daily.",
-      author: "David Ombati",
-      location: "Nyamira"
+      author: "Kennedy Mutuku",
+      location: "Kisii"
     }
   ];
 
@@ -176,20 +176,7 @@ const LandingPageNew = () => {
                 <p>
                   Through dynamic worship services, powerful prayer meetings, and passionate community outreach, we are committed to being a beacon of hope and light in Nyamira and beyond.
                 </p>
-                <div className="about-features">
-                  <div className="feature">
-                    <i className="fas fa-bible"></i>
-                    <span>Bible-Based Teaching</span>
-                  </div>
-                  <div className="feature">
-                    <i className="fas fa-hands-praying"></i>
-                    <span>Prayer Focused</span>
-                  </div>
-                  <div className="feature">
-                    <i className="fas fa-users"></i>
-                    <span>Community Driven</span>
-                  </div>
-                </div>
+
                 <Link to="/about" className="btn btn-primary">Read More About Us</Link>
               </div>
               <div className="about-image">
@@ -208,16 +195,25 @@ const LandingPageNew = () => {
           <div className="container">
             <div className="vm-cards">
               <div className="vm-card vision-card">
-                <h3>Our Vision</h3>
-                <p>To be a Spirit-empowered church that transforms Nyamira and beyond through the Gospel, raising up disciples who impact their generation for Christ.</p>
+                <div className="vm-icon"><i className="fas fa-eye"></i></div>
+                <div className="vm-content">
+                  <h3>Our Vision</h3>
+                  <p>To be a Spirit-empowered church that transforms Nyamira and beyond through the Gospel, raising up disciples who impact their generation for Christ.</p>
+                </div>
               </div>
               <div className="vm-card mission-card">
-                <h3>Our Mission</h3>
-                <p>To worship God passionately, preach the Gospel boldly, disciple believers faithfully, and serve our community compassionately in the power of the Holy Spirit.</p>
+                <div className="vm-icon"><i className="fas fa-bullseye"></i></div>
+                <div className="vm-content">
+                  <h3>Our Mission</h3>
+                  <p>To worship God passionately, preach the Gospel boldly, disciple believers faithfully, and serve our community compassionately in the power of the Holy Spirit.</p>
+                </div>
               </div>
               <div className="vm-card values-card">
-                <h3>Our Values</h3>
-                <p>Spirit-led Worship, Biblical Truth, Fervent Prayer, Genuine Love, Community Service, and Christ-centered Living guide everything we do.</p>
+                <div className="vm-icon"><i className="fas fa-heart"></i></div>
+                <div className="vm-content">
+                  <h3>Our Values</h3>
+                  <p>Spirit-led Worship, Biblical Truth, Fervent Prayer, Genuine Love, Community Service, and Christ-centered Living guide everything we do.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -249,14 +245,14 @@ const LandingPageNew = () => {
                   </div>
                 </div>
               ))}
-              <div className="slider-nav mobile-only">
-                <button className="slider-prev" onClick={prevChoir} aria-label="Previous Choir">
-                  <i className="fas fa-chevron-left"></i>
-                </button>
-                <button className="slider-next" onClick={nextChoir} aria-label="Next Choir">
-                  <i className="fas fa-chevron-right"></i>
-                </button>
-              </div>
+            </div>
+            <div className="slider-nav mobile-only">
+              <button className="slider-prev" onClick={prevChoir} aria-label="Previous Choir">
+                <i className="fas fa-chevron-left"></i>
+              </button>
+              <button className="slider-next" onClick={nextChoir} aria-label="Next Choir">
+                <i className="fas fa-chevron-right"></i>
+              </button>
             </div>
           </div>
         </section>
@@ -291,18 +287,14 @@ const LandingPageNew = () => {
                   </div>
                 </div>
               ))}
-              <div className="slider-nav mobile-only">
-                <button className="slider-prev" onClick={prevActivity} aria-label="Previous Activity">
-                  <i className="fas fa-chevron-left"></i>
-                </button>
-                <button className="slider-next" onClick={nextActivity} aria-label="Next Activity">
-                  <i className="fas fa-chevron-right"></i>
-                </button>
-              </div>
             </div>
-
-            <div className="events-cta">
-              <Link to="/fellowshipsandclasses" className="btn btn-primary">View Fellowships & Classes</Link>
+            <div className="slider-nav mobile-only">
+              <button className="slider-prev" onClick={prevActivity} aria-label="Previous Activity">
+                <i className="fas fa-chevron-left"></i>
+              </button>
+              <button className="slider-next" onClick={nextActivity} aria-label="Next Activity">
+                <i className="fas fa-chevron-right"></i>
+              </button>
             </div>
           </div>
         </section>
@@ -378,53 +370,7 @@ const LandingPageNew = () => {
           </div>
         </section>
 
-        {/* Latest News Section */}
-        <section className="news-section section">
-          <div className="container">
-            <div className="section-header">
-              <span className="section-subtitle">News & Updates</span>
-              <h2 className="section-title">Latest From The Field</h2>
-            </div>
-            <div className="news-grid">
-              <div className="news-card">
-                <div className="news-image">
-                  <div className="image-placeholder"><i className="fas fa-image"></i></div>
-                  <div className="news-category">Missions</div>
-                </div>
-                <div className="news-content">
-                  <div className="news-date">January 15, 2026</div>
-                  <h3>New Year Miracle Service Testimonies</h3>
-                  <p>Our New Year service was marked by powerful testimonies of healing, deliverance, and breakthrough. God is moving mightily in Rikuruma...</p>
-                  <Link to="/news" className="news-link">Read More <i className="fas fa-arrow-right"></i></Link>
-                </div>
-              </div>
-              <div className="news-card">
-                <div className="news-image">
-                  <div className="image-placeholder"><i className="fas fa-image"></i></div>
-                  <div className="news-category">Training</div>
-                </div>
-                <div className="news-content">
-                  <div className="news-date">January 8, 2026</div>
-                  <h3>Youth Revival Weekend Impact</h3>
-                  <p>Our first youth revival of the year saw over 100 young people encounter God's presence. Many rededicated their lives to Christ...</p>
-                  <Link to="/news" className="news-link">Read More <i className="fas fa-arrow-right"></i></Link>
-                </div>
-              </div>
-              <div className="news-card">
-                <div className="news-image">
-                  <div className="image-placeholder"><i className="fas fa-image"></i></div>
-                  <div className="news-category">Outreach</div>
-                </div>
-                <div className="news-content">
-                  <div className="news-date">December 28, 2025</div>
-                  <h3>Christmas Outreach Blesses Community</h3>
-                  <p>Our Christmas outreach program brought joy to hundreds of families in Nyamira with food donations and the message of hope...</p>
-                  <Link to="/news" className="news-link">Read More <i className="fas fa-arrow-right"></i></Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+
       </div>
     </div>
   );

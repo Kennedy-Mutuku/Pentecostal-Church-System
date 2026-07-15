@@ -643,11 +643,12 @@ exports.searchUsers = async (req, res) => {
       return res.status(400).json({ message: 'Search query must be at least 3 characters' });
     }
 
-    // Search by username or registration number (case insensitive)
+    // Search by username, phone, or idNumber (case insensitive)
     const users = await User.find({
       $or: [
         { username: { $regex: query, $options: 'i' } },
-        { reg: { $regex: query, $options: 'i' } }
+        { phone: { $regex: query, $options: 'i' } },
+        { idNumber: { $regex: query, $options: 'i' } }
       ]
     })
       .select('username idNumber gender ageGroup phone') // Only return necessary fields
