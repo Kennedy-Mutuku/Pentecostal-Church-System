@@ -5,9 +5,10 @@
 }
 
 .philosophies-hero {
-  background: linear-gradient(135deg, #730051 0%, #C62828 100%);
+  background: linear-gradient(rgba(115, 0, 81, 0.88), rgba(198, 40, 40, 0.88)), url('/images/about-church.jpg') center/cover no-repeat;
+  background-attachment: fixed;
   color: white;
-  padding: calc(30px + 104px) 20px 80px; /* Reduced visible top padding to 30px */
+  padding: 90px 20px 50px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -166,6 +167,9 @@
 }
 
 @media (max-width: 768px) {
+  .philosophies-hero {
+    padding: 70px 20px 40px;
+  }
   .philosophies-hero h1 {
     font-size: 2.2rem;
   }

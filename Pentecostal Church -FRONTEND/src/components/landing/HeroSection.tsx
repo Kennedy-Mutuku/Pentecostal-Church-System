@@ -57,7 +57,7 @@ const HeroSection = () => {
         setTimeout(() => setIsAnimating(false), 1200);
         return (prev + 1) % slides.length;
       });
-    }, 8000);
+    }, 4500);
     return () => clearInterval(interval);
   }, []);
 
@@ -91,12 +91,12 @@ const HeroSection = () => {
               alt={slide.title}
               className="w-full h-full object-cover"
               style={{
-                transform: isActive ? 'scale(1)' : 'scale(1.05)',
-                transition: 'transform 8s ease-out',
+                transform: (isActive || isPrevious) ? 'scale(1.15)' : 'scale(1)',
+                transition: 'transform 6s ease-out',
               }}
             />
             {/* Dark Gradient Overlay */}
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/55 to-black/85" />
+            <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-black/20 to-black/60" />
           </div>
         );
       })}

@@ -148,6 +148,7 @@ const FinancialsPage: React.FC = () => {
     { id: 'offering', label: 'Offering', icon: '\u2764', desc: 'Give your offering to support the work of the Lord' },
     { id: 'tithe', label: 'Tithe', icon: '\u2726', desc: 'A tenth of your increase, honouring God with your firstfruits' },
     { id: 'thanksgiving', label: 'Thanksgiving', icon: '\u2606', desc: 'Express gratitude to God for His faithfulness' },
+    { id: 'aob', label: 'AOB', icon: '\u2756', desc: 'Any other contributions to support the church' },
   ];
 
   return (
@@ -204,18 +205,19 @@ const FinancialsPage: React.FC = () => {
       </div>
 
       {/* Flat Categories Selection */}
-      <div style={{ display: 'flex', gap: '8px', marginBottom: '24px', overflowX: 'auto', paddingBottom: '4px' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '8px', marginBottom: '24px' }}>
         {categoryCards.map(c => (
           <button
             key={c.id}
             onClick={() => setPayForm({ ...payForm, category: c.id })}
             style={{
-              flex: 1, minWidth: '110px', padding: '12px 8px',
+              padding: '12px 8px',
               border: payForm.category === c.id ? '2px solid #E53935' : '1px solid #d1d5db',
               background: payForm.category === c.id ? '#fef2f2' : 'transparent',
               color: payForm.category === c.id ? '#b91c1c' : '#374151',
               cursor: 'pointer', textAlign: 'center', transition: 'all 0.2s ease',
-              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px'
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '4px',
+              borderRadius: '8px'
             }}
           >
             <span style={{ fontSize: '20px' }}>{c.icon}</span>
@@ -230,7 +232,7 @@ const FinancialsPage: React.FC = () => {
         padding: '24px', marginBottom: '32px'
       }}>
         <div style={{ padding: '8px 12px', background: '#fefce8', color: '#854d0e', marginBottom: '16px', fontSize: '11px', textAlign: 'center', fontWeight: 600, border: '1px solid #fef08a' }}>
-          EBENEZER SOFTWARES — FOR TESTING ONLY
+          DOMINION SOFTWARES — FOR TESTING ONLY
         </div>
         
         <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', borderBottom: '1px solid #f3f4f6', paddingBottom: '16px' }}>

@@ -70,10 +70,6 @@ const AboutUsPage = () => {
             </div>
             <div className="about-who-image">
               <img src="/images/about-church.jpg" alt="Rikuruma Pentecostal Church congregation" />
-              <div className="about-image-badge">
-                <i className="fas fa-cross"></i>
-                <span>Est. Magwagwa</span>
-              </div>
             </div>
           </div>
         </div>
@@ -84,7 +80,7 @@ const AboutUsPage = () => {
         <div className="container">
           <div className="section-header">
             <span className="section-subtitle">Our Story</span>
-            <h2 className="section-title">Our History</h2>
+            <h2 className="section-title" style={{ fontFamily: 'var(--font-primary, sans-serif)', fontSize: '2.4rem', color: 'var(--primary-dark)', letterSpacing: '-0.5px' }}>History of Rikuruma Pentecostal Church</h2>
           </div>
           <div className="history-content" style={{ display: 'block' }}>
             <div className="history-text" style={{ width: '100%', maxWidth: '100%' }}>

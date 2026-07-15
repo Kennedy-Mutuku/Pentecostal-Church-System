@@ -309,51 +309,75 @@
    Vision Mission Section
    ========================================================================== */
 .landing-rikuruma .vision-mission-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-    padding: 60px 0;
+    background-color: #f8f9fa;
+    padding: 60px 0 20px 0;
 }
 
 @media (max-width: 768px) {
     .landing-rikuruma .vision-mission-section {
-        padding: 30px 0;
+        padding: 40px 0 10px 0;
     }
 }
 
 .landing-rikuruma .vm-cards {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
+    gap: 30px;
 }
 
 .landing-rikuruma .vm-card {
-    background-color: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(8px);
-    padding: 30px 25px;
-    border-radius: 20px;
-    text-align: center;
-    transition: var(--transition);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    background-color: #ffffff;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: left;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
+    position: relative;
+    overflow: hidden;
+}
+
+.landing-rikuruma .vm-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background-color: var(--primary-color);
 }
 
 .landing-rikuruma .vm-card:hover {
-    transform: translateY(-8px);
-    background-color: rgba(255, 255, 255, 0.12);
-    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.landing-rikuruma .vm-card .vm-icon {
+    font-size: 24px;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    background-color: rgba(229, 57, 53, 0.1);
+    border-radius: 10px;
 }
 
 .landing-rikuruma .vm-card h3 {
-    color: var(--text-white);
+    color: var(--heading-color, #333);
     margin-bottom: 12px;
-    font-size: 1.5rem;
-    letter-spacing: 0.5px;
+    font-size: 1.25rem;
+    font-weight: 700;
 }
 
 .landing-rikuruma .vm-card p {
-    color: rgba(255, 255, 255, 0.9);
-    font-size: 0.9rem;
+    color: var(--text-color, #666);
+    font-size: 0.95rem;
     line-height: 1.6;
     margin-bottom: 0;
 }
@@ -361,7 +385,32 @@
 @media (max-width: 992px) {
     .landing-rikuruma .vm-cards {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 15px;
+    }
+    
+    .landing-rikuruma .vm-card {
+        padding: 15px;
+        flex-direction: row !important;
+        align-items: center;
+        text-align: left !important;
+    }
+
+    .landing-rikuruma .vm-card .vm-icon {
+        margin-bottom: 0;
+        margin-right: 15px;
+        flex-shrink: 0;
+        width: 40px;
+        height: 40px;
+        font-size: 18px;
+    }
+    
+    .landing-rikuruma .vm-card h3 {
+        margin-bottom: 8px;
+        font-size: 1.15rem;
+    }
+    
+    .landing-rikuruma .vm-card p {
+        font-size: 0.9rem;
     }
 }
 
@@ -370,13 +419,49 @@
    ========================================================================== */
 .landing-rikuruma .ministries-section {
     background-color: var(--bg-light);
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .landing-rikuruma .choirs-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 10px;
+}
+
+.landing-rikuruma .mobile-only {
+    display: none;
+}
+
+@media (max-width: 992px) {
+    .landing-rikuruma .mobile-only {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+    }
+    
+    .landing-rikuruma .slider-prev,
+    .landing-rikuruma .slider-next {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .landing-rikuruma .slider-prev:hover,
+    .landing-rikuruma .slider-next:hover {
+        background: var(--primary-dark);
+        transform: scale(1.1);
+    }
 }
 
 .landing-rikuruma .choir-card {
@@ -552,6 +637,8 @@
    ========================================================================== */
 .landing-rikuruma .events-section {
     background-color: var(--bg-white);
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .landing-rikuruma .activities-slider {
@@ -727,6 +814,7 @@
    ========================================================================== */
 .landing-rikuruma .testimonials-section {
     background-color: var(--bg-light);
+    padding-top: 20px;
 }
 
 .landing-rikuruma .testimonials-slider {

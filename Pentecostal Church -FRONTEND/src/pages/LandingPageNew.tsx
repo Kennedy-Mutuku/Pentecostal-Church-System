@@ -176,20 +176,7 @@ const LandingPageNew = () => {
                 <p>
                   Through dynamic worship services, powerful prayer meetings, and passionate community outreach, we are committed to being a beacon of hope and light in Nyamira and beyond.
                 </p>
-                <div className="about-features">
-                  <div className="feature">
-                    <i className="fas fa-bible"></i>
-                    <span>Bible-Based Teaching</span>
-                  </div>
-                  <div className="feature">
-                    <i className="fas fa-hands-praying"></i>
-                    <span>Prayer Focused</span>
-                  </div>
-                  <div className="feature">
-                    <i className="fas fa-users"></i>
-                    <span>Community Driven</span>
-                  </div>
-                </div>
+
                 <Link to="/about" className="btn btn-primary">Read More About Us</Link>
               </div>
               <div className="about-image">
@@ -208,16 +195,25 @@ const LandingPageNew = () => {
           <div className="container">
             <div className="vm-cards">
               <div className="vm-card vision-card">
-                <h3>Our Vision</h3>
-                <p>To be a Spirit-empowered church that transforms Nyamira and beyond through the Gospel, raising up disciples who impact their generation for Christ.</p>
+                <div className="vm-icon"><i className="fas fa-eye"></i></div>
+                <div className="vm-content">
+                  <h3>Our Vision</h3>
+                  <p>To be a Spirit-empowered church that transforms Nyamira and beyond through the Gospel, raising up disciples who impact their generation for Christ.</p>
+                </div>
               </div>
               <div className="vm-card mission-card">
-                <h3>Our Mission</h3>
-                <p>To worship God passionately, preach the Gospel boldly, disciple believers faithfully, and serve our community compassionately in the power of the Holy Spirit.</p>
+                <div className="vm-icon"><i className="fas fa-bullseye"></i></div>
+                <div className="vm-content">
+                  <h3>Our Mission</h3>
+                  <p>To worship God passionately, preach the Gospel boldly, disciple believers faithfully, and serve our community compassionately in the power of the Holy Spirit.</p>
+                </div>
               </div>
               <div className="vm-card values-card">
-                <h3>Our Values</h3>
-                <p>Spirit-led Worship, Biblical Truth, Fervent Prayer, Genuine Love, Community Service, and Christ-centered Living guide everything we do.</p>
+                <div className="vm-icon"><i className="fas fa-heart"></i></div>
+                <div className="vm-content">
+                  <h3>Our Values</h3>
+                  <p>Spirit-led Worship, Biblical Truth, Fervent Prayer, Genuine Love, Community Service, and Christ-centered Living guide everything we do.</p>
+                </div>
               </div>
             </div>
           </div>
@@ -249,14 +245,14 @@ const LandingPageNew = () => {
                   </div>
                 </div>
               ))}
-              <div className="slider-nav mobile-only">
-                <button className="slider-prev" onClick={prevChoir} aria-label="Previous Choir">
-                  <i className="fas fa-chevron-left"></i>
-                </button>
-                <button className="slider-next" onClick={nextChoir} aria-label="Next Choir">
-                  <i className="fas fa-chevron-right"></i>
-                </button>
-              </div>
+            </div>
+            <div className="slider-nav mobile-only">
+              <button className="slider-prev" onClick={prevChoir} aria-label="Previous Choir">
+                <i className="fas fa-chevron-left"></i>
+              </button>
+              <button className="slider-next" onClick={nextChoir} aria-label="Next Choir">
+                <i className="fas fa-chevron-right"></i>
+              </button>
             </div>
           </div>
         </section>
@@ -291,17 +287,15 @@ const LandingPageNew = () => {
                   </div>
                 </div>
               ))}
-              <div className="slider-nav mobile-only">
-                <button className="slider-prev" onClick={prevActivity} aria-label="Previous Activity">
-                  <i className="fas fa-chevron-left"></i>
-                </button>
-                <button className="slider-next" onClick={nextActivity} aria-label="Next Activity">
-                  <i className="fas fa-chevron-right"></i>
-                </button>
-              </div>
             </div>
-
-
+            <div className="slider-nav mobile-only">
+              <button className="slider-prev" onClick={prevActivity} aria-label="Previous Activity">
+                <i className="fas fa-chevron-left"></i>
+              </button>
+              <button className="slider-next" onClick={nextActivity} aria-label="Next Activity">
+                <i className="fas fa-chevron-right"></i>
+              </button>
+            </div>
           </div>
         </section>
 

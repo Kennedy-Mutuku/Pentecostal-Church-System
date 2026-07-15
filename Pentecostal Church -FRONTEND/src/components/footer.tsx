@@ -120,7 +120,7 @@ const Footer = () => {
                 })}
               </div>
               <p className="text-sm text-purple-200">
-                Affiliated with <span className="font-semibold text-white">Rikuruma Pentecostal Churches</span>
+                A ministry of <span className="font-semibold text-white">Kisii Pentecostal Churches</span>
               </p>
               <p className="text-xs text-purple-300 mt-1">
                 Spreading the Gospel of Grace
