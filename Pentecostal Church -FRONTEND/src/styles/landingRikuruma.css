@@ -749,6 +749,22 @@
     flex-shrink: 0;
 }
 
+@media (max-width: 480px) {
+    .landing-rikuruma .activity-info {
+        padding: 18px;
+    }
+
+    .landing-rikuruma .activity-card h3 {
+        font-size: 1.1rem;
+        margin-bottom: 8px;
+    }
+
+    .landing-rikuruma .activity-details li {
+        font-size: 0.825rem;
+        margin-bottom: 8px;
+    }
+}
+
 .landing-rikuruma .activity-status {
     display: inline-block;
     padding: 5px 15px;
@@ -879,6 +895,31 @@
     color: var(--text-color);
     font-style: italic;
     line-height: 1.8;
+}
+
+@media (max-width: 480px) {
+    .landing-rikuruma .quote-icon {
+        font-size: 1.5rem;
+        margin-bottom: 12px;
+    }
+
+    .landing-rikuruma .testimonial-content p {
+        font-size: 0.95rem;
+        line-height: 1.6;
+    }
+
+    .landing-rikuruma .testimonial-author {
+        margin-top: 16px;
+        padding-top: 16px;
+    }
+
+    .landing-rikuruma .author-info h4 {
+        font-size: 0.9375rem;
+    }
+
+    .landing-rikuruma .author-info span {
+        font-size: 0.8125rem;
+    }
 }
 
 .landing-rikuruma .testimonial-author {
