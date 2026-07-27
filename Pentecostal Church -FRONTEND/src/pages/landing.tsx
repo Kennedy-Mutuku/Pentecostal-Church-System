@@ -6,10 +6,6 @@ import { FaYoutube, FaFacebook, FaTiktok } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRocket, faSearch, faUserCheck, faSignature, faCheckCircle, faExclamationTriangle, faXmark, faClock, faCoffee, faTrophy, faCode, faGlobe } from '@fortawesome/free-solid-svg-icons';
-import visionImg from '../assets/gents.jpg'
-import missionImg from '../assets/ladies.jpg'
-import valuesImg from '../assets/amptheatre.jpg'
-import prayerPNG from '../assets/RIVET.jpg'
 import { Heart, Camera, BookOpen, Library, DollarSign, GraduationCap, Package, MessageCircleHeart } from "lucide-react";
 import LandingPageHeader from '../components/LandingPageHeader';
 import ModernNewsDisplay from '../components/ModernNewsDisplay';
@@ -76,17 +72,6 @@ const LandingPage = () => {
       document.body.style.overflow = '';
     };
   }, [openPrayerJoint, openBibleStudy, openDevelopment, openGraphicDesign, openKairosCourse, openFocus]);
-
-  const images = [
-    {
-      url: visionImg, text: `
-      <h1 class="${styles['section-text']}"></h1>
-      <div class="${styles['loadingBar-intro']}"></div>
-      ` },
-    { url: missionImg, text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>` },
-    { url: valuesImg, text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>` }
-  ];
-
 
   // Check for active attendance session
   const checkActiveSession = async (retryCount = 0) => {
@@ -170,7 +155,7 @@ const LandingPage = () => {
       clearInterval(sessionCheckInterval);
     };
 
-  }, [images.length]);
+  }, []);
 
   // Close form if session becomes inactive
   useEffect(() => {
@@ -1280,9 +1265,6 @@ const LandingPage = () => {
                   <FontAwesomeIcon icon={faXmark} className={styles.closeOtherDisplayIcon} onClick={handleClosePrayerJoint} />
                 </div>
                 <p className={styles.othersDisplayDivTitle}>Joint Prayers</p>
-                <div className={styles.othersImg}>
-                  <img src={prayerPNG} alt='prayer image' />
-                </div>
                 <div className={styles.othersTextDiv}>
                   <p className={styles.othersText}>RPC Nyamira joint prayers are conducted everyday from 8-50 pm to 9-30 pm and in the morning from 5-00am to 6-00 am venues are communicated before time, on wednesdays students meet at gethsamane from 1 to 2 pm and 5 to 6 pm for prayers and fasting</p>
                 </div>
@@ -1299,9 +1281,6 @@ const LandingPage = () => {
                   <FontAwesomeIcon icon={faXmark} className={styles.closeOtherDisplayIcon} onClick={handleCloseBibleStudy} />
                 </div>
                 <p className={styles.othersDisplayDivTitle}>Bible Study</p>
-                <div className={styles.othersImg}>
-                  <img src={prayerPNG} alt='prayer image' />
-                </div>
                 <div className={styles.othersTextDiv}>
                   <p className={styles.othersText}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste illum enim esse dolorem libero! Deleniti exercitationem quaerat harum, enim earum excepturi esse possimus ex ipsum? Quasi suscipit explicabo impedit veritatis?</p>
                 </div>
@@ -1319,9 +1298,6 @@ const LandingPage = () => {
                   <FontAwesomeIcon icon={faXmark} className={styles.closeOtherDisplayIcon} onClick={handleCloseDevelopment} />
                 </div>
                 <p className={styles.othersDisplayDivTitle}>Development</p>
-                <div className={styles.othersImg}>
-                  <img src={prayerPNG} alt='prayer image' />
-                </div>
                 <div className={styles.othersTextDiv}>
                   <p className={styles.othersText}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste illum enim esse dolorem libero! Deleniti exercitationem quaerat harum, enim earum excepturi esse possimus ex ipsum? Quasi suscipit explicabo impedit veritatis?</p>
                 </div>
@@ -1338,9 +1314,6 @@ const LandingPage = () => {
                   <FontAwesomeIcon icon={faXmark} className={styles.closeOtherDisplayIcon} onClick={handleCloseGraphics} />
                 </div>
                 <p className={styles.othersDisplayDivTitle}>Graphics Classes</p>
-                <div className={styles.othersImg}>
-                  <img src={prayerPNG} alt='prayer image' />
-                </div>
                 <div className={styles.othersTextDiv}>
                   <p className={styles.othersText}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste illum enim esse dolorem libero! Deleniti exercitationem quaerat harum, enim earum excepturi esse possimus ex ipsum? Quasi suscipit explicabo impedit veritatis?</p>
                 </div>
@@ -1357,9 +1330,6 @@ const LandingPage = () => {
                   <FontAwesomeIcon icon={faXmark} className={styles.closeOtherDisplayIcon} onClick={handleCloseCairos} />
                 </div>
                 <p className={styles.othersDisplayDivTitle}>Kairos Classes</p>
-                <div className={styles.othersImg}>
-                  <img src={prayerPNG} alt='prayer image' />
-                </div>
                 <div className={styles.othersTextDiv}>
                   <p className={styles.othersText}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste illum enim esse dolorem libero! Deleniti exercitationem quaerat harum, enim earum excepturi esse possimus ex ipsum? Quasi suscipit explicabo impedit veritatis?</p>
                 </div>
@@ -1375,9 +1345,6 @@ const LandingPage = () => {
                   <FontAwesomeIcon icon={faXmark} className={styles.closeOtherDisplayIcon} onClick={handleCloseFocus} />
                 </div>
                 <p className={styles.othersDisplayDivTitle}>FOCUS Conferences</p>
-                <div className={styles.othersImg}>
-                  <img src={prayerPNG} alt='prayer image' />
-                </div>
                 <div className={styles.othersTextDiv}>
                   <p className={styles.othersText}>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Iste illum enim esse dolorem libero! Deleniti exercitationem quaerat harum, enim earum excepturi esse possimus ex ipsum? Quasi suscipit explicabo impedit veritatis?</p>
                 </div>

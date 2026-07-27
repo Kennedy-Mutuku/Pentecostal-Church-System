@@ -3,7 +3,7 @@ import axios from 'axios';
 import styles from '../styles/signin.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
 import { Link, useNavigate } from 'react-router-dom';
-import loadingAnime from '../assets/Animation - 1716747954931.gif';
+import loadingAnime from '../assets/loading.gif';
 import { Eye, EyeOff, ChevronDown, Shield } from 'lucide-react'
 import { getApiUrl, isDevMode } from '../config/environment';
 import UserProfile from './userProfile';
@@ -198,7 +198,6 @@ const SignIn: React.FC = () => {
         const adminPatterns = [
             { pattern: /^admin@rpcmcsuperadmi/i, complete: 'admin@rpcmcsuperadmin.co.ke' },  // Handle typos
             { pattern: /^admin@rpcmcsuperadmin$/i, complete: 'admin@rpcmcsuperadmin.co.ke' },  // Exact match without .co.ke
-            { pattern: /^admin@rpcmcbsadmin/i, complete: 'admin@rpcmcbsadmin.co.ke' },
             { pattern: /^admin@rpcmcadmissionadmin/i, complete: 'admin@rpcmcadmissionadmin.co.ke' }
         ];
 
@@ -214,12 +213,6 @@ const SignIn: React.FC = () => {
         }
 
         const domainMappings = [
-            { domain: '@rpcmcnewsadmin.co.ke', endpoint: getApiUrl('newsAdmin'), route: '/adminnews' },
-
-            { domain: '@rpcmcmissionadmin.co.ke', endpoint: getApiUrl('missionAdmin'), route: '/adminmission' },
-
-            { domain: '@rpcmcbsadmin.co.ke', endpoint: getApiUrl('bsAdmin'), route: '/adminBs' },
-
             { domain: '@rpcmcsuperadmin.co.ke', endpoint: getApiUrl('superAdmin'), route: '/admin' },
             { domain: '@rikurumachurch.com', endpoint: getApiUrl('superAdmin'), route: '/admin' },
 
@@ -292,10 +285,6 @@ const SignIn: React.FC = () => {
                 // Admin domain found
                 endpoint = mapping.endpoint;
                 route = mapping.route;
-            } else if (processedEmail.includes('officer')) {
-                // Polling officer pattern detected
-                endpoint = getApiUrl('pollingOfficerLogin');
-                route = '/polling-officer-dashboard';
             } else {
                 // Default to regular user login
                 endpoint = getApiUrl('usersLogin');
@@ -305,7 +294,7 @@ const SignIn: React.FC = () => {
             console.log('🔐 SignIn: Email entered:', formData.email);
             console.log('🔐 SignIn: Processed email:', processedEmail);
             console.log('🔐 SignIn: Password length:', formData.password?.length);
-            console.log('🔐 SignIn: Mapping found:', mapping ? 'Yes (Admin)' : processedEmail.includes('officer') ? 'Yes (Officer Pattern)' : 'No (User)');
+            console.log('🔐 SignIn: Mapping found:', mapping ? 'Yes (Admin)' : 'No (User)');
             console.log('🔐 SignIn: Attempting login to:', endpoint);
             console.log('🔐 SignIn: Will redirect to:', route);
 
@@ -436,7 +425,7 @@ const SignIn: React.FC = () => {
         return (
             <div className={styles.container}>
                 <div style={{ textAlign: 'center', padding: '50px' }}>
-                    <img src={loadingAnime} alt="Loading..." className={styles['loading-gif']} />
+                    <img src={loadingAnime} alt="Loading..." style={{ width: '80px', margin: '0 auto' }} />
                     <p>Checking authentication...</p>
                     {/* Fallback text for devices that might not load images */}
                     <noscript>

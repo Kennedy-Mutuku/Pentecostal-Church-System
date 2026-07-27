@@ -14,7 +14,6 @@ router.post('/logout', superAdminMiddleware, superAdmin.logout);
 router.get('/users', superAdminMiddleware, superAdmin.getUsers);
 router.get('/feedback', superAdminMiddleware, superAdmin.getFeedback);
 router.get('/messages', superAdminMiddleware, superAdmin.getMessages);
-router.post('/reset-polling', superAdminMiddleware, superAdmin.resetPollingData);
 
 // Admin management routes
 router.get('/admins/:type', superAdminMiddleware, adminManager.getAll);

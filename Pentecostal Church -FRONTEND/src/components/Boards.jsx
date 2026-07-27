@@ -23,7 +23,7 @@ function Boards() {
         {boards.map((board) => (
           <div className="board-card" key={board.id}>
             <div className="board-image">
-              <img src={board.image} alt={board.title} />
+              {board.image && <img src={board.image} alt={board.title} />}
               <i className={board.icon}></i>
             </div>
 

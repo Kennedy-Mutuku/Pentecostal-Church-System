@@ -1,113 +1,14 @@
-import myPhoto from '../assets/RPC logo updated.png';
-import OmbogoImg from '../assets/FB_IMG_1769696349668.jpg';
-import TomImg from '../assets/IMG-20260129-WA0039.jpg';
-import tembaImg from '../assets/IMG-20260129-WA0048.jpg';
-import kamamiaImg from '../assets/IMG-20260129-WA0040.jpg';
-import harrietImg from '../assets/IMG-20260129-WA0053.jpg';
-import rachelImg from '../assets/IMG-20260130-WA0003.jpg';
-import stanImg from '../assets/IMG-20260130-WA0047.jpg';
-import umojaImg from '../assets/IMG-20260130-WA0046.jpg';
-import lyndraImg from '../assets/IMG-20260130-WA0045.jpg';
-import williamImg from '../assets/IMG-20260129-WA0063.jpg';
-import victoriaImg from '../assets/IMG-20260129-WA0058.jpg';
-import ookoImg from '../assets/IMG-20260130-WA0050.jpg';
-import patronImg from '../assets/IMG_8981.jpg';
 import assistantPatronImg from '../assets/Rev.Kephar.jpeg';
-import cmfImg from '../assets/cmf.jpg';
-import boardsCordImg from '../assets/boardscord.jpeg';
 import firstLadyImg from '../assets/susan.JPG';
+import board1Img from '../assets/Board 1.jpeg';
+import board2Img from '../assets/Board 2.jpeg';
+import board3Img from '../assets/Board 3.jpeg';
+import board4Img from '../assets/Board 4 best.jpeg';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './Leadership.css'
 import { FaYoutube, FaInstagram, FaXTwitter, FaTiktok, FaFacebook, FaWhatsapp } from "react-icons/fa6";
 const Leadership = () => {
-  const executiveCommittee = [
-    {
-      title: 'Chairperson',
-      name: 'Stanley Otieno',
-      phone: '+254 718 519 242',
-      role: 'stanleyotieno10836@gmail.com',
-      image: stanImg
-    },
-    {
-      title: 'Vice Chairperson',
-      name: 'Munde Alice Harriet',
-      phone: '+254 110 473 947',
-      role: 'aliceharriet757@gmail.com',
-      image: harrietImg
-    },
-    {
-      title: 'Secretary',
-      name: 'Odliah Temba',
-      phone: '+254 758 816 535',
-      role: 'odliahtemba@gmail.com',
-      image: tembaImg
-    },
-    {
-      title: 'Public Secretary',
-      name: 'Emmanuel Ombogo',
-      phone: '+254 717 481 883',
-      role: 'emmanuelombongo@gmail.com',
-      image: OmbogoImg
-    },
-    {
-      title: 'Treasurer',
-      name: 'Rachel Kitivi',
-      phone: '+254 719 400 686',
-      role: 'rachelkitivi@gamil.com',
-      image: rachelImg
-    },
-    {
-      title: 'Worship Coordinator',
-      name: 'David Ooko',
-      phone: '+254 714 684 714',
-      role: 'odurdavid629@gamil.com',
-      image: ookoImg
-    },
-    {
-      title: 'Boards Coordinator',
-      name: 'Faith Halima',
-      phone: '+254 706 434 348',
-      role: 'Ministry Coordination',
-      image: boardsCordImg
-    },
-    {
-      title: 'Bible Study Coordinator',
-      name: 'Victor Kamamia',
-      phone: '+254 111 554 776',
-      role: 'kamamiavictor@gmail.com',
-      image: kamamiaImg
-    },
-    {
-      title: 'Prayer Coordinator',
-      name: 'William Ochieng',
-      phone: '+254 111 436 995',
-      role: 'williamchieng54@gmail.com',
-      image: williamImg
-    },
-    {
-      title: 'Missions Coordinator',
-      name: 'Tom Muasya',
-      phone: '+254 115 875 390',
-      role: 'tommuasya65@gmail.com',
-      image: TomImg
-    },
-    {
-      title: 'Discipleship Coordinator',
-      name: 'Victoria Naserian',
-      phone: '+254 100 504 608',
-      role: 'ntikoisanaserian@gmail.com',
-      image: victoriaImg
-    }
-  ];
-
-  const patron = {
-    title: 'Patron',
-    name: 'Dr. Rhoda Auni',
-    role: 'Patron, RPC Nyamira',
-    image: patronImg
-  };
-
   const assistantPatron = {
     title: 'Senior Pastor',
     name: 'Rev. Kephar OMondi',
@@ -121,6 +22,13 @@ const Leadership = () => {
     role: 'First Lady, RPC Nyamira',
     image: firstLadyImg
   };
+
+  const boardPhotos = [
+    { image: board1Img, caption: 'Board members in fellowship' },
+    { image: board2Img, caption: 'Board members in fellowship' },
+    { image: board3Img, caption: 'Board members in fellowship' },
+    { image: board4Img, caption: 'Board members in fellowship' }
+  ];
 
   return (
     <div className="leadership-page">
@@ -159,6 +67,27 @@ const Leadership = () => {
             </div>
           </section>
 
+          {/* Board Members Gallery */}
+          <section className="section board-section">
+            <div className="section-header">
+              <h2>Our Boards</h2>
+              <p>The dedicated board members who coordinate and serve across the various ministries of RPC Nyamira.</p>
+            </div>
+            <div className="board-gallery">
+              {boardPhotos.map((photo, index) => (
+                <figure key={index} className="board-photo">
+                  <img
+                    src={photo.image}
+                    alt={photo.caption}
+                    loading="lazy"
+                    decoding="async"
+                    width="1280"
+                    height="720"
+                  />
+                </figure>
+              ))}
+            </div>
+          </section>
 
         </div>
       </div>

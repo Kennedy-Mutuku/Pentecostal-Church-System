@@ -2,9 +2,6 @@ const bcrypt = require("bcryptjs");
 const Patron = require("../models/patron");
 const SuperAdmin = require("../models/superAdmin");
 const AdmissionAdmin = require("../models/admissionAdmin");
-const BsAdmin = require("../models/bsAdmin");
-const MissionAdmin = require("../models/missionAdmin");
-const AdminNews = require("../models/adminNews");
 const Overseer = require("../models/overseer");
 const FinanceUser = require("../models/financeUser");
 
@@ -12,9 +9,6 @@ const modelMap = {
   patron: Patron,
   superadmin: SuperAdmin,
   admission: AdmissionAdmin,
-  bs: BsAdmin,
-  mission: MissionAdmin,
-  news: AdminNews,
   overseer: Overseer,
   chairperson: null, // special case
 };

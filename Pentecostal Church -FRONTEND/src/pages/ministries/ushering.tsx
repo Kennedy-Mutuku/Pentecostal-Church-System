@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './ushering.module.css';
 import { Link } from 'react-router-dom';
-import usheringImg from '../../assets/ushering.jpg';
 import MinistryRegistrationModal from '../../components/MinistryRegistrationModal';
 
 const UsheringPage: React.FC = () => {
@@ -37,7 +36,7 @@ const UsheringPage: React.FC = () => {
 
   return (
     <>
-      <div className={styles.heroSection} style={{ '--hero-bg': `url(${usheringImg})` } as React.CSSProperties}>
+      <div className={styles.heroSection} style={{ '--hero-bg': 'linear-gradient(135deg, #482078, #730051)' } as React.CSSProperties}>
         <div className={styles.heroContent}>
           <h1 className={styles.title}>Ushering and Hospitality Ministry</h1>
           <p className={styles.subtitle}>Serving with order, warmth, and responsibility</p>

@@ -20,7 +20,7 @@ import { useOverseerAuth } from '../hooks/useOverseerAuth';
 import OverseerLogoutButton from '../components/OverseerLogoutButton';
 import ToastContainer from '../components/ToastContainer';
 import { ToastProps } from '../components/Toast';
-import heroImg from '../assets/praise-and-worship.jpg';
+import { FaImage } from 'react-icons/fa';
 
 interface MediaItem {
     _id?: string;
@@ -733,13 +733,13 @@ const MediaItemCard: React.FC<MediaItemCardProps> = ({
                         src={getImageUrl(item.imageUrl || '')}
                         alt={item.event}
                         onError={(e) => {
-                            e.currentTarget.src = heroImg;
+                            e.currentTarget.style.display = 'none';
                         }}
                     />
                 </div>
             ) : (
-                <div className={styles.mediaPlaceholder}>
-                    <img src={heroImg} alt="Default Thumbnail" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                <div className={styles.mediaPlaceholder} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #482078, #730051)' }}>
+                    <FaImage size={40} color="rgba(255,255,255,0.7)" />
                 </div>
             )}
             <div className={styles.mediaContent}>

@@ -28,10 +28,7 @@ const SoftwareDevelopmentBoardPage = lazy(() => import("./SoftwareDevelopmentBoa
 const BoardApplicationsAdminPage = lazy(() => import("./BoardApplicationsAdmin"));
 const ChangeDetails = lazy(() => import("../components/changeDetails"));
 const NewsPage = lazy(() => import("./NewsPage"));
-const PhotoUploadPage = lazy(() => import("./newsadminText"));
 const PasswordReset = lazy(() => import("../components/newPaaswwordInput"));
-const SavedSoulsList = lazy(() => import("./adminMission"));
-const BsMembersList = lazy(() => import("./adminBs"));
 const Library = lazy(() => import("./library"));
 const Media = lazy(() => import("./media"));
 const MediaAdmin = lazy(() => import("./MediaAdmin"));
@@ -57,13 +54,10 @@ const ChoirPage = lazy(() => import("./ministries/choir"));
 
 const MessagesAdmin = lazy(() => import("./MessagesAdmin"));
 const AttendanceSessionManagement = lazy(() => import("./AttendanceSessionManagement"));
-const NewsAdmin = lazy(() => import("./NewsAdmin"));
 const Requisitions = lazy(() => import("./Requisitions"));
 const RequisitionsAdmin = lazy(() => import("./RequisitionsAdmin"));
 const CompassionCounselingPage = lazy(() => import("./CompassionCounseling"));
 const CompassionCounselingAdmin = lazy(() => import("./CompassionCounselingAdmin"));
-const PollingOfficerDashboard = lazy(() => import("./PollingOfficerDashboard"));
-const PollingOfficerManagement = lazy(() => import("./PollingOfficerManagement"));
 const MyDocs = lazy(() => import("./MyDocs"));
 const SuperAdminDocumentDashboard = lazy(() => import("./superAdminDocumentDashboard"));
 const ChristianMinds = lazy(() => import("./christianMinds"));
@@ -117,10 +111,7 @@ export const router = createBrowserRouter([
             { path: "/admin/board-applications", element: <BoardApplicationsAdminPage /> },
             { path: "/changeDetails", element: <ChangeDetails /> },
             { path: "/news", element: <NewsPage /> },
-            { path: "/adminnews", element: <PhotoUploadPage /> },
             { path: "/reset", element: <PasswordReset /> },
-            { path: "/adminmission", element: <SavedSoulsList /> },
-            { path: "/adminBs", element: <BsMembersList /> },
             { path: "/library", element: <Library /> },
             { path: "/media", element: <Media /> },
             { path: "/elders", element: <Elders /> },
@@ -146,13 +137,10 @@ export const router = createBrowserRouter([
             { path: "/contact-us", element: <FeedbackForm /> },
             { path: "/messages-admin", element: <MessagesAdmin /> },
             { path: "/attendance-session-management", element: <AttendanceSessionManagement /> },
-            { path: "/news-admin", element: <NewsAdmin /> },
             { path: "/requisitions", element: <Requisitions /> },
             { path: "/requisitions-admin", element: <RequisitionsAdmin /> },
             { path: "/compassion-counseling", element: <CompassionCounselingPage /> },
             { path: "/compassion-counseling-admin", element: <CompassionCounselingAdmin /> },
-            { path: "/polling-officer-dashboard", element: <PollingOfficerDashboard /> },
-            { path: "/polling-officer-management", element: <PollingOfficerManagement /> },
             { path: "/my-docs", element: <MyDocs /> },
             { path: "/admin/documents", element: <SuperAdminDocumentDashboard /> },
             /*newly added Christian Minds*/

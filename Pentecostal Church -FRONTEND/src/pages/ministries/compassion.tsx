@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './compassion.module.css';
 import { Link } from 'react-router-dom';
-import compassionImg from '../../assets/compassion.jpg';
 import MinistryRegistrationModal from '../../components/MinistryRegistrationModal';
 
 const CompassionPage: React.FC = () => {
@@ -37,7 +36,7 @@ const CompassionPage: React.FC = () => {
 
   return (
     <>
-      <div className={styles.heroSection} style={{ '--hero-bg': `url(${compassionImg})` } as React.CSSProperties}>
+      <div className={styles.heroSection} style={{ '--hero-bg': 'linear-gradient(135deg, #482078, #730051)' } as React.CSSProperties}>
         <div className={styles.heroContent}>
           <h1 className={styles.title}>Compassion & Counseling</h1>
           <p className={styles.subtitle}>Being the hands and feet of Jesus to those in need</p>

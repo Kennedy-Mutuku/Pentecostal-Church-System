@@ -6,7 +6,8 @@ import 'jspdf-autotable';
 import styles from '../styles/superAdmin.module.css';
 import { Menu, X } from 'lucide-react';
 import { getApiUrl } from '../config/environment';
-import letterhead from '../assets/letterhead.png';
+// TODO: letterhead.png is missing from assets — reusing the RPC logo as a stopgap. Replace with the real letterhead image.
+import letterhead from '../assets/RPC logo updated document.png';
 import DocumentUploader from '../components/DocumentUploader';
 import MinutesManager from '../components/MinutesManager';
 import AdminSidebar, { AdminSection } from '../components/AdminSidebar';
@@ -32,22 +33,6 @@ interface Message {
     status: string;
 }
 
-interface PollingStats {
-    totalUsers: number;
-    totalVoted: number;
-    totalNotVoted: number;
-    percentageVoted: string;
-}
-
-interface PollingOfficer {
-    _id: string;
-    fullName: string;
-    email: string;
-    status: string;
-    votedCount?: number;
-    registeredCount?: number;
-}
-
 const SuperAdmin: React.FC = () => {
     const navigate = useNavigate();
     const [userCount, setUserCount] = useState<number>(0);
@@ -58,10 +43,6 @@ const SuperAdmin: React.FC = () => {
     const [usersByMinistry, setUsersByMinistry] = useState<{ [key: string]: number }>({});
     const [usersByEt, setUsersByEt] = useState<{ [key: string]: number }>({});
     const [users, setUsers] = useState<{ username: string; reg: string; course: string; yos: string }[]>([]);
-    const [pollingStats, setPollingStats] = useState<PollingStats | null>(null);
-    const [pollingOfficers, setPollingOfficers] = useState<PollingOfficer[]>([]);
-    const [showResetConfirm, setShowResetConfirm] = useState<boolean>(false);
-    const [isResetting, setIsResetting] = useState<boolean>(false);
     const [showAdvanceConfirm, setShowAdvanceConfirm] = useState<boolean>(false);
     const [isAdvancing, setIsAdvancing] = useState<boolean>(false);
     const [advanceResult, setAdvanceResult] = useState<{ advanced: number; promoted: number; skipped: number } | null>(null);
@@ -150,9 +131,7 @@ const SuperAdmin: React.FC = () => {
             setLoading(true);
             await Promise.allSettled([
                 fetchUserData(),
-                fetchMessages(),
-                fetchPollingStats(),
-                fetchPollingOfficers()
+                fetchMessages()
             ]);
             setLoading(false);
         };
@@ -191,26 +170,6 @@ const SuperAdmin: React.FC = () => {
             setMessages(response.data);
         } catch (err) {
             console.error('Error fetching messages:', err);
-        }
-    };
-
-    const fetchPollingStats = async () => {
-        try {
-            const pollingURL = backEndURL.replace('/sadmin', '/polling-officer');
-            const response = await axios.get(`${pollingURL}/stats`, { withCredentials: true });
-            setPollingStats(response.data);
-        } catch (err) {
-            console.error('Error fetching polling stats:', err);
-        }
-    };
-
-    const fetchPollingOfficers = async () => {
-        try {
-            const pollingURL = backEndURL.replace('/sadmin', '/polling-officer');
-            const response = await axios.get(`${pollingURL}/list`, { withCredentials: true });
-            setPollingOfficers(response.data);
-        } catch (err) {
-            console.error('Error fetching polling officers:', err);
         }
     };
 
@@ -267,21 +226,6 @@ const SuperAdmin: React.FC = () => {
     const handlePinCancel = () => {
         setShowPinEntry(false);
         setPinError('');
-    };
-
-    const handleResetPolling = async () => {
-        setIsResetting(true);
-        try {
-            const response = await axios.post(`${backEndURL}/reset-polling`, {}, { withCredentials: true });
-            alert(`Success! ${response.data.message}\n${response.data.usersAffected} users' voting status has been reset.`);
-            await fetchPollingStats();
-            setShowResetConfirm(false);
-        } catch (err: any) {
-            console.error('Error resetting polling data:', err);
-            alert(`Error resetting polling data: ${err.response?.data?.message || 'Unknown error'}`);
-        } finally {
-            setIsResetting(false);
-        }
     };
 
     const handleAdvanceYears = async () => {
@@ -442,22 +386,6 @@ const SuperAdmin: React.FC = () => {
                     <h3>{userCount}</h3>
                     <p>Total Students</p>
                 </div>
-                {pollingStats && (
-                    <>
-                        <div className={styles.statCard}>
-                            <h3>{pollingStats.totalVoted}</h3>
-                            <p>Voted</p>
-                        </div>
-                        <div className={styles.statCard}>
-                            <h3>{pollingStats.totalNotVoted}</h3>
-                            <p>Not Voted</p>
-                        </div>
-                        <div className={styles.statCard}>
-                            <h3>{pollingStats.percentageVoted}%</h3>
-                            <p>Completion</p>
-                        </div>
-                    </>
-                )}
             </div>
 
             <h3 className={styles.subSectionTitle}>Quick Stats by Category</h3>
@@ -554,77 +482,6 @@ const SuperAdmin: React.FC = () => {
                     ))}
                 </tbody>
             </table>
-        </div>
-    );
-
-    const renderPolling = () => (
-        <div className={styles.section}>
-            <div className={styles.sectionHeader}>
-                <h2 className={styles.sectionTitle}>Polling & Elections</h2>
-                <button
-                    className={styles.dangerButton}
-                    onClick={() => setShowResetConfirm(true)}
-                >
-                    Reset Polling Data
-                </button>
-            </div>
-
-            {pollingStats && (
-                <div className={styles.statsGrid}>
-                    <div className={styles.statCard}>
-                        <h3>{pollingStats.totalVoted}</h3>
-                        <p>Voted</p>
-                    </div>
-                    <div className={styles.statCard}>
-                        <h3>{pollingStats.totalNotVoted}</h3>
-                        <p>Not Voted</p>
-                    </div>
-                    <div className={styles.statCard}>
-                        <h3>{pollingStats.percentageVoted}%</h3>
-                        <p>Completion</p>
-                    </div>
-                </div>
-            )}
-
-            <div className={styles.subSection}>
-                <div className={styles.subSectionHeader}>
-                    <h3 className={styles.subSectionTitle}>Polling Officers</h3>
-                    <a href="/polling-officer-management" className={styles.linkButton}>
-                        Manage Officers
-                    </a>
-                </div>
-
-                {pollingOfficers.length > 0 ? (
-                    <table className={styles.dataTable}>
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                                <th>Registered</th>
-                                <th>Voted</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {pollingOfficers.map(officer => (
-                                <tr key={officer._id}>
-                                    <td>{officer.fullName}</td>
-                                    <td>{officer.email}</td>
-                                    <td>
-                                        <span className={`${styles.statusBadge} ${styles[officer.status]}`}>
-                                            {officer.status}
-                                        </span>
-                                    </td>
-                                    <td>{officer.registeredCount || 0}</td>
-                                    <td>{officer.votedCount || 0}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                ) : (
-                    <p className={styles.emptyState}>No polling officers yet. <a href="/polling-officer-management">Create one</a></p>
-                )}
-            </div>
         </div>
     );
 
@@ -742,8 +599,6 @@ const SuperAdmin: React.FC = () => {
                 return renderDashboard();
             case 'students':
                 return renderStudents();
-            case 'polling':
-                return renderPolling();
             case 'messages':
                 return renderMessages();
             case 'minutes':
@@ -782,38 +637,6 @@ const SuperAdmin: React.FC = () => {
             </div>
             <footer className={styles.footerWrapper}>
             </footer>
-
-            {/* Confirmation Dialog */}
-            {showResetConfirm && (
-                <div className={styles.modalOverlay}>
-                    <div className={styles.modalContent}>
-                        <h3>Reset Polling Data?</h3>
-                        <p>
-                            This will reset all voting records back to zero. All users will be marked as "not voted".
-                            This action is meant for starting a new election period.
-                        </p>
-                        <p className={styles.warningText}>
-                            <strong>Warning:</strong> This action cannot be undone!
-                        </p>
-                        <div className={styles.modalActions}>
-                            <button
-                                className={styles.secondaryButton}
-                                onClick={() => setShowResetConfirm(false)}
-                                disabled={isResetting}
-                            >
-                                Cancel
-                            </button>
-                            <button
-                                className={styles.dangerButton}
-                                onClick={handleResetPolling}
-                                disabled={isResetting}
-                            >
-                                {isResetting ? 'Resetting...' : 'Yes, Reset'}
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            )}
 
             {/* Year Advancement Confirmation Dialog */}
             {showAdvanceConfirm && (

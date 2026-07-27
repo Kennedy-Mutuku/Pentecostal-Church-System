@@ -3,10 +3,9 @@ import { Link, useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from '../styles/Media.module.css';
-import loadingAnime from '../assets/Animation - 1716747954931.gif';
+import loadingAnime from '../assets/loading.gif';
 import { FaYoutube, FaFacebook, FaTiktok, FaTwitter, FaImage, FaNewspaper, FaBook, FaSearch, FaCamera, FaArrowLeft } from 'react-icons/fa';
 import { getApiUrl, getImageUrl, getBaseUrl, isDevMode } from '../config/environment';
-import heroImg from '../assets/praise-and-worship.jpg';
 
 interface MediaItem {
   _id?: string;
@@ -453,11 +452,13 @@ const Media: React.FC = () => {
                         src={getImageUrl(event.imageUrl)}
                         alt={event.event}
                         onError={(e) => {
-                          e.currentTarget.src = heroImg;
+                          e.currentTarget.style.display = 'none';
                         }}
                       />
                     ) : (
-                      <img src={heroImg} alt="Default Church Event" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #482078, #730051)' }}>
+                        <FaImage size={40} color="rgba(255,255,255,0.7)" />
+                      </div>
                     )}
                   </div>
                   <div className={styles.galleryItemContent}>

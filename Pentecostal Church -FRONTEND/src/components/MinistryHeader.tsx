@@ -3,7 +3,7 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X, User, ChevronDown, LogOut } from 'lucide-react';
 import { getApiUrl } from '../config/environment';
 import cuLogo from '../assets/RPC logo updated document.png';
-import loadingAnime from '../assets/Animation - 1716747954931.gif';
+import loadingAnime from '../assets/loading.gif';
 import styles from '../styles/index.module.css';
 
 interface UserData {

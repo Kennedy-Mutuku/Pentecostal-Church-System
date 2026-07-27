@@ -148,6 +148,17 @@ const UserManagement: React.FC = () => {
 
   return (
     <>
+      {/* This page's shell uses position:fixed to fill the viewport, which would
+          otherwise render underneath the app's permanent mobile sidebar (44px, see
+          components/landing/Header.tsx). Reserve that strip on mobile so content
+          is never hidden behind it. */}
+      <style>{`
+        .um-fixed-body { left: 44px; }
+        @media (min-width: 768px) {
+          .um-fixed-body { left: 0; }
+        }
+      `}</style>
+
       {/* Full Size Photo Viewer Modal - Moved to top for better stacking context */}
       {showFullSize && (
         <div 
@@ -224,7 +235,7 @@ const UserManagement: React.FC = () => {
         </div>
       )}
 
-      <div className={styles.body} style={{ position: 'fixed', inset: 0, padding: '10px 0', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
+      <div className={`${styles.body} um-fixed-body`} style={{ position: 'fixed', top: 0, right: 0, bottom: 0, padding: '10px 0', display: 'flex', flexDirection: 'column', boxSizing: 'border-box' }}>
       <div className={styles.container} style={{ flex: 1, display: 'flex', flexDirection: 'column', margin: '0 auto', maxWidth: '800px', width: '95%', boxSizing: 'border-box', overflow: 'hidden' }}>
         <Link to="/" className={styles.logo_div} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
           <div className={styles['logo_signUp']}>

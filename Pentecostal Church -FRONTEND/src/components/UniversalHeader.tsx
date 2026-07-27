@@ -3,7 +3,7 @@ import { getApiUrl } from '../config/environment';
 import styles from '../styles/index.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import loadingAnime from '../assets/Animation - 1716747954931.gif';
+import loadingAnime from '../assets/loading.gif';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserLock, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
 
@@ -20,21 +20,19 @@ const UniversalHeader: React.FC = () => {
   };
 
   useEffect(() => {
-    // Skip fetching user data if on polling officer routes
-    const isPollingOfficerRoute = location.pathname.startsWith('/polling-officer');
     const isAdminRoute = location.pathname === '/admin' || location.pathname.startsWith('/admin/');
 
     if (isAdminRoute) {
       // Check for super admin session
       checkSuperAdminSession();
-    } else if (!isPollingOfficerRoute) {
+    } else {
       fetchUserData();
     }
 
     const handleFocus = () => {
       if (isAdminRoute) {
         checkSuperAdminSession();
-      } else if (!isPollingOfficerRoute) {
+      } else {
         fetchUserData();
       }
     };

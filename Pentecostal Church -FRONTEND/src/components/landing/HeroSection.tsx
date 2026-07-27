@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Import community images
-import hero1 from '../../assets/hero-1.jpg';
+// TODO: hero-1.jpg is missing from assets — reusing hero-2.jpg as a stopgap. Replace with the real image.
+import hero1 from '../../assets/hero-2.jpg';
 import hero2 from '../../assets/hero-2.jpg';
 import hero3 from '../../assets/hero-3.jpg';
 import hero4 from '../../assets/hero-4.jpg';

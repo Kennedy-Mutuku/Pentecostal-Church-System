@@ -5,6 +5,7 @@ import cuLogo from '../assets/RPC logo updated document.png';
 import { Link } from 'react-router-dom';
 import styles from '../styles/signup.module.css';
 import { getApiUrl } from '../config/environment';
+import { User, Phone as PhoneIcon, Mail, CreditCard, Users as UsersIcon, Calendar, Clock, MapPin } from 'lucide-react';
 
 type FormData = {
   username: string;
@@ -46,7 +47,7 @@ const AdmissionAdmin: React.FC = () => {
   };
 
   const fieldBorder = (id: string) =>
-    errorField === id ? '2px solid #E53935' : '1.5px solid #ddd';
+    errorField === id ? '1.5px solid #E53935' : '1.5px solid transparent';
 
   function validatePhone(input: string) {
     return /^0\d{9}$/.test(input);
@@ -127,15 +128,8 @@ const AdmissionAdmin: React.FC = () => {
   };
 
   const inputStyle = (id: string): React.CSSProperties => ({
-    width: '100%',
-    padding: '7px 9px',
     border: fieldBorder(id),
-    borderRadius: '5px',
-    fontSize: '13px',
-    outline: 'none',
-    background: errorField === id ? '#fff5f5' : '#f8f8f8',
-    transition: 'border 0.2s, background 0.2s',
-    boxSizing: 'border-box',
+    background: errorField === id ? '#fff5f5' : '#F7F4EF',
   });
 
   return (
@@ -243,57 +237,98 @@ const AdmissionAdmin: React.FC = () => {
         @keyframes slideDown { from { transform: translateY(-20px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
         @keyframes popIn { 0% { transform: scale(0.6); opacity: 0 } 60% { transform: scale(1.06) } 100% { transform: scale(1); opacity: 1 } }
         @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 10px rgba(76,175,80,0.1), 0 8px 24px rgba(26,138,46,0.2) } 50% { box-shadow: 0 0 0 16px rgba(76,175,80,0.06), 0 8px 24px rgba(26,138,46,0.25) } }
-        .af-row { margin-bottom: 7px; }
+        .af-row { margin-bottom: 6px; }
         .af-row label {
-          display: block; font-size: 10px; font-weight: 700;
-          color: #555; margin-bottom: 2px; letter-spacing: 0.6px; text-transform: uppercase;
+          display: block; font-size: 12.5px; font-weight: 700;
+          color: #333; margin-bottom: 2px;
         }
+        .af-row label .req { color: #E53935; margin-left: 2px; }
         .af-row label.err-label { color: #E53935; }
-        .af-hint { font-size: 10px; color: #E53935; margin-top: 1px; display: block; }
+        .af-hint { font-size: 10px; color: #E53935; margin-top: 2px; display: block; }
+        .af-field { position: relative; }
+        .af-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: #9a9690; pointer-events: none; }
+        .af-input, .af-select {
+          width: 100%; padding: 9px 10px 9px 33px; border-radius: 12px;
+          font-size: 13.5px; outline: none; color: #333;
+          background-color: #F7F4EF;
+          transition: border 0.2s, background 0.2s; box-sizing: border-box;
+        }
         .af-select {
-          width: 100%; padding: 7px 28px 7px 9px; border-radius: 5px;
-          font-size: 13px; outline: none; color: #333;
-          background-color: #f8f8f8;
+          padding-right: 26px;
           background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23777'/%3E%3C/svg%3E");
           background-repeat: no-repeat;
-          background-position: right 9px center;
-          background-size: 8px 5px;
-          transition: border 0.2s; box-sizing: border-box;
+          background-position: right 12px center;
+          background-size: 10px 6px;
           appearance: none; -webkit-appearance: none;
         }
         .af-select.err-bg { background-color: #fff5f5; }
-        .af-grid-2 { display: grid; grid-template-columns: 1fr; gap: 7px; }
+
+        .af-header { padding: 20px 0 6px; }
+        .af-logo { width: 56px; height: 56px; margin: 0 auto 10px; }
+        .af-title { margin: 0; font-size: 20px; font-weight: 800; color: #1a1a2e; letter-spacing: -0.2px; }
+        .af-subtitle { margin: 4px 0 0; font-size: 12.5px; color: #888; }
+        .af-note { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #e8f4fd; border: 1px solid #bee5eb; border-radius: 14px; margin-bottom: 14px; }
+        .af-note p { margin: 0; color: #0c5460; font-size: 11.5px; }
+        .af-btns-row { flex-wrap: nowrap; }
+        .af-btn { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+        /* Fit comfortably on one mobile screen: hide icons (they clash with native select text),
+           and tighten every vertical gap. */
+        @media (max-width: 480px) {
+          .af-page-body { padding: 10px 0 !important; }
+          .af-page-container { padding: 6px 0 !important; }
+          .af-header { padding: 6px 0 3px; }
+          .af-logo { width: 36px; height: 36px; margin: 0 auto 4px; }
+          .af-title { font-size: 15.5px; }
+          .af-subtitle { font-size: 10.5px; margin-top: 1px; }
+          .af-icon { display: none; }
+          .af-input, .af-select { padding-left: 10px !important; padding-top: 6px !important; padding-bottom: 6px !important; font-size: 12.5px !important; border-radius: 10px !important; }
+          .af-row { margin-bottom: 3px; }
+          .af-row label { font-size: 10.5px; margin-bottom: 1px; }
+          .af-hint { font-size: 9px; margin-top: 1px; }
+          .af-note { padding: 6px 10px; margin-bottom: 6px; gap: 6px; }
+          .af-note p { font-size: 10px; }
+          .af-btns-row { gap: 8px !important; }
+          .af-btn { padding: 10px 6px !important; font-size: 0.82em !important; min-height: 38px !important; }
+        }
       `}</style>
 
-      <div className={styles.body}>
-        <div className={styles['container']}>
+      <div className={`${styles.body} af-page-body`}>
+        <div className={`${styles['container']} af-page-container`}>
 
-          {/* Compact header — logo + title inline */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center', padding: '10px 0 6px' }}>
-            <Link to="/">
-              <img src={cuLogo} alt="RPC logo" style={{ width: '36px', height: '36px', objectFit: 'contain', display: 'block' }} />
+          {/* Header — logo centered above bold title + subtitle */}
+          <div className="af-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+            <Link to="/" style={{ display: 'flex', justifyContent: 'center' }}>
+              <img src={cuLogo} alt="RPC logo" className="af-logo" style={{ objectFit: 'contain', display: 'block' }} />
             </Link>
-            <h2 style={{ margin: 0, fontSize: '15px', fontWeight: 800, color: '#1a1a2e', letterSpacing: '-0.2px' }}>
+            <h2 className="af-title">
               Admit New User
             </h2>
+            <p className="af-subtitle">
+              Register a new member into the RPC system
+            </p>
           </div>
 
-          <div className={styles['form']} style={{ marginTop: '4px' }}>
+          <div className={styles['form']} style={{ maxWidth: '360px', margin: '10px auto 0' }}>
 
-            {/* NAME — full width */}
+            {/* NAME */}
             <div className="af-row">
-              <label className={errorField === 'username' ? 'err-label' : ''}>NAME</label>
-              <input id="username" type="text" style={inputStyle('username')}
-                value={formData.username} onChange={handleChange}
-                placeholder="Full name..." />
+              <label className={errorField === 'username' ? 'err-label' : ''}>Full Name<span className="req">*</span></label>
+              <div className="af-field">
+                <User size={16} className="af-icon" />
+                <input id="username" type="text" className="af-input" style={inputStyle('username')}
+                  value={formData.username} onChange={handleChange}
+                  placeholder="Full name..." />
+              </div>
               {errorField === 'username' && <span className="af-hint">↑ Required</span>}
             </div>
 
-            {/* PHONE + EMAIL */}
-            <div className="af-grid-2">
-              <div className="af-row">
-                <label className={errorField === 'phone' ? 'err-label' : ''}>PHONE</label>
-                <input id="phone" type="tel" inputMode="numeric" maxLength={10} style={inputStyle('phone')}
+            {/* PHONE */}
+            <div className="af-row">
+              <label className={errorField === 'phone' ? 'err-label' : ''}>Phone<span className="req">*</span></label>
+              <div className="af-field">
+                <PhoneIcon size={16} className="af-icon" />
+                <input id="phone" type="tel" inputMode="numeric" maxLength={10} className="af-input" style={inputStyle('phone')}
                   value={formData.phone}
                   onChange={(e) => {
                     const v = e.target.value.replace(/\D/g, '');
@@ -301,44 +336,56 @@ const AdmissionAdmin: React.FC = () => {
                     setFormData(prev => ({ ...prev, phone: v }));
                   }}
                   placeholder="0712345678" />
-                {errorField === 'phone' && <span className="af-hint">↑ 10 digits, starts 0</span>}
               </div>
-              <div className="af-row">
-                <label className={errorField === 'email' ? 'err-label' : ''}>E-MAIL</label>
-                <input id="email" type="email" style={inputStyle('email')}
-                  value={formData.email} onChange={handleChange} placeholder="email@example.com" />
-                {errorField === 'email' && <span className="af-hint">↑ Required / already used</span>}
-              </div>
+              {errorField === 'phone' && <span className="af-hint">↑ 10 digits, starts 0</span>}
             </div>
 
-            {/* ID NUMBER + GENDER */}
-            <div className="af-grid-2">
-              <div className="af-row">
-                <label className={errorField === 'idNumber' ? 'err-label' : ''}>ID NUMBER</label>
-                <input id="idNumber" type="text" inputMode="numeric" style={inputStyle('idNumber')}
-                  value={formData.idNumber} onChange={handleChange} placeholder="National ID" />
-                {errorField === 'idNumber' && <span className="af-hint">↑ Required / already used</span>}
+            {/* EMAIL */}
+            <div className="af-row">
+              <label className={errorField === 'email' ? 'err-label' : ''}>Email<span className="req">*</span></label>
+              <div className="af-field">
+                <Mail size={16} className="af-icon" />
+                <input id="email" type="email" className="af-input" style={inputStyle('email')}
+                  value={formData.email} onChange={handleChange} placeholder="email@example.com" />
               </div>
-              <div className="af-row">
-                <label className={errorField === 'gender' ? 'err-label' : ''}>GENDER</label>
+              {errorField === 'email' && <span className="af-hint">↑ Required / already used</span>}
+            </div>
+
+            {/* ID NUMBER */}
+            <div className="af-row">
+              <label className={errorField === 'idNumber' ? 'err-label' : ''}>ID Number<span className="req">*</span></label>
+              <div className="af-field">
+                <CreditCard size={16} className="af-icon" />
+                <input id="idNumber" type="text" inputMode="numeric" className="af-input" style={inputStyle('idNumber')}
+                  value={formData.idNumber} onChange={handleChange} placeholder="National ID" />
+              </div>
+              {errorField === 'idNumber' && <span className="af-hint">↑ Required / already used</span>}
+            </div>
+
+            {/* GENDER */}
+            <div className="af-row">
+              <label className={errorField === 'gender' ? 'err-label' : ''}>Gender<span className="req">*</span></label>
+              <div className="af-field">
+                <UsersIcon size={16} className="af-icon" />
                 <select id="gender" className="af-select"
-                  style={{ border: fieldBorder('gender'), backgroundColor: errorField === 'gender' ? '#fff5f5' : '#f8f8f8' }}
+                  style={{ border: fieldBorder('gender'), backgroundColor: errorField === 'gender' ? '#fff5f5' : '#F7F4EF' }}
                   value={formData.gender} onChange={handleChange}>
                   <option value="">choose...</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </select>
-                {errorField === 'gender' && <span className="af-hint">↑ Required</span>}
               </div>
+              {errorField === 'gender' && <span className="af-hint">↑ Required</span>}
             </div>
 
-            {/* AGE GROUP + YEAR JOINED */}
-            <div className="af-grid-2">
-              <div className="af-row">
-                <label className={errorField === 'ageGroup' ? 'err-label' : ''}>AGE GROUP</label>
+            {/* AGE GROUP */}
+            <div className="af-row">
+              <label className={errorField === 'ageGroup' ? 'err-label' : ''}>Age Group<span className="req">*</span></label>
+              <div className="af-field">
+                <Calendar size={16} className="af-icon" />
                 <select id="ageGroup" className="af-select"
-                  style={{ border: fieldBorder('ageGroup'), backgroundColor: errorField === 'ageGroup' ? '#fff5f5' : '#f8f8f8' }}
+                  style={{ border: fieldBorder('ageGroup'), backgroundColor: errorField === 'ageGroup' ? '#fff5f5' : '#F7F4EF' }}
                   value={formData.ageGroup} onChange={handleChange}>
                   <option value="">choose...</option>
                   <option value="Kid (12 and below)">Kid (≤12)</option>
@@ -346,12 +393,17 @@ const AdmissionAdmin: React.FC = () => {
                   <option value="Adult (36-59)">Adult (36-59)</option>
                   <option value="Elderly (60 and above)">Elderly (60+)</option>
                 </select>
-                {errorField === 'ageGroup' && <span className="af-hint">↑ Required</span>}
               </div>
-              <div className="af-row">
-                <label className={errorField === 'yearJoined' ? 'err-label' : ''}>YEAR JOINED RPC</label>
+              {errorField === 'ageGroup' && <span className="af-hint">↑ Required</span>}
+            </div>
+
+            {/* YEAR JOINED */}
+            <div className="af-row">
+              <label className={errorField === 'yearJoined' ? 'err-label' : ''}>Year Joined<span className="req">*</span></label>
+              <div className="af-field">
+                <Clock size={16} className="af-icon" />
                 <select id="yearJoined" className="af-select"
-                  style={{ border: fieldBorder('yearJoined'), backgroundColor: errorField === 'yearJoined' ? '#fff5f5' : '#f8f8f8' }}
+                  style={{ border: fieldBorder('yearJoined'), backgroundColor: errorField === 'yearJoined' ? '#fff5f5' : '#F7F4EF' }}
                   value={formData.yearJoined} onChange={handleChange}>
                   <option value="">choose...</option>
                   {Array.from(
@@ -361,37 +413,35 @@ const AdmissionAdmin: React.FC = () => {
                     <option key={year} value={year.toString()}>{year}</option>
                   ))}
                 </select>
-                {errorField === 'yearJoined' && <span className="af-hint">↑ Required</span>}
               </div>
+              {errorField === 'yearJoined' && <span className="af-hint">↑ Required</span>}
             </div>
 
-            {/* RESIDENCE — full width */}
+            {/* RESIDENCE */}
             <div className="af-row">
-              <label className={errorField === 'residence' ? 'err-label' : ''}>RESIDENCE</label>
-              <input id="residence" type="text" style={inputStyle('residence')}
-                value={formData.residence} onChange={handleChange} placeholder="e.g. Kisii, Nairobi..." />
+              <label className={errorField === 'residence' ? 'err-label' : ''}>Residence<span className="req">*</span></label>
+              <div className="af-field">
+                <MapPin size={16} className="af-icon" />
+                <input id="residence" type="text" className="af-input" style={inputStyle('residence')}
+                  value={formData.residence} onChange={handleChange} placeholder="e.g. Kisii, Nairobi..." />
+              </div>
               {errorField === 'residence' && <span className="af-hint">↑ Required</span>}
             </div>
 
-            {/* Compact inline note */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '6px',
-              padding: '6px 10px', background: '#e8f4fd',
-              border: '1px solid #bee5eb', borderRadius: '6px',
-              marginBottom: '8px',
-            }}>
-              <span style={{ fontSize: '13px' }}>📱</span>
-              <p style={{ margin: 0, color: '#0c5460', fontSize: '11px' }}>
+            {/* Inline note */}
+            <div className="af-note">
+              <span style={{ fontSize: '14px' }}>📱</span>
+              <p>
                 <strong>Default password</strong> = phone number. Member can change it after login.
               </p>
             </div>
 
             {/* Action buttons */}
-            <div className={styles['submisions']} style={{ paddingTop: '0', paddingBottom: '6px' }}>
-              <div className={styles['clearForm']} onClick={clearForm}>Clear</div>
+            <div className={`${styles['submisions']} af-btns-row`} style={{ paddingTop: '0', paddingBottom: '10px' }}>
+              <div className={`${styles['clearForm']} af-btn`} onClick={clearForm} style={{ borderRadius: '999px' }}>Clear</div>
               {loading
-                ? <div className={styles['submitData']} style={{ opacity: 0.7, cursor: 'not-allowed' }}>Processing...</div>
-                : <div className={styles['submitData']} onClick={handleSubmit}>Admit User</div>
+                ? <div className={`${styles['submitData']} af-btn`} style={{ opacity: 0.7, cursor: 'not-allowed', borderRadius: '999px' }}>Processing...</div>
+                : <div className={`${styles['submitData']} af-btn`} onClick={handleSubmit} style={{ borderRadius: '999px' }}>Admit User</div>
               }
             </div>
 

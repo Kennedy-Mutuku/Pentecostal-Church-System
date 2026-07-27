@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import NET_IMG from '../../assets/NET.jpg';
 import styles from '../../styles/ET.module.css';
 import { Target, Eye, Activity } from 'lucide-react';
 
@@ -12,13 +11,7 @@ const Net: React.FC = () => {
         <div className={styles.etPage}>
 
             {/* Hero Banner */}
-            <section className={styles.etPageHero}>
-                <img 
-                    src={NET_IMG} 
-                    alt="NET" 
-                    className={styles.pageHeroImg} 
-                    style={{ '--hero-position': 'center 29%' } as React.CSSProperties} 
-                />
+            <section className={styles.etPageHero} style={{ background: 'linear-gradient(135deg, #482078, #730051)' }}>
                 <div className={styles.pageHeroContent}>
                     <h1 className={styles.heroTitle}>Nyanza Evangelistic Team</h1>
                 </div>

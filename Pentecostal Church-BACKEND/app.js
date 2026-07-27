@@ -4,9 +4,6 @@ const socketIo = require('socket.io');
 const path = require('path')
 const mongoose = require('mongoose');
 const userRoutes = require('./routes/userRoutes');
-const newsAdminRoutes = require('./routes/newsRoutes')
-const missionAdminRoutes = require('./routes/missionRoutes')
-const bsAdminRoutes = require('./routes/bsRoutes')
 const superAdminRoutes = require('./routes/superAdminRoutes')
 const admissionAdminRoutes = require('./routes/admissionAdminRoutes')
 const commitmentRoutes = require('./routes/commitmentRoute.js')
@@ -17,7 +14,6 @@ const requisitionRoutes = require('./routes/requisitionRoutes')
 const settingsRoutes = require('./routes/settingsRoutes')
 const compassionRoutes = require('./routes/compassionRoutes')
 const messageRoutes = require('./routes/messageRoutes')
-const pollingOfficerRoutes = require('./routes/pollingOfficerRoutes')
 const documentRoutes = require('./routes/documentRoutes')
 const minutesRoutes = require('./routes/minutesRoutes')
 const ministryRegistrationRoutes = require('./routes/ministryRegistrationRoutes');
@@ -125,10 +121,6 @@ mongoose.connect(dbUri, {
 });
 
 app.use('/users', userRoutes);
-app.use('/adminnews', newsAdminRoutes);
-app.use('/news', newsAdminRoutes); // Add direct news route
-app.use('/adminmission', missionAdminRoutes);
-app.use('/adminBs', bsAdminRoutes);
 app.use('/sadmin', superAdminRoutes);
 app.use('/admissionadmin', admissionAdminRoutes);
 app.use('/commitmentForm', commitmentRoutes);
@@ -139,7 +131,6 @@ app.use('/api', requisitionRoutes);
 app.use('/api', settingsRoutes);
 app.use('/api/compassion', compassionRoutes);
 app.use('/messages', messageRoutes);
-app.use('/polling-officer', pollingOfficerRoutes);
 app.use('/documents', documentRoutes);
 app.use('/minutes', minutesRoutes);
 app.use('/api/ministry-registration', ministryRegistrationRoutes);

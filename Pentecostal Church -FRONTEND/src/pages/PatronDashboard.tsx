@@ -6,7 +6,8 @@ import 'jspdf-autotable';
 import styles from '../styles/superAdmin.module.css';
 import { X, Search, RefreshCw, User, Mail, Phone, BookOpen, Wallet, Gem, ShieldCheck, Layers, Users, MessageSquare, Bell } from 'lucide-react';
 import { getApiUrl, getImageUrl } from '../config/environment';
-import letterhead from '../assets/letterhead.png';
+// TODO: letterhead.png is missing from assets — reusing the RPC logo as a stopgap. Replace with the real letterhead image.
+import letterhead from '../assets/RPC logo updated document.png';
 import PatronSidebar, { PatronSection } from '../components/PatronSidebar';
 import { financeApi } from '../services/financeApi';
 import FinancePanel from '../components/finance/FinancePanel';

@@ -11,10 +11,8 @@
     "create-user": "node scripts/createUser.js",
     "create-message-admin": "node scripts/createMessageAdmin.js",
     "create-super-admin": "node scripts/createSuperAdmin.js",
-    "create-polling-officer": "node scripts/createPollingOfficer.js",
     "create-test-users": "node scripts/createTestUsers.js",
-    "reset-minutes-pin": "node scripts/resetMinutesPin.js",
-    "test:polling": "node tests/testPollingSystem.js"
+    "reset-minutes-pin": "node scripts/resetMinutesPin.js"
   },
   "dependencies": {
     "@simplewebauthn/server": "^13.3.1",

@@ -20,7 +20,7 @@ import {
 } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
-import loadingAnime from '../assets/Animation - 1716747954931.gif';
+import loadingAnime from '../assets/loading.gif';
 
 interface Message {
   id: string;

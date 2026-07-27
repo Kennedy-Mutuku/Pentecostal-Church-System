@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './praiseAndWorship.module.css';
 import { Link } from 'react-router-dom';
-import praiseAndWorshipImg from '../../assets/praise-and-worship.jpg';
 import MinistryRegistrationModal from '../../components/MinistryRegistrationModal';
 
 const PraiseAndWorshipPage: React.FC = () => {
@@ -37,7 +36,7 @@ const PraiseAndWorshipPage: React.FC = () => {
 
   return (
     <>
-      <div className={styles.heroSection} style={{ '--hero-bg': `url(${praiseAndWorshipImg})` } as React.CSSProperties}>
+      <div className={styles.heroSection} style={{ '--hero-bg': 'linear-gradient(135deg, #482078, #730051)' } as React.CSSProperties}>
         <div className={styles.heroContent}>
           <h1 className={styles.title}>Praise & Worship Ministry</h1>
           <p className={styles.subtitle}>Leading hearts into God’s presence through authentic worship</p>

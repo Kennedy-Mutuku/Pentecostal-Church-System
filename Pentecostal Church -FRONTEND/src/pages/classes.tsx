@@ -2,15 +2,10 @@ import React from 'react';
 import styles from '../styles/classes.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTiktok, faXTwitter, faYoutube } from '@fortawesome/free-brands-svg-icons';
-import betPImg from '../assets/Best-p.png'
-import classImg from '../assets/class.png'
-import disciplesipImg from '../assets/discipleship.png'
-import fellowshipImg from '../assets/fellowship.png'
 
 interface ClassInfo {
   title: string;
   description: string;
-  imgSrc: any;
   delay: string;
   socialLink: string;
   socialIconClass: any;
@@ -21,7 +16,6 @@ const classData: ClassInfo[] = [
     title: 'BEST-P CLASSES',
     description:
       '"BEST-P" is an acronym for Bible Expository Self-Training Program. It is a long term group oriented training program on inductive Bible study, principles of bible interpretation, expository preaching, and apologetics.',
-    imgSrc: betPImg,
     delay: '0.1s',
     socialLink: 'https://www.facebook.com/share/18rhcZ1XpA/',
     socialIconClass: faFacebook,
@@ -30,7 +24,6 @@ const classData: ClassInfo[] = [
     title: 'DISCIPLESHIP CLASSES',
     description:
       'Introduces the process of Discipleship to members and explains the whole process of becoming an effective disciple and a discipler. We also get to discuss several topical subjects that benefit spiritually and socially.',
-    imgSrc: disciplesipImg,
     delay: '0.2s',
     socialLink: 'https://www.tiktok.com/@rikurumapentecostal',
     socialIconClass: faTiktok,
@@ -39,7 +32,6 @@ const classData: ClassInfo[] = [
     title: 'CLASS FELLOWSHIPS',
     description:
       'These are fellowships according to year of study. This is where members get to discuss topical issues and matters concerning the classes. The fellowships may be combined or separate as agreed by the responsible leaders.',
-    imgSrc: classImg,
     delay: '0.3s',
     socialLink: 'https://x.com/rpcnyamira',
     socialIconClass: faXTwitter,
@@ -48,7 +40,6 @@ const classData: ClassInfo[] = [
     title: 'B/S FELLOWSHIPS',
     description:
       "Brothers' fellowships deal with matters concerning gents and Sisters' fellowships for ladies. Both fellowships handle topics that benefit members academically, spiritually, financially, socially, and physically.",
-    imgSrc: fellowshipImg,
     delay: '0.4s',
     socialLink: 'https://www.youtube.com/@savedbychriststainedbylove',
     socialIconClass: faYoutube,
@@ -73,9 +64,6 @@ const ClassesSection: React.FC = () => {
               }`}
               style={{ animationDelay: classInfo.delay }}
             >
-              <div className={styles.classimg}>
-                <img src={classInfo.imgSrc} alt={classInfo.title} />
-              </div>
               <div className={styles.classBox}>
                 <h3>{classInfo.title}</h3>
                 <p>{classInfo.description}</p>

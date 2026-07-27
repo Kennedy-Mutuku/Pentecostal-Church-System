@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import styles from '../styles/elders.module.css';
-import img from '../assets/elders-Attire.jpg';
 import whatsappIcon from '../assets/Download Whatsapp logo_ 3d render_.png'; // Add your WhatsApp icon image here
 
 const Elders: React.FC = () => {
@@ -20,9 +19,6 @@ const Elders: React.FC = () => {
     <>
       <main>
         <div className={styles['container']}>
-          <div className={styles['photoImg']}>
-            <img src={img} alt="Elders-attire" />
-          </div>
           <a
             href={whatsappLink}
             className={`${styles['whatsappPopup']} ${showPopup ? styles['show'] : ''}`}

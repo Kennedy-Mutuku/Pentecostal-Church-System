@@ -1,14 +1,8 @@
-import ictBoardImg from "../assets/Screenshot 2026-01-28 185706.png";
-import editorialBoardImg from "../assets/IMG-20260129-WA0046.jpg";
-import commBoardImg from "../assets/software comm.jpeg";
-import mediaBoardImg from "../assets/screen-projector-projector-is-showing-video-digital-video-projector-action_345343-9289.jpg";
-
 export const boards = [
     {
       id: "ict",
       title: "ICT Board",
       icon: "fas fa-laptop-code",
-      image: ictBoardImg,
       description:
         "Consists of the public secretary as the overseer, with chairperson and secretary to the board nominated by the board members. Other members are approved by the board. Prepares and updates the RPC Nyamira database. Manages the Facebook account and the church website. Projects all the church activities.",
       social: [
@@ -40,7 +34,6 @@ export const boards = [
       id: "editorial",
       title: "Editorial Board",
       icon: "fas fa-pen-fancy",
-      image: editorialBoardImg,
       description:
         "Consists of the board coordinator as overseer with chairperson and secretary nominated by the board members. Responsible for Beyond Horizon magazine and approved publications.",
       social: [
@@ -72,7 +65,6 @@ export const boards = [
       id: "communication",
       title: "Communication Board",
       icon: "fas fa-comments",
-      image: commBoardImg,
       description:
         "Consists of the board coordinator as the overseer, with the chairperson and secretary to the board nominated by the board members. Other members approved by the board. Responsible for publishing the Beyond Horizon magazine and any publication approved by the executive. Responsible for any sales of publications.",
       social: [
@@ -104,7 +96,6 @@ export const boards = [
       id: "media",
       title: "Media Board",
       icon: "fas fa-camera-retro",
-      image: mediaBoardImg,
       description:
         "Responsible for photography, videography, livestreaming, editing, and documenting church activities and events. Consists of the public secretary as the overseer to the board, chairperson and secretary nominated by the board members. Other members approved by the board. Responsible for covering all church events through photography and videography, managing the RPC Nyamira YouTube channel, and advising the executive on buying, maintaining and disposing of board's assets.",
       social: [
