@@ -91,8 +91,9 @@ const HeroSection = () => {
               alt={slide.title}
               className="w-full h-full object-cover"
               style={{
-                transform: (isActive || isPrevious) ? 'scale(1.15)' : 'scale(1)',
+                transform: (isActive || isPrevious) ? 'scale(1.06)' : 'scale(1)',
                 transition: 'transform 6s ease-out',
+                filter: 'saturate(1.15) contrast(1.08)',
               }}
             />
             {/* Dark Gradient Overlay */}
@@ -123,7 +124,7 @@ const HeroSection = () => {
                   style={{
                     fontFamily: "'Archivo Black', sans-serif",
                     letterSpacing: '-0.01em',
-                    textShadow: '3px 3px 6px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 0, 0, 0.4)',
+                    textShadow: '0 2px 4px rgba(0, 0, 0, 0.9), 0 1px 2px rgba(0, 0, 0, 0.7)',
                     maxWidth: '850px'
                   }}
                 >
@@ -135,7 +136,7 @@ const HeroSection = () => {
                   className="text-xs sm:text-base md:text-lg lg:text-xl text-white/95 max-w-2xl mx-auto leading-relaxed mb-4 md:mb-10 font-normal"
                   style={{
                     fontFamily: "'Poppins', sans-serif",
-                    textShadow: '2px 2px 4px rgba(0, 0, 0, 0.85), 0 0 15px rgba(0, 0, 0, 0.3)'
+                    textShadow: '0 1px 3px rgba(0, 0, 0, 0.85)'
                   }}
                 >
                   {slide.subtitle}
@@ -145,7 +146,7 @@ const HeroSection = () => {
                 <div className="flex flex-row gap-3 sm:gap-4 justify-center items-center">
                   <a
                     href="#about"
-                    className="px-6 py-2.5 md:px-8 md:py-3.5 bg-[#E53935] hover:bg-[#C62828] text-white text-xs md:text-sm font-bold uppercase tracking-wider rounded-md transition-all duration-300 hover:scale-105 shadow-lg shadow-black/30 cursor-pointer text-center"
+                    className="px-6 py-2.5 md:px-8 md:py-3.5 bg-[#FF3B30] hover:bg-[#E0221A] text-white text-xs md:text-sm font-bold uppercase tracking-wider rounded-md transition-all duration-300 hover:scale-105 shadow-lg shadow-black/30 cursor-pointer text-center"
                   >
                     Learn More
                   </a>

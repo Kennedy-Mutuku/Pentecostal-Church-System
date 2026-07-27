@@ -57,14 +57,14 @@ const Footer = () => {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-300 hover:text-[#E53935] hover:underline underline-offset-4 transition-colors text-sm"
+                      className="text-gray-300 hover:text-[#FF3B30] hover:underline underline-offset-4 transition-colors text-sm"
                     >
                       {link.label}
                     </a>
                   ) : (
                     <Link
                       to={link.href}
-                      className="text-gray-300 hover:text-[#E53935] hover:underline underline-offset-4 transition-colors text-sm"
+                      className="text-gray-300 hover:text-[#FF3B30] hover:underline underline-offset-4 transition-colors text-sm"
                     >
                       {link.label}
                     </Link>
@@ -79,19 +79,19 @@ const Footer = () => {
             <h4 className="font-semibold text-lg mb-4">Contact Us</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <MapPin size={18} className="text-[#E53935] mt-0.5 flex-shrink-0" />
+                <MapPin size={18} className="text-[#FF3B30] mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-gray-400">
                   P.O BOX 408-40200<br />Kisii, Kenya
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone size={18} className="text-[#E53935] flex-shrink-0" />
+                <Phone size={18} className="text-[#FF3B30] flex-shrink-0" />
                 <a href="tel:+254762053876" className="text-sm text-gray-400 hover:text-white transition-colors">
                   +254 762 053 876
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail size={18} className="text-[#E53935] flex-shrink-0" />
+                <Mail size={18} className="text-[#FF3B30] flex-shrink-0" />
                 <a href="mailto:communityofbelieversinjesus@gmail.com" className="text-sm text-gray-400 hover:text-white transition-colors break-all">
                   communityofbelieversinjesus@gmail.com
                 </a>
@@ -112,7 +112,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#C62828] hover:text-white hover:scale-115 transition-all duration-200"
+                    className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#E0221A] hover:text-white hover:scale-115 transition-all duration-200"
                   >
                     <Icon size={18} />
                   </a>
@@ -143,7 +143,7 @@ const Footer = () => {
       </div>
 
       {/* Bottom accent line - Crimson Red Theme Gradient */}
-      <div style={{ height: '4px', background: 'linear-gradient(90deg, #880000, #C62828, #E53935, #C62828, #880000)' }} />
+      <div style={{ height: '4px', background: 'linear-gradient(90deg, #A6120A, #E0221A, #FF3B30, #E0221A, #A6120A)' }} />
     </footer>
   );
 };
