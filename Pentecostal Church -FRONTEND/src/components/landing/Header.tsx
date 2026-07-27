@@ -386,7 +386,7 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
       {/* Icon strip / Sidebar */}
       <div ref={sidebarRef} style={{
         position: 'fixed', top: '104px', left: 0, bottom: 0,
-        width: isExpanded ? '148px' : '52px',
+        width: isExpanded ? '148px' : '44px',
         backgroundColor: '#341558',
         display: 'block',
         textAlign: isExpanded ? 'left' : 'center',
@@ -412,7 +412,7 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
                 onClick={() => handleTabClick(tab.key)}
                 title={tab.label}
                 style={{
-                  width: isExpanded ? '136px' : '46px',
+                  width: isExpanded ? '136px' : '38px',
                   minHeight: '38px',
                   marginBottom: '2px',
                   display: 'flex',
@@ -431,19 +431,19 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
                   transform: isActive ? 'scale(1.02)' : 'scale(1)',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '28px', height: '28px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '22px', height: '22px' }}>
                   {isUser ? (
                     userData?.profilePhoto ? (
                       <img
                         src={getImageUrl(userData.profilePhoto)}
                         alt=""
-                        style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.8)' }}
+                        style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.8)' }}
                       />
                     ) : (
-                      <User size={22} />
+                      <User size={18} />
                     )
                   ) : (
-                    <Icon size={22} />
+                    <Icon size={18} />
                   )}
                 </div>
 
