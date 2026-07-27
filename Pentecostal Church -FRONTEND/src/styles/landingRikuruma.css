@@ -148,6 +148,29 @@
     }
 }
 
+@media (max-width: 480px) {
+    .landing-rikuruma .section {
+        padding: 18px 0;
+    }
+
+    .landing-rikuruma .section-header {
+        margin-bottom: 14px;
+    }
+
+    .landing-rikuruma .section-title {
+        font-size: 1.4rem;
+        line-height: 1.2;
+        margin-bottom: 8px;
+        letter-spacing: -0.3px;
+    }
+
+    .landing-rikuruma .section-subtitle {
+        font-size: 0.75rem;
+        letter-spacing: 1.5px;
+        margin-bottom: 6px;
+    }
+}
+
 .landing-rikuruma .section-description {
     max-width: 600px;
     margin: 0 auto;
@@ -173,6 +196,12 @@
 @media (max-width: 768px) {
     .landing-rikuruma .wave-divider svg {
         height: 35px;
+    }
+}
+
+@media (max-width: 480px) {
+    .landing-rikuruma .wave-divider svg {
+        height: 22px;
     }
 }
 
@@ -298,6 +327,10 @@
 }
 
 @media (max-width: 480px) {
+    .landing-rikuruma .about-content {
+        gap: 18px;
+    }
+
     .landing-rikuruma .about-features {
         flex-direction: column;
         gap: 15px;
