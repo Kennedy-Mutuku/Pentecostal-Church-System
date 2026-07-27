@@ -818,7 +818,7 @@ const Header = () => {
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="md:hidden flex-1 flex items-center justify-center gap-1 min-w-0 pr-1">
               <img src={cuLogo} alt="RPC Logo" className="w-8 h-8 object-contain flex-shrink-0" />
               <div className="flex flex-col items-center overflow-hidden min-w-0">
-                <span className="font-bold text-gray-900 leading-none text-[10px] tracking-tight truncate w-full text-center" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                <span className="text-gray-900 leading-none text-[10px] tracking-tight truncate w-full text-center" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
                   Rikuruma Pentecostal Church
                 </span>
                 <div className="flex items-center justify-center gap-1 mt-0.5 w-full">
@@ -878,7 +878,7 @@ const Header = () => {
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hidden md:flex items-center gap-2 xl:gap-3 flex-shrink-0">
               <img src={cuLogo} alt="RPC Logo" className="w-10 h-10 xl:w-14 xl:h-14 object-contain flex-shrink-0" />
               <div className="flex flex-col min-w-0">
-                <div className="font-extrabold text-gray-900 leading-none tracking-tight uppercase" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                <div className="text-gray-900 leading-none tracking-tight uppercase" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
                   <span className="hidden xl:inline text-base">Rikuruma Pentecostal Church</span>
                   <span className="xl:hidden text-[11px]">RPC</span>
                 </div>

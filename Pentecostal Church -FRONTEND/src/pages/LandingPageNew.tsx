@@ -23,7 +23,8 @@ interface Activity {
 interface Choir {
   id: number;
   title: string;
-  videoUrl: string;
+  videoId: string;
+  start: number;
 }
 
 interface Testimonial {
@@ -112,19 +113,23 @@ const LandingPageNew = () => {
     {
       id: 1,
       title: "1. Born to Worship Singers",
-      videoUrl: "https://www.youtube.com/embed/O9QnigyLpKY?si=Qel0bhomgbV2vD4-&start=12&autoplay=1&mute=1&playsinline=1"
+      videoId: "O9QnigyLpKY",
+      start: 12
     },
     {
       id: 2,
       title: "2. Agape Hearts Singers",
-      videoUrl: "https://www.youtube.com/embed/y7yKev9NPYI?si=1BkELlcqMarSchT1&start=10&playsinline=1"
+      videoId: "y7yKev9NPYI",
+      start: 10
     },
     {
       id: 3,
       title: "3. Trumpet of Yahweh Choir",
-      videoUrl: "https://www.youtube.com/embed/AaiI4I7-Bmw?si=z0t0kaagwnKeDW-t&start=12&playsinline=1"
+      videoId: "AaiI4I7-Bmw",
+      start: 12
     }
   ];
+  const [playingChoirId, setPlayingChoirId] = useState<number | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -233,12 +238,42 @@ const LandingPageNew = () => {
               {choirs.map((choir, index) => (
                 <div key={choir.id} className={`choir-card ${index === currentChoir ? 'active' : ''}`}>
                   <div className="video-container">
-                    <iframe
-                      src={choir.videoUrl}
-                      title={choir.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    ></iframe>
+                    {playingChoirId === choir.id ? (
+                      <iframe
+                        src={`https://www.youtube.com/embed/${choir.videoId}?start=${choir.start}&autoplay=1&playsinline=1`}
+                        title={choir.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      ></iframe>
+                    ) : (
+                      <button
+                        type="button"
+                        className="video-thumbnail-trigger"
+                        onClick={() => setPlayingChoirId(choir.id)}
+                        aria-label={`Play ${choir.title}`}
+                        style={{
+                          position: 'absolute', inset: 0, width: '100%', height: '100%',
+                          border: 0, padding: 0, cursor: 'pointer',
+                          backgroundImage: `url(https://img.youtube.com/vi/${choir.videoId}/hqdefault.jpg)`,
+                          backgroundSize: 'cover', backgroundPosition: 'center',
+                        }}
+                      >
+                        <span style={{
+                          position: 'absolute', inset: 0,
+                          background: 'linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.35))',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        }}>
+                          <span style={{
+                            width: '64px', height: '64px', borderRadius: '50%',
+                            background: 'rgba(198,40,40,0.9)', color: '#fff',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            boxShadow: '0 4px 16px rgba(0,0,0,0.35)',
+                          }}>
+                            <i className="fas fa-play" style={{ fontSize: '22px', marginLeft: '4px' }}></i>
+                          </span>
+                        </span>
+                      </button>
+                    )}
                   </div>
                   <div className="choir-info">
                     <h3>{choir.title}</h3>
@@ -253,6 +288,27 @@ const LandingPageNew = () => {
               <button className="slider-next" onClick={nextChoir} aria-label="Next Choir">
                 <i className="fas fa-chevron-right"></i>
               </button>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+              <a
+                href="https://www.youtube.com/@savedbychriststainedbylove?sub_confirmation=1"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '10px',
+                  padding: '12px 28px', borderRadius: '9999px',
+                  background: '#FF0000', color: '#fff',
+                  fontWeight: 700, fontSize: '0.95rem',
+                  textDecoration: 'none', boxShadow: '0 4px 14px rgba(255,0,0,0.3)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(255,0,0,0.4)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 14px rgba(255,0,0,0.3)'; }}
+              >
+                <i className="fab fa-youtube" style={{ fontSize: '1.3rem' }}></i>
+                Subscribe on YouTube
+              </a>
             </div>
           </div>
         </section>
@@ -315,7 +371,9 @@ const LandingPageNew = () => {
                   </div>
                   <div className="testimonial-author">
                     <div className="author-image">
-                      <i className="fas fa-user"></i>
+                      <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff' }}>
+                        {testimonial.author.trim().charAt(0).toUpperCase()}
+                      </span>
                     </div>
                     <div className="author-info">
                       <h4>{testimonial.author}</h4>

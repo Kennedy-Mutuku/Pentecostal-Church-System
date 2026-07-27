@@ -57,14 +57,14 @@ const Footer = () => {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-[#E53935] transition-colors text-sm"
+                      className="text-gray-300 hover:text-[#E53935] hover:underline underline-offset-4 transition-colors text-sm"
                     >
                       {link.label}
                     </a>
                   ) : (
                     <Link
                       to={link.href}
-                      className="text-gray-400 hover:text-[#E53935] transition-colors text-sm"
+                      className="text-gray-300 hover:text-[#E53935] hover:underline underline-offset-4 transition-colors text-sm"
                     >
                       {link.label}
                     </Link>

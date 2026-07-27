@@ -70,7 +70,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative h-[380px] md:h-screen md:min-h-[650px] overflow-hidden bg-black md:pt-20">
+    <section className="relative h-[380px] md:h-[70vh] md:min-h-[480px] md:max-h-[620px] overflow-hidden bg-black md:pt-20">
       {/* Background Images with Smooth Crossfade */}
       {slides.map((slide, index) => {
         const isActive = index === currentSlide;
@@ -117,11 +117,12 @@ const HeroSection = () => {
                   pointerEvents: isActive ? 'auto' : 'none',
                 }}
               >
-                {/* Main Heading in Serif font */}
+                {/* Main Heading — matches the bold brand wordmark */}
                 <h1
-                  className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-extrabold text-white mb-2 md:mb-6 leading-tight tracking-tight"
+                  className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-2 md:mb-6 leading-tight"
                   style={{
-                    fontFamily: "'Playfair Display', Georgia, serif",
+                    fontFamily: "'Archivo Black', sans-serif",
+                    letterSpacing: '-0.01em',
                     textShadow: '3px 3px 6px rgba(0, 0, 0, 0.95), 0 0 35px rgba(0, 0, 0, 0.4)',
                     maxWidth: '850px'
                   }}
