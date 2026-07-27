@@ -386,7 +386,7 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
       {/* Icon strip / Sidebar */}
       <div ref={sidebarRef} style={{
         position: 'fixed', top: '104px', left: 0, bottom: 0,
-        width: isExpanded ? '180px' : '52px',
+        width: isExpanded ? '148px' : '52px',
         backgroundColor: '#341558',
         display: 'block',
         textAlign: isExpanded ? 'left' : 'center',
@@ -412,7 +412,7 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
                 onClick={() => handleTabClick(tab.key)}
                 title={tab.label}
                 style={{
-                  width: isExpanded ? '168px' : '46px',
+                  width: isExpanded ? '136px' : '46px',
                   minHeight: '38px',
                   marginBottom: '2px',
                   display: 'flex',
@@ -485,7 +485,7 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
                 <div
                   ref={el => { dropdownRefs.current[tab.key] = el; }}
                   style={{
-                    width: '168px',
+                    width: '136px',
                     background: 'rgba(255,255,255,0.98)',
                     borderRadius: '8px',
                     marginTop: '2px',
