@@ -5,10 +5,10 @@
 
 .landing-rikuruma {
     /* Color Palette & Scoped Styling Variables */
-    --primary-color: #FF3B30;
-    --primary-dark: #E0221A;
-    --secondary-color: #FF5252;
-    --secondary-light: #FF6E6E;
+    --primary-color: #482078;
+    --primary-dark: #341558;
+    --secondary-color: #FF3B30;
+    --secondary-light: #FF6659;
     --accent-color: #FFB300;
     --text-color: #333333;
     --text-light: #666666;
@@ -860,7 +860,7 @@
 .landing-rikuruma .author-image {
     width: 60px;
     height: 60px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     border-radius: 50%;
     display: flex;
     align-items: center;
@@ -960,7 +960,7 @@
    CTA & Lipa Na M-Pesa Section
    ========================================================================== */
 .landing-rikuruma .cta-section {
-    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    background: linear-gradient(135deg, var(--secondary-color) 0%, #C41E14 100%);
     padding: 50px 0;
     position: relative;
     overflow: hidden;
@@ -1074,14 +1074,14 @@
 }
 
 .landing-rikuruma .cta-section .btn-primary {
-    background-color: var(--primary-color);
+    background-color: var(--secondary-color);
     border-color: rgba(255, 255, 255, 0.2);
     padding: 10px 25px;
     font-size: 0.9rem;
 }
 
 .landing-rikuruma .cta-section .btn-primary:hover {
-    background-color: var(--primary-dark);
+    background-color: #C41E14;
     border-color: rgba(255, 255, 255, 0.4);
 }
 
