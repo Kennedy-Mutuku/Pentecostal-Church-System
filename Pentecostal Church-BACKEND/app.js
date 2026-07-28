@@ -55,11 +55,9 @@ const corsOptions = {
 
     // More permissive CORS for production debugging
     if (nodeEnv === 'development') {
-      const devOrigins = ['http://localhost:5173', 'http://localhost:5174', 'http://localhost:5175', 'http://localhost:5176'];
-      console.log(`Dev allowed origins:`, devOrigins);
-
       const isLocalOrigin = !origin ||
-        devOrigins.includes(origin) ||
+        /^http:\/\/localhost:\d+$/.test(origin) ||
+        /^http:\/\/127\.0\.0\.1:\d+$/.test(origin) ||
         origin.startsWith('http://192.168.') ||
         origin.startsWith('http://10.') ||
         origin.includes('.local:');
