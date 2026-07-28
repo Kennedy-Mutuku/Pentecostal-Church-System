@@ -1,11 +1,13 @@
 // @ts-nocheck
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import cuLogo from '../assets/RPC logo updated document.png';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import styles from '../styles/signup.module.css';
 import { getApiUrl } from '../config/environment';
-import { User, Phone as PhoneIcon, Mail, CreditCard, Users as UsersIcon, Calendar, Clock, MapPin } from 'lucide-react';
+import { User, Phone as PhoneIcon, Mail, CreditCard, Users as UsersIcon, Calendar, Clock, MapPin, Home } from 'lucide-react';
+
+type FamilyRole = 'independent' | 'newFamily' | 'joinFamily';
 
 type FormData = {
   username: string;
@@ -16,6 +18,15 @@ type FormData = {
   ageGroup: string;
   yearJoined: string;
   residence: string;
+  familyRole: FamilyRole;
+  familyName: string;
+  familyId: string;
+  relationToHead: string;
+};
+
+type FamilyOption = {
+  _id: string;
+  familyName: string;
 };
 
 const EMPTY: FormData = {
@@ -27,15 +38,52 @@ const EMPTY: FormData = {
   ageGroup: '',
   yearJoined: '',
   residence: '',
+  familyRole: 'independent',
+  familyName: '',
+  familyId: '',
+  relationToHead: '',
 };
 
 const AdmissionAdmin: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState<FormData>({ ...EMPTY });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [admittedName, setAdmittedName] = useState('');
+  const [admittedHasLogin, setAdmittedHasLogin] = useState(true);
   const [errorField, setErrorField] = useState('');
+  const [families, setFamilies] = useState<FamilyOption[]>([]);
+  const [familiesLoading, setFamiliesLoading] = useState(false);
+
+  // Prefill from "+ Add Member to this Family" link in Manage Users
+  useEffect(() => {
+    const prefFamilyId = searchParams.get('familyId');
+    const prefFamilyRole = searchParams.get('familyRole');
+    if (prefFamilyId && prefFamilyRole === 'joinFamily') {
+      setFormData(prev => ({ ...prev, familyRole: 'joinFamily', familyId: prefFamilyId }));
+      loadFamilies();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const loadFamilies = async () => {
+    if (families.length || familiesLoading) return;
+    setFamiliesLoading(true);
+    try {
+      const response = await axios.get(getApiUrl('admissionAdminGetFamilies'), { withCredentials: true });
+      setFamilies(response.data || []);
+    } catch (err) {
+      console.error('Error loading families:', err);
+    } finally {
+      setFamiliesLoading(false);
+    }
+  };
+
+  const handleFamilyRoleChange = (role: FamilyRole) => {
+    setFormData(prev => ({ ...prev, familyRole: role }));
+    if (role === 'joinFamily') loadFamilies();
+  };
 
   const trim = (v: string) => v.replace(/^\s+/, '');
 
@@ -74,17 +122,30 @@ const AdmissionAdmin: React.FC = () => {
       ageGroup: formData.ageGroup.trim(),
       yearJoined: formData.yearJoined.trim(),
       residence: formData.residence.trim(),
+      familyRole: formData.familyRole,
+      familyName: formData.familyName.trim(),
+      familyId: formData.familyId,
+      relationToHead: formData.relationToHead,
     };
 
     if (!data.username) return showError('Please fill in the Name field.', 'username');
-    if (!data.phone) return showError('Please fill in the Phone field.', 'phone');
-    if (!validatePhone(data.phone)) return showError('Phone must be 10 digits starting with 0 (e.g. 0712345678).', 'phone');
-    if (!data.email) return showError('Please fill in the Email field.', 'email');
-    if (!data.idNumber) return showError('Please fill in the ID Number field.', 'idNumber');
-    if (!data.gender) return showError('Please select a Gender.', 'gender');
-    if (!data.ageGroup) return showError('Please select an Age Group.', 'ageGroup');
-    if (!data.yearJoined) return showError('Please select the Year Joined RPC.', 'yearJoined');
-    if (!data.residence) return showError('Please fill in the Residence field.', 'residence');
+
+    if (data.familyRole === 'joinFamily') {
+      if (!data.ageGroup) return showError('Please select an Age Group.', 'ageGroup');
+      if (!data.familyId) return showError('Please select a family to join.', 'familyId');
+      if (!data.relationToHead) return showError('Please select their relationship to the head of family.', 'relationToHead');
+      if (data.phone && !validatePhone(data.phone)) return showError('Phone must be 10 digits starting with 0 (e.g. 0712345678).', 'phone');
+    } else {
+      if (!data.phone) return showError('Please fill in the Phone field.', 'phone');
+      if (!validatePhone(data.phone)) return showError('Phone must be 10 digits starting with 0 (e.g. 0712345678).', 'phone');
+      if (!data.email) return showError('Please fill in the Email field.', 'email');
+      if (!data.idNumber) return showError('Please fill in the ID Number field.', 'idNumber');
+      if (!data.gender) return showError('Please select a Gender.', 'gender');
+      if (!data.ageGroup) return showError('Please select an Age Group.', 'ageGroup');
+      if (!data.yearJoined) return showError('Please select the Year Joined RPC.', 'yearJoined');
+      if (!data.residence) return showError('Please fill in the Residence field.', 'residence');
+      if (data.familyRole === 'newFamily' && !data.familyName) return showError('Please give this family a name.', 'familyName');
+    }
 
     setLoading(true);
     setError('');
@@ -96,6 +157,7 @@ const AdmissionAdmin: React.FC = () => {
 
       if (response.status === 200 || response.status === 201) {
         setAdmittedName(data.username);
+        setAdmittedHasLogin(Boolean(data.email && data.phone));
         setSuccess('User admitted successfully!');
         setError('');
         clearForm();
@@ -112,6 +174,8 @@ const AdmissionAdmin: React.FC = () => {
           showError('This phone number is already registered in the system. Please use a different phone.', 'phone');
         } else if (field === 'idNumber') {
           showError('This ID Number is already registered in the system. Please check the ID and try again.', 'idNumber');
+        } else if (field === 'familyId' || field === 'familyName') {
+          showError(msg, field);
         } else if (msg === 'All fields are required') {
           showError('Please fill in all required fields before submitting.');
         } else {
@@ -119,6 +183,8 @@ const AdmissionAdmin: React.FC = () => {
         }
       } else if (err.response?.status === 401) {
         showError('Unauthorized. Please check your admin credentials.');
+      } else if (err.response?.status === 404) {
+        showError(err.response?.data?.message || 'The selected family could not be found.', 'familyId');
       } else {
         showError('An unexpected error occurred. Please try again.');
       }
@@ -182,12 +248,20 @@ const AdmissionAdmin: React.FC = () => {
               <p style={{ margin: '0 0 3px', color: '#2e7d32', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.7px' }}>New Member Added</p>
               <p style={{ margin: 0, color: '#1b5e20', fontSize: '18px', fontWeight: 800 }}>{admittedName}</p>
             </div>
-            <p style={{ color: '#666', fontSize: '13px', margin: '0 0 4px', lineHeight: 1.6 }}>
-              🔐 Default password: <strong style={{ color: '#333' }}>their phone number</strong>
-            </p>
-            <p style={{ color: '#999', fontSize: '11.5px', margin: 0 }}>
-              They can update it from profile settings after logging in.
-            </p>
+            {admittedHasLogin ? (
+              <>
+                <p style={{ color: '#666', fontSize: '13px', margin: '0 0 4px', lineHeight: 1.6 }}>
+                  🔐 Default password: <strong style={{ color: '#333' }}>their phone number</strong>
+                </p>
+                <p style={{ color: '#999', fontSize: '11.5px', margin: 0 }}>
+                  They can update it from profile settings after logging in.
+                </p>
+              </>
+            ) : (
+              <p style={{ color: '#666', fontSize: '13px', margin: '0 0 4px', lineHeight: 1.6 }}>
+                🏠 Added to the family — no login created yet. Add their email &amp; phone later in <strong>Manage Users</strong> to enable login.
+              </p>
+            )}
             <button
               onClick={() => { setSuccess(''); setAdmittedName(''); }}
               style={{
@@ -310,6 +384,84 @@ const AdmissionAdmin: React.FC = () => {
           </div>
 
           <div className={styles['form']} style={{ maxWidth: '360px', margin: '10px auto 0' }}>
+
+            {/* FAMILY ROLE */}
+            <div className="af-row">
+              <label>How are they joining?</label>
+              <div className="af-role-toggle">
+                <button type="button"
+                  className={formData.familyRole === 'independent' ? 'af-role-btn active' : 'af-role-btn'}
+                  onClick={() => handleFamilyRoleChange('independent')}>
+                  Individual Member
+                </button>
+                <button type="button"
+                  className={formData.familyRole === 'newFamily' ? 'af-role-btn active' : 'af-role-btn'}
+                  onClick={() => handleFamilyRoleChange('newFamily')}>
+                  Head of New Family
+                </button>
+                <button type="button"
+                  className={formData.familyRole === 'joinFamily' ? 'af-role-btn active' : 'af-role-btn'}
+                  onClick={() => handleFamilyRoleChange('joinFamily')}>
+                  Join Existing Family
+                </button>
+              </div>
+            </div>
+
+            {formData.familyRole === 'newFamily' && (
+              <div className="af-row">
+                <label className={errorField === 'familyName' ? 'err-label' : ''}>Family Name<span className="req">*</span></label>
+                <div className="af-field">
+                  <Home size={16} className="af-icon" />
+                  <input id="familyName" type="text" className="af-input" style={inputStyle('familyName')}
+                    value={formData.familyName} onChange={handleChange} placeholder="e.g. The Otieno Family" />
+                </div>
+                {errorField === 'familyName' && <span className="af-hint">↑ Required</span>}
+              </div>
+            )}
+
+            {formData.familyRole === 'joinFamily' && (
+              <>
+                <div className="af-row">
+                  <label className={errorField === 'familyId' ? 'err-label' : ''}>Family<span className="req">*</span></label>
+                  <div className="af-field">
+                    <Home size={16} className="af-icon" />
+                    <select id="familyId" className="af-select"
+                      style={{ border: fieldBorder('familyId'), backgroundColor: errorField === 'familyId' ? '#fff5f5' : '#F7F4EF' }}
+                      value={formData.familyId} onChange={handleChange}>
+                      <option value="">{familiesLoading ? 'Loading families...' : 'choose...'}</option>
+                      {families.map(f => (
+                        <option key={f._id} value={f._id}>{f.familyName}</option>
+                      ))}
+                    </select>
+                  </div>
+                  {errorField === 'familyId' && <span className="af-hint">↑ Required</span>}
+                </div>
+
+                <div className="af-row">
+                  <label className={errorField === 'relationToHead' ? 'err-label' : ''}>Relationship to Head<span className="req">*</span></label>
+                  <div className="af-field">
+                    <UsersIcon size={16} className="af-icon" />
+                    <select id="relationToHead" className="af-select"
+                      style={{ border: fieldBorder('relationToHead'), backgroundColor: errorField === 'relationToHead' ? '#fff5f5' : '#F7F4EF' }}
+                      value={formData.relationToHead} onChange={handleChange}>
+                      <option value="">choose...</option>
+                      <option value="Spouse">Spouse</option>
+                      <option value="Child">Child</option>
+                      <option value="Dependent">Dependent</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  {errorField === 'relationToHead' && <span className="af-hint">↑ Required</span>}
+                </div>
+
+                <div className="af-note">
+                  <span style={{ fontSize: '14px' }}>ℹ️</span>
+                  <p>
+                    Email, Phone, ID and Residence below are optional for family members with no contact details of their own (e.g. children).
+                  </p>
+                </div>
+              </>
+            )}
 
             {/* NAME */}
             <div className="af-row">

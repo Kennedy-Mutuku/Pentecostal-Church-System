@@ -9,6 +9,10 @@ router.post('/admit-user', admissionAdminMiddleware, admissionAdminController.ad
 router.get('/users', admissionAdminMiddleware, admissionAdminController.getAllUsers);
 router.post('/reset-password', admissionAdminMiddleware, admissionAdminController.resetUserPassword);
 router.put('/update-user/:userId', admissionAdminMiddleware, admissionAdminController.updateUser);
+router.get('/families', admissionAdminMiddleware, admissionAdminController.getAllFamilies);
+router.get('/families/:familyId', admissionAdminMiddleware, admissionAdminController.getFamily);
+router.post('/families/link', admissionAdminMiddleware, admissionAdminController.linkFamilyMembers);
+router.post('/families/unlink', admissionAdminMiddleware, admissionAdminController.unlinkFamilyMember);
 router.post('/logout', admissionAdminMiddleware, admissionAdminController.logout);
 
 module.exports = router;

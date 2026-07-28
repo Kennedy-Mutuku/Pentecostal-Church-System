@@ -5,7 +5,7 @@
 
 .landing-rikuruma {
     position: relative;
-    margin-top: -72px;
+    margin-top: -75px;
     /* Color Palette & Scoped Styling Variables */
     --primary-color: #482078;
     --primary-dark: #341558;
@@ -93,8 +93,26 @@
 }
 
 @media (max-width: 768px) {
+    .landing-rikuruma {
+        margin-top: -48px;
+    }
+
     .landing-rikuruma .section {
         padding: 24px 0;
+    }
+
+    .landing-rikuruma .about-section .section-header {
+        margin-top: -20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .landing-rikuruma {
+        margin-top: -28px;
+    }
+
+    .landing-rikuruma .about-section .section-header {
+        margin-top: -8px;
     }
 }
 
@@ -213,6 +231,25 @@
    ========================================================================== */
 .landing-rikuruma .about-section {
     background-color: var(--bg-white);
+    padding-top: 0;
+}
+
+.landing-rikuruma .about-section .section-header {
+    position: relative;
+    z-index: 20;
+    margin-top: -55px;
+    padding-top: 20px;
+    padding-bottom: 24px;
+    background-color: var(--bg-white);
+    border-radius: 24px 24px 0 0;
+}
+
+.landing-rikuruma .about-section .section-subtitle {
+    text-shadow: 0 1px 3px rgba(255,255,255,0.8);
+}
+
+.landing-rikuruma .about-section .section-title {
+    text-shadow: 0 1px 4px rgba(255,255,255,0.6);
 }
 
 .landing-rikuruma .about-content {
@@ -392,30 +429,32 @@
 }
 
 .landing-rikuruma .vm-card .vm-icon {
-    font-size: 24px;
-    color: var(--primary-color);
-    margin-bottom: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 50px;
-    height: 50px;
-    background-color: rgba(229, 57, 53, 0.1);
-    border-radius: 10px;
+    display: none;
 }
 
 .landing-rikuruma .vm-card h3 {
-    color: var(--heading-color, #333);
-    margin-bottom: 12px;
-    font-size: 1.25rem;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-size: 1.1rem;
     font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.landing-rikuruma .vm-card h3::before {
+    content: '●';
+    color: var(--secondary-color);
+    font-size: 0.65rem;
+    flex-shrink: 0;
 }
 
 .landing-rikuruma .vm-card p {
-    color: var(--text-color, #666);
-    font-size: 0.95rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
     line-height: 1.6;
     margin-bottom: 0;
+    padding-left: 18px;
 }
 
 @media (max-width: 992px) {
@@ -447,6 +486,79 @@
     
     .landing-rikuruma .vm-card p {
         font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .landing-rikuruma .vm-cards {
+        gap: 0;
+        display: flex;
+        flex-direction: column;
+        padding: 0 16px;
+    }
+
+    /* Strip all card styling — just bare bullets */
+    .landing-rikuruma .vm-card {
+        background: none;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        padding: 5px 0;
+        flex-direction: row !important;
+        align-items: flex-start;
+        text-align: left !important;
+        position: relative;
+    }
+
+    /* Remove the left accent bar */
+    .landing-rikuruma .vm-card::before {
+        display: none;
+    }
+
+    /* Replace icon with a simple colored bullet dot */
+    .landing-rikuruma .vm-card .vm-icon {
+        display: none;
+    }
+
+    .landing-rikuruma .vm-card .vm-content::before {
+        content: '';
+        display: none;
+    }
+
+    .landing-rikuruma .vm-card .vm-content {
+        display: block;
+        width: 100%;
+    }
+
+    .landing-rikuruma .vm-card h3 {
+        font-size: 0.9rem;
+        font-weight: 700;
+        margin-bottom: 2px;
+        color: var(--primary-color);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        white-space: normal;
+    }
+
+    .landing-rikuruma .vm-card h3::before {
+        content: '●';
+        color: var(--secondary-color);
+        font-size: 0.6rem;
+        flex-shrink: 0;
+    }
+
+    .landing-rikuruma .vm-card h3::after {
+        content: none;
+    }
+
+    .landing-rikuruma .vm-card p {
+        font-size: 0.82rem;
+        line-height: 1.5;
+        margin-bottom: 0;
+        color: var(--text-light);
+        display: block;
+        padding-left: 16px;
     }
 }
 

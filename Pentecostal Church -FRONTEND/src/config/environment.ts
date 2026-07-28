@@ -25,6 +25,10 @@ interface ApiConfig {
     admissionAdminGetUsers: string;
     admissionAdminResetPassword: string;
     admissionAdminUpdateUser: string;
+    admissionAdminGetFamilies: string;
+    admissionAdminGetFamily: string;
+    admissionAdminLinkFamily: string;
+    admissionAdminUnlinkFamily: string;
     authGoogle: string;
     attendanceSession: string;
     attendanceSessionStatus: string;
@@ -130,6 +134,10 @@ const developmentConfig: ApiConfig = {
     admissionAdminGetUsers: '/admissionadmin/users',
     admissionAdminResetPassword: '/admissionadmin/reset-password',
     admissionAdminUpdateUser: '/admissionadmin/update-user/:userId',
+    admissionAdminGetFamilies: '/admissionadmin/families',
+    admissionAdminGetFamily: '/admissionadmin/families/:familyId',
+    admissionAdminLinkFamily: '/admissionadmin/families/link',
+    admissionAdminUnlinkFamily: '/admissionadmin/families/unlink',
     authGoogle: '/auth/google',
     attendanceSession: '/attendance/session',
     attendanceSessionStatus: '/attendance/session/status',
@@ -232,6 +240,10 @@ const productionConfig: ApiConfig = {
     admissionAdminGetUsers: '/admissionadmin/users',
     admissionAdminResetPassword: '/admissionadmin/reset-password',
     admissionAdminUpdateUser: '/admissionadmin/update-user/:userId',
+    admissionAdminGetFamilies: '/admissionadmin/families',
+    admissionAdminGetFamily: '/admissionadmin/families/:familyId',
+    admissionAdminLinkFamily: '/admissionadmin/families/link',
+    admissionAdminUnlinkFamily: '/admissionadmin/families/unlink',
     authGoogle: '/auth/google',
     attendanceSession: '/attendance/session',
     attendanceSessionStatus: '/attendance/session/status',
