@@ -5,6 +5,7 @@
 
 .landing-rikuruma {
     position: relative;
+    margin-top: -72px;
     /* Color Palette & Scoped Styling Variables */
     --primary-color: #482078;
     --primary-dark: #341558;
@@ -182,10 +183,7 @@
    Wave Divider
    ========================================================================== */
 .landing-rikuruma .wave-divider {
-    position: absolute;
-    top: -70px;
-    left: 0;
-    width: 100%;
+    position: relative;
     z-index: 10;
     line-height: 0;
     pointer-events: none;
@@ -199,18 +197,12 @@
 }
 
 @media (max-width: 768px) {
-    .landing-rikuruma .wave-divider {
-        top: -45px;
-    }
     .landing-rikuruma .wave-divider svg {
         height: 48px;
     }
 }
 
 @media (max-width: 480px) {
-    .landing-rikuruma .wave-divider {
-        top: -25px;
-    }
     .landing-rikuruma .wave-divider svg {
         height: 28px;
     }
