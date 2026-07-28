@@ -508,7 +508,7 @@ const AssistantPatronDashboard: React.FC = () => {
     };
 
     // ── Purple-accented light theme ──
-    const P = '#730051';       // primary purple
+    const P = '#4A154B';       // primary purple
     const PL = '#8a0062';      // lighter purple
     const R = '#ef4444';       // red for feedback/alerts
 
@@ -1409,9 +1409,9 @@ const AssistantPatronDashboard: React.FC = () => {
                 }}>
                     {[
                         { val: totalFamiliesCount, label: 'Total Families', icon: <Home size={18} />, bg: `linear-gradient(135deg, ${P}, ${PL})` },
-                        { val: totalFamilyMembersCount, label: 'Family Members', icon: <Users size={18} />, bg: 'linear-gradient(135deg, #1d4ed8, #1e40af)' },
-                        { val: avgFamilySize, label: 'Avg Family Size', icon: <Heart size={18} />, bg: 'linear-gradient(135deg, #be185d, #9d174d)' },
-                        { val: `${maxFamilySize} members`, label: 'Largest Family', icon: <UserCheck size={18} />, bg: 'linear-gradient(135deg, #f59e0b, #d97706)' },
+                        { val: totalFamilyMembersCount, label: 'Family Members', icon: <Users size={18} />, bg: 'linear-gradient(135deg, #b91c1c, #991b1b)' },
+                        { val: avgFamilySize, label: 'Avg Family Size', icon: <Heart size={18} />, bg: 'linear-gradient(135deg, #1f2937, #111827)' },
+                        { val: `${maxFamilySize} members`, label: 'Largest Family', icon: <UserCheck size={18} />, bg: 'linear-gradient(135deg, #52003a, #730051)' },
                     ].map((s, i) => (
                         <div key={i} style={{
                             background: s.bg, borderRadius: '12px', padding: '16px', color: 'white',
@@ -1581,14 +1581,14 @@ const AssistantPatronDashboard: React.FC = () => {
                                                                 <tr key={m._id || idx} style={{ borderBottom: '1px solid #eee', background: '#fff' }}>
                                                                     <td style={{ padding: '10px 12px', fontWeight: 700, color: '#1a202c' }}>
                                                                         {m.username}
-                                                                        {fam.headOfFamily?._id === m._id && <span style={{ marginLeft: '6px', fontSize: '10px', background: '#fef3c7', color: '#92400e', padding: '1px 6px', borderRadius: '8px', fontWeight: 800 }}>HEAD</span>}
+                                                                        {fam.headOfFamily?._id === m._id && <span style={{ marginLeft: '6px', fontSize: '10px', background: '#fcf2f8', color: P, border: '1px solid #f3d5ea', padding: '1px 6px', borderRadius: '8px', fontWeight: 800 }}>HEAD</span>}
                                                                     </td>
                                                                     <td style={{ padding: '10px 12px', color: '#4a5568' }}>{m.relationToHead || (fam.headOfFamily?._id === m._id ? 'Head' : 'Member')}</td>
                                                                     <td style={{ padding: '10px 12px' }}>
                                                                         <span style={{
                                                                             padding: '2px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: 700,
-                                                                            background: m.gender === 'Male' ? '#dbeafe' : m.gender === 'Female' ? '#fce7f3' : '#f3f4f6',
-                                                                            color: m.gender === 'Male' ? '#1e40af' : m.gender === 'Female' ? '#9d174d' : '#374151'
+                                                                            background: m.gender === 'Male' ? '#fcf2f8' : m.gender === 'Female' ? '#fef2f2' : '#f3f4f6',
+                                                                            color: m.gender === 'Male' ? P : m.gender === 'Female' ? '#b91c1c' : '#111827'
                                                                         }}>
                                                                             {m.gender || 'N/A'}
                                                                         </span>

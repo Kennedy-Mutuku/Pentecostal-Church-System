@@ -9,13 +9,12 @@ interface FamilyAnalyticsChartsProps {
 }
 
 const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families }) => {
-  const P = '#730051';
-  const PL = '#a0006e';
-  const BLUE = '#1d4ed8';
-  const PINK = '#be185d';
-  const AMBER = '#f59e0b';
-  const GREEN = '#10b981';
-  const PURPLE = '#8b5cf6';
+  const P = '#4A154B';         // Primary Royal Purple
+  const PL = '#6B21A8';        // Vibrant Purple Shade
+  const RED = '#b91c1c';       // Deep Red
+  const DARK_RED = '#881337';   // Dark Crimson Red
+  const BLACK = '#111827';     // Dark Slate Black
+  const GRAY = '#4b5563';      // Slate Gray
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 700);
 
@@ -65,9 +64,9 @@ const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families 
     });
 
     return [
-      { name: 'Gents (Male)', count: male, color: BLUE },
-      { name: 'Females', count: female, color: PINK },
-      { name: 'Other', count: other, color: AMBER }
+      { name: 'Gents (Male)', count: male, color: P },
+      { name: 'Females', count: female, color: RED },
+      { name: 'Other', count: other, color: BLACK }
     ].filter(d => d.count > 0 || d.name !== 'Other');
   };
 
@@ -103,16 +102,17 @@ const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families 
     if (active && payload && payload.length) {
       return (
         <div style={{
-          background: 'rgba(20, 20, 30, 0.9)',
-          color: '#fff',
+          background: '#111827',
+          color: '#ffffff',
           padding: '8px 12px',
           borderRadius: '8px',
           fontSize: '11px',
           fontWeight: 700,
-          boxShadow: '0 4px 12px rgba(0,0,0,0.2)'
+          boxShadow: '0 4px 14px rgba(0,0,0,0.3)',
+          border: '1px solid rgba(255,255,255,0.1)'
         }}>
-          <p style={{ margin: 0, opacity: 0.8 }}>{label || payload[0].name}</p>
-          <p style={{ margin: '2px 0 0', fontSize: '13px', color: '#ffb703' }}>
+          <p style={{ margin: 0, opacity: 0.85, color: '#f3f4f6' }}>{label || payload[0].name}</p>
+          <p style={{ margin: '3px 0 0', fontSize: '13px', color: '#ffffff', fontWeight: 800 }}>
             {payload[0].value} {payload[0].name ? 'Members' : 'Count'}
           </p>
         </div>
@@ -126,7 +126,7 @@ const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families 
     borderRadius: '14px',
     padding: '16px',
     boxShadow: '0 4px 14px rgba(0,0,0,0.04)',
-    border: '1px solid #f0f0f0'
+    border: '1px solid #e5e7eb'
   };
 
   const titleStyle: React.CSSProperties = {
@@ -135,7 +135,7 @@ const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families 
     textTransform: 'uppercase',
     letterSpacing: '0.8px',
     margin: '0 0 14px',
-    color: '#333',
+    color: P,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between'
@@ -147,18 +147,18 @@ const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families 
       <div style={cardStyle}>
         <div style={titleStyle}>
           <span>Family Size Breakdown</span>
-          <span style={{ fontSize: '10px', color: P, background: '#fcf2f8', padding: '2px 8px', borderRadius: '12px' }}>Families</span>
+          <span style={{ fontSize: '10px', color: P, background: '#fcf2f8', padding: '2px 8px', borderRadius: '12px', border: '1px solid #f3d5ea' }}>Families</span>
         </div>
         <div style={{ width: '100%', height: chartH }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={sizeData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-              <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#666' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 10, fill: '#666' }} axisLine={false} tickLine={false} allowDecimals={false} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+              <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#4b5563' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 10, fill: '#4b5563' }} axisLine={false} tickLine={false} allowDecimals={false} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="Families" fill={P} radius={[6, 6, 0, 0]}>
                 {sizeData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={[P, PL, PURPLE, AMBER][index % 4]} />
+                  <Cell key={`cell-${index}`} fill={[P, RED, BLACK, PL][index % 4]} />
                 ))}
               </Bar>
             </BarChart>
@@ -170,14 +170,14 @@ const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families 
       <div style={cardStyle}>
         <div style={titleStyle}>
           <span>Gender in Families</span>
-          <span style={{ fontSize: '10px', color: BLUE, background: '#eff6ff', padding: '2px 8px', borderRadius: '12px' }}>Members</span>
+          <span style={{ fontSize: '10px', color: RED, background: '#fef2f2', padding: '2px 8px', borderRadius: '12px', border: '1px solid #fecaca' }}>Members</span>
         </div>
         <div style={{ width: '100%', height: chartH }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={genderData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-              <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#666' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 10, fill: '#666' }} axisLine={false} tickLine={false} allowDecimals={false} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+              <XAxis dataKey="name" tick={{ fontSize: 10, fill: '#4b5563' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 10, fill: '#4b5563' }} axisLine={false} tickLine={false} allowDecimals={false} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="count" radius={[6, 6, 0, 0]}>
                 {genderData.map((entry, index) => (
@@ -193,18 +193,18 @@ const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families 
       <div style={cardStyle}>
         <div style={titleStyle}>
           <span>Age Groups in Families</span>
-          <span style={{ fontSize: '10px', color: GREEN, background: '#ecfdf5', padding: '2px 8px', borderRadius: '12px' }}>Demographics</span>
+          <span style={{ fontSize: '10px', color: BLACK, background: '#f3f4f6', padding: '2px 8px', borderRadius: '12px', border: '1px solid #e5e7eb' }}>Demographics</span>
         </div>
         <div style={{ width: '100%', height: chartH }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={ageData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f0f0f0" />
-              <XAxis dataKey="name" tick={{ fontSize: 9, fill: '#666' }} axisLine={false} tickLine={false} />
-              <YAxis tick={{ fontSize: 10, fill: '#666' }} axisLine={false} tickLine={false} allowDecimals={false} />
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f3f4f6" />
+              <XAxis dataKey="name" tick={{ fontSize: 9, fill: '#4b5563' }} axisLine={false} tickLine={false} />
+              <YAxis tick={{ fontSize: 10, fill: '#4b5563' }} axisLine={false} tickLine={false} allowDecimals={false} />
               <Tooltip content={<CustomTooltip />} />
-              <Bar dataKey="Members" fill={GREEN} radius={[6, 6, 0, 0]}>
+              <Bar dataKey="Members" fill={P} radius={[6, 6, 0, 0]}>
                 {ageData.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={[AMBER, GREEN, BLUE, P][index % 4]} />
+                  <Cell key={`cell-${index}`} fill={[P, RED, BLACK, PL][index % 4]} />
                 ))}
               </Bar>
             </BarChart>
