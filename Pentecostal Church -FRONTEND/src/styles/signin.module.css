@@ -14,7 +14,7 @@
 }
 
 .container {
-    padding: 32px 24px 24px;
+    padding: 24px;
     width: 100%;
     max-width: 420px;
     position: relative;
@@ -30,7 +30,7 @@
     font-size: 1.5em;
     font-weight: 700;
     color: #1a1a2e;
-    margin: 8px 0 20px;
+    margin: 4px 0 12px;
 }
 
 /* Form layout */
@@ -41,10 +41,10 @@
 
 .form-div,
 .password-container {
-    margin: 0 auto 16px auto;
+    margin: 0 auto 10px auto;
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 2px;
     width: 100%;
     padding: 0 8px;
 }
@@ -132,7 +132,7 @@
     display: flex;
     width: 100%;
     margin: 0 auto;
-    padding: 8px 8px 16px;
+    padding: 4px 8px 10px;
     justify-content: space-between;
     gap: 12px;
     align-items: stretch;
@@ -179,8 +179,8 @@
 /* Footer links */
 .form-footer {
     text-align: center;
-    padding-bottom: 6px;
-    margin-top: 4px;
+    padding-bottom: 2px;
+    margin-top: 2px;
 }
 
 .form-footer a {
@@ -199,8 +199,8 @@
 /* Signup link section */
 .signup-link {
     text-align: center;
-    padding: 14px 0 4px;
-    margin-top: 12px;
+    padding: 10px 0 0;
+    margin-top: 8px;
     border-top: 1px solid #eee;
 }
 
@@ -255,11 +255,11 @@
 /* Mobile */
 @media (max-width: 480px) {
     .reg-row {
-        grid-template-columns: 1fr;
+        gap: 4px;
     }
 
     .reg-buttons {
-        grid-template-columns: 1fr;
+        gap: 6px;
     }
     .body {
         padding: 10px;
@@ -268,8 +268,8 @@
     }
 
     .container {
-        padding: 24px 16px 16px;
-        border-radius: 14px;
+        padding: 16px 14px 14px;
+        border-radius: 12px;
         width: 95%;
         max-width: 360px;
     }
@@ -286,8 +286,8 @@
 
     .form .input,
     .input-pswd {
-        padding: 10px 12px;
-        font-size: 0.9em;
+        padding: 8px 10px;
+        font-size: 0.88em;
     }
 
     .submisions {

@@ -341,7 +341,7 @@ const ContactUs = () => {
 
   if (generalLoading) {
     return (
-      <div className={styles['loading-screen']}>
+      <div className=\loading-screen\>
         <p className={styles['loading-text']}>Loading...🤗</p>
         <img src={loadingAnime} alt="animation gif" />
       </div>
