@@ -345,6 +345,13 @@ const AdmissionAdmin: React.FC = () => {
         .af-subtitle { margin: 4px 0 0; font-size: 12.5px; color: #888; }
         .af-note { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #e8f4fd; border: 1px solid #bee5eb; border-radius: 14px; margin-bottom: 14px; }
         .af-note p { margin: 0; color: #0c5460; font-size: 11.5px; }
+        .af-role-toggle { display: flex; gap: 6px; background: #F7F4EF; border-radius: 12px; padding: 4px; }
+        .af-role-btn {
+          flex: 1; border: none; background: transparent; cursor: pointer;
+          padding: 8px 6px; font-size: 11px; font-weight: 700; color: #777;
+          border-radius: 9px; transition: background 0.2s, color 0.2s;
+        }
+        .af-role-btn.active { background: #fff; color: #1a1a2e; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .af-btns-row { flex-wrap: nowrap; }
         .af-btn { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
@@ -518,7 +525,7 @@ const AdmissionAdmin: React.FC = () => {
 
             {/* GENDER */}
             <div className="af-row">
-              <label className={errorField === 'gender' ? 'err-label' : ''}>Gender<span className="req">*</span></label>
+              <label className={errorField === 'gender' ? 'err-label' : ''}>Gender{!isJoinFamily && <span className="req">*</span>}</label>
               <div className="af-field">
                 <UsersIcon size={16} className="af-icon" />
                 <select id="gender" className="af-select"
@@ -553,7 +560,7 @@ const AdmissionAdmin: React.FC = () => {
 
             {/* YEAR JOINED */}
             <div className="af-row">
-              <label className={errorField === 'yearJoined' ? 'err-label' : ''}>Year Joined<span className="req">*</span></label>
+              <label className={errorField === 'yearJoined' ? 'err-label' : ''}>Year Joined{!isJoinFamily && <span className="req">*</span>}</label>
               <div className="af-field">
                 <Clock size={16} className="af-icon" />
                 <select id="yearJoined" className="af-select"
@@ -573,7 +580,7 @@ const AdmissionAdmin: React.FC = () => {
 
             {/* RESIDENCE */}
             <div className="af-row">
-              <label className={errorField === 'residence' ? 'err-label' : ''}>Residence<span className="req">*</span></label>
+              <label className={errorField === 'residence' ? 'err-label' : ''}>Residence{!isJoinFamily && <span className="req">*</span>}</label>
               <div className="af-field">
                 <MapPin size={16} className="af-icon" />
                 <input id="residence" type="text" className="af-input" style={inputStyle('residence')}
@@ -583,12 +590,21 @@ const AdmissionAdmin: React.FC = () => {
             </div>
 
             {/* Inline note */}
-            <div className="af-note">
-              <span style={{ fontSize: '14px' }}>📱</span>
-              <p>
-                <strong>Default password</strong> = phone number. Member can change it after login.
-              </p>
-            </div>
+            {isJoinFamily ? (
+              <div className="af-note">
+                <span style={{ fontSize: '14px' }}>📱</span>
+                <p>
+                  If Email &amp; Phone are provided, <strong>default password</strong> = phone number. Otherwise no login is created until added later.
+                </p>
+              </div>
+            ) : (
+              <div className="af-note">
+                <span style={{ fontSize: '14px' }}>📱</span>
+                <p>
+                  <strong>Default password</strong> = phone number. Member can change it after login.
+                </p>
+              </div>
+            )}
 
             {/* Action buttons */}
             <div className={`${styles['submisions']} af-btns-row`} style={{ paddingTop: '0', paddingBottom: '10px' }}>

@@ -301,7 +301,7 @@ exports.updateUser = async (req, res) => {
             userId,
             update,
             { new: true, runValidators: true }
-        );
+        ).populate('family', 'familyName residence');
 
         if (!updatedUser) {
             return res.status(404).json({ message: 'User not found' });
