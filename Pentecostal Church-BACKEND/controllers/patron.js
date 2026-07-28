@@ -4,6 +4,7 @@ const Patron = require('../models/patron');
 const Users = require('../models/user');
 const Message = require('../models/message');
 const MediaItem = require('../models/MediaItem');
+const Family = require('../models/family');
 
 // Login
 exports.login = async (req, res) => {
@@ -126,3 +127,18 @@ exports.changePassword = async (req, res) => {
         res.status(500).json({ message: 'Error changing password', error: error.message });
     }
 };
+
+// Get all families with populated members
+exports.getFamilies = async (req, res) => {
+    try {
+        const families = await Family.find()
+            .populate('headOfFamily', 'username email phone gender ageGroup residence yearJoined')
+            .populate('members', 'username relationToHead gender ageGroup phone email idNumber profilePhoto residence yearJoined')
+            .sort({ familyName: 1 });
+        res.status(200).json(families);
+    } catch (error) {
+        console.error('Error fetching families for patron:', error);
+        res.status(500).json({ message: 'Error fetching families', error: error.message });
+    }
+};
+

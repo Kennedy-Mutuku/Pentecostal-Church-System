@@ -129,6 +129,7 @@ const AdmissionAdmin: React.FC = () => {
     };
 
     if (!data.username) return showError('Please fill in the Name field.', 'username');
+    if (!data.gender) return showError('Please select a Gender.', 'gender');
 
     if (data.familyRole === 'joinFamily') {
       if (!data.ageGroup) return showError('Please select an Age Group.', 'ageGroup');
@@ -140,7 +141,6 @@ const AdmissionAdmin: React.FC = () => {
       if (!validatePhone(data.phone)) return showError('Phone must be 10 digits starting with 0 (e.g. 0712345678).', 'phone');
       if (!data.email) return showError('Please fill in the Email field.', 'email');
       if (!data.idNumber) return showError('Please fill in the ID Number field.', 'idNumber');
-      if (!data.gender) return showError('Please select a Gender.', 'gender');
       if (!data.ageGroup) return showError('Please select an Age Group.', 'ageGroup');
       if (!data.yearJoined) return showError('Please select the Year Joined RPC.', 'yearJoined');
       if (!data.residence) return showError('Please fill in the Residence field.', 'residence');
@@ -557,7 +557,7 @@ const AdmissionAdmin: React.FC = () => {
 
             {/* GENDER */}
             <div className="af-row">
-              <label className={errorField === 'gender' ? 'err-label' : ''}>Gender{!isJoinFamily && <span className="req">*</span>}</label>
+              <label className={errorField === 'gender' ? 'err-label' : ''}>Gender<span className="req">*</span></label>
               <div className="af-field">
                 <UsersIcon size={16} className="af-icon" />
                 <select id="gender" className="af-select"

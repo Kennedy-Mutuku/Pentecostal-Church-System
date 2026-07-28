@@ -94,6 +94,7 @@ interface ApiConfig {
     patronUsers: string;
     patronMessages: string;
     patronMedia: string;
+    patronFamilies: string;
     patronChangePassword: string;
     assistantPatronVerify: string;
     assistantPatronUsers: string;
@@ -203,6 +204,7 @@ const developmentConfig: ApiConfig = {
     patronUsers: '/patron/users',
     patronMessages: '/patron/messages',
     patronMedia: '/patron/media',
+    patronFamilies: '/patron/families',
     patronChangePassword: '/patron/change-password',
     assistantPatronVerify: '/patron/verify',
     assistantPatronUsers: '/patron/users',
@@ -309,6 +311,7 @@ const productionConfig: ApiConfig = {
     patronUsers: '/patron/users',
     patronMessages: '/patron/messages',
     patronMedia: '/patron/media',
+    patronFamilies: '/patron/families',
     patronChangePassword: '/patron/change-password',
     assistantPatronVerify: '/patron/verify',
     assistantPatronUsers: '/patron/users',

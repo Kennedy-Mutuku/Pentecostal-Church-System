@@ -75,8 +75,8 @@ exports.admitUser = async (req, res) => {
 
         if (role === 'joinFamily') {
             // Minimal-fields path for dependents/spouses joining an existing family.
-            if (!username || !ageGroup || !familyId || !relationToHead) {
-                return res.status(400).json({ message: 'Name, Age Group, Family and Relationship are required' });
+            if (!username || !ageGroup || !gender || !familyId || !relationToHead) {
+                return res.status(400).json({ message: 'Name, Age Group, Gender, Family and Relationship are required', field: !gender ? 'gender' : undefined });
             }
 
             if (phone && !/^0\d{9}$/.test(phone)) {
@@ -106,7 +106,7 @@ exports.admitUser = async (req, res) => {
             const newUser = new User({
                 username,
                 ageGroup,
-                gender: gender || undefined,
+                gender,
                 yearJoined: yearJoined || undefined,
                 residence: residence || undefined,
                 email: email ? email.toLowerCase() : undefined,

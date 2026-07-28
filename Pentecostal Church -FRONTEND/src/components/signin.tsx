@@ -297,7 +297,7 @@ const SignIn: React.FC = () => {
             let endpoint: string;
             let route: string;
 
-            if (processedEmail === 'patron@rpc-nyamira.co.ke' || processedEmail === 'patron@ksucu-mc.co.ke') {
+            if (processedEmail === 'admin@rpcpastor.org') {
                 // Patron login
                 endpoint = getApiUrl('patronLogin');
                 route = '/patron';
@@ -355,9 +355,8 @@ const SignIn: React.FC = () => {
 
             // Log into the finance backend in the background to get a JWT token if patron/assistant patron
             if (
-                processedEmail === 'patron@rpc-nyamira.co.ke' ||
+                processedEmail === 'admin@rpcpastor.org' ||
                 processedEmail === 'assistantpatron@rpc-nyamira.co.ke' ||
-                processedEmail === 'patron@ksucu-mc.co.ke' ||
                 processedEmail === 'assistantpatron@ksucu-mc.co.ke'
             ) {
                 try {
@@ -380,7 +379,7 @@ const SignIn: React.FC = () => {
             console.log('🔐 SignIn: Navigating to:', route);
 
             // Track admin/patron session for navbar display
-            if (processedEmail === 'patron@rpc-nyamira.co.ke' || processedEmail === 'patron@ksucu-mc.co.ke') {
+            if (processedEmail === 'admin@rpcpastor.org') {
                 localStorage.setItem('adminSession', 'true');
                 localStorage.setItem('patronSession', 'true');
                 localStorage.removeItem('assistantPatronSession');
