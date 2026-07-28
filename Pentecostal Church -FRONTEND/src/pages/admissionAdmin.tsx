@@ -198,6 +198,8 @@ const AdmissionAdmin: React.FC = () => {
     background: errorField === id ? '#fff5f5' : '#F7F4EF',
   });
 
+  const isJoinFamily = formData.familyRole === 'joinFamily';
+
   return (
     <>
       {/* Premium Success overlay */}
@@ -477,7 +479,7 @@ const AdmissionAdmin: React.FC = () => {
 
             {/* PHONE */}
             <div className="af-row">
-              <label className={errorField === 'phone' ? 'err-label' : ''}>Phone<span className="req">*</span></label>
+              <label className={errorField === 'phone' ? 'err-label' : ''}>Phone{!isJoinFamily && <span className="req">*</span>}</label>
               <div className="af-field">
                 <PhoneIcon size={16} className="af-icon" />
                 <input id="phone" type="tel" inputMode="numeric" maxLength={10} className="af-input" style={inputStyle('phone')}
@@ -494,7 +496,7 @@ const AdmissionAdmin: React.FC = () => {
 
             {/* EMAIL */}
             <div className="af-row">
-              <label className={errorField === 'email' ? 'err-label' : ''}>Email<span className="req">*</span></label>
+              <label className={errorField === 'email' ? 'err-label' : ''}>Email{!isJoinFamily && <span className="req">*</span>}</label>
               <div className="af-field">
                 <Mail size={16} className="af-icon" />
                 <input id="email" type="email" className="af-input" style={inputStyle('email')}
@@ -505,7 +507,7 @@ const AdmissionAdmin: React.FC = () => {
 
             {/* ID NUMBER */}
             <div className="af-row">
-              <label className={errorField === 'idNumber' ? 'err-label' : ''}>ID Number<span className="req">*</span></label>
+              <label className={errorField === 'idNumber' ? 'err-label' : ''}>ID Number{!isJoinFamily && <span className="req">*</span>}</label>
               <div className="af-field">
                 <CreditCard size={16} className="af-icon" />
                 <input id="idNumber" type="text" inputMode="numeric" className="af-input" style={inputStyle('idNumber')}
