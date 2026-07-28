@@ -697,7 +697,7 @@
 
 .landing-rikuruma .activity-poster {
     width: 100%;
-    height: 500px;
+    height: 350px;
     overflow: hidden;
     position: relative;
     background-color: #f0f0f0;
@@ -715,30 +715,51 @@
 }
 
 .landing-rikuruma .activity-info {
-    padding: 30px;
+    padding: 20px 50px;
 }
 
 .landing-rikuruma .activity-card h3 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     margin-bottom: 12px;
     color: var(--primary-color);
-    border-bottom: 2px solid var(--secondary-light);
-    padding-bottom: 8px;
-    display: inline-block;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 12px;
+    display: block;
+    text-align: center;
+    position: relative;
+    font-weight: 700;
+}
+
+.landing-rikuruma .activity-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--secondary-color);
+}
+
+.landing-rikuruma .activity-info p {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+    line-height: 1.5;
+    color: var(--text-color);
 }
 
 .landing-rikuruma .activity-details {
     list-style: none;
     padding: 0;
-    margin: 15px 0;
+    margin: 10px 0;
 }
 
 .landing-rikuruma .activity-details li {
     display: flex;
     align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 10px;
-    font-size: 0.9rem;
+    gap: 10px;
+    margin-bottom: 6px;
+    font-size: 0.85rem;
     color: var(--text-color);
 }
 
@@ -767,14 +788,14 @@
 
 .landing-rikuruma .activity-status {
     display: inline-block;
-    padding: 5px 15px;
+    padding: 4px 12px;
     border-radius: 20px;
     background-color: var(--primary-color);
     color: white;
     font-weight: 600;
-    font-size: 0.85rem;
+    font-size: 0.75rem;
     text-transform: uppercase;
-    margin-bottom: 15px;
+    margin-bottom: 10px;
 }
 
 .landing-rikuruma .activity-status.success {
@@ -793,7 +814,7 @@
     }
 
     .landing-rikuruma .activity-poster {
-        height: 400px;
+        height: 350px;
     }
 }
 
@@ -879,22 +900,22 @@
     flex-direction: column;
     justify-content: space-between;
     background-color: var(--bg-white);
-    padding: 30px;
+    padding: 24px;
     border-radius: 15px;
     box-shadow: var(--shadow);
 }
 
 .landing-rikuruma .quote-icon {
     color: var(--secondary-color);
-    font-size: 2rem;
-    margin-bottom: 20px;
+    font-size: 1.5rem;
+    margin-bottom: 15px;
 }
 
 .landing-rikuruma .testimonial-content p {
-    font-size: 1.125rem;
+    font-size: 0.95rem;
     color: var(--text-color);
     font-style: italic;
-    line-height: 1.8;
+    line-height: 1.6;
 }
 
 @media (max-width: 480px) {
@@ -925,15 +946,15 @@
 .landing-rikuruma .testimonial-author {
     display: flex;
     align-items: center;
-    gap: 15px;
-    margin-top: 25px;
-    padding-top: 25px;
+    gap: 12px;
+    margin-top: 16px;
+    padding-top: 16px;
     border-top: 1px solid var(--border-color);
 }
 
 .landing-rikuruma .author-image {
-    width: 60px;
-    height: 60px;
+    width: 48px;
+    height: 48px;
     background: linear-gradient(135deg, var(--primary-color), var(--primary-dark));
     border-radius: 50%;
     display: flex;
@@ -948,13 +969,13 @@
 }
 
 .landing-rikuruma .author-info h4 {
-    font-size: 1rem;
-    margin-bottom: 3px;
+    font-size: 0.95rem;
+    margin-bottom: 2px;
     color: var(--primary-color);
 }
 
 .landing-rikuruma .author-info span {
-    font-size: 0.875rem;
+    font-size: 0.825rem;
     color: var(--text-light);
 }
 

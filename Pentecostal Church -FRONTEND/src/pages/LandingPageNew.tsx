@@ -330,7 +330,6 @@ const LandingPageNew = () => {
                     <img src={activity.poster} alt={activity.title} />
                   </div>
                   <div className="activity-info">
-                    <span className={`activity-status ${activity.statusClass}`}>{activity.status}</span>
                     <h3>{activity.title}</h3>
                     <p>{activity.description}</p>
                     <ul className="activity-details">
@@ -371,7 +370,7 @@ const LandingPageNew = () => {
                   </div>
                   <div className="testimonial-author">
                     <div className="author-image">
-                      <span style={{ fontSize: '1.25rem', fontWeight: 700, color: '#fff' }}>
+                      <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff' }}>
                         {testimonial.author.trim().charAt(0).toUpperCase()}
                       </span>
                     </div>
