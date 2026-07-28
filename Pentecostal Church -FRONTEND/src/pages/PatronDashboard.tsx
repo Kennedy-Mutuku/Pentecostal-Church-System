@@ -4,7 +4,7 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import styles from '../styles/superAdmin.module.css';
-import { X, Search, RefreshCw, User, Mail, Phone, BookOpen, Wallet, Gem, ShieldCheck, Layers, Users, MessageSquare, Bell, Home, ChevronDown, ChevronUp, Filter, Heart, UserCheck } from 'lucide-react';
+import { X, Search, RefreshCw, User, Mail, Phone, BookOpen, Wallet, Gem, Users, MessageSquare, Bell, Home, ChevronDown, ChevronUp, Filter, Heart, UserCheck } from 'lucide-react';
 import { getApiUrl, getImageUrl } from '../config/environment';
 // TODO: letterhead.png is missing from assets — reusing the RPC logo as a stopgap. Replace with the real letterhead image.
 import letterhead from '../assets/RPC logo updated document.png';

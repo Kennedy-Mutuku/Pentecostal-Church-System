@@ -12,9 +12,7 @@ const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families 
   const P = '#4A154B';         // Primary Royal Purple
   const PL = '#6B21A8';        // Vibrant Purple Shade
   const RED = '#b91c1c';       // Deep Red
-  const DARK_RED = '#881337';   // Dark Crimson Red
   const BLACK = '#111827';     // Dark Slate Black
-  const GRAY = '#4b5563';      // Slate Gray
 
   const [isMobile, setIsMobile] = useState(window.innerWidth < 700);
 
@@ -157,7 +155,7 @@ const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families 
               <YAxis tick={{ fontSize: 10, fill: '#4b5563' }} axisLine={false} tickLine={false} allowDecimals={false} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="Families" fill={P} radius={[6, 6, 0, 0]}>
-                {sizeData.map((entry, index) => (
+                {sizeData.map((_entry, index) => (
                   <Cell key={`cell-${index}`} fill={[P, RED, BLACK, PL][index % 4]} />
                 ))}
               </Bar>
@@ -203,7 +201,7 @@ const FamilyAnalyticsCharts: React.FC<FamilyAnalyticsChartsProps> = ({ families 
               <YAxis tick={{ fontSize: 10, fill: '#4b5563' }} axisLine={false} tickLine={false} allowDecimals={false} />
               <Tooltip content={<CustomTooltip />} />
               <Bar dataKey="Members" fill={P} radius={[6, 6, 0, 0]}>
-                {ageData.map((entry, index) => (
+                {ageData.map((_entry, index) => (
                   <Cell key={`cell-${index}`} fill={[P, RED, BLACK, PL][index % 4]} />
                 ))}
               </Bar>

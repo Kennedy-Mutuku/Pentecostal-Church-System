@@ -2,12 +2,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { Facebook, Instagram, Youtube, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 import cuLogo from '../../assets/RPC logo updated document.png';
 
-const quickLinks = [
+const quickLinks: { label: string; href: string; external?: boolean }[] = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about' },
   { label: 'Philosophies', href: '/philosophy' },
   { label: 'Financials', href: '/financial' },
   { label: 'Leadership', href: '/leadership' },
+  { label: 'Handbook', href: '/handbook' },
   { label: 'Gallery', href: '/media' },
   { label: 'Talk to us', href: '/recomendations' },
 ];

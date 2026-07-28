@@ -4,7 +4,7 @@ import styles from '../styles/signin.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
 import { Link, useNavigate } from 'react-router-dom';
 import loadingAnime from '../assets/loading.gif';
-import { Eye, EyeOff, User, Phone, Mail, CreditCard, Users, ChevronDown, Calendar, MapPin, Home, Search } from 'lucide-react';
+import { Eye, EyeOff, User, Phone, Mail, CreditCard, Users, ChevronDown, Calendar, MapPin, Home, Search, Shield } from 'lucide-react';
 import { getApiUrl, isDevMode } from '../config/environment';
 import UserProfile from './userProfile';
 import ErrorBoundary from './ErrorBoundary';

@@ -181,6 +181,7 @@ const mobileNavTabs: { key: string; icon: React.ElementType; label: string; }[] 
   { key: 'philosophies', icon: BookOpen, label: 'Philosophies' },
   { key: 'financials', icon: Coins, label: 'Financials' },
   { key: 'leadership', icon: Crown, label: 'Leadership' },
+  { key: 'handbook', icon: FileText, label: 'Handbook' },
   { key: 'media', icon: Tv2, label: 'Gallery' },
   { key: 'feedback', icon: MessageSquare, label: 'Talk to us' },
 ];
@@ -207,7 +208,7 @@ const getTabSections = (key: string, activeSessions: Session[]): TabSection[] =>
     case 'library': return [{ title: 'Library', icon: Book, items: [{ label: 'Search Books', href: '/library' }, { label: 'My Borrows', href: '/library' }] }];
     case 'winasoul': return [{ title: 'Win a Soul', icon: UserPlus, items: [{ label: 'Mission Reports', href: '/save' }, { label: 'Evangelism Guide', href: '/save' }] }];
     case 'leadership': return [{ title: 'Leadership', icon: Crown, items: organizationSections[7].items }];
-    case 'governingdocs': return [{ title: 'Governing Docs', icon: FileText, items: [{ label: 'Constitution', href: '/pdfs/constitution.pdf', external: true }, { label: 'Financial Policy', href: '#' }, { label: 'Leadership Manual', href: '#' }] }];
+    case 'governingdocs': return [{ title: 'Governing Docs', icon: FileText, items: [{ label: 'Constitution', href: '/pdfs/constitution.pdf', external: true }, { label: 'Church Handbook', href: '/handbook' }, { label: 'Financial Policy', href: '#' }] }];
     case 'attendance':
       if (activeSessions.length === 0) return [];
       return [{ title: 'Active Sessions', icon: ClipboardList, items: activeSessions.map(s => ({ label: s.title, href: `/attendance?session=${s._id}` })) }];
@@ -277,6 +278,13 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
       setExpandedNestedItem(null);
       setIsManualExpanded(false);
       onNavigate('/financial');
+      return;
+    }
+    if (key === 'handbook') {
+      setActiveTab(null);
+      setExpandedNestedItem(null);
+      setIsManualExpanded(false);
+      onNavigate('/handbook');
       return;
     }
     if (key === 'feedback') {
@@ -642,6 +650,7 @@ const Header = () => {
     if (path.startsWith('/boards')) return 'boards';
     if (path.startsWith('/other-committees')) return 'committees';
     if (path.startsWith('/leadership')) return 'leadership';
+    if (path.startsWith('/handbook')) return 'handbook';
     if (path.startsWith('/governing-docs')) return 'governingdocs';
     if (path.startsWith('/attendance') || path.startsWith('/session')) return 'attendance';
     return null;
@@ -912,6 +921,8 @@ const Header = () => {
                   <Link to="/financial" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'financials' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Financials</Link>
 
                   <Link to="/leadership" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'leadership' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Leadership</Link>
+
+                  <Link to="/handbook" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'handbook' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Handbook</Link>
 
                   {/* Gallery Link */}
                   <Link to="/media" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'media' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Gallery</Link>

@@ -355,7 +355,7 @@ const SuperAdmin: React.FC = () => {
                     }
                 };
 
-                doc.autoTable(tableOptions);
+                (doc as any).autoTable(tableOptions);
 
                 const pageCount = doc.getNumberOfPages();
                 const pageHeight = doc.internal.pageSize.height;

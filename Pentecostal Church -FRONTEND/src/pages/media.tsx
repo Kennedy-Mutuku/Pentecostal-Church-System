@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from '../styles/Media.module.css';
 import loadingAnime from '../assets/loading.gif';
-import { FaYoutube, FaFacebook, FaTiktok, FaTwitter, FaImage, FaNewspaper, FaBook, FaSearch, FaCamera, FaArrowLeft } from 'react-icons/fa';
+import { FaYoutube, FaFacebook, FaTiktok, FaTwitter, FaImage, FaSearch } from 'react-icons/fa';
 import { getApiUrl, getImageUrl, getBaseUrl, isDevMode } from '../config/environment';
 
 interface MediaItem {
@@ -19,8 +19,8 @@ interface MediaItem {
 }
 
 const Media: React.FC = () => {
-  const [showMediaEvents, setShowMediaEvents] = useState(false);
-  const [error, setError] = useState('');
+  const [, setShowMediaEvents] = useState(false);
+  const [, setError] = useState('');
   const [generalLoading, setGeneralLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [events, setEvents] = useState<MediaItem[]>([]);

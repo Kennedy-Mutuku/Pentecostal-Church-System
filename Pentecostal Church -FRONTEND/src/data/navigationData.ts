@@ -150,8 +150,8 @@ export const headerNavGroups = {
       title: 'Governing Docs',
       items: [
         { label: 'Constitution', href: '/pdfs/constitution.pdf', external: true },
+        { label: 'Church Handbook', href: '/handbook' },
         { label: 'Financial Policy', href: '#' },
-        { label: 'Leadership Manual', href: '#' },
         { label: 'Partnership Policies', href: '#' },
       ],
     },

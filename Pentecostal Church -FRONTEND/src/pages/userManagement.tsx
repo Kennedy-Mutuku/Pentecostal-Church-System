@@ -24,7 +24,7 @@ interface UserData {
 
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<UserData[]>([]);
-  const [families, setFamilies] = useState<any[]>([]);
+  const [, setFamilies] = useState<any[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<UserData[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);

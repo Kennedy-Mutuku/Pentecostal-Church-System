@@ -4,7 +4,7 @@ import cuLogo from '../assets/RPC logo updated document.png';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/changeDetails.module.css';
 import Cookies from 'js-cookie';
-import { ChevronDown, Eye, EyeOff } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { getApiUrl, getImageUrl } from '../config/environment';
 import ProfilePhotoUpload from './ProfilePhotoUpload';
 import { Camera, Trash2, X as CloseIcon, Upload } from 'lucide-react';
@@ -24,18 +24,6 @@ type FormData = {
   password: string;
   profilePhoto?: string;
 };
-
-const ministriesList = [
-  { id: 'wananzambe', label: 'Wananzambe' },
-  { id: 'intercessory', label: 'Intercessory' },
-  { id: 'ushering', label: 'Ushering' },
-  { id: 'pw', label: 'Praise and Worship' },
-  { id: 'cs', label: 'Church School' },
-  { id: 'hs', label: 'High School' },
-  { id: 'compassion', label: 'Compassion' },
-  { id: 'creativity', label: 'Creativity' },
-  { id: 'choir', label: 'Choir' }
-];
 
 const ChangeDetails: React.FC = () => {
   const navigate = useNavigate();
@@ -57,53 +45,20 @@ const ChangeDetails: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
   const [error, setError] = useState('');
-  const [selectedMinistries, setSelectedMinistries] = useState<string[]>([]);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [userRole, setUserRole] = useState<'student' | 'associate'>('student');
   const [showConfirmDialog, setShowConfirmDialog] = useState(false);
   const [pendingPayload, setPendingPayload] = useState<Record<string, string> | null>(null);
   const [isAdminSession, setIsAdminSession] = useState(false);
-  const [fieldErrors, setFieldErrors] = useState<{ phone?: string }>({});
-  const [checkingField, setCheckingField] = useState<string | null>(null);
   const [showPhotoUpload, setShowPhotoUpload] = useState(false);
   const [showFullSize, setShowFullSize] = useState(false);
-  const [originalData, setOriginalData] = useState<{ phone: string }>({ phone: '' });
+  const [, setOriginalData] = useState<{ phone: string }>({ phone: '' });
 
   const isAssociate = userRole === 'associate';
 
-  const checkPhoneExists = async (value: string) => {
-    if (!value || value.trim() === '' || value === originalData.phone) {
-      setFieldErrors(prev => ({ ...prev, phone: undefined }));
-      return;
-    }
-    if (!/^0\d{9}$/.test(value)) return;
-    setCheckingField('phone');
-    try {
-      const response = await axios.post(getApiUrl('usersCheckExists'), { phone: value.trim() });
-      if (response.data.exists) {
-        setFieldErrors(prev => ({ ...prev, phone: 'Phone number already in use by another account.' }));
-      } else {
-        setFieldErrors(prev => ({ ...prev, phone: undefined }));
-      }
-    } catch (err) {
-      console.error('Error checking phone:', err);
-    } finally {
-      setCheckingField(null);
-    }
-  };
-
   const togglePasswordVisibility = () => {
     setShowPassword(!showPassword);
-  };
-
-  const toggleMinistrySelection = (id: string) => {
-    setSelectedMinistries(prevSelected =>
-      prevSelected.includes(id)
-        ? prevSelected.filter(ministry => ministry !== id)
-        : [...prevSelected, id]
-    );
   };
 
   // useEffect(() => {
@@ -153,10 +108,6 @@ const ChangeDetails: React.FC = () => {
       } else {
         console.log('clear');
       }
-      const ministriesArray = response.data.ministry
-        ? response.data.ministry.split(", ").map((m: string) => m.trim().toLocaleLowerCase())
-        : [];
-
       if (response.data.role) {
         setUserRole(response.data.role === 'associate' ? 'associate' : 'student');
       }
@@ -177,7 +128,6 @@ const ChangeDetails: React.FC = () => {
         profilePhoto: response.data.profilePhoto || '',
       });
 
-      setSelectedMinistries(ministriesArray);
       setOriginalData({ phone: response.data.phone || '' });
 
     } catch (error: any) {
@@ -211,22 +161,6 @@ const ChangeDetails: React.FC = () => {
       [id]: value
     }));
   };
-
-  const handleBlur = (e: React.FocusEvent<HTMLDivElement>) => {
-    if (!e.currentTarget.contains(e.relatedTarget)) {
-      setShowDropdown(false);
-    }
-  };
-
-  function validateYOS(input: string) {
-    const regex = /^[1-6]$/; // Matches only one digit between 1 and 6
-    return regex.test(input);
-  }
-
-  function validatePhone(input: string) {
-    const regex = /^0\d{9}$/; // Matches exactly 10 digits starting with 0, no spaces allowed
-    return regex.test(input);
-  }
 
   function validatePassword(input: string) {
     // Minimum 4 characters — kept simple since default password is phone number
@@ -343,12 +277,7 @@ const ChangeDetails: React.FC = () => {
   };
 
   const handleSubmit = async () => {
-    if (fieldErrors.phone) {
-      setError('Please fix the errors above before updating.');
-      return;
-    }
-
-    const { password, currentPassword } = formData;
+    const { password } = formData;
 
     // Only residence and ageGroup are user-editable
     const finalFormData: Record<string, string> = {

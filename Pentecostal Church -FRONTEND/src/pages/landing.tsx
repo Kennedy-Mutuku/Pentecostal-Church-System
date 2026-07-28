@@ -74,7 +74,7 @@ const LandingPage = () => {
   }, [openPrayerJoint, openBibleStudy, openDevelopment, openGraphicDesign, openKairosCourse, openFocus]);
 
   // Check for active attendance session
-  const checkActiveSession = async (retryCount = 0) => {
+  const checkActiveSession = async () => {
     try {
       console.log('🔄 Checking active session from backend...');
       const timestamp = Date.now();
@@ -363,7 +363,7 @@ const LandingPage = () => {
       
       // OFFLINE FALLBACK
       try {
-          const sessionId = activeSession.sessionId || activeSession._id;
+          const sessionId = activeSession.sessionId;
           const recordsStr = localStorage.getItem('rpc-attendance-records') || '{}';
           const records = JSON.parse(recordsStr);
           

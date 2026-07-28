@@ -153,7 +153,7 @@ const MinistryHeader = () => {
     return (
         <>
             {generalLoading && (
-                <div className=\loading-screen\>
+                <div className="loading-screen">
                     <p className={styles['loading-text']}>Please wait...🤗</p>
                     <img src={loadingAnime} alt="loading" />
                 </div>
