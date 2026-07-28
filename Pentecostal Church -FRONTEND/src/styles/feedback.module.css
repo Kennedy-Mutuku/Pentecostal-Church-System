@@ -7,7 +7,7 @@
 
 .mainTitle {
     font-size: clamp(1.8rem, 4vw, 2.5rem);
-    color: #E53935;
+    color: var(--primary-color, #6B4C5A);
     font-weight: 800;
     margin-bottom: 0.5rem;
     letter-spacing: -0.5px;
@@ -78,9 +78,9 @@
 
 .inputs:focus {
     outline: none;
-    border-color: #E53935;
+    border-color: var(--primary-color, #6B4C5A);
     background: #ffffff;
-    box-shadow: 0 0 0 4px rgba(229, 57, 53, 0.1);
+    box-shadow: 0 0 0 4px rgba(107, 76, 90, 0.1);
 }
 
 textarea.inputs {
@@ -92,22 +92,22 @@ textarea.inputs {
     display: flex;
     align-items: center;
     gap: 12px;
-    background: rgba(229, 57, 53, 0.04);
+    background: rgba(107, 76, 90, 0.04);
     padding: 12px 16px;
     border-radius: 12px;
-    border: 1px solid rgba(229, 57, 53, 0.1);
+    border: 1px solid rgba(107, 76, 90, 0.15);
     cursor: pointer;
     transition: background 0.2s ease;
 }
 
 .checkboxContainer:hover {
-    background: rgba(229, 57, 53, 0.08);
+    background: rgba(107, 76, 90, 0.08);
 }
 
 .checkboxContainer label {
     margin-bottom: 0;
     font-size: 0.95rem;
-    color: #E53935;
+    color: var(--primary-color, #6B4C5A);
     font-weight: 600;
     cursor: pointer;
     flex-grow: 1;
@@ -116,16 +116,16 @@ textarea.inputs {
 .checkboxContainer input[type="checkbox"] {
     width: 22px;
     height: 22px;
-    accent-color: #E53935;
+    accent-color: var(--primary-color, #6B4C5A);
     cursor: pointer;
     margin-bottom: 0;
 }
 
 .userInfo {
-    background: rgba(229, 57, 53, 0.05);
+    background: rgba(107, 76, 90, 0.05);
     padding: 15px 20px;
     border-radius: 12px;
-    border: 1px solid rgba(229, 57, 53, 0.2);
+    border: 1px solid rgba(107, 76, 90, 0.2);
     margin-bottom: 20px;
 }
 
@@ -136,7 +136,7 @@ textarea.inputs {
 }
 
 .userInfo strong {
-    color: #E53935;
+    color: var(--primary-color, #6B4C5A);
 }
 
 .loginNote {
@@ -165,7 +165,7 @@ textarea.inputs {
     justify-content: center;
     gap: 8px;
     padding: 12px 32px;
-    background: #E53935;
+    background: var(--primary-color, #6B4C5A);
     color: white;
     border: none;
     border-radius: 8px;
@@ -178,7 +178,7 @@ textarea.inputs {
 }
 
 .submitButton:hover:not(:disabled) {
-    background: #d32f2f;
+    background: #543a45;
     box-shadow: none;
 }
 
