@@ -38,10 +38,20 @@
     border-radius: 8px;
     border: 1px solid #e5e7eb;
     box-shadow: none; /* No floating look */
+    display: block; /* cancel flex/gap leaked in from bs.module.css's imported .form rule */
 }
 
-.form div {
+.form > div {
+    display: block; /* cancel flex/gap leaked in from bs.module.css's imported .form > div rule */
+    gap: 0;
     margin-bottom: 14px;
+}
+
+.form .checkboxContainer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 12px;
 }
 
 .form label {
@@ -63,6 +73,7 @@
     color: #1f2937;
     font-family: inherit;
     box-sizing: border-box;
+    margin-bottom: 0; /* override global input/select margin-bottom bleed */
 }
 
 .inputs:focus {
@@ -107,6 +118,7 @@ textarea.inputs {
     height: 22px;
     accent-color: #E53935;
     cursor: pointer;
+    margin-bottom: 0;
 }
 
 .userInfo {
