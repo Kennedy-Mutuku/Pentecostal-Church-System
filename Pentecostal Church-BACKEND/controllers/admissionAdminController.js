@@ -248,7 +248,7 @@ exports.resetUserPassword = async (req, res) => {
 exports.updateUser = async (req, res) => {
     try {
         const { userId } = req.params;
-        const { username, email, phone, idNumber, gender, ageGroup, yearJoined, residence, relationToHead } = req.body;
+        const { username, email, phone, idNumber, gender, ageGroup, yearJoined, residence, relationToHead, familyId } = req.body;
 
         if (!userId) {
             return res.status(400).json({ message: 'User ID is required' });
@@ -281,6 +281,30 @@ exports.updateUser = async (req, res) => {
             return res.status(404).json({ message: 'User not found' });
         }
 
+        // Handle Family transfer logic
+        let newFamilyIdToSet = targetUser.family; // default to existing
+        if (familyId !== undefined) {
+            const oldFamilyId = targetUser.family ? targetUser.family.toString() : null;
+            const newFamilyId = familyId ? familyId.toString() : null;
+
+            if (oldFamilyId !== newFamilyId) {
+                // If the user had an old family, remove them from it
+                if (oldFamilyId) {
+                    await Family.findByIdAndUpdate(oldFamilyId, {
+                        $pull: { members: targetUser._id }
+                    });
+                }
+                
+                // If the user is moving to a new family, add them to it
+                if (newFamilyId) {
+                    await Family.findByIdAndUpdate(newFamilyId, {
+                        $addToSet: { members: targetUser._id } // use addToSet to prevent duplicates
+                    });
+                }
+                newFamilyIdToSet = newFamilyId ? familyId : null;
+            }
+        }
+
         const update = { username };
         if (email !== undefined) update.email = email ? email.toLowerCase() : undefined;
         if (phone !== undefined) update.phone = phone || undefined;
@@ -290,6 +314,7 @@ exports.updateUser = async (req, res) => {
         if (yearJoined !== undefined) update.yearJoined = yearJoined || undefined;
         if (residence !== undefined) update.residence = residence || undefined;
         if (relationToHead !== undefined) update.relationToHead = relationToHead || null;
+        if (familyId !== undefined) update.family = newFamilyIdToSet;
 
         // Graduation: a dependent gaining their first phone number becomes login-capable.
         // Only fires on the no-password -> has-phone transition, never overwrites an existing password.

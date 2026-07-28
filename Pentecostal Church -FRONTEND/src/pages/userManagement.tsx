@@ -18,11 +18,13 @@ interface UserData {
   yearJoined?: string;
   profilePhoto?: string;
   family?: { _id: string; familyName: string; residence?: string } | null;
+  familyId?: string; // For the edit form
   relationToHead?: string;
 }
 
 const UserManagement: React.FC = () => {
   const [users, setUsers] = useState<UserData[]>([]);
+  const [families, setFamilies] = useState<any[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<UserData[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
@@ -45,6 +47,7 @@ const UserManagement: React.FC = () => {
 
   useEffect(() => {
     fetchUsers();
+    fetchFamilies();
   }, []);
 
   useEffect(() => {
@@ -97,6 +100,17 @@ const UserManagement: React.FC = () => {
     }
   };
 
+  const fetchFamilies = async () => {
+    try {
+      const response = await axios.get(getApiUrl('admissionAdminGetFamilies'), {
+        withCredentials: true,
+      });
+      setFamilies(response.data);
+    } catch (error) {
+      console.error('Failed to fetch families', error);
+    }
+  };
+
   const filterUsers = () => {
     if (!searchTerm.trim()) {
       setFilteredUsers(users);
@@ -146,7 +160,7 @@ const UserManagement: React.FC = () => {
 
   const handleEditClick = (user: UserData) => {
     setEditingUser(user);
-    setEditFormData({ ...user });
+    setEditFormData({ ...user, familyId: user.family?._id || '' });
   };
 
   const handleEditChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -164,9 +178,15 @@ const UserManagement: React.FC = () => {
     setSuccess('');
 
     try {
+      if (editFormData) {
         const updateUrl = getApiUrl('admissionAdminUpdateUser').replace(':userId', editingUser._id);
-        const response = await axios.put(updateUrl, editFormData, {
-            withCredentials: true,
+        
+        // Pass familyId explicitly instead of the populated family object
+        const dataToSend = { ...editFormData };
+        delete (dataToSend as any).family; 
+        
+        const response = await axios.put(updateUrl, dataToSend, {
+          withCredentials: true
         });
 
         setSuccess(`User ${editFormData.username} updated successfully!`);
@@ -175,6 +195,7 @@ const UserManagement: React.FC = () => {
         setEditFormData(null);
         
         setTimeout(() => setSuccess(''), 5000);
+      }
     } catch (error: any) {
         setError(error.response?.data?.message || 'Failed to update user. Please try again.');
     } finally {

@@ -9,7 +9,6 @@
     "dev:unix": "NODE_ENV=development nodemon app.js",
     "create-admission-admin": "node scripts/createAdmissionAdmin.js",
     "create-user": "node scripts/createUser.js",
-    "create-message-admin": "node scripts/createMessageAdmin.js",
     "create-super-admin": "node scripts/createSuperAdmin.js",
     "create-test-users": "node scripts/createTestUsers.js",
     "reset-minutes-pin": "node scripts/resetMinutesPin.js"

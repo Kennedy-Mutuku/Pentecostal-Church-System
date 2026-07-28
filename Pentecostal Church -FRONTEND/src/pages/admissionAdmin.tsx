@@ -313,66 +313,98 @@ const AdmissionAdmin: React.FC = () => {
         @keyframes slideDown { from { transform: translateY(-20px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
         @keyframes popIn { 0% { transform: scale(0.6); opacity: 0 } 60% { transform: scale(1.06) } 100% { transform: scale(1); opacity: 1 } }
         @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 10px rgba(76,175,80,0.1), 0 8px 24px rgba(26,138,46,0.2) } 50% { box-shadow: 0 0 0 16px rgba(76,175,80,0.06), 0 8px 24px rgba(26,138,46,0.25) } }
-        .af-row { margin-bottom: 6px; }
+        
+        .af-page-body {
+          background: linear-gradient(135deg, #f8f9fa, #eef2f5);
+          min-height: 100vh;
+        }
+
+        .af-form-card {
+          background: #ffffff;
+          padding: 24px 20px;
+          border-radius: 24px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.06), 0 2px 10px rgba(0,0,0,0.02);
+          max-width: 400px;
+          margin: 16px auto 0;
+          border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .af-row { margin-bottom: 8px; }
         .af-row label {
-          display: block; font-size: 12.5px; font-weight: 700;
-          color: #333; margin-bottom: 2px;
+          display: block; font-size: 13px; font-weight: 700;
+          color: #2d3748; margin-bottom: 4px; margin-left: 4px;
         }
         .af-row label .req { color: #E53935; margin-left: 2px; }
         .af-row label.err-label { color: #E53935; }
-        .af-hint { font-size: 10px; color: #E53935; margin-top: 2px; display: block; }
+        .af-hint { font-size: 11px; color: #E53935; margin-top: 2px; display: block; margin-left: 4px; }
         .af-field { position: relative; }
-        .af-icon { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: #9a9690; pointer-events: none; }
+        .af-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #730051; opacity: 0.6; pointer-events: none; transition: opacity 0.2s; }
+        
         .af-input, .af-select {
-          width: 100%; padding: 9px 10px 9px 33px; border-radius: 12px;
-          font-size: 13.5px; outline: none; color: #333;
-          background-color: #F7F4EF;
-          transition: border 0.2s, background 0.2s; box-sizing: border-box;
+          width: 100%; padding: 8px 12px 8px 36px; border-radius: 12px;
+          font-size: 13.5px; outline: none; color: #1a202c;
+          background-color: #ffffff;
+          border: 1.5px solid #e2e8f0;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          box-sizing: border-box;
         }
+        
+        .af-input:focus, .af-select:focus {
+          border-color: #730051;
+          box-shadow: 0 0 0 4px rgba(115,0,81,0.1);
+          background-color: #fff;
+        }
+        .af-field:focus-within .af-icon { opacity: 1; }
+
         .af-select {
-          padding-right: 26px;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23777'/%3E%3C/svg%3E");
+          padding-right: 32px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 6 5-6' fill='none' stroke='%23730051' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
           background-repeat: no-repeat;
-          background-position: right 12px center;
-          background-size: 10px 6px;
+          background-position: right 14px center;
           appearance: none; -webkit-appearance: none;
         }
-        .af-select.err-bg { background-color: #fff5f5; }
+        .af-select.err-bg { background-color: #fff5f5; border-color: #feb2b2; }
 
-        .af-header { padding: 20px 0 6px; }
-        .af-logo { width: 56px; height: 56px; margin: 0 auto 10px; }
-        .af-title { margin: 0; font-size: 20px; font-weight: 800; color: #1a1a2e; letter-spacing: -0.2px; }
-        .af-subtitle { margin: 4px 0 0; font-size: 12.5px; color: #888; }
-        .af-note { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: #e8f4fd; border: 1px solid #bee5eb; border-radius: 14px; margin-bottom: 14px; }
-        .af-note p { margin: 0; color: #0c5460; font-size: 11.5px; }
-        .af-role-toggle { display: flex; gap: 6px; background: #F7F4EF; border-radius: 12px; padding: 4px; }
+        .af-header { padding: 24px 0 10px; }
+        .af-logo { width: 64px; height: 64px; margin: 0 auto 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
+        .af-title { margin: 0; font-size: 24px; font-weight: 800; color: #1a202c; letter-spacing: -0.5px; }
+        .af-subtitle { margin: 6px 0 0; font-size: 14px; color: #718096; }
+        
+        .af-note { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; background: #f0ebf3; border: 1.5px solid #e2d1df; border-radius: 14px; margin-bottom: 16px; }
+        .af-note p { margin: 0; color: #4a2842; font-size: 12px; line-height: 1.5; }
+        
+        .af-role-toggle { display: flex; gap: 6px; background: #edf2f7; border-radius: 14px; padding: 5px; margin-bottom: 8px; }
         .af-role-btn {
           flex: 1; border: none; background: transparent; cursor: pointer;
-          padding: 8px 6px; font-size: 11px; font-weight: 700; color: #777;
-          border-radius: 9px; transition: background 0.2s, color 0.2s;
+          padding: 10px 8px; font-size: 12px; font-weight: 700; color: #718096;
+          border-radius: 10px; transition: all 0.25s ease;
         }
-        .af-role-btn.active { background: #fff; color: #1a1a2e; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
-        .af-btns-row { flex-wrap: nowrap; }
-        .af-btn { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .af-role-btn:hover { color: #2d3748; }
+        .af-role-btn.active { background: #730051; color: #fff; box-shadow: 0 4px 12px rgba(115,0,81,0.25); }
+        .af-btns-row { flex-wrap: nowrap; margin-top: 10px; }
+        .af-btn { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; justify-content: center; align-items: center; font-weight: 700; transition: all 0.2s; }
+        .af-btn.primary { background: linear-gradient(135deg, #730051, #9a006d); color: white; box-shadow: 0 6px 16px rgba(115,0,81,0.25); border: none; }
+        .af-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(115,0,81,0.3); }
+        .af-btn.secondary { background: #edf2f7; color: #4a5568; border: none; }
+        .af-btn.secondary:hover { background: #e2e8f0; }
 
-        /* Fit comfortably on one mobile screen: hide icons (they clash with native select text),
-           and tighten every vertical gap. */
         @media (max-width: 480px) {
+          .af-form-card { padding: 20px 16px; margin: 10px auto 0; border-radius: 20px; }
           .af-page-body { padding: 10px 0 !important; }
-          .af-page-container { padding: 6px 0 !important; }
-          .af-header { padding: 6px 0 3px; }
-          .af-logo { width: 36px; height: 36px; margin: 0 auto 4px; }
-          .af-title { font-size: 15.5px; }
-          .af-subtitle { font-size: 10.5px; margin-top: 1px; }
-          .af-icon { display: none; }
-          .af-input, .af-select { padding-left: 10px !important; padding-top: 6px !important; padding-bottom: 6px !important; font-size: 12.5px !important; border-radius: 10px !important; }
-          .af-row { margin-bottom: 3px; }
-          .af-row label { font-size: 10.5px; margin-bottom: 1px; }
-          .af-hint { font-size: 9px; margin-top: 1px; }
-          .af-note { padding: 6px 10px; margin-bottom: 6px; gap: 6px; }
-          .af-note p { font-size: 10px; }
-          .af-btns-row { gap: 8px !important; }
-          .af-btn { padding: 10px 6px !important; font-size: 0.82em !important; min-height: 38px !important; }
+          .af-page-container { padding: 0 10px !important; }
+          .af-header { padding: 12px 0 6px; }
+          .af-logo { width: 50px; height: 50px; margin: 0 auto 8px; }
+          .af-title { font-size: 20px; }
+          .af-subtitle { font-size: 12px; }
+          .af-input, .af-select { padding: 10px 12px 10px 36px; font-size: 14px; border-radius: 12px; }
+          .af-icon { left: 12px; }
+          .af-row { margin-bottom: 12px; }
+          .af-row label { font-size: 12px; margin-bottom: 4px; }
+          .af-role-btn { font-size: 11px; padding: 8px 4px; }
+          .af-note { padding: 10px 12px; margin-bottom: 12px; }
+          .af-btns-row { gap: 12px !important; }
+          .af-btn { padding: 12px 8px !important; font-size: 14px !important; min-height: 44px !important; }
         }
       `}</style>
 
@@ -392,7 +424,7 @@ const AdmissionAdmin: React.FC = () => {
             </p>
           </div>
 
-          <div className={styles['form']} style={{ maxWidth: '360px', margin: '10px auto 0' }}>
+          <div className={`${styles['form']} af-form-card`}>
 
             {/* FAMILY ROLE */}
             <div className="af-row">
@@ -608,10 +640,10 @@ const AdmissionAdmin: React.FC = () => {
 
             {/* Action buttons */}
             <div className={`${styles['submisions']} af-btns-row`} style={{ paddingTop: '0', paddingBottom: '10px' }}>
-              <div className={`${styles['clearForm']} af-btn`} onClick={clearForm} style={{ borderRadius: '999px' }}>Clear</div>
+              <div className={`${styles['clearForm']} af-btn secondary`} onClick={clearForm} style={{ borderRadius: '14px', cursor: 'pointer' }}>Clear</div>
               {loading
-                ? <div className={`${styles['submitData']} af-btn`} style={{ opacity: 0.7, cursor: 'not-allowed', borderRadius: '999px' }}>Processing...</div>
-                : <div className={`${styles['submitData']} af-btn`} onClick={handleSubmit} style={{ borderRadius: '999px' }}>Admit User</div>
+                ? <div className={`${styles['submitData']} af-btn primary`} style={{ opacity: 0.7, cursor: 'not-allowed', borderRadius: '14px' }}>Processing...</div>
+                : <div className={`${styles['submitData']} af-btn primary`} onClick={handleSubmit} style={{ borderRadius: '14px', cursor: 'pointer' }}>Admit User</div>
               }
             </div>
 
