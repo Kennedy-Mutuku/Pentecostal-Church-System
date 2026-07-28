@@ -425,6 +425,19 @@ const LandingPageNew = () => {
           </div>
         </section>
 
+        {/* Location Map Section */}
+        <section className="map-section">
+          <iframe
+            src="https://maps.google.com/maps?q=Rikuruma%20Pentecostal%20Church,%20Magwagwa,%20Nyamira%20County&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="400"
+            style={{ border: 0, display: 'block' }}
+            allowFullScreen={false}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Rikuruma Pentecostal Church Location"
+          ></iframe>
+        </section>
 
       </div>
     </div>
