@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 // Import community images
-// TODO: hero-1.jpg is missing from assets — reusing hero-2.jpg as a stopgap. Replace with the real image.
-import hero1 from '../../assets/hero-2.jpg';
+import board1 from '../../assets/Board 1.jpeg';
+import hero1 from '../../assets/hero-1.jpg';
 import hero2 from '../../assets/hero-2.jpg';
 import hero3 from '../../assets/hero-3.jpg';
 import hero4 from '../../assets/hero-4.jpg';
@@ -17,7 +17,7 @@ interface Slide {
 
 const slides: Slide[] = [
   {
-    image: hero1,
+    image: board1,
     title: 'Welcome to Rikuruma Pentecostal Church',
     subtitle: 'A Spirit-filled community transforming lives through the power of God in Nyamira',
   },
@@ -90,11 +90,11 @@ const HeroSection = () => {
             <img
               src={slide.image}
               alt={slide.title}
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover object-center"
               style={{
-                transform: (isActive || isPrevious) ? 'scale(1.06)' : 'scale(1)',
+                transform: (isActive || isPrevious) ? 'scale(1.01)' : 'scale(1)',
                 transition: 'transform 6s ease-out',
-                filter: 'saturate(1.15) contrast(1.08)',
+                filter: 'saturate(1.1) contrast(1.05)',
               }}
             />
             {/* Dark Gradient Overlay */}

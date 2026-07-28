@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { getApiUrl } from '../config/environment';
 import styles from '../styles/index.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
+import board1 from '../assets/Board 1.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
 import loadingAnime from '../assets/loading.gif';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -53,7 +54,7 @@ const LandingPageHeader = () => {
   ];
 
   const images = [
-    { url: 'linear-gradient(135deg, #482078, #730051)', text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[0] },
+    { url: `url("${board1}")`, text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[0] },
     { url: 'linear-gradient(135deg, #730051, #482078)', text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[1] },
     { url: 'linear-gradient(135deg, #341558, #730051)', text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[2] }
   ];
