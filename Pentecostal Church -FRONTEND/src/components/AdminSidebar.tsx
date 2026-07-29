@@ -3,7 +3,6 @@ import {
   LayoutDashboard,
   Users,
   UserCog,
-  Vote,
   MessageSquare,
   FileText,
   FolderOpen,
@@ -13,7 +12,7 @@ import {
 } from 'lucide-react';
 import styles from '../styles/adminSidebar.module.css';
 
-export type AdminSection = 'dashboard' | 'students' | 'polling' | 'messages' | 'minutes' | 'documents' | 'committee' | 'adminManagement' | 'finance';
+export type AdminSection = 'dashboard' | 'students' | 'messages' | 'minutes' | 'documents' | 'committee' | 'adminManagement' | 'finance';
 
 interface AdminSidebarProps {
   activeSection: AdminSection;
@@ -32,7 +31,6 @@ interface MenuItem {
 const menuItems: MenuItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: <LayoutDashboard size={16} /> },
   { id: 'students', label: 'Students', icon: <Users size={16} /> },
-  { id: 'polling', label: 'Polling', icon: <Vote size={16} /> },
   { id: 'messages', label: 'Messages', icon: <MessageSquare size={16} /> },
   { id: 'minutes', label: 'Minutes', icon: <FileText size={16} /> },
   { id: 'documents', label: 'Documents', icon: <FolderOpen size={16} /> },

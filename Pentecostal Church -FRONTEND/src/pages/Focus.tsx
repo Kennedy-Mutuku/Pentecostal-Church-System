@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import focusBanner from '../assets/focus_banner.png';
 import { Calendar, MapPin, Users, Heart } from 'lucide-react';
 
 const Focus = () => {
@@ -16,12 +15,7 @@ const Focus = () => {
 
             <div className="relative">
                 {/* Hero Section */}
-                <div className="relative h-[60vh] overflow-hidden">
-                    <img
-                        src={focusBanner}
-                        alt="National Conventions Banner"
-                        className={`w-full h-full object-cover transition-transform duration-[2000ms] ${isVisible ? 'scale-100' : 'scale-110'}`}
-                    />
+                <div className="relative h-[60vh] overflow-hidden" style={{ background: 'linear-gradient(135deg, #482078, #730051)' }}>
                     <div className="absolute inset-0 bg-gradient-to-t from-[#730051]/90 via-[#730051]/40 to-transparent flex items-center justify-center">
                         <div className={`text-center text-white px-4 ${fadeInUp('delay-300')}`}>
                             <h1 className="text-4xl md:text-6xl font-bold mb-4 tracking-tight drop-shadow-lg uppercase">

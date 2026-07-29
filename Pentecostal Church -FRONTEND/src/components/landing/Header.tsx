@@ -181,6 +181,7 @@ const mobileNavTabs: { key: string; icon: React.ElementType; label: string; }[] 
   { key: 'philosophies', icon: BookOpen, label: 'Philosophies' },
   { key: 'financials', icon: Coins, label: 'Financials' },
   { key: 'leadership', icon: Crown, label: 'Leadership' },
+  { key: 'handbook', icon: FileText, label: 'Handbook' },
   { key: 'media', icon: Tv2, label: 'Gallery' },
   { key: 'feedback', icon: MessageSquare, label: 'Talk to us' },
 ];
@@ -207,7 +208,7 @@ const getTabSections = (key: string, activeSessions: Session[]): TabSection[] =>
     case 'library': return [{ title: 'Library', icon: Book, items: [{ label: 'Search Books', href: '/library' }, { label: 'My Borrows', href: '/library' }] }];
     case 'winasoul': return [{ title: 'Win a Soul', icon: UserPlus, items: [{ label: 'Mission Reports', href: '/save' }, { label: 'Evangelism Guide', href: '/save' }] }];
     case 'leadership': return [{ title: 'Leadership', icon: Crown, items: organizationSections[7].items }];
-    case 'governingdocs': return [{ title: 'Governing Docs', icon: FileText, items: [{ label: 'Constitution', href: '/pdfs/constitution.pdf', external: true }, { label: 'Financial Policy', href: '#' }, { label: 'Leadership Manual', href: '#' }] }];
+    case 'governingdocs': return [{ title: 'Governing Docs', icon: FileText, items: [{ label: 'Constitution', href: '/pdfs/constitution.pdf', external: true }, { label: 'Church Handbook', href: '/handbook' }, { label: 'Financial Policy', href: '#' }] }];
     case 'attendance':
       if (activeSessions.length === 0) return [];
       return [{ title: 'Active Sessions', icon: ClipboardList, items: activeSessions.map(s => ({ label: s.title, href: `/attendance?session=${s._id}` })) }];
@@ -277,6 +278,13 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
       setExpandedNestedItem(null);
       setIsManualExpanded(false);
       onNavigate('/financial');
+      return;
+    }
+    if (key === 'handbook') {
+      setActiveTab(null);
+      setExpandedNestedItem(null);
+      setIsManualExpanded(false);
+      onNavigate('/handbook');
       return;
     }
     if (key === 'feedback') {
@@ -386,8 +394,8 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
       {/* Icon strip / Sidebar */}
       <div ref={sidebarRef} style={{
         position: 'fixed', top: '104px', left: 0, bottom: 0,
-        width: isExpanded ? '180px' : '52px',
-        backgroundColor: '#B71C1C',
+        width: isExpanded ? '148px' : '44px',
+        backgroundColor: '#341558',
         display: 'block',
         textAlign: isExpanded ? 'left' : 'center',
         paddingTop: '6px', paddingBottom: '6px',
@@ -412,7 +420,7 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
                 onClick={() => handleTabClick(tab.key)}
                 title={tab.label}
                 style={{
-                  width: isExpanded ? '168px' : '46px',
+                  width: isExpanded ? '136px' : '38px',
                   minHeight: '38px',
                   marginBottom: '2px',
                   display: 'flex',
@@ -423,7 +431,7 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
                   margin: isExpanded ? '0' : '0 auto',
                   borderRadius: '6px', border: 'none', cursor: 'pointer',
                   backgroundColor: isActive ? 'rgba(255,255,255,0.95)' : 'transparent',
-                  color: isActive ? '#B71C1C' : 'rgba(255,255,255,0.85)',
+                  color: isActive ? '#341558' : 'rgba(255,255,255,0.85)',
                   gap: isExpanded ? '10px' : '2px',
                   flexShrink: 0, position: 'relative',
                   transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
@@ -431,19 +439,19 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
                   transform: isActive ? 'scale(1.02)' : 'scale(1)',
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '28px', height: '28px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', width: '22px', height: '22px' }}>
                   {isUser ? (
                     userData?.profilePhoto ? (
                       <img
                         src={getImageUrl(userData.profilePhoto)}
                         alt=""
-                        style={{ width: '24px', height: '24px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.8)' }}
+                        style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.8)' }}
                       />
                     ) : (
-                      <User size={22} />
+                      <User size={18} />
                     )
                   ) : (
-                    <Icon size={22} />
+                    <Icon size={18} />
                   )}
                 </div>
 
@@ -485,7 +493,7 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
                 <div
                   ref={el => { dropdownRefs.current[tab.key] = el; }}
                   style={{
-                    width: '168px',
+                    width: '136px',
                     background: 'rgba(255,255,255,0.98)',
                     borderRadius: '8px',
                     marginTop: '2px',
@@ -503,7 +511,7 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
                           padding: '6px 16px 4px',
                           fontSize: '11px',
                           fontWeight: 700,
-                          color: '#B71C1C',
+                          color: '#341558',
                           opacity: 0.7,
                           textTransform: 'uppercase',
                           letterSpacing: '0.5px'
@@ -642,6 +650,7 @@ const Header = () => {
     if (path.startsWith('/boards')) return 'boards';
     if (path.startsWith('/other-committees')) return 'committees';
     if (path.startsWith('/leadership')) return 'leadership';
+    if (path.startsWith('/handbook')) return 'handbook';
     if (path.startsWith('/governing-docs')) return 'governingdocs';
     if (path.startsWith('/attendance') || path.startsWith('/session')) return 'attendance';
     return null;
@@ -761,9 +770,9 @@ const Header = () => {
   );
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-[100005] transition-all duration-300 border-b-2 border-[#730051]/15 ${isScrolled ? 'bg-white shadow-lg shadow-black/5' : 'bg-white/95 backdrop-blur-sm'}`}>
-        {/* Creative Top Bar Red Strip */}
-        <div className="bg-[#C62828] text-white h-10 md:h-9 border-b border-white/10">
+      <header className={`fixed top-0 left-0 right-0 z-[100005] transition-all duration-300 border-b-2 border-[#482078]/15 ${isScrolled ? 'bg-white shadow-lg shadow-black/5' : 'bg-white/95 backdrop-blur-sm'}`}>
+        {/* Creative Top Bar */}
+        <div className="bg-[#482078] text-white h-10 md:h-9 border-b border-white/10">
           <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex flex-col md:flex-row justify-between items-center text-[10px] xl:text-xs font-semibold gap-1 py-1 md:py-0 select-none">
             <div className="flex items-center gap-4">
               <a href="mailto:communityofbelieversinjesus@gmail.com" className="flex items-center gap-1.5 hover:text-yellow-400 transition-colors">
@@ -812,21 +821,21 @@ const Header = () => {
               className="md:hidden w-[52px] h-full flex items-center justify-center flex-shrink-0 hover:bg-red-50 active:scale-95 transition-all duration-200 -ml-4"
               aria-label="Toggle Menu"
             >
-              <Menu size={24} className="text-[#C62828] hover:text-[#B71C1C] transition-colors" />
+              <Menu size={24} className="text-[#482078] hover:text-[#341558] transition-colors" />
             </button>
 
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="md:hidden flex-1 flex items-center justify-center gap-1 min-w-0 pr-1">
               <img src={cuLogo} alt="RPC Logo" className="w-8 h-8 object-contain flex-shrink-0" />
               <div className="flex flex-col items-center overflow-hidden min-w-0">
-                <span className="font-bold text-gray-900 leading-none text-[10px] tracking-tight truncate w-full text-center" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                <span className="text-gray-900 leading-none text-[10px] tracking-tight truncate w-full text-center" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
                   Rikuruma Pentecostal Church
                 </span>
                 <div className="flex items-center justify-center gap-1 mt-0.5 w-full">
-                  <div className="h-[1px] w-2 bg-[#E53935]/30 hidden sm:block"></div>
-                  <span className="text-[#E53935] text-[10px] tracking-wider truncate font-semibold" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                  <div className="h-[1px] w-2 bg-[#482078]/30 hidden sm:block"></div>
+                  <span className="text-[#482078] text-[10px] tracking-wider truncate font-semibold" style={{ fontFamily: "'Montserrat', sans-serif" }}>
                       NYAMIRA
                     </span>
-                  <div className="h-[1px] w-2 bg-[#E53935]/30 hidden sm:block"></div>
+                  <div className="h-[1px] w-2 bg-[#482078]/30 hidden sm:block"></div>
                 </div>
               </div>
             </Link>
@@ -835,38 +844,38 @@ const Header = () => {
             {!isDashboard && (
               <div className="md:hidden flex-shrink-0">
                 {isAdmin && isPatron ? (
-                  <button onClick={() => navigate('/patron')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-red-50 border border-[#E53935]/20 rounded-full font-bold text-[#E53935] transition-all shadow-sm active:scale-95 whitespace-nowrap">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[#E53935] text-white">
+                  <button onClick={() => navigate('/patron')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-red-50 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap">
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[#FF3B30] text-white">
                       <Crown size={12} strokeWidth={2.5} />
                     </div>
                     <span className="text-[10px] leading-none tracking-tight">Patron</span>
                   </button>
                 ) : isAdmin && isAssistantPatron ? (
-                  <button onClick={() => navigate('/assistant-patron')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-red-50 border border-[#E53935]/20 rounded-full font-bold text-[#E53935] transition-all shadow-sm active:scale-95 whitespace-nowrap">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[#E53935] text-white">
+                  <button onClick={() => navigate('/assistant-patron')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-red-50 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap">
+                    <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[#FF3B30] text-white">
                       <Crown size={12} strokeWidth={2.5} />
                     </div>
                     <span className="text-[10px] leading-none tracking-tight">Asst Patron</span>
                   </button>
                 ) : isAdmin ? (
-                  <button onClick={handleAdminLogout} className="flex items-center gap-1 pl-1 pr-2 py-1 bg-[#E53935] text-white rounded-full transition-all shadow-sm active:scale-95 whitespace-nowrap">
+                  <button onClick={handleAdminLogout} className="flex items-center gap-1 pl-1 pr-2 py-1 bg-[#FF3B30] text-white rounded-full transition-all shadow-sm active:scale-95 whitespace-nowrap">
                     <LogOut size={12} strokeWidth={2.5} />
                     <span className="text-[10px] font-bold">Log Out</span>
                   </button>
                 ) : userData ? (
-                  <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-red-50 border border-[#E53935]/20 rounded-full font-bold text-[#E53935] transition-all shadow-sm active:scale-95 whitespace-nowrap group">
-                    <div className="w-6 h-6 rounded-full overflow-hidden border-2 border-[#E53935] flex items-center justify-center bg-[#E53935]/5 transition-transform group-hover:scale-110">
+                  <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-red-50 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap group">
+                    <div className="w-6 h-6 rounded-full overflow-hidden border-2 border-[#FF3B30] flex items-center justify-center bg-[#FF3B30]/5 transition-transform group-hover:scale-110">
                       {userData.profilePhoto ? (
                         <img src={getImageUrl(userData.profilePhoto)} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <User size={14} className="text-[#E53935]" strokeWidth={2.5} />
+                        <User size={14} className="text-[#FF3B30]" strokeWidth={2.5} />
                       )}
                     </div>
                     <span className="text-[10px] capitalize leading-none tracking-tight">{userData.username}</span>
                   </button>
                 ) : (
-                  <Link to="/signIn" className="flex items-center gap-1 pl-1 pr-2 py-1 bg-red-50 hover:bg-[#E53935]/10 border border-[#E53935]/20 rounded-full font-bold text-[#E53935] transition-all shadow-sm active:scale-95 whitespace-nowrap">
-                    <div className="bg-[#E53935] text-white p-0.5 rounded-full flex items-center justify-center">
+                  <Link to="/signIn" className="flex items-center gap-1 pl-1 pr-2 py-1 bg-red-50 hover:bg-[#FF3B30]/10 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap">
+                    <div className="bg-[#FF3B30] text-white p-0.5 rounded-full flex items-center justify-center">
                       <LogIn size={12} strokeWidth={2.5} />
                     </div>
                     <span className="text-[10px] leading-none tracking-tight">Log In</span>
@@ -878,16 +887,16 @@ const Header = () => {
             <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hidden md:flex items-center gap-2 xl:gap-3 flex-shrink-0">
               <img src={cuLogo} alt="RPC Logo" className="w-10 h-10 xl:w-14 xl:h-14 object-contain flex-shrink-0" />
               <div className="flex flex-col min-w-0">
-                <div className="font-extrabold text-gray-900 leading-none tracking-tight uppercase" style={{ fontFamily: 'Montserrat, sans-serif' }}>
+                <div className="text-gray-900 leading-none tracking-tight uppercase" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
                   <span className="hidden xl:inline text-base">Rikuruma Pentecostal Church</span>
                   <span className="xl:hidden text-[11px]">RPC</span>
                 </div>
                 <div className="hidden xl:flex items-center gap-2 mt-1.5 w-full">
-                  <div className="h-[1px] flex-1 bg-[#E53935]/30"></div>
-                  <span className="text-[#E53935] text-xs xl:text-sm font-semibold tracking-wider whitespace-nowrap px-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                  <div className="h-[1px] flex-1 bg-[#482078]/30"></div>
+                  <span className="text-[#482078] text-xs xl:text-sm font-semibold tracking-wider whitespace-nowrap px-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>
                     NYAMIRA
                   </span>
-                  <div className="h-[1px] flex-1 bg-[#E53935]/30"></div>
+                  <div className="h-[1px] flex-1 bg-[#482078]/30"></div>
                 </div>
               </div>
             </Link>
@@ -896,64 +905,66 @@ const Header = () => {
               <nav className="hidden md:flex items-center flex-1 min-w-0 md:ml-2 lg:ml-4 xl:ml-8">
                 {/* Centered nav links */}
                 <div className="flex-1 flex items-center justify-center gap-0.5 lg:gap-1.5 xl:gap-4 min-w-0">
-                  <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${location.pathname === '/' ? 'text-[#E53935] nav-link-active' : 'text-gray-700'}`}>Home</Link>
+                  <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${location.pathname === '/' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Home</Link>
 
                   {/* About Us dropdown */}
                   <div className="relative" onMouseEnter={() => handleMouseEnter('aboutUs')} onMouseLeave={handleMouseLeave}>
-                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeDropdown === 'aboutUs' || activeNav === 'aboutUs' ? 'text-[#E53935] nav-link-active' : 'text-gray-700'}`}>
+                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeDropdown === 'aboutUs' || activeNav === 'aboutUs' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>
                       About Us
                       <ChevronDown size={12} className={`xl:w-[14px] xl:h-[14px] transition-transform ${activeDropdown === 'aboutUs' ? 'rotate-180' : ''}`} />
                     </button>
                     {activeDropdown === 'aboutUs' && renderAboutUsPanel()}
                   </div>
 
-                  <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'philosophies' ? 'text-[#E53935] nav-link-active' : 'text-gray-700'}`}>Philosophies</Link>
+                  <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'philosophies' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Philosophies</Link>
 
-                  <Link to="/financial" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'financials' ? 'text-[#E53935] nav-link-active' : 'text-gray-700'}`}>Financials</Link>
+                  <Link to="/financial" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'financials' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Financials</Link>
 
-                  <Link to="/leadership" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'leadership' ? 'text-[#E53935] nav-link-active' : 'text-gray-700'}`}>Leadership</Link>
+                  <Link to="/leadership" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'leadership' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Leadership</Link>
+
+                  <Link to="/handbook" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'handbook' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Handbook</Link>
 
                   {/* Gallery Link */}
-                  <Link to="/media" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'media' ? 'text-[#E53935] nav-link-active' : 'text-gray-700'}`}>Gallery</Link>
+                  <Link to="/media" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'media' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Gallery</Link>
 
-                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'feedback' ? 'text-[#E53935] nav-link-active' : 'text-gray-700'}`}>Talk to us</Link>
+                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'feedback' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Talk to us</Link>
                 </div>
 
                 {/* Sign In / User / Admin Logout / Patron button - always right */}
                 <div className="flex-shrink-0 ml-2 xl:ml-4">
                   {isAdmin && isPatron ? (
-                    <button onClick={() => navigate('/patron')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-red-50 border-2 border-[#E53935]/10 hover:border-[#E53935]/30 rounded-full font-bold text-[#E53935] transition-all shadow-md hover:shadow-[#E53935]/5 active:scale-95 whitespace-nowrap group">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#E53935] text-white transition-all group-hover:ring-2 group-hover:ring-red-200">
+                    <button onClick={() => navigate('/patron')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-red-50 border-2 border-[#FF3B30]/10 hover:border-[#FF3B30]/30 rounded-full font-bold text-[#FF3B30] transition-all shadow-md hover:shadow-[#FF3B30]/5 active:scale-95 whitespace-nowrap group">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#FF3B30] text-white transition-all group-hover:ring-2 group-hover:ring-red-200">
                         <Crown size={16} strokeWidth={2.5} />
                       </div>
                       <span className="text-[12px] xl:text-[13px] leading-none tracking-tight">Patron</span>
                     </button>
                   ) : isAdmin && isAssistantPatron ? (
-                    <button onClick={() => navigate('/assistant-patron')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-red-50 border-2 border-[#E53935]/10 hover:border-[#E53935]/30 rounded-full font-bold text-[#E53935] transition-all shadow-md hover:shadow-[#E53935]/5 active:scale-95 whitespace-nowrap group">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#E53935] text-white transition-all group-hover:ring-2 group-hover:ring-red-200">
+                    <button onClick={() => navigate('/assistant-patron')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-red-50 border-2 border-[#FF3B30]/10 hover:border-[#FF3B30]/30 rounded-full font-bold text-[#FF3B30] transition-all shadow-md hover:shadow-[#FF3B30]/5 active:scale-95 whitespace-nowrap group">
+                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#FF3B30] text-white transition-all group-hover:ring-2 group-hover:ring-red-200">
                         <Crown size={16} strokeWidth={2.5} />
                       </div>
                       <span className="text-[12px] xl:text-[13px] leading-none tracking-tight">Assistant Patron</span>
                     </button>
                   ) : isAdmin ? (
-                    <button onClick={handleAdminLogout} className="flex items-center gap-1.5 px-2.5 xl:px-4 py-1.5 xl:py-2 bg-[#E53935] text-white font-medium text-[11px] xl:text-sm rounded-lg hover:bg-[#C62828] transition-colors shadow-lg shadow-red-900/10 active:scale-95 transform transition-all whitespace-nowrap">
+                    <button onClick={handleAdminLogout} className="flex items-center gap-1.5 px-2.5 xl:px-4 py-1.5 xl:py-2 bg-[#FF3B30] text-white font-medium text-[11px] xl:text-sm rounded-lg hover:bg-[#E0221A] transition-colors shadow-lg shadow-red-900/10 active:scale-95 transform transition-all whitespace-nowrap">
                       <LogOut size={16} className="xl:w-[18px] xl:h-[18px]" />
                       <span className="hidden xl:inline">Log Out</span>
                     </button>
                   ) : userData ? (
-                    <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-red-50 border-2 border-[#E53935]/10 hover:border-[#E53935]/30 rounded-full font-bold text-[#E53935] transition-all shadow-md hover:shadow-[#E53935]/5 active:scale-95 whitespace-nowrap group">
-                      <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#E53935] flex items-center justify-center bg-[#E53935]/5 transition-all group-hover:ring-2 group-hover:ring-red-200">
+                    <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-red-50 border-2 border-[#FF3B30]/10 hover:border-[#FF3B30]/30 rounded-full font-bold text-[#FF3B30] transition-all shadow-md hover:shadow-[#FF3B30]/5 active:scale-95 whitespace-nowrap group">
+                      <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#FF3B30] flex items-center justify-center bg-[#FF3B30]/5 transition-all group-hover:ring-2 group-hover:ring-red-200">
                         {userData.profilePhoto ? (
                           <img src={getImageUrl(userData.profilePhoto)} alt="" className="w-full h-full object-cover" />
                         ) : (
-                          <User size={18} className="text-[#E53935]" strokeWidth={2.5} />
+                          <User size={18} className="text-[#FF3B30]" strokeWidth={2.5} />
                         )}
                       </div>
                       <span className="text-[12px] xl:text-[13px] capitalize leading-none tracking-tight">{userData.username}</span>
                     </button>
                   ) : (
-                    <Link to="/signIn" className="flex items-center gap-1.5 pl-1.5 pr-3 py-1 bg-red-50 hover:bg-[#E53935]/10 border border-[#E53935]/20 rounded-full font-bold text-[#E53935] transition-all shadow-sm active:scale-95 whitespace-nowrap">
-                      <div className="bg-[#E53935] text-white p-1 rounded-full flex items-center justify-center">
+                    <Link to="/signIn" className="flex items-center gap-1.5 pl-1.5 pr-3 py-1 bg-red-50 hover:bg-[#FF3B30]/10 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap">
+                      <div className="bg-[#FF3B30] text-white p-1 rounded-full flex items-center justify-center">
                         <LogIn size={14} className="xl:w-[16px] xl:h-[16px]" strokeWidth={2.5} />
                       </div>
                       <span className="text-[11px] xl:text-sm leading-none tracking-tight">Log In</span>
@@ -1022,19 +1033,19 @@ const Header = () => {
           transform-origin: center;
           width: 80%;
           height: 3px;
-          background: #E53935;
+          background: #482078;
           border-radius: 2px;
           transition: transform 0.25s ease;
         }
         .nav-link-underline:hover {
-          color: #E53935 !important;
+          color: #482078 !important;
         }
         .nav-link-underline:hover::after,
         .nav-link-underline.nav-link-active::after {
           transform: translateX(-50%) scaleX(1);
         }
         .nav-link-underline.nav-link-active {
-          color: #E53935 !important;
+          color: #482078 !important;
         }
       `}</style>
     </>

@@ -2024,7 +2024,11 @@ hr {
     }
 
     .intro-video {
-        aspect-ratio: 2/1;
+        aspect-ratio: 21/9;
+        width: 100%;
+        max-width: 1200px;
+        max-height: 550px;
+        margin: 0 auto;
         border-radius: 20px;
         overflow: hidden;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);

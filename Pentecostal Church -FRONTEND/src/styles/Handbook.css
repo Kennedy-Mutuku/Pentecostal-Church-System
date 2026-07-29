@@ -1,0 +1,475 @@
+.handbook-page {
+  background: #f8f9fa;
+  min-height: 100vh;
+  font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.handbook-hero {
+  background: linear-gradient(rgba(115, 0, 81, 0.9), rgba(198, 40, 40, 0.9)), url('/images/about-church.jpg') center/cover no-repeat;
+  background-attachment: fixed;
+  color: white;
+  padding: 60px 20px 50px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.handbook-hero::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  opacity: 0.5;
+}
+
+.handbook-hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  margin: 0 auto;
+}
+
+.handbook-eyebrow {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  opacity: 0.85;
+  margin-bottom: 18px;
+}
+
+.handbook-hero h1 {
+  font-size: 2.8rem;
+  font-weight: 800;
+  margin-bottom: 14px;
+  letter-spacing: -1px;
+}
+
+.handbook-tagline {
+  font-size: 1.15rem;
+  font-style: italic;
+  opacity: 0.95;
+  margin-bottom: 18px;
+}
+
+.handbook-meta {
+  font-size: 0.9rem;
+  opacity: 0.85;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.handbook-meta-dot {
+  opacity: 0.6;
+}
+
+.handbook-drafted {
+  font-size: 0.85rem;
+  opacity: 0.8;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  padding-top: 14px;
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.handbook-toc {
+  max-width: 1100px;
+  margin: -28px auto 0;
+  position: relative;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+}
+
+.handbook-toc-link {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #730051;
+  background: #fff0f5;
+  padding: 8px 14px;
+  border-radius: 20px;
+  text-decoration: none;
+  transition: background 0.2s ease, color 0.2s ease;
+  white-space: nowrap;
+}
+
+.handbook-toc-link:hover {
+  background: #730051;
+  color: #fff;
+}
+
+.handbook-body {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 50px 20px 80px;
+}
+
+.handbook-section {
+  margin-bottom: 56px;
+  scroll-margin-top: 24px;
+}
+
+.handbook-section p {
+  color: #444;
+  line-height: 1.7;
+  margin-bottom: 14px;
+  font-size: 1rem;
+}
+
+.handbook-section-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #730051;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 3px solid #C62828;
+  display: inline-block;
+}
+
+.handbook-quote {
+  background: #fafafa;
+  border-left: 3px solid #C62828;
+  padding: 16px 20px;
+  border-radius: 0 10px 10px 0;
+  font-style: italic;
+  color: #444;
+  margin: 20px 0;
+}
+
+.handbook-quote i {
+  color: #C62828;
+  opacity: 0.5;
+  margin-right: 8px;
+}
+
+.handbook-quote cite {
+  display: block;
+  margin-top: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #730051;
+  font-style: normal;
+}
+
+.handbook-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  margin-bottom: 20px;
+}
+
+.handbook-card-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.handbook-card-header h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.handbook-icon {
+  width: 42px;
+  height: 42px;
+  min-width: 42px;
+  border-radius: 12px;
+  background: #fff0f5;
+  color: #C62828;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+}
+
+.handbook-card-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #730051;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.handbook-list {
+  padding-left: 0;
+  margin: 0 0 16px;
+  list-style: none;
+}
+
+.handbook-list li {
+  position: relative;
+  padding-left: 22px;
+  margin-bottom: 8px;
+  color: #555;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.handbook-list li::before {
+  content: '\25B8';
+  position: absolute;
+  left: 0;
+  color: #C62828;
+  font-weight: 700;
+}
+
+.handbook-list-numbered {
+  counter-reset: handbook-counter;
+}
+
+.handbook-list-numbered li {
+  counter-increment: handbook-counter;
+  padding-left: 30px;
+}
+
+.handbook-list-numbered li::before {
+  content: counter(handbook-counter);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #730051;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0;
+}
+
+.handbook-list-check li::before {
+  content: '\2713';
+  color: #2e7d32;
+}
+
+.handbook-list-inline {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 24px;
+}
+
+.handbook-list-inline li {
+  margin-bottom: 0;
+}
+
+.handbook-flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  background: #fafafa;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 18px;
+}
+
+.handbook-flow span {
+  font-weight: 700;
+  color: #730051;
+  background: #fff0f5;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+}
+
+.handbook-flow i {
+  color: #C62828;
+  font-size: 0.85rem;
+}
+
+.handbook-triad {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.handbook-triad-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 22px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.handbook-triad-card h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #333;
+  margin: 10px 0 12px;
+}
+
+.handbook-tagline-text {
+  text-align: center;
+  font-style: italic;
+  font-weight: 600;
+  color: #730051;
+  font-size: 1.05rem;
+  margin-top: 20px;
+}
+
+.handbook-dept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 26px;
+  margin-top: 24px;
+}
+
+.handbook-dept-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgba(0, 0, 0, 0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.handbook-dept-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: linear-gradient(90deg, #730051, #C62828);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.handbook-dept-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(198, 40, 40, 0.1);
+}
+
+.handbook-dept-card:hover::before {
+  opacity: 1;
+}
+
+.dept-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.dept-icon-wrapper {
+  width: 44px;
+  height: 44px;
+  min-width: 44px;
+  border-radius: 12px;
+  background: #fff0f5;
+  color: #C62828;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+}
+
+.dept-num {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #730051;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.dept-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.dept-theme {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #C62828;
+  margin: 4px 0 0;
+}
+
+.dept-purpose {
+  color: #555;
+  font-size: 0.92rem;
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.dept-subsection {
+  margin-bottom: 14px;
+}
+
+.dept-subheading {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #730051;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-bottom: 8px;
+}
+
+.dept-outcomes {
+  background: #fafafa;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-top: 10px;
+}
+
+.handbook-declaration {
+  text-align: center;
+  background: linear-gradient(rgba(115, 0, 81, 0.04), rgba(198, 40, 40, 0.04));
+  border-radius: 20px;
+  padding: 40px 30px;
+}
+
+.handbook-declaration .handbook-section-title {
+  display: block;
+}
+
+.handbook-declaration .handbook-list-inline {
+  justify-content: center;
+}
+
+@media (max-width: 768px) {
+  .handbook-hero {
+    padding: 44px 20px 40px;
+  }
+  .handbook-hero h1 {
+    font-size: 2.1rem;
+  }
+  .handbook-toc {
+    margin-top: -20px;
+    justify-content: flex-start;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  .handbook-body {
+    padding: 36px 16px 60px;
+  }
+  .handbook-triad, .handbook-dept-grid {
+    grid-template-columns: 1fr;
+  }
+}

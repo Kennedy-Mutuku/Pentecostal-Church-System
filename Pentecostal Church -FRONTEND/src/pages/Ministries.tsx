@@ -3,16 +3,6 @@ import styles from '../styles/ministries.module.css';
 
 import MinistryFooter from '../components/MinistryFooter';
 import { useLocation } from 'react-router-dom';
-import PW from '../assets/praise-and-worship.jpg'
-import wananzambe from '../assets/wananzambe.jpg'
-import choir from '../assets/choir.jpg'
-import cs from '../assets/churchschool.jpg'
-import intecessory from '../assets/intersesory.jpg'
-import hs from '../assets/high-school.jpg'
-import ushering from '../assets/ushering.jpg'
-import compassion from '../assets/compassion.jpg'
-import creativity from '../assets/creativity.jpg'
-// import loadingAnime from '../assets/Animation - 1716747954931.gif';
 
 const MinistriesPage: React.FC = () => {
   const location = useLocation();
@@ -91,7 +81,7 @@ const MinistriesPage: React.FC = () => {
     <>
 
       {/* {generalLoading && (
-            <div className={styles['loading-screen']}>
+            <div className="loading-screen">
                 <p className={styles['loading-text']}>Please wait...🤗</p>
                 <img src={loadingAnime} alt="animation gif" />
             </div>
@@ -111,9 +101,6 @@ const MinistriesPage: React.FC = () => {
             <p className={styles['ministry-content']}>Wanazambe is the instrumentalists' ministry in RPC Nyamira, dedicated to enhancing worship through music. This ministry consists of skilled musicians who play various instruments to create a powerful and uplifting worship experience. With a passion for excellence and a heart for service, Wanazambe plays a vital role in leading the congregation into deep and meaningful worship. </p>
 
           </div>
-          <div className={styles['ministry-img']}>
-            <img src={wananzambe} alt="Wananzambe Ministry" />
-          </div>
         </div>
 
         <div className={styles['hr-ministries']}></div>
@@ -128,9 +115,6 @@ const MinistriesPage: React.FC = () => {
               If you feel called to make a difference, join us in this transformative ministry as we work together to reflect God's compassion and bring His light into the lives of others.
 
               "Carry each other's burdens, and in this way you will fulfill the law of Christ." – Galatians 6:2</p>
-          </div>
-          <div className={styles['ministry-img']}>
-            <img src={compassion} alt="Compassion and Counseling Ministry" />
           </div>
         </div>
 
@@ -150,9 +134,6 @@ const MinistriesPage: React.FC = () => {
 
               "Let everything that has breath praise the Lord. Praise the Lord!" – Psalm 150:6 </p>
           </div>
-          <div className={styles['ministry-img']}>
-            <img src={PW} alt="Praise and Worship Ministry" />
-          </div>
         </div>
 
         <div className={styles['hr-ministries']}></div>
@@ -167,9 +148,6 @@ const MinistriesPage: React.FC = () => {
               Whether you're in need of prayer, feel called to intercede for others, or want to deepen your connection with God, we welcome you to join us in this vital and impactful ministry.
 
               "The prayer of a righteous person is powerful and effective." – James 5:16</p>
-          </div>
-          <div className={styles['ministry-img']}>
-            <img src={intecessory} alt="Intercessory Ministry" />
           </div>
         </div>
 
@@ -186,9 +164,6 @@ const MinistriesPage: React.FC = () => {
 
               "Train up a child in the way he should go, and when he is old he will not depart from it." – Proverbs 22:6</p>
           </div>
-          <div className={styles['ministry-img']}>
-            <img src={cs} alt="Church School Ministry" />
-          </div>
         </div>
 
         <div className={styles['hr-ministries']}></div>
@@ -203,9 +178,6 @@ const MinistriesPage: React.FC = () => {
               Whether you're new to church or have been attending for years, there's a place for you here. Join us as we grow together, serve others, and make a difference for God's Kingdom.
 
               "Don't let anyone look down on you because you are young, but set an example for the believers in speech, in conduct, in love, in faith, and in purity." – 1 Timothy 4:12</p>
-          </div>
-          <div className={styles['ministry-img']}>
-            <img src={hs} alt="High School Ministry" />
           </div>
         </div>
 
@@ -222,9 +194,6 @@ const MinistriesPage: React.FC = () => {
 
               "Better is one day in your courts than a thousand elsewhere; I would rather be a doorkeeper in the house of my God." – Psalm 84:10</p>
           </div>
-          <div className={styles['ministry-img']}>
-            <img src={ushering} alt="Ushering and Hospitality Ministry" />
-          </div>
         </div>
 
         <div className={styles['hr-ministries']}></div>
@@ -240,9 +209,6 @@ const MinistriesPage: React.FC = () => {
 
               "Whatever you do, work at it with all your heart, as working for the Lord, not for human masters." – Colossians 3:23</p>
           </div>
-          <div className={styles['ministry-img']}>
-            <img src={creativity} alt="Creativity Ministry" />
-          </div>
         </div>
 
         <div className={`${styles['ministry-section']} ${styles['ministry-section--reverse-choir']}`} id='choir'>
@@ -253,11 +219,6 @@ const MinistriesPage: React.FC = () => {
 
             <p className={styles['ministry-content']}>The Choir Ministry in RPC Nyamira is a vibrant team of dedicated vocalists committed to leading the congregation in worship through song. With a passion for glorifying God through music, the choir blends voices in harmony to create a powerful and uplifting worship atmosphere. Through practice, prayer, and dedication, they minister to the hearts of many, drawing people closer to God with every song they sing.</p>
           </div>
-
-          <div className={styles['ministry-img']}>
-            <img src={choir} alt="Choir Ministry" />
-          </div>
-
         </div>
       </div>
       <MinistryFooter />

@@ -23,7 +23,8 @@ interface Activity {
 interface Choir {
   id: number;
   title: string;
-  videoUrl: string;
+  videoId: string;
+  start: number;
 }
 
 interface Testimonial {
@@ -112,19 +113,23 @@ const LandingPageNew = () => {
     {
       id: 1,
       title: "1. Born to Worship Singers",
-      videoUrl: "https://www.youtube.com/embed/O9QnigyLpKY?si=Qel0bhomgbV2vD4-&start=12&autoplay=1&mute=1&playsinline=1"
+      videoId: "O9QnigyLpKY",
+      start: 12
     },
     {
       id: 2,
       title: "2. Agape Hearts Singers",
-      videoUrl: "https://www.youtube.com/embed/y7yKev9NPYI?si=1BkELlcqMarSchT1&start=10&playsinline=1"
+      videoId: "y7yKev9NPYI",
+      start: 10
     },
     {
       id: 3,
       title: "3. Trumpet of Yahweh Choir",
-      videoUrl: "https://www.youtube.com/embed/AaiI4I7-Bmw?si=z0t0kaagwnKeDW-t&start=12&playsinline=1"
+      videoId: "AaiI4I7-Bmw",
+      start: 12
     }
   ];
+  const [playingChoirId, setPlayingChoirId] = useState<number | null>(null);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -145,9 +150,7 @@ const LandingPageNew = () => {
         {/* Wave Divider */}
         <div className="wave-divider">
           <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
-            <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25"></path>
-            <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5"></path>
-            <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z"></path>
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z"></path>
           </svg>
         </div>
 
@@ -233,12 +236,42 @@ const LandingPageNew = () => {
               {choirs.map((choir, index) => (
                 <div key={choir.id} className={`choir-card ${index === currentChoir ? 'active' : ''}`}>
                   <div className="video-container">
-                    <iframe
-                      src={choir.videoUrl}
-                      title={choir.title}
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    ></iframe>
+                    {playingChoirId === choir.id ? (
+                      <iframe
+                        src={`https://www.youtube.com/embed/${choir.videoId}?start=${choir.start}&autoplay=1&playsinline=1`}
+                        title={choir.title}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        allowFullScreen
+                      ></iframe>
+                    ) : (
+                      <button
+                        type="button"
+                        className="video-thumbnail-trigger"
+                        onClick={() => setPlayingChoirId(choir.id)}
+                        aria-label={`Play ${choir.title}`}
+                        style={{
+                          position: 'absolute', inset: 0, width: '100%', height: '100%',
+                          border: 0, padding: 0, cursor: 'pointer',
+                          backgroundImage: `url(https://img.youtube.com/vi/${choir.videoId}/hqdefault.jpg)`,
+                          backgroundSize: 'cover', backgroundPosition: 'center',
+                        }}
+                      >
+                        <span style={{
+                          position: 'absolute', inset: 0,
+                          background: 'linear-gradient(rgba(0,0,0,0.15), rgba(0,0,0,0.35))',
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        }}>
+                          <span style={{
+                            width: '64px', height: '64px', borderRadius: '50%',
+                            background: 'rgba(198,40,40,0.9)', color: '#fff',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                            boxShadow: '0 4px 16px rgba(0,0,0,0.35)',
+                          }}>
+                            <i className="fas fa-play" style={{ fontSize: '22px', marginLeft: '4px' }}></i>
+                          </span>
+                        </span>
+                      </button>
+                    )}
                   </div>
                   <div className="choir-info">
                     <h3>{choir.title}</h3>
@@ -253,6 +286,27 @@ const LandingPageNew = () => {
               <button className="slider-next" onClick={nextChoir} aria-label="Next Choir">
                 <i className="fas fa-chevron-right"></i>
               </button>
+            </div>
+
+            <div style={{ display: 'flex', justifyContent: 'center', marginTop: '32px' }}>
+              <a
+                href="https://www.youtube.com/@savedbychriststainedbylove?sub_confirmation=1"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '10px',
+                  padding: '12px 28px', borderRadius: '9999px',
+                  background: '#FF0000', color: '#fff',
+                  fontWeight: 700, fontSize: '0.95rem',
+                  textDecoration: 'none', boxShadow: '0 4px 14px rgba(255,0,0,0.3)',
+                  transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 18px rgba(255,0,0,0.4)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = '0 4px 14px rgba(255,0,0,0.3)'; }}
+              >
+                <i className="fab fa-youtube" style={{ fontSize: '1.3rem' }}></i>
+                Subscribe on YouTube
+              </a>
             </div>
           </div>
         </section>
@@ -274,7 +328,6 @@ const LandingPageNew = () => {
                     <img src={activity.poster} alt={activity.title} />
                   </div>
                   <div className="activity-info">
-                    <span className={`activity-status ${activity.statusClass}`}>{activity.status}</span>
                     <h3>{activity.title}</h3>
                     <p>{activity.description}</p>
                     <ul className="activity-details">
@@ -315,7 +368,9 @@ const LandingPageNew = () => {
                   </div>
                   <div className="testimonial-author">
                     <div className="author-image">
-                      <i className="fas fa-user"></i>
+                      <span style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff' }}>
+                        {testimonial.author.trim().charAt(0).toUpperCase()}
+                      </span>
                     </div>
                     <div className="author-info">
                       <h4>{testimonial.author}</h4>
@@ -370,6 +425,19 @@ const LandingPageNew = () => {
           </div>
         </section>
 
+        {/* Location Map Section */}
+        <section className="map-section">
+          <iframe
+            src="https://maps.google.com/maps?q=Rikuruma%20Pentecostal%20Church,%20Magwagwa,%20Nyamira%20County&t=&z=14&ie=UTF8&iwloc=&output=embed"
+            width="100%"
+            height="400"
+            style={{ border: 0, display: 'block' }}
+            allowFullScreen={false}
+            loading="lazy"
+            referrerPolicy="no-referrer-when-downgrade"
+            title="Rikuruma Pentecostal Church Location"
+          ></iframe>
+        </section>
 
       </div>
     </div>

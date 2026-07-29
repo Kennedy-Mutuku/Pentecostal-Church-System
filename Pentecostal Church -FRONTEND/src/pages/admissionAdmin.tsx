@@ -1,10 +1,13 @@
 // @ts-nocheck
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import cuLogo from '../assets/RPC logo updated document.png';
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 import styles from '../styles/signup.module.css';
 import { getApiUrl } from '../config/environment';
+import { User, Phone as PhoneIcon, Mail, CreditCard, Users as UsersIcon, Calendar, Clock, MapPin, Home } from 'lucide-react';
+
+type FamilyRole = 'independent' | 'newFamily' | 'joinFamily';
 
 type FormData = {
   username: string;
@@ -15,6 +18,15 @@ type FormData = {
   ageGroup: string;
   yearJoined: string;
   residence: string;
+  familyRole: FamilyRole;
+  familyName: string;
+  familyId: string;
+  relationToHead: string;
+};
+
+type FamilyOption = {
+  _id: string;
+  familyName: string;
 };
 
 const EMPTY: FormData = {
@@ -26,15 +38,52 @@ const EMPTY: FormData = {
   ageGroup: '',
   yearJoined: '',
   residence: '',
+  familyRole: 'independent',
+  familyName: '',
+  familyId: '',
+  relationToHead: '',
 };
 
 const AdmissionAdmin: React.FC = () => {
+  const [searchParams] = useSearchParams();
   const [formData, setFormData] = useState<FormData>({ ...EMPTY });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [admittedName, setAdmittedName] = useState('');
+  const [admittedHasLogin, setAdmittedHasLogin] = useState(true);
   const [errorField, setErrorField] = useState('');
+  const [families, setFamilies] = useState<FamilyOption[]>([]);
+  const [familiesLoading, setFamiliesLoading] = useState(false);
+
+  // Prefill from "+ Add Member to this Family" link in Manage Users
+  useEffect(() => {
+    const prefFamilyId = searchParams.get('familyId');
+    const prefFamilyRole = searchParams.get('familyRole');
+    if (prefFamilyId && prefFamilyRole === 'joinFamily') {
+      setFormData(prev => ({ ...prev, familyRole: 'joinFamily', familyId: prefFamilyId }));
+      loadFamilies();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const loadFamilies = async () => {
+    if (families.length || familiesLoading) return;
+    setFamiliesLoading(true);
+    try {
+      const response = await axios.get(getApiUrl('admissionAdminGetFamilies'), { withCredentials: true });
+      setFamilies(response.data || []);
+    } catch (err) {
+      console.error('Error loading families:', err);
+    } finally {
+      setFamiliesLoading(false);
+    }
+  };
+
+  const handleFamilyRoleChange = (role: FamilyRole) => {
+    setFormData(prev => ({ ...prev, familyRole: role }));
+    if (role === 'joinFamily') loadFamilies();
+  };
 
   const trim = (v: string) => v.replace(/^\s+/, '');
 
@@ -46,7 +95,7 @@ const AdmissionAdmin: React.FC = () => {
   };
 
   const fieldBorder = (id: string) =>
-    errorField === id ? '2px solid #E53935' : '1.5px solid #ddd';
+    errorField === id ? '1.5px solid #E53935' : '1.5px solid transparent';
 
   function validatePhone(input: string) {
     return /^0\d{9}$/.test(input);
@@ -73,17 +122,30 @@ const AdmissionAdmin: React.FC = () => {
       ageGroup: formData.ageGroup.trim(),
       yearJoined: formData.yearJoined.trim(),
       residence: formData.residence.trim(),
+      familyRole: formData.familyRole,
+      familyName: formData.familyName.trim(),
+      familyId: formData.familyId,
+      relationToHead: formData.relationToHead,
     };
 
     if (!data.username) return showError('Please fill in the Name field.', 'username');
-    if (!data.phone) return showError('Please fill in the Phone field.', 'phone');
-    if (!validatePhone(data.phone)) return showError('Phone must be 10 digits starting with 0 (e.g. 0712345678).', 'phone');
-    if (!data.email) return showError('Please fill in the Email field.', 'email');
-    if (!data.idNumber) return showError('Please fill in the ID Number field.', 'idNumber');
     if (!data.gender) return showError('Please select a Gender.', 'gender');
-    if (!data.ageGroup) return showError('Please select an Age Group.', 'ageGroup');
-    if (!data.yearJoined) return showError('Please select the Year Joined RPC.', 'yearJoined');
-    if (!data.residence) return showError('Please fill in the Residence field.', 'residence');
+
+    if (data.familyRole === 'joinFamily') {
+      if (!data.ageGroup) return showError('Please select an Age Group.', 'ageGroup');
+      if (!data.familyId) return showError('Please select a family to join.', 'familyId');
+      if (!data.relationToHead) return showError('Please select their relationship to the head of family.', 'relationToHead');
+      if (data.phone && !validatePhone(data.phone)) return showError('Phone must be 10 digits starting with 0 (e.g. 0712345678).', 'phone');
+    } else {
+      if (!data.phone) return showError('Please fill in the Phone field.', 'phone');
+      if (!validatePhone(data.phone)) return showError('Phone must be 10 digits starting with 0 (e.g. 0712345678).', 'phone');
+      if (!data.email) return showError('Please fill in the Email field.', 'email');
+      if (!data.idNumber) return showError('Please fill in the ID Number field.', 'idNumber');
+      if (!data.ageGroup) return showError('Please select an Age Group.', 'ageGroup');
+      if (!data.yearJoined) return showError('Please select the Year Joined RPC.', 'yearJoined');
+      if (!data.residence) return showError('Please fill in the Residence field.', 'residence');
+      if (data.familyRole === 'newFamily' && !data.familyName) return showError('Please give this family a name.', 'familyName');
+    }
 
     setLoading(true);
     setError('');
@@ -95,6 +157,7 @@ const AdmissionAdmin: React.FC = () => {
 
       if (response.status === 200 || response.status === 201) {
         setAdmittedName(data.username);
+        setAdmittedHasLogin(Boolean(data.email && data.phone));
         setSuccess('User admitted successfully!');
         setError('');
         clearForm();
@@ -111,6 +174,8 @@ const AdmissionAdmin: React.FC = () => {
           showError('This phone number is already registered in the system. Please use a different phone.', 'phone');
         } else if (field === 'idNumber') {
           showError('This ID Number is already registered in the system. Please check the ID and try again.', 'idNumber');
+        } else if (field === 'familyId' || field === 'familyName') {
+          showError(msg, field);
         } else if (msg === 'All fields are required') {
           showError('Please fill in all required fields before submitting.');
         } else {
@@ -118,6 +183,8 @@ const AdmissionAdmin: React.FC = () => {
         }
       } else if (err.response?.status === 401) {
         showError('Unauthorized. Please check your admin credentials.');
+      } else if (err.response?.status === 404) {
+        showError(err.response?.data?.message || 'The selected family could not be found.', 'familyId');
       } else {
         showError('An unexpected error occurred. Please try again.');
       }
@@ -127,16 +194,11 @@ const AdmissionAdmin: React.FC = () => {
   };
 
   const inputStyle = (id: string): React.CSSProperties => ({
-    width: '100%',
-    padding: '7px 9px',
     border: fieldBorder(id),
-    borderRadius: '5px',
-    fontSize: '13px',
-    outline: 'none',
-    background: errorField === id ? '#fff5f5' : '#f8f8f8',
-    transition: 'border 0.2s, background 0.2s',
-    boxSizing: 'border-box',
+    background: errorField === id ? '#fff5f5' : '#F7F4EF',
   });
+
+  const isJoinFamily = formData.familyRole === 'joinFamily';
 
   return (
     <>
@@ -188,12 +250,20 @@ const AdmissionAdmin: React.FC = () => {
               <p style={{ margin: '0 0 3px', color: '#2e7d32', fontSize: '11px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.7px' }}>New Member Added</p>
               <p style={{ margin: 0, color: '#1b5e20', fontSize: '18px', fontWeight: 800 }}>{admittedName}</p>
             </div>
-            <p style={{ color: '#666', fontSize: '13px', margin: '0 0 4px', lineHeight: 1.6 }}>
-              🔐 Default password: <strong style={{ color: '#333' }}>their phone number</strong>
-            </p>
-            <p style={{ color: '#999', fontSize: '11.5px', margin: 0 }}>
-              They can update it from profile settings after logging in.
-            </p>
+            {admittedHasLogin ? (
+              <>
+                <p style={{ color: '#666', fontSize: '13px', margin: '0 0 4px', lineHeight: 1.6 }}>
+                  🔐 Default password: <strong style={{ color: '#333' }}>their phone number</strong>
+                </p>
+                <p style={{ color: '#999', fontSize: '11.5px', margin: 0 }}>
+                  They can update it from profile settings after logging in.
+                </p>
+              </>
+            ) : (
+              <p style={{ color: '#666', fontSize: '13px', margin: '0 0 4px', lineHeight: 1.6 }}>
+                🏠 Added to the family — no login created yet. Add their email &amp; phone later in <strong>Manage Users</strong> to enable login.
+              </p>
+            )}
             <button
               onClick={() => { setSuccess(''); setAdmittedName(''); }}
               style={{
@@ -243,57 +313,215 @@ const AdmissionAdmin: React.FC = () => {
         @keyframes slideDown { from { transform: translateY(-20px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
         @keyframes popIn { 0% { transform: scale(0.6); opacity: 0 } 60% { transform: scale(1.06) } 100% { transform: scale(1); opacity: 1 } }
         @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 10px rgba(76,175,80,0.1), 0 8px 24px rgba(26,138,46,0.2) } 50% { box-shadow: 0 0 0 16px rgba(76,175,80,0.06), 0 8px 24px rgba(26,138,46,0.25) } }
-        .af-row { margin-bottom: 7px; }
-        .af-row label {
-          display: block; font-size: 10px; font-weight: 700;
-          color: #555; margin-bottom: 2px; letter-spacing: 0.6px; text-transform: uppercase;
+        
+        .af-page-body {
+          background: linear-gradient(135deg, #f8f9fa, #eef2f5);
+          min-height: 100vh;
         }
+
+        .af-form-card {
+          background: #ffffff;
+          padding: 24px 20px;
+          border-radius: 24px;
+          box-shadow: 0 10px 40px rgba(0,0,0,0.06), 0 2px 10px rgba(0,0,0,0.02);
+          max-width: 400px;
+          margin: 16px auto 0;
+          border: 1px solid rgba(255,255,255,0.8);
+        }
+
+        .af-row { margin-bottom: 8px; }
+        .af-row label {
+          display: block; font-size: 13px; font-weight: 700;
+          color: #2d3748; margin-bottom: 4px; margin-left: 4px;
+        }
+        .af-row label .req { color: #E53935; margin-left: 2px; }
         .af-row label.err-label { color: #E53935; }
-        .af-hint { font-size: 10px; color: #E53935; margin-top: 1px; display: block; }
+        .af-hint { font-size: 11px; color: #E53935; margin-top: 2px; display: block; margin-left: 4px; }
+        .af-field { position: relative; }
+        .af-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #730051; opacity: 0.6; pointer-events: none; transition: opacity 0.2s; }
+        
+        .af-input, .af-select {
+          width: 100%; padding: 8px 12px 8px 36px; border-radius: 12px;
+          font-size: 13.5px; outline: none; color: #1a202c;
+          background-color: #ffffff;
+          border: 1.5px solid #e2e8f0;
+          box-shadow: 0 2px 6px rgba(0,0,0,0.01);
+          transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+          box-sizing: border-box;
+        }
+        
+        .af-input:focus, .af-select:focus {
+          border-color: #730051;
+          box-shadow: 0 0 0 4px rgba(115,0,81,0.1);
+          background-color: #fff;
+        }
+        .af-field:focus-within .af-icon { opacity: 1; }
+
         .af-select {
-          width: 100%; padding: 7px 28px 7px 9px; border-radius: 5px;
-          font-size: 13px; outline: none; color: #333;
-          background-color: #f8f8f8;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23777'/%3E%3C/svg%3E");
+          padding-right: 32px;
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 6 5-6' fill='none' stroke='%23730051' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
           background-repeat: no-repeat;
-          background-position: right 9px center;
-          background-size: 8px 5px;
-          transition: border 0.2s; box-sizing: border-box;
+          background-position: right 14px center;
           appearance: none; -webkit-appearance: none;
         }
-        .af-select.err-bg { background-color: #fff5f5; }
-        .af-grid-2 { display: grid; grid-template-columns: 1fr; gap: 7px; }
+        .af-select.err-bg { background-color: #fff5f5; border-color: #feb2b2; }
+
+        .af-header { padding: 24px 0 10px; }
+        .af-logo { width: 64px; height: 64px; margin: 0 auto 12px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.1)); }
+        .af-title { margin: 0; font-size: 24px; font-weight: 800; color: #1a202c; letter-spacing: -0.5px; }
+        .af-subtitle { margin: 6px 0 0; font-size: 14px; color: #718096; }
+        
+        .af-note { display: flex; align-items: flex-start; gap: 10px; padding: 12px 16px; background: #f0ebf3; border: 1.5px solid #e2d1df; border-radius: 14px; margin-bottom: 16px; }
+        .af-note p { margin: 0; color: #4a2842; font-size: 12px; line-height: 1.5; }
+        
+        .af-role-toggle { display: flex; gap: 6px; background: #edf2f7; border-radius: 14px; padding: 5px; margin-bottom: 8px; }
+        .af-role-btn {
+          flex: 1; border: none; background: transparent; cursor: pointer;
+          padding: 10px 8px; font-size: 12px; font-weight: 700; color: #718096;
+          border-radius: 10px; transition: all 0.25s ease;
+        }
+        .af-role-btn:hover { color: #2d3748; }
+        .af-role-btn.active { background: #730051; color: #fff; box-shadow: 0 4px 12px rgba(115,0,81,0.25); }
+        .af-btns-row { flex-wrap: nowrap; margin-top: 10px; }
+        .af-btn { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; justify-content: center; align-items: center; font-weight: 700; transition: all 0.2s; }
+        .af-btn.primary { background: linear-gradient(135deg, #730051, #9a006d); color: white; box-shadow: 0 6px 16px rgba(115,0,81,0.25); border: none; }
+        .af-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(115,0,81,0.3); }
+        .af-btn.secondary { background: #edf2f7; color: #4a5568; border: none; }
+        .af-btn.secondary:hover { background: #e2e8f0; }
+
+        @media (max-width: 480px) {
+          .af-form-card { padding: 20px 16px; margin: 10px auto 0; border-radius: 20px; }
+          .af-page-body { padding: 10px 0 !important; }
+          .af-page-container { padding: 0 10px !important; }
+          .af-header { padding: 12px 0 6px; }
+          .af-logo { width: 50px; height: 50px; margin: 0 auto 8px; }
+          .af-title { font-size: 20px; }
+          .af-subtitle { font-size: 12px; }
+          .af-input, .af-select { padding: 10px 12px 10px 36px; font-size: 14px; border-radius: 12px; }
+          .af-icon { left: 12px; }
+          .af-row { margin-bottom: 12px; }
+          .af-row label { font-size: 12px; margin-bottom: 4px; }
+          .af-role-btn { font-size: 11px; padding: 8px 4px; }
+          .af-note { padding: 10px 12px; margin-bottom: 12px; }
+          .af-btns-row { gap: 12px !important; }
+          .af-btn { padding: 12px 8px !important; font-size: 14px !important; min-height: 44px !important; }
+        }
       `}</style>
 
-      <div className={styles.body}>
-        <div className={styles['container']}>
+      <div className={`${styles.body} af-page-body`}>
+        <div className={`${styles['container']} af-page-container`}>
 
-          {/* Compact header — logo + title inline */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center', padding: '10px 0 6px' }}>
-            <Link to="/">
-              <img src={cuLogo} alt="RPC logo" style={{ width: '36px', height: '36px', objectFit: 'contain', display: 'block' }} />
+          {/* Header — logo centered above bold title + subtitle */}
+          <div className="af-header" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', textAlign: 'center' }}>
+            <Link to="/" style={{ display: 'flex', justifyContent: 'center' }}>
+              <img src={cuLogo} alt="RPC logo" className="af-logo" style={{ objectFit: 'contain', display: 'block' }} />
             </Link>
-            <h2 style={{ margin: 0, fontSize: '15px', fontWeight: 800, color: '#1a1a2e', letterSpacing: '-0.2px' }}>
+            <h2 className="af-title">
               Admit New User
             </h2>
+            <p className="af-subtitle">
+              Register a new member into the RPC system
+            </p>
           </div>
 
-          <div className={styles['form']} style={{ marginTop: '4px' }}>
+          <div className={`${styles['form']} af-form-card`}>
 
-            {/* NAME — full width */}
+            {/* FAMILY ROLE */}
             <div className="af-row">
-              <label className={errorField === 'username' ? 'err-label' : ''}>NAME</label>
-              <input id="username" type="text" style={inputStyle('username')}
-                value={formData.username} onChange={handleChange}
-                placeholder="Full name..." />
+              <label>How are they joining?</label>
+              <div className="af-role-toggle">
+                <button type="button"
+                  className={formData.familyRole === 'independent' ? 'af-role-btn active' : 'af-role-btn'}
+                  onClick={() => handleFamilyRoleChange('independent')}>
+                  Individual Member
+                </button>
+                <button type="button"
+                  className={formData.familyRole === 'newFamily' ? 'af-role-btn active' : 'af-role-btn'}
+                  onClick={() => handleFamilyRoleChange('newFamily')}>
+                  Head of New Family
+                </button>
+                <button type="button"
+                  className={formData.familyRole === 'joinFamily' ? 'af-role-btn active' : 'af-role-btn'}
+                  onClick={() => handleFamilyRoleChange('joinFamily')}>
+                  Join Existing Family
+                </button>
+              </div>
+            </div>
+
+            {formData.familyRole === 'newFamily' && (
+              <div className="af-row">
+                <label className={errorField === 'familyName' ? 'err-label' : ''}>Family Name<span className="req">*</span></label>
+                <div className="af-field">
+                  <Home size={16} className="af-icon" />
+                  <input id="familyName" type="text" className="af-input" style={inputStyle('familyName')}
+                    value={formData.familyName} onChange={handleChange} placeholder="e.g. The Otieno Family" />
+                </div>
+                {errorField === 'familyName' && <span className="af-hint">↑ Required</span>}
+              </div>
+            )}
+
+            {formData.familyRole === 'joinFamily' && (
+              <>
+                <div className="af-row">
+                  <label className={errorField === 'familyId' ? 'err-label' : ''}>Family<span className="req">*</span></label>
+                  <div className="af-field">
+                    <Home size={16} className="af-icon" />
+                    <select id="familyId" className="af-select"
+                      style={{ border: fieldBorder('familyId'), backgroundColor: errorField === 'familyId' ? '#fff5f5' : '#F7F4EF' }}
+                      value={formData.familyId} onChange={handleChange}>
+                      <option value="">{familiesLoading ? 'Loading families...' : 'choose...'}</option>
+                      {families.map(f => (
+                        <option key={f._id} value={f._id}>{f.familyName}</option>
+                      ))}
+                    </select>
+                  </div>
+                  {errorField === 'familyId' && <span className="af-hint">↑ Required</span>}
+                </div>
+
+                <div className="af-row">
+                  <label className={errorField === 'relationToHead' ? 'err-label' : ''}>Relationship to Head<span className="req">*</span></label>
+                  <div className="af-field">
+                    <UsersIcon size={16} className="af-icon" />
+                    <select id="relationToHead" className="af-select"
+                      style={{ border: fieldBorder('relationToHead'), backgroundColor: errorField === 'relationToHead' ? '#fff5f5' : '#F7F4EF' }}
+                      value={formData.relationToHead} onChange={handleChange}>
+                      <option value="">choose...</option>
+                      <option value="Spouse">Spouse</option>
+                      <option value="Child">Child</option>
+                      <option value="Dependent">Dependent</option>
+                      <option value="Other">Other</option>
+                    </select>
+                  </div>
+                  {errorField === 'relationToHead' && <span className="af-hint">↑ Required</span>}
+                </div>
+
+                <div className="af-note">
+                  <span style={{ fontSize: '14px' }}>ℹ️</span>
+                  <p>
+                    Email, Phone, ID and Residence below are optional for family members with no contact details of their own (e.g. children).
+                  </p>
+                </div>
+              </>
+            )}
+
+            {/* NAME */}
+            <div className="af-row">
+              <label className={errorField === 'username' ? 'err-label' : ''}>Full Name<span className="req">*</span></label>
+              <div className="af-field">
+                <User size={16} className="af-icon" />
+                <input id="username" type="text" className="af-input" style={inputStyle('username')}
+                  value={formData.username} onChange={handleChange}
+                  placeholder="Full name..." />
+              </div>
               {errorField === 'username' && <span className="af-hint">↑ Required</span>}
             </div>
 
-            {/* PHONE + EMAIL */}
-            <div className="af-grid-2">
-              <div className="af-row">
-                <label className={errorField === 'phone' ? 'err-label' : ''}>PHONE</label>
-                <input id="phone" type="tel" inputMode="numeric" maxLength={10} style={inputStyle('phone')}
+            {/* PHONE */}
+            <div className="af-row">
+              <label className={errorField === 'phone' ? 'err-label' : ''}>Phone{!isJoinFamily && <span className="req">*</span>}</label>
+              <div className="af-field">
+                <PhoneIcon size={16} className="af-icon" />
+                <input id="phone" type="tel" inputMode="numeric" maxLength={10} className="af-input" style={inputStyle('phone')}
                   value={formData.phone}
                   onChange={(e) => {
                     const v = e.target.value.replace(/\D/g, '');
@@ -301,44 +529,56 @@ const AdmissionAdmin: React.FC = () => {
                     setFormData(prev => ({ ...prev, phone: v }));
                   }}
                   placeholder="0712345678" />
-                {errorField === 'phone' && <span className="af-hint">↑ 10 digits, starts 0</span>}
               </div>
-              <div className="af-row">
-                <label className={errorField === 'email' ? 'err-label' : ''}>E-MAIL</label>
-                <input id="email" type="email" style={inputStyle('email')}
-                  value={formData.email} onChange={handleChange} placeholder="email@example.com" />
-                {errorField === 'email' && <span className="af-hint">↑ Required / already used</span>}
-              </div>
+              {errorField === 'phone' && <span className="af-hint">↑ 10 digits, starts 0</span>}
             </div>
 
-            {/* ID NUMBER + GENDER */}
-            <div className="af-grid-2">
-              <div className="af-row">
-                <label className={errorField === 'idNumber' ? 'err-label' : ''}>ID NUMBER</label>
-                <input id="idNumber" type="text" inputMode="numeric" style={inputStyle('idNumber')}
-                  value={formData.idNumber} onChange={handleChange} placeholder="National ID" />
-                {errorField === 'idNumber' && <span className="af-hint">↑ Required / already used</span>}
+            {/* EMAIL */}
+            <div className="af-row">
+              <label className={errorField === 'email' ? 'err-label' : ''}>Email{!isJoinFamily && <span className="req">*</span>}</label>
+              <div className="af-field">
+                <Mail size={16} className="af-icon" />
+                <input id="email" type="email" className="af-input" style={inputStyle('email')}
+                  value={formData.email} onChange={handleChange} placeholder="email@example.com" />
               </div>
-              <div className="af-row">
-                <label className={errorField === 'gender' ? 'err-label' : ''}>GENDER</label>
+              {errorField === 'email' && <span className="af-hint">↑ Required / already used</span>}
+            </div>
+
+            {/* ID NUMBER */}
+            <div className="af-row">
+              <label className={errorField === 'idNumber' ? 'err-label' : ''}>ID Number{!isJoinFamily && <span className="req">*</span>}</label>
+              <div className="af-field">
+                <CreditCard size={16} className="af-icon" />
+                <input id="idNumber" type="text" inputMode="numeric" className="af-input" style={inputStyle('idNumber')}
+                  value={formData.idNumber} onChange={handleChange} placeholder="National ID" />
+              </div>
+              {errorField === 'idNumber' && <span className="af-hint">↑ Required / already used</span>}
+            </div>
+
+            {/* GENDER */}
+            <div className="af-row">
+              <label className={errorField === 'gender' ? 'err-label' : ''}>Gender<span className="req">*</span></label>
+              <div className="af-field">
+                <UsersIcon size={16} className="af-icon" />
                 <select id="gender" className="af-select"
-                  style={{ border: fieldBorder('gender'), backgroundColor: errorField === 'gender' ? '#fff5f5' : '#f8f8f8' }}
+                  style={{ border: fieldBorder('gender'), backgroundColor: errorField === 'gender' ? '#fff5f5' : '#F7F4EF' }}
                   value={formData.gender} onChange={handleChange}>
                   <option value="">choose...</option>
                   <option value="Male">Male</option>
                   <option value="Female">Female</option>
                   <option value="Other">Other</option>
                 </select>
-                {errorField === 'gender' && <span className="af-hint">↑ Required</span>}
               </div>
+              {errorField === 'gender' && <span className="af-hint">↑ Required</span>}
             </div>
 
-            {/* AGE GROUP + YEAR JOINED */}
-            <div className="af-grid-2">
-              <div className="af-row">
-                <label className={errorField === 'ageGroup' ? 'err-label' : ''}>AGE GROUP</label>
+            {/* AGE GROUP */}
+            <div className="af-row">
+              <label className={errorField === 'ageGroup' ? 'err-label' : ''}>Age Group<span className="req">*</span></label>
+              <div className="af-field">
+                <Calendar size={16} className="af-icon" />
                 <select id="ageGroup" className="af-select"
-                  style={{ border: fieldBorder('ageGroup'), backgroundColor: errorField === 'ageGroup' ? '#fff5f5' : '#f8f8f8' }}
+                  style={{ border: fieldBorder('ageGroup'), backgroundColor: errorField === 'ageGroup' ? '#fff5f5' : '#F7F4EF' }}
                   value={formData.ageGroup} onChange={handleChange}>
                   <option value="">choose...</option>
                   <option value="Kid (12 and below)">Kid (≤12)</option>
@@ -346,12 +586,17 @@ const AdmissionAdmin: React.FC = () => {
                   <option value="Adult (36-59)">Adult (36-59)</option>
                   <option value="Elderly (60 and above)">Elderly (60+)</option>
                 </select>
-                {errorField === 'ageGroup' && <span className="af-hint">↑ Required</span>}
               </div>
-              <div className="af-row">
-                <label className={errorField === 'yearJoined' ? 'err-label' : ''}>YEAR JOINED RPC</label>
+              {errorField === 'ageGroup' && <span className="af-hint">↑ Required</span>}
+            </div>
+
+            {/* YEAR JOINED */}
+            <div className="af-row">
+              <label className={errorField === 'yearJoined' ? 'err-label' : ''}>Year Joined{!isJoinFamily && <span className="req">*</span>}</label>
+              <div className="af-field">
+                <Clock size={16} className="af-icon" />
                 <select id="yearJoined" className="af-select"
-                  style={{ border: fieldBorder('yearJoined'), backgroundColor: errorField === 'yearJoined' ? '#fff5f5' : '#f8f8f8' }}
+                  style={{ border: fieldBorder('yearJoined'), backgroundColor: errorField === 'yearJoined' ? '#fff5f5' : '#F7F4EF' }}
                   value={formData.yearJoined} onChange={handleChange}>
                   <option value="">choose...</option>
                   {Array.from(
@@ -361,37 +606,44 @@ const AdmissionAdmin: React.FC = () => {
                     <option key={year} value={year.toString()}>{year}</option>
                   ))}
                 </select>
-                {errorField === 'yearJoined' && <span className="af-hint">↑ Required</span>}
               </div>
+              {errorField === 'yearJoined' && <span className="af-hint">↑ Required</span>}
             </div>
 
-            {/* RESIDENCE — full width */}
+            {/* RESIDENCE */}
             <div className="af-row">
-              <label className={errorField === 'residence' ? 'err-label' : ''}>RESIDENCE</label>
-              <input id="residence" type="text" style={inputStyle('residence')}
-                value={formData.residence} onChange={handleChange} placeholder="e.g. Kisii, Nairobi..." />
+              <label className={errorField === 'residence' ? 'err-label' : ''}>Residence{!isJoinFamily && <span className="req">*</span>}</label>
+              <div className="af-field">
+                <MapPin size={16} className="af-icon" />
+                <input id="residence" type="text" className="af-input" style={inputStyle('residence')}
+                  value={formData.residence} onChange={handleChange} placeholder="e.g. Kisii, Nairobi..." />
+              </div>
               {errorField === 'residence' && <span className="af-hint">↑ Required</span>}
             </div>
 
-            {/* Compact inline note */}
-            <div style={{
-              display: 'flex', alignItems: 'center', gap: '6px',
-              padding: '6px 10px', background: '#e8f4fd',
-              border: '1px solid #bee5eb', borderRadius: '6px',
-              marginBottom: '8px',
-            }}>
-              <span style={{ fontSize: '13px' }}>📱</span>
-              <p style={{ margin: 0, color: '#0c5460', fontSize: '11px' }}>
-                <strong>Default password</strong> = phone number. Member can change it after login.
-              </p>
-            </div>
+            {/* Inline note */}
+            {isJoinFamily ? (
+              <div className="af-note">
+                <span style={{ fontSize: '14px' }}>📱</span>
+                <p>
+                  If Email &amp; Phone are provided, <strong>default password</strong> = phone number. Otherwise no login is created until added later.
+                </p>
+              </div>
+            ) : (
+              <div className="af-note">
+                <span style={{ fontSize: '14px' }}>📱</span>
+                <p>
+                  <strong>Default password</strong> = phone number. Member can change it after login.
+                </p>
+              </div>
+            )}
 
             {/* Action buttons */}
-            <div className={styles['submisions']} style={{ paddingTop: '0', paddingBottom: '6px' }}>
-              <div className={styles['clearForm']} onClick={clearForm}>Clear</div>
+            <div className={`${styles['submisions']} af-btns-row`} style={{ paddingTop: '0', paddingBottom: '10px' }}>
+              <div className={`${styles['clearForm']} af-btn secondary`} onClick={clearForm} style={{ borderRadius: '14px', cursor: 'pointer' }}>Clear</div>
               {loading
-                ? <div className={styles['submitData']} style={{ opacity: 0.7, cursor: 'not-allowed' }}>Processing...</div>
-                : <div className={styles['submitData']} onClick={handleSubmit}>Admit User</div>
+                ? <div className={`${styles['submitData']} af-btn primary`} style={{ opacity: 0.7, cursor: 'not-allowed', borderRadius: '14px' }}>Processing...</div>
+                : <div className={`${styles['submitData']} af-btn primary`} onClick={handleSubmit} style={{ borderRadius: '14px', cursor: 'pointer' }}>Admit User</div>
               }
             </div>
 

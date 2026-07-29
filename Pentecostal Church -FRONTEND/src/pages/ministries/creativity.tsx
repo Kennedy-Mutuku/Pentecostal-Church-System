@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './creativity.module.css';
 import { Link } from 'react-router-dom';
-import creativityImg from '../../assets/creativity.jpg';
 import MinistryRegistrationModal from '../../components/MinistryRegistrationModal';
 
 const CreativityPage: React.FC = () => {
@@ -37,7 +36,7 @@ const CreativityPage: React.FC = () => {
 
   return (
     <>
-      <div className={styles.heroSection} style={{ '--hero-bg': `url(${creativityImg})` } as React.CSSProperties}>
+      <div className={styles.heroSection} style={{ '--hero-bg': 'linear-gradient(135deg, #482078, #730051)' } as React.CSSProperties}>
         <div className={styles.heroContent}>
           <h1 className={styles.title}>Creativity Ministry</h1>
           <p className={styles.subtitle}>Using drama and storytelling to communicate truth</p>

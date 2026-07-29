@@ -4,7 +4,6 @@ const User = require('../models/user');
 const Soul = require('../models/savedSouls')
 const bs = require('../models/biblestudy')
 const FeedBack = require('../models/feedbackSchema')
-const news = require('../models/adminNews')
 const { sendMail, generateToken } = require('../helperModules/sendmail');
 const backendURL = 'https://rpc-nyamira.co.ke'
 

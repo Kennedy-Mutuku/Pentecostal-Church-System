@@ -1,12 +1,4 @@
 import userImg from '../assets/userIMG.jpeg';
-import overseerImg from '../assets/overseer_christianminds.jpg';
-import mobuiImg from '../assets/newmobui.jpg';
-import secretaryImg from '../assets/secretary_christianminds.jpg';
-import peaceImg from '../assets/peace.jpg';
-import manuImg from '../assets/2mannuu.jpg';
-import wandiaImg from '../assets/wandia.jpg';
-import khamalahImg from '../assets/khamalaaah.jpg';
-import samImg from '../assets/sam.jpg';
 
 
 
@@ -28,7 +20,7 @@ const INITIAL_MEMBERS: CommitteeMember[] = [
         name: "Stanley Otieno",
         position: "Overseer",
         bio: "Oversee the committee and ensure that all activities align with our core values and mission.",
-        image: overseerImg,
+        image: userImg,
         yearOfStudy: "3",
         course: "Special needs education"
     },
@@ -37,7 +29,7 @@ const INITIAL_MEMBERS: CommitteeMember[] = [
         name: "Jackson Mobui",
         position: "Chairperson",
         bio: "Leading the committee and ensuring that all activities align with our core values and mission.",
-        image: mobuiImg,
+        image: userImg,
         yearOfStudy: "3",
         course: "Nursing"
     },
@@ -46,7 +38,7 @@ const INITIAL_MEMBERS: CommitteeMember[] = [
         name: "Emily",
         position: "Secretary",
         bio: "Keeping records of all the committee activities and ensuring that all activities align with our core values and mission.",
-        image: secretaryImg,
+        image: userImg,
         yearOfStudy: "1",
         course: "Bachelor of Laws (LLB)"
     },
@@ -55,7 +47,7 @@ const INITIAL_MEMBERS: CommitteeMember[] = [
         name: "Peace Makena",
         position: "Treasurer",
         bio: "Managing finances with integrity and transparency to support our various committee activities.",
-        image: peaceImg,
+        image: userImg,
         yearOfStudy: "1",
         course: "Medical Laboratory Science"
     },
@@ -64,7 +56,7 @@ const INITIAL_MEMBERS: CommitteeMember[] = [
         name: "Samuel Mutua",
         position: "Member",
         bio: "Actively participating in planning and execution of events, bringing creativity and energy to the team.",
-        image: samImg,
+        image: userImg,
         yearOfStudy: "2",
         course: "Actuarial Science"
     },
@@ -73,7 +65,7 @@ const INITIAL_MEMBERS: CommitteeMember[] = [
         name: "Faith Wandia",
         position: "Member",
         bio: "Engaging in outreach programs and helping to build strong relationships with other fellowships.",
-        image: wandiaImg,
+        image: userImg,
         yearOfStudy: "3",
         course: "Tourism and Hospitality"
     },
@@ -82,7 +74,7 @@ const INITIAL_MEMBERS: CommitteeMember[] = [
         name: "Emmanuel Baraka",
         position: "Member",
         bio: "Contributing to the spiritual growth of the committee through prayer and coordination of fellowship activities.",
-        image: manuImg,
+        image: userImg,
         yearOfStudy: "1",
         course: "Project Management"
     },
@@ -100,7 +92,7 @@ const INITIAL_MEMBERS: CommitteeMember[] = [
         name: "Clifton Khamala",
         position: "Member",
         bio: "Assisting in logistics and operations to ensure smooth running of all our planned events.",
-        image: khamalahImg,
+        image: userImg,
         yearOfStudy: "2",
         course: "Software Engineering"
     }

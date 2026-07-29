@@ -19,7 +19,7 @@ function BoardDetails() {
       <main className="boards-container">
         <div className="board-card" style={{ maxWidth: '800px', margin: '0 auto', width: '100%' }}>
           <div className="board-image" style={{ height: '300px' }}>
-            <img src={board.image} alt={board.title} style={{ height: '100%', objectFit: 'cover' }} />
+            {board.image && <img src={board.image} alt={board.title} style={{ height: '100%', objectFit: 'cover' }} />}
             <i className={board.icon}></i>
           </div>
           <div className="board-content">

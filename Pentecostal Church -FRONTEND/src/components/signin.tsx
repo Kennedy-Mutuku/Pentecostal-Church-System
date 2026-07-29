@@ -3,8 +3,8 @@ import axios from 'axios';
 import styles from '../styles/signin.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
 import { Link, useNavigate } from 'react-router-dom';
-import loadingAnime from '../assets/Animation - 1716747954931.gif';
-import { Eye, EyeOff, ChevronDown, Shield } from 'lucide-react'
+import loadingAnime from '../assets/loading.gif';
+import { Eye, EyeOff, User, Phone, Mail, CreditCard, Users, ChevronDown, Calendar, MapPin, Home, Search, Shield } from 'lucide-react';
 import { getApiUrl, isDevMode } from '../config/environment';
 import UserProfile from './userProfile';
 import ErrorBoundary from './ErrorBoundary';
@@ -37,9 +37,12 @@ const SignIn: React.FC = () => {
         idNumber: '',
         gender: '',
         ageGroup: '',
-
         yearJoined: '',
         residence: '',
+        familyRole: 'individual', // 'individual', 'newFamily', 'joinFamily'
+        familyName: '',
+        headOfFamilyName: '',
+        relationToHead: ''
     });
     const [regError, setRegError] = useState('');
     const [acceptedTerms, setAcceptedTerms] = useState(false);
@@ -72,9 +75,38 @@ const SignIn: React.FC = () => {
         }
         setRegError('');
 
-        const message = `Hello RPC Nyamira Admin,\n\nI would like to be registered as a new member on the RPC Nyamira Portal. Below are my details for verification:\n\n*Full Name:* ${regData.fullName}\n*Phone:* ${regData.phone}\n*Email:* ${regData.email}\n*ID Number:* ${regData.idNumber}\n*Gender:* ${regData.gender}\n*Age Group:* ${regData.ageGroup}\n*Year Joined RPC:* ${regData.yearJoined}\n*Residence:* ${regData.residence}\n\nKindly verify and register me. I understand that my login credentials (username & password) will be sent back to me upon successful verification.\n\nThank you and God bless.`;
+        const messageParts = [
+            `Hello RPC Nyamira Admin,`,
+            ``,
+            `I would like to be registered as a new member on the RPC Nyamira Portal. Below are my details for verification:`,
+            ``,
+            `*Registration Type:* ${regData.familyRole === 'individual' ? 'Individual Member' : regData.familyRole === 'newFamily' ? 'Head of New Family' : 'Joining Existing Family'}`
+        ];
 
-        const encodedMessage = encodeURIComponent(message);
+        if (regData.familyRole === 'newFamily') {
+            messageParts.push(`*Family Name:* ${regData.familyName}`);
+        } else if (regData.familyRole === 'joinFamily') {
+            messageParts.push(`*Head of Family Name/Phone:* ${regData.headOfFamilyName}`);
+            messageParts.push(`*Relationship to Head:* ${regData.relationToHead}`);
+        }
+
+        messageParts.push(
+            ``,
+            `*Full Name:* ${regData.fullName}`,
+            `*Phone:* ${regData.phone}`,
+            `*Email:* ${regData.email}`,
+            `*ID Number:* ${regData.idNumber}`,
+            `*Gender:* ${regData.gender}`,
+            `*Age Group:* ${regData.ageGroup}`,
+            `*Year Joined RPC:* ${regData.yearJoined}`,
+            `*Residence:* ${regData.residence}`,
+            ``,
+            `Kindly verify and register me. I understand that my login credentials (username & password) will be sent back to me upon successful verification.`,
+            ``,
+            `Thank you and God bless.`
+        );
+
+        const encodedMessage = encodeURIComponent(messageParts.join('\n'));
         window.open(`https://wa.me/254${adminPhone.substring(1)}?text=${encodedMessage}`, '_blank');
     };
 
@@ -198,8 +230,7 @@ const SignIn: React.FC = () => {
         const adminPatterns = [
             { pattern: /^admin@rpcmcsuperadmi/i, complete: 'admin@rpcmcsuperadmin.co.ke' },  // Handle typos
             { pattern: /^admin@rpcmcsuperadmin$/i, complete: 'admin@rpcmcsuperadmin.co.ke' },  // Exact match without .co.ke
-            { pattern: /^admin@rpcmcbsadmin/i, complete: 'admin@rpcmcbsadmin.co.ke' },
-            { pattern: /^admin@rpcmcadmissionadmin/i, complete: 'admin@rpcmcadmissionadmin.co.ke' }
+            { pattern: /^admin@rpcadmissionadmin/i, complete: 'admin@rpcadmissionadmin.org' }
         ];
 
         // Check if the email matches any pattern and doesn't already end with .co.ke
@@ -214,16 +245,10 @@ const SignIn: React.FC = () => {
         }
 
         const domainMappings = [
-            { domain: '@rpcmcnewsadmin.co.ke', endpoint: getApiUrl('newsAdmin'), route: '/adminnews' },
-
-            { domain: '@rpcmcmissionadmin.co.ke', endpoint: getApiUrl('missionAdmin'), route: '/adminmission' },
-
-            { domain: '@rpcmcbsadmin.co.ke', endpoint: getApiUrl('bsAdmin'), route: '/adminBs' },
-
             { domain: '@rpcmcsuperadmin.co.ke', endpoint: getApiUrl('superAdmin'), route: '/admin' },
             { domain: '@rikurumachurch.com', endpoint: getApiUrl('superAdmin'), route: '/admin' },
 
-            { domain: '@rpcmcadmissionadmin.co.ke', endpoint: getApiUrl('admissionAdmin'), route: '/admission' },
+            { domain: '@rpcadmissionadmin.org', endpoint: getApiUrl('admissionAdmin'), route: '/admission' },
         ];
 
         // Overseer login — check by exact email match
@@ -272,7 +297,7 @@ const SignIn: React.FC = () => {
             let endpoint: string;
             let route: string;
 
-            if (processedEmail === 'patron@rpc-nyamira.co.ke' || processedEmail === 'patron@ksucu-mc.co.ke') {
+            if (processedEmail === 'admin@rpcpastor.org') {
                 // Patron login
                 endpoint = getApiUrl('patronLogin');
                 route = '/patron';
@@ -292,10 +317,6 @@ const SignIn: React.FC = () => {
                 // Admin domain found
                 endpoint = mapping.endpoint;
                 route = mapping.route;
-            } else if (processedEmail.includes('officer')) {
-                // Polling officer pattern detected
-                endpoint = getApiUrl('pollingOfficerLogin');
-                route = '/polling-officer-dashboard';
             } else {
                 // Default to regular user login
                 endpoint = getApiUrl('usersLogin');
@@ -305,7 +326,7 @@ const SignIn: React.FC = () => {
             console.log('🔐 SignIn: Email entered:', formData.email);
             console.log('🔐 SignIn: Processed email:', processedEmail);
             console.log('🔐 SignIn: Password length:', formData.password?.length);
-            console.log('🔐 SignIn: Mapping found:', mapping ? 'Yes (Admin)' : processedEmail.includes('officer') ? 'Yes (Officer Pattern)' : 'No (User)');
+            console.log('🔐 SignIn: Mapping found:', mapping ? 'Yes (Admin)' : 'No (User)');
             console.log('🔐 SignIn: Attempting login to:', endpoint);
             console.log('🔐 SignIn: Will redirect to:', route);
 
@@ -334,9 +355,8 @@ const SignIn: React.FC = () => {
 
             // Log into the finance backend in the background to get a JWT token if patron/assistant patron
             if (
-                processedEmail === 'patron@rpc-nyamira.co.ke' ||
+                processedEmail === 'admin@rpcpastor.org' ||
                 processedEmail === 'assistantpatron@rpc-nyamira.co.ke' ||
-                processedEmail === 'patron@ksucu-mc.co.ke' ||
                 processedEmail === 'assistantpatron@ksucu-mc.co.ke'
             ) {
                 try {
@@ -359,7 +379,7 @@ const SignIn: React.FC = () => {
             console.log('🔐 SignIn: Navigating to:', route);
 
             // Track admin/patron session for navbar display
-            if (processedEmail === 'patron@rpc-nyamira.co.ke' || processedEmail === 'patron@ksucu-mc.co.ke') {
+            if (processedEmail === 'admin@rpcpastor.org') {
                 localStorage.setItem('adminSession', 'true');
                 localStorage.setItem('patronSession', 'true');
                 localStorage.removeItem('assistantPatronSession');
@@ -436,7 +456,7 @@ const SignIn: React.FC = () => {
         return (
             <div className={styles.container}>
                 <div style={{ textAlign: 'center', padding: '50px' }}>
-                    <img src={loadingAnime} alt="Loading..." className={styles['loading-gif']} />
+                    <img src={loadingAnime} alt="Loading..." style={{ width: '80px', margin: '0 auto' }} />
                     <p>Checking authentication...</p>
                     {/* Fallback text for devices that might not load images */}
                     <noscript>
@@ -451,14 +471,14 @@ const SignIn: React.FC = () => {
         <ErrorBoundary>
             <div className={styles.body}>
                 {generalLoading && (
-                    <div className={styles['loading-screen']}>
-                        <p className={styles['loading-text']}>Please wait...</p>
+                    <div className="loading-screen">
+                        <p>Please wait...</p>
                         <img src={loadingAnime} alt="animation gif" />
                     </div>
                 )}
                 <div className={styles['container']}>
-                    <Link to={"/"} style={{ display: 'flex', justifyContent: 'center', marginBottom: '12px' }}>
-                        <img src={cuLogo} alt="RPC logo" style={{ width: '72px', height: '72px', objectFit: 'contain' }} />
+                    <Link to={"/"} style={{ display: 'flex', justifyContent: 'center', marginBottom: '2px' }}>
+                        <img src={cuLogo} alt="RPC logo" style={{ width: '56px', height: '56px', objectFit: 'contain' }} />
                     </Link>
 
                     {error && <div className={styles.error}>{error}</div>}
@@ -635,91 +655,198 @@ const SignIn: React.FC = () => {
                                 }}>{regError}</p>
                             )}
 
-                            {/* Compact Form Fields */}
-                            <div style={{ display: 'flex', flexDirection: 'column', gap: '6px', marginBottom: '10px' }}>
-                                <input type="text" name="fullName" placeholder="Full Name *" value={regData.fullName} onChange={handleRegChange} required
-                                    style={{ padding: '8px 10px', borderRadius: '7px', border: '1.5px solid #e0e0e0', width: '100%', fontSize: '13px', background: '#fafafa', outline: 'none' }} />
+                            {/* Family Joining Type Selector */}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '15px' }}>
+                                <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>How are you joining? *</label>
+                                <div style={{ display: 'flex', background: '#f5f5f5', borderRadius: '8px', padding: '4px', gap: '4px' }}>
+                                    {['individual', 'newFamily', 'joinFamily'].map((role) => (
+                                        <button
+                                            key={role}
+                                            type="button"
+                                            onClick={() => setRegData(prev => ({ ...prev, familyRole: role }))}
+                                            style={{
+                                                flex: 1,
+                                                padding: '8px 4px',
+                                                border: 'none',
+                                                borderRadius: '6px',
+                                                background: regData.familyRole === role ? '#fff' : 'transparent',
+                                                boxShadow: regData.familyRole === role ? '0 1px 3px rgba(0,0,0,0.1)' : 'none',
+                                                color: regData.familyRole === role ? '#1a1a2e' : '#666',
+                                                fontSize: '11px',
+                                                fontWeight: regData.familyRole === role ? '700' : '500',
+                                                cursor: 'pointer',
+                                                transition: 'all 0.2s ease'
+                                            }}
+                                        >
+                                            {role === 'individual' ? 'Individual' : role === 'newFamily' ? 'Head of Family' : 'Join Family'}
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
 
-                                {/* Phone & Email */}
-                                <div className={styles['reg-row']}>
-                                    <input type="tel" name="phone" placeholder="Phone (0712...) *" value={regData.phone} onChange={handleRegChange}
-                                        inputMode="numeric" pattern="[0-9]*" maxLength={10} required
-                                        style={{ padding: '8px 10px', borderRadius: '7px', border: '1.5px solid #e0e0e0', width: '100%', fontSize: '13px', background: '#fafafa', outline: 'none' }} />
-                                    <input type="email" name="email" placeholder="Email address *" value={regData.email} onChange={handleRegChange} required
-                                        style={{ padding: '8px 10px', borderRadius: '7px', border: '1.5px solid #e0e0e0', width: '100%', fontSize: '13px', background: '#fafafa', outline: 'none' }} />
+                            {/* Conditional Family Fields */}
+                            {regData.familyRole === 'newFamily' && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginBottom: '10px' }}>
+                                    <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>Family Name *</label>
+                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                        <Home size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
+                                        <input type="text" name="familyName" placeholder="e.g. The Kamau Family" value={regData.familyName} onChange={handleRegChange} required
+                                            style={{ padding: '8px 10px 8px 32px', borderRadius: '7px', border: '1.5px solid #e0e0e0', width: '100%', fontSize: '13px', background: '#fafafa', outline: 'none', color: '#333' }} />
+                                    </div>
+                                </div>
+                            )}
+
+                            {regData.familyRole === 'joinFamily' && (
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', marginBottom: '10px' }}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                        <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>Head of Family Name / Phone *</label>
+                                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                            <Search size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
+                                            <input type="text" name="headOfFamilyName" placeholder="e.g. John Doe / 0712345678" value={regData.headOfFamilyName} onChange={handleRegChange} required
+                                                style={{ padding: '8px 10px 8px 32px', borderRadius: '7px', border: '1.5px solid #e0e0e0', width: '100%', fontSize: '13px', background: '#fafafa', outline: 'none', color: '#333' }} />
+                                        </div>
+                                    </div>
+                                    <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                        <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>Relationship to Head *</label>
+                                        <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                            <Users size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
+                                            <select name="relationToHead" value={regData.relationToHead} onChange={handleRegChange} required
+                                                style={{
+                                                    width: '100%', padding: '8px 10px 8px 32px', borderRadius: '7px', background: '#fafafa',
+                                                    border: regData.relationToHead ? '1.5px solid #E53935' : '1.5px solid #e0e0e0',
+                                                    fontSize: '13px', color: regData.relationToHead ? '#333' : '#aaa', outline: 'none',
+                                                    appearance: 'none'
+                                                }}>
+                                                <option value="">Select Relationship</option>
+                                                <option value="Spouse">Spouse</option>
+                                                <option value="Child">Child</option>
+                                                <option value="Dependent">Dependent</option>
+                                                <option value="Other">Other</option>
+                                            </select>
+                                            <ChevronDown size={14} color="#888" style={{ position: 'absolute', right: '10px', pointerEvents: 'none' }} />
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+
+                            {/* Labeled & Stacked Form Fields */}
+                            <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '10px' }}>
+                                {/* Full Name */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                    <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>Full Name *</label>
+                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                        <User size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
+                                        <input type="text" name="fullName" placeholder="e.g. John Doe" value={regData.fullName} onChange={handleRegChange} required
+                                            style={{ padding: '8px 10px 8px 32px', borderRadius: '7px', border: '1.5px solid #e0e0e0', width: '100%', fontSize: '13px', background: '#fafafa', outline: 'none', color: '#333' }} />
+                                    </div>
                                 </div>
 
-                                
-                                {/* ID & Gender */}
-                                <div className={styles['reg-row']}>
-                                    <input type="text" name="idNumber" placeholder="ID Number *" value={regData.idNumber} onChange={handleRegChange} required
-                                        style={{ padding: '8px 10px', borderRadius: '7px', border: '1.5px solid #e0e0e0', width: '100%', fontSize: '13px', background: '#fafafa', outline: 'none' }} />
-                                    <div style={{ position: 'relative' }}>
+                                {/* Phone */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                    <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>Phone *</label>
+                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                        <Phone size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
+                                        <input type="tel" name="phone" placeholder="0712..." value={regData.phone} onChange={handleRegChange}
+                                            inputMode="numeric" pattern="[0-9]*" maxLength={10} required
+                                            style={{ padding: '8px 10px 8px 32px', borderRadius: '7px', border: '1.5px solid #e0e0e0', width: '100%', fontSize: '13px', background: '#fafafa', outline: 'none', color: '#333' }} />
+                                    </div>
+                                </div>
+
+                                {/* Email */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                    <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>Email address *</label>
+                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                        <Mail size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
+                                        <input type="email" name="email" placeholder="you@example.com" value={regData.email} onChange={handleRegChange} required
+                                            style={{ padding: '8px 10px 8px 32px', borderRadius: '7px', border: '1.5px solid #e0e0e0', width: '100%', fontSize: '13px', background: '#fafafa', outline: 'none', color: '#333' }} />
+                                    </div>
+                                </div>
+
+                                {/* ID Number */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                    <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>ID Number *</label>
+                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                        <CreditCard size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
+                                        <input type="text" name="idNumber" placeholder="Enter ID Number" value={regData.idNumber} onChange={handleRegChange} required
+                                            style={{ padding: '8px 10px 8px 32px', borderRadius: '7px', border: '1.5px solid #e0e0e0', width: '100%', fontSize: '13px', background: '#fafafa', outline: 'none', color: '#333' }} />
+                                    </div>
+                                </div>
+
+                                {/* Gender */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                    <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>Gender *</label>
+                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                        <Users size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
                                         <select name="gender" value={regData.gender} onChange={handleRegChange} required
                                             style={{
-                                                width: '100%', padding: '8px 10px', borderRadius: '7px', background: '#fafafa',
+                                                width: '100%', padding: '8px 10px 8px 32px', borderRadius: '7px', background: '#fafafa',
                                                 border: regData.gender ? '1.5px solid #E53935' : '1.5px solid #e0e0e0',
                                                 fontSize: '13px', color: regData.gender ? '#333' : '#aaa', outline: 'none',
                                                 appearance: 'none'
                                             }}>
-                                            <option value="">Gender *</option>
+                                            <option value="">Select Gender</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Other">Other</option>
                                         </select>
-                                        <ChevronDown size={14} color="#888" style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                                        <ChevronDown size={14} color="#888" style={{ position: 'absolute', right: '10px', pointerEvents: 'none' }} />
                                     </div>
                                 </div>
 
                                 {/* Age Group */}
-                                <div style={{ position: 'relative', marginBottom: '6px' }}>
-                                    <select name="ageGroup" value={regData.ageGroup} onChange={handleRegChange} required
-                                        style={{
-                                            width: '100%', padding: '8px 10px', borderRadius: '7px', background: '#fafafa',
-                                            border: regData.ageGroup ? '1.5px solid #E53935' : '1.5px solid #e0e0e0',
-                                            fontSize: '13px', color: regData.ageGroup ? '#333' : '#aaa', outline: 'none',
-                                            appearance: 'none'
-                                        }}>
-                                        <option value="">Age Group *</option>
-                                        <option value="Kid (12 and below)">Kid (12 and below)</option>
-                                        <option value="Youth (13-35)">Youth (13-35)</option>
-                                        <option value="Adult (36-59)">Adult (36-59)</option>
-                                        <option value="Elderly (60 and above)">Elderly (60 and above)</option>
-                                    </select>
-                                    <ChevronDown size={14} color="#888" style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                    <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>Age Group *</label>
+                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                        <User size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
+                                        <select name="ageGroup" value={regData.ageGroup} onChange={handleRegChange} required
+                                            style={{
+                                                width: '100%', padding: '8px 10px 8px 32px', borderRadius: '7px', background: '#fafafa',
+                                                border: regData.ageGroup ? '1.5px solid #E53935' : '1.5px solid #e0e0e0',
+                                                fontSize: '13px', color: regData.ageGroup ? '#333' : '#aaa', outline: 'none',
+                                                appearance: 'none'
+                                            }}>
+                                            <option value="">Select Age Group</option>
+                                            <option value="Kid (12 and below)">Kid (12 and below)</option>
+                                            <option value="Youth (13-35)">Youth (13-35)</option>
+                                            <option value="Adult (36-59)">Adult (36-59)</option>
+                                            <option value="Elderly (60 and above)">Elderly (60 and above)</option>
+                                        </select>
+                                        <ChevronDown size={14} color="#888" style={{ position: 'absolute', right: '10px', pointerEvents: 'none' }} />
+                                    </div>
                                 </div>
 
-                                {/* Year Joined & Residence */}
-                                <div className={styles['reg-row']}>
-                                    {/* Year Joined Dropdown */}
-                                    <div style={{ position: 'relative' }}>
+                                {/* Year Joined RPC */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                    <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>Year Joined RPC *</label>
+                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                        <Calendar size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
                                         <select
                                             value={regData.yearJoined}
                                             onChange={(e) => setRegData(prev => ({ ...prev, yearJoined: e.target.value }))}
                                             style={{
-                                                width: '100%', padding: '8px 10px', borderRadius: '7px', background: '#fafafa',
+                                                width: '100%', padding: '8px 10px 8px 32px', borderRadius: '7px', background: '#fafafa',
                                                 border: regData.yearJoined ? '1.5px solid #E53935' : '1.5px solid #e0e0e0',
                                                 fontSize: '13px', color: regData.yearJoined ? '#333' : '#aaa', outline: 'none',
                                                 appearance: 'none'
                                             }}
                                         >
-                                            <option value="">Year Joined RPC *</option>
+                                            <option value="">Select Year</option>
                                             {Array.from({ length: new Date().getFullYear() - 1989 }, (_, i) => new Date().getFullYear() - i).map(year => (
                                                 <option key={year} value={year.toString()}>{year}</option>
                                             ))}
                                         </select>
-                                        <ChevronDown size={14} color="#888" style={{ position: 'absolute', right: '10px', top: '50%', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
+                                        <ChevronDown size={14} color="#888" style={{ position: 'absolute', right: '10px', pointerEvents: 'none' }} />
                                     </div>
+                                </div>
 
-                                    {/* Residence Input */}
-                                    <div style={{ position: 'relative' }}>
-                                        <input
-                                            type="text"
-                                            placeholder="Residence *"
-                                            value={regData.residence}
-                                            onChange={(e) => setRegData(prev => ({ ...prev, residence: e.target.value }))}
+                                {/* Residence */}
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                                    <label style={{ fontSize: '11px', fontWeight: '700', color: '#1a1a2e', marginLeft: '2px', textAlign: 'left' }}>Residence *</label>
+                                    <div style={{ position: 'relative', display: 'flex', alignItems: 'center' }}>
+                                        <MapPin size={14} color="#888" style={{ position: 'absolute', left: '10px' }} />
+                                        <input type="text" placeholder="e.g. Nairobi" value={regData.residence} onChange={(e) => setRegData(prev => ({ ...prev, residence: e.target.value }))} required
                                             style={{
-                                                width: '100%', padding: '8px 10px', borderRadius: '7px', background: '#fafafa',
+                                                width: '100%', padding: '8px 10px 8px 32px', borderRadius: '7px', background: '#fafafa',
                                                 border: regData.residence ? '1.5px solid #E53935' : '1.5px solid #e0e0e0',
                                                 fontSize: '13px', color: '#333', outline: 'none'
                                             }}
@@ -842,8 +969,8 @@ const SignIn: React.FC = () => {
                             {/* Register Link */}
                             <div style={{
                                 textAlign: 'center',
-                                paddingTop: '14px',
-                                marginTop: '12px',
+                                paddingTop: '6px',
+                                marginTop: '6px',
                                 borderTop: '1px solid #eee',
                             }}>
                                 <p style={{ margin: 0, fontSize: '0.9em', color: '#666' }}>Don't have an account?{' '}

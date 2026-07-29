@@ -1,8 +1,6 @@
 interface ApiConfig {
   baseUrl: string;
   endpoints: {
-    news: string;
-    newsUpdate: string;
     users: string;
     usersSignup: string;
     usersCheckExists: string;
@@ -21,17 +19,16 @@ interface ApiConfig {
     webauthnVerifyRegister: string;
     webauthnGenerateAuthenticate: string;
     webauthnVerifyAuthenticate: string;
-    newsAdmin: string;
-    newsAdminUpload: string;
-    newsAdminLogout: string;
-    missionAdmin: string;
-    bsAdmin: string;
     superAdmin: string;
     admissionAdmin: string;
     admissionAdminAdmitUser: string;
     admissionAdminGetUsers: string;
     admissionAdminResetPassword: string;
     admissionAdminUpdateUser: string;
+    admissionAdminGetFamilies: string;
+    admissionAdminGetFamily: string;
+    admissionAdminLinkFamily: string;
+    admissionAdminUnlinkFamily: string;
     authGoogle: string;
     attendanceSession: string;
     attendanceSessionStatus: string;
@@ -73,17 +70,6 @@ interface ApiConfig {
     commitmentFormRevoke: string;
     commitmentFormByRole: string;
     worshipCoordinatorCommitments: string;
-    pollingOfficerLogin: string;
-    pollingOfficerLogout: string;
-    pollingOfficerCreate: string;
-    pollingOfficerList: string;
-    pollingOfficerStatus: string;
-    pollingOfficerUnvotedUsers: string;
-    pollingOfficerMarkVoted: string;
-    pollingOfficerRegisterAndVote: string;
-    pollingOfficerSearchUser: string;
-    pollingOfficerStats: string;
-    pollingOfficerVotedUsers: string;
     myDocuments: string;
     uploadDocument: string;
     downloadDocument: string;
@@ -108,6 +94,7 @@ interface ApiConfig {
     patronUsers: string;
     patronMessages: string;
     patronMedia: string;
+    patronFamilies: string;
     patronChangePassword: string;
     assistantPatronVerify: string;
     assistantPatronUsers: string;
@@ -124,8 +111,6 @@ const isProd = import.meta.env.PROD;
 const developmentConfig: ApiConfig = {
   baseUrl: '',  // Use relative paths to leverage Vite proxy and avoid CORS issues
   endpoints: {
-    news: '/news/news',
-    newsUpdate: '/news/news',
     users: '/users/data',
     usersSignup: '/users/signup',
     usersCheckExists: '/users/check-exists',
@@ -144,17 +129,16 @@ const developmentConfig: ApiConfig = {
     webauthnVerifyRegister: '/users/webauthn/register/verify',
     webauthnGenerateAuthenticate: '/users/webauthn/authenticate/generate',
     webauthnVerifyAuthenticate: '/users/webauthn/authenticate/verify',
-    newsAdmin: '/adminnews/login',
-    newsAdminUpload: '/adminnews/upload',
-    newsAdminLogout: '/adminnews/logout',
-    missionAdmin: '/adminmission/login',
-    bsAdmin: '/adminBs/login',
     superAdmin: '/sadmin/login',
     admissionAdmin: '/admissionadmin/login',
     admissionAdminAdmitUser: '/admissionadmin/admit-user',
     admissionAdminGetUsers: '/admissionadmin/users',
     admissionAdminResetPassword: '/admissionadmin/reset-password',
     admissionAdminUpdateUser: '/admissionadmin/update-user/:userId',
+    admissionAdminGetFamilies: '/admissionadmin/families',
+    admissionAdminGetFamily: '/admissionadmin/families/:familyId',
+    admissionAdminLinkFamily: '/admissionadmin/families/link',
+    admissionAdminUnlinkFamily: '/admissionadmin/families/unlink',
     authGoogle: '/auth/google',
     attendanceSession: '/attendance/session',
     attendanceSessionStatus: '/attendance/session/status',
@@ -196,17 +180,6 @@ const developmentConfig: ApiConfig = {
     commitmentFormRevoke: '/commitmentForm/revoke',
     commitmentFormByRole: '/commitmentForm/by-role',
     worshipCoordinatorCommitments: '/commitmentForm/worship-coordinator',
-    pollingOfficerLogin: '/polling-officer/login',
-    pollingOfficerLogout: '/polling-officer/logout',
-    pollingOfficerCreate: '/polling-officer/create',
-    pollingOfficerList: '/polling-officer/list',
-    pollingOfficerStatus: '/polling-officer/status',
-    pollingOfficerUnvotedUsers: '/polling-officer/unvoted-users',
-    pollingOfficerMarkVoted: '/polling-officer/mark-voted',
-    pollingOfficerRegisterAndVote: '/polling-officer/register-and-vote',
-    pollingOfficerSearchUser: '/polling-officer/search-user',
-    pollingOfficerStats: '/polling-officer/stats',
-    pollingOfficerVotedUsers: '/polling-officer/voted-users',
     myDocuments: '/documents/my-docs',
     uploadDocument: '/documents/upload',
     downloadDocument: '/documents/download/:documentId',
@@ -231,6 +204,7 @@ const developmentConfig: ApiConfig = {
     patronUsers: '/patron/users',
     patronMessages: '/patron/messages',
     patronMedia: '/patron/media',
+    patronFamilies: '/patron/families',
     patronChangePassword: '/patron/change-password',
     assistantPatronVerify: '/patron/verify',
     assistantPatronUsers: '/patron/users',
@@ -244,8 +218,6 @@ const developmentConfig: ApiConfig = {
 const productionConfig: ApiConfig = {
   baseUrl: import.meta.env.VITE_API_BASE_URL || 'https://pentecostal-church-backend.onrender.com',
   endpoints: {
-    news: '/news/news',
-    newsUpdate: '/news/news',
     users: '/users/data',
     usersSignup: '/users/signup',
     usersCheckExists: '/users/check-exists',
@@ -264,17 +236,16 @@ const productionConfig: ApiConfig = {
     webauthnVerifyRegister: '/users/webauthn/register/verify',
     webauthnGenerateAuthenticate: '/users/webauthn/authenticate/generate',
     webauthnVerifyAuthenticate: '/users/webauthn/authenticate/verify',
-    newsAdmin: '/adminnews/login',
-    newsAdminUpload: '/adminnews/upload',
-    newsAdminLogout: '/adminnews/logout',
-    missionAdmin: '/adminmission/login',
-    bsAdmin: '/adminBs/login',
     superAdmin: '/sadmin/login',
     admissionAdmin: '/admissionadmin/login',
     admissionAdminAdmitUser: '/admissionadmin/admit-user',
     admissionAdminGetUsers: '/admissionadmin/users',
     admissionAdminResetPassword: '/admissionadmin/reset-password',
     admissionAdminUpdateUser: '/admissionadmin/update-user/:userId',
+    admissionAdminGetFamilies: '/admissionadmin/families',
+    admissionAdminGetFamily: '/admissionadmin/families/:familyId',
+    admissionAdminLinkFamily: '/admissionadmin/families/link',
+    admissionAdminUnlinkFamily: '/admissionadmin/families/unlink',
     authGoogle: '/auth/google',
     attendanceSession: '/attendance/session',
     attendanceSessionStatus: '/attendance/session/status',
@@ -316,17 +287,6 @@ const productionConfig: ApiConfig = {
     commitmentFormRevoke: '/commitmentForm/revoke',
     commitmentFormByRole: '/commitmentForm/by-role',
     worshipCoordinatorCommitments: '/commitmentForm/worship-coordinator',
-    pollingOfficerLogin: '/polling-officer/login',
-    pollingOfficerLogout: '/polling-officer/logout',
-    pollingOfficerCreate: '/polling-officer/create',
-    pollingOfficerList: '/polling-officer/list',
-    pollingOfficerStatus: '/polling-officer/status',
-    pollingOfficerUnvotedUsers: '/polling-officer/unvoted-users',
-    pollingOfficerMarkVoted: '/polling-officer/mark-voted',
-    pollingOfficerRegisterAndVote: '/polling-officer/register-and-vote',
-    pollingOfficerSearchUser: '/polling-officer/search-user',
-    pollingOfficerStats: '/polling-officer/stats',
-    pollingOfficerVotedUsers: '/polling-officer/voted-users',
     myDocuments: '/documents/my-docs',
     uploadDocument: '/documents/upload',
     downloadDocument: '/documents/download/:documentId',
@@ -351,6 +311,7 @@ const productionConfig: ApiConfig = {
     patronUsers: '/patron/users',
     patronMessages: '/patron/messages',
     patronMedia: '/patron/media',
+    patronFamilies: '/patron/families',
     patronChangePassword: '/patron/change-password',
     assistantPatronVerify: '/patron/verify',
     assistantPatronUsers: '/patron/users',

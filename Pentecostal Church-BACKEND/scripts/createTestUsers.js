@@ -58,7 +58,6 @@ function generateRandomUser(index) {
         ministry: ministries[Math.floor(Math.random() * ministries.length)],
         et: Math.random() > 0.5 ? 'baptised' : 'saved',
         password: 'testuser123', // Default password for all test users
-        hasVoted: false // All users start as not voted
     };
 }
 
@@ -125,7 +124,6 @@ async function createTestUsers() {
         console.log(`\n✅ Successfully created ${createdUsers.length} test users!`);
         console.log('\n📊 Summary:');
         console.log(`   Total users created: ${createdUsers.length}`);
-        console.log(`   All users have hasVoted: false`);
         console.log(`   Default password: testuser123`);
 
         console.log('\n📋 Created Users:');

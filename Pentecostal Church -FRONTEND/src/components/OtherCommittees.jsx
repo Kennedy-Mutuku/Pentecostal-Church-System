@@ -16,17 +16,6 @@ import {
   FaUserTie
 } from "react-icons/fa";
 
-// Image Imports
-import heroBg from '../assets/IMG_0513.jpg';
-import prayerImg from '../assets/prayer.jpg';
-import discipleshipImg from '../assets/discipleship1.jpeg';
-import christianMindsImg from '../assets/overseer_christianminds.jpg';
-import bestpImg from '../assets/Best-p.png';
-import bibleStudyImg from '../assets/class.png';
-import missionsImg from '../assets/high-school.jpg';
-import worshipImg from '../assets/choir.jpg';
-import eldersImg from '../assets/elders-Attire.jpg';
-import orientationImg from '../assets/fellowship.png';
 
 const OtherCommittees = () => {
   const [expandedIndex, setExpandedIndex] = useState(null);
@@ -40,7 +29,6 @@ const OtherCommittees = () => {
     {
       slug: 'prayer',
       icon: <FaPrayingHands />,
-      image: prayerImg,
       title: 'Prayer Committee',
       led: 'Prayer Coordinator with Intercessory Chairperson as Secretary, plus up to 8 members.',
       responsibilities: 'Establishes and manages prayer points, organizes prayer meetings and vigils, mobilizes members for intercession, and promotes corporate prayer and fasting initiatives.'
@@ -48,7 +36,6 @@ const OtherCommittees = () => {
     {
       slug: 'discipleship',
       icon: <FaSeedling />,
-      image: discipleshipImg,
       title: 'Discipleship Committee',
       led: 'Discipleship Coordinator with 8 other members from the discipleship class.',
       responsibilities: 'Coordinates new believer follow-up, develops personal devotion habits, organizes baptism training, and manages discipleship classes for spiritual growth.'
@@ -56,7 +43,6 @@ const OtherCommittees = () => {
     {
       slug: 'christian-minds',
       icon: <FaBrain />,
-      image: christianMindsImg,
       title: 'Christian Minds Committee',
       led: 'RPC Nyamira Chairperson (Overseer) with chair, secretary, treasurer, and 5+ members.',
       responsibilities: 'Equips members with life skills for their career paths and beyond, promotes leadership development, advocates on member issues, and integrates faith with everyday life.'
@@ -64,7 +50,6 @@ const OtherCommittees = () => {
     {
       slug: 'best-p',
       icon: <FaHandsHelping />,
-      image: bestpImg,
       title: 'BEST-P Committee',
       led: 'Bible Study Coordinator with chair, secretary, and 6 members.',
       responsibilities: 'Trains members in Bible exposition and self-study, develops thorough students of God\'s Word, and equips believers for effective ministry.'
@@ -72,7 +57,6 @@ const OtherCommittees = () => {
     {
       slug: 'bible-study',
       icon: <FaBookOpen />,
-      image: bibleStudyImg,
       title: 'Bible Study Committee',
       led: 'Bible Study Coordinator with BEST-P leaders, class fellowship leaders, and 4 members.',
       responsibilities: 'Develops semester study guides, organizes and manages study groups, trains group leaders, and coordinates Bible study weekends and events.'
@@ -80,7 +64,6 @@ const OtherCommittees = () => {
     {
       slug: 'missions',
       icon: <FaGlobeAfrica />,
-      image: missionsImg,
       title: 'Missions Committee',
       led: 'Missions Coordinator with chair, welfare in-charge, high school leader, discipleship in-charge, treasurer, outreach leader, and compassion representative.',
       responsibilities: 'Coordinates up to two missions per year outside Nyamira, organizes outreach ministry, handles mission follow-up, and identifies outreach opportunities.'
@@ -88,7 +71,6 @@ const OtherCommittees = () => {
     {
       slug: 'worship',
       icon: <FaMusic />,
-      image: worshipImg,
       title: 'Worship Committee',
       led: 'Worship Coordinator with choir leader, praise leader, publicity secretary, instrumentalist leader, prayer coordinator, and 3 members.',
       responsibilities: 'Organizes Friday and Sunday services, coordinates worship meetings and conferences, provides ministry training, and advises on choir matters.'
@@ -117,7 +99,6 @@ const OtherCommittees = () => {
     {
       slug: 'orientation',
       icon: <FaUserGraduate />,
-      image: orientationImg,
       title: 'Orientation Committee',
       led: 'Discipleship Coordinator with 11 members including ICT board representatives and discipleship committee.',
       responsibilities: 'Runs the Welcoming Program, welcomes new members, introduces them to church activities and ministries, and registers them in the database.'
@@ -125,7 +106,6 @@ const OtherCommittees = () => {
     {
       slug: 'elders',
       icon: <FaUserTie />,
-      image: eldersImg,
       title: 'Elders Committee',
       led: '8 active finalists, finalists\' class leaders (ex-officio), and one third-year representative.',
       responsibilities: 'Links finalists to Associates Fellowship, prepares them for post-graduate or career life, mobilizes participation in farewell activities, and coordinates fund mobilization.'
@@ -154,7 +134,7 @@ const OtherCommittees = () => {
   return (
     <div className="other-committees-page">
       <div className="page-content">
-        <div className="committees-hero" style={{ backgroundImage: `url(${heroBg})` }}>
+        <div className="committees-hero" style={{ background: 'linear-gradient(135deg, #482078, #730051)' }}>
           <div className="committees-hero-overlay">
             <h1>Other Committees</h1>
             <p>Specialized teams serving specific areas of ministry and operations</p>

@@ -5,13 +5,15 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import styles from '../styles/superAdmin.module.css';
-import { X, Search, RefreshCw, User, Mail, Phone, BookOpen, Wallet, Gem, Users, MessageSquare, Bell } from 'lucide-react';
+import { X, Search, RefreshCw, User, Mail, Phone, BookOpen, Wallet, Gem, Users, MessageSquare, Bell, Home, ChevronDown, ChevronUp, Filter, Heart, UserCheck } from 'lucide-react';
 import { getApiUrl, getImageUrl } from '../config/environment';
-import letterhead from '../assets/letterhead.png';
+// TODO: letterhead.png is missing from assets — reusing the RPC logo as a stopgap. Replace with the real letterhead image.
+import letterhead from '../assets/RPC logo updated document.png';
 import AssistantPatronSidebar, { AssistantPatronSection } from '../components/AssistantPatronSidebar';
 import { financeApi } from '../services/financeApi';
 import FinancePanel from '../components/finance/FinancePanel';
 import AnalyticsCharts from '../components/patron/AnalyticsCharts';
+import FamilyAnalyticsCharts from '../components/patron/FamilyAnalyticsCharts';
 import PatronAssets from '../components/patron/PatronAssets';
 
 import cuLogo from '../assets/RPC logo updated document.png';
@@ -104,6 +106,15 @@ const AssistantPatronDashboard: React.FC = () => {
     const [showFullSize, setShowFullSize] = useState<string | null>(null);
     const [membersLoading, setMembersLoading] = useState<boolean>(false);
 
+    // Family states
+    const [families, setFamilies] = useState<any[]>([]);
+    const [familiesLoading, setFamiliesLoading] = useState<boolean>(false);
+    const [familySearchQuery, setFamilySearchQuery] = useState<string>('');
+    const [familySizeFilter, setFamilySizeFilter] = useState<string>('all');
+    const [familyGenderFilter, setFamilyGenderFilter] = useState<string>('all');
+    const [familyAgeFilter, setFamilyAgeFilter] = useState<string>('all');
+    const [expandedFamilyId, setExpandedFamilyId] = useState<string | null>(null);
+
     // Password change state
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
@@ -144,6 +155,18 @@ const AssistantPatronDashboard: React.FC = () => {
         setNotifications(prev => [newNotif, ...prev]);
     };
 
+    const fetchFamilies = async () => {
+        setFamiliesLoading(true);
+        try {
+            const response = await axios.get(getApiUrl('patronFamilies'), { withCredentials: true });
+            setFamilies(response.data || []);
+        } catch (err) {
+            console.error('Error fetching families for assistant patron:', err);
+        } finally {
+            setFamiliesLoading(false);
+        }
+    };
+
     const verifyAndFetchData = async () => {
         try {
             await axios.get(getApiUrl('assistantPatronVerify'), { withCredentials: true });
@@ -155,7 +178,7 @@ const AssistantPatronDashboard: React.FC = () => {
                 setTimeout(() => setShowWelcome(false), 3000);
             }
 
-            await Promise.all([fetchUsers(), fetchMessages(), fetchMedia(), fetchFinanceData()]);
+            await Promise.all([fetchUsers(), fetchMessages(), fetchMedia(), fetchFinanceData(), fetchFamilies()]);
             
             // Set initial counts after first full fetch to avoid "new login" spam notifications
             // However, the user wants to see "what has changed", so if we want to show things 
@@ -485,7 +508,7 @@ const AssistantPatronDashboard: React.FC = () => {
     };
 
     // ── Purple-accented light theme ──
-    const P = '#730051';       // primary purple
+    const P = '#4A154B';       // primary purple
     const PL = '#8a0062';      // lighter purple
     const R = '#ef4444';       // red for feedback/alerts
 
@@ -1319,7 +1342,277 @@ const AssistantPatronDashboard: React.FC = () => {
         </div>
     );
 
+    const renderFamilies = () => {
+        const totalFamiliesCount = families.length;
+        const totalFamilyMembersCount = families.reduce((acc, f) => acc + (f.members?.length || 0), 0);
+        const avgFamilySize = totalFamiliesCount > 0 ? (totalFamilyMembersCount / totalFamiliesCount).toFixed(1) : '0';
+        const maxFamilySize = totalFamiliesCount > 0 ? Math.max(...families.map(f => f.members?.length || 0)) : 0;
 
+        const filteredFamilies = families.filter(fam => {
+            const nameMatch = !familySearchQuery ||
+                fam.familyName?.toLowerCase().includes(familySearchQuery.toLowerCase()) ||
+                fam.residence?.toLowerCase().includes(familySearchQuery.toLowerCase()) ||
+                (fam.headOfFamily?.username && fam.headOfFamily.username.toLowerCase().includes(familySearchQuery.toLowerCase())) ||
+                (fam.members && fam.members.some((m: any) => m.username?.toLowerCase().includes(familySearchQuery.toLowerCase())));
+
+            const sizeCount = fam.members?.length || 0;
+            let sizeMatch = true;
+            if (familySizeFilter === '1-2') sizeMatch = sizeCount >= 1 && sizeCount <= 2;
+            else if (familySizeFilter === '3-4') sizeMatch = sizeCount >= 3 && sizeCount <= 4;
+            else if (familySizeFilter === '5+') sizeMatch = sizeCount >= 5;
+
+            let genderMatch = true;
+            if (familyGenderFilter !== 'all') {
+                genderMatch = fam.members?.some((m: any) => m.gender === familyGenderFilter);
+            }
+
+            let ageMatch = true;
+            if (familyAgeFilter !== 'all') {
+                ageMatch = fam.members?.some((m: any) => m.ageGroup === familyAgeFilter);
+            }
+
+            return nameMatch && sizeMatch && genderMatch && ageMatch;
+        });
+
+        return (
+            <div className={styles.section} style={{ ...sectionStyle, padding: '0 24px 24px' }}>
+                <div style={{
+                    position: 'sticky', top: 0, zIndex: 100, background: '#fff',
+                    padding: '24px 0 16px', display: 'flex', justifyContent: 'space-between',
+                    alignItems: 'center', marginBottom: '20px', borderBottom: '1px solid #f0f0f0'
+                }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <h2 className={styles.sectionTitle} style={{ ...titleStyle, marginBottom: 0, border: 'none' }}>
+                            RPC Church Families ({filteredFamilies.length})
+                        </h2>
+                        {familiesLoading && (
+                            <div style={{ fontSize: '11px', color: P, display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                <RefreshCw size={12} className="animate-spin" /> Fetching families...
+                            </div>
+                        )}
+                    </div>
+
+                    <div style={{ display: 'flex', gap: '10px' }}>
+                        <button onClick={fetchFamilies} style={{
+                            padding: '8px 16px', background: '#f5f5f5', border: '1px solid #e0e0e0',
+                            borderRadius: '8px', fontSize: '12px', fontWeight: 600, cursor: 'pointer',
+                            display: 'flex', alignItems: 'center', gap: '6px'
+                        }}>
+                            <RefreshCw size={14} /> Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div style={{
+                    display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))',
+                    gap: '12px', marginBottom: '24px'
+                }}>
+                    {[
+                        { val: totalFamiliesCount, label: 'Total Families', icon: <Home size={18} />, bg: `linear-gradient(135deg, ${P}, ${PL})` },
+                        { val: totalFamilyMembersCount, label: 'Family Members', icon: <Users size={18} />, bg: 'linear-gradient(135deg, #b91c1c, #991b1b)' },
+                        { val: avgFamilySize, label: 'Avg Family Size', icon: <Heart size={18} />, bg: 'linear-gradient(135deg, #1f2937, #111827)' },
+                        { val: `${maxFamilySize} members`, label: 'Largest Family', icon: <UserCheck size={18} />, bg: 'linear-gradient(135deg, #52003a, #730051)' },
+                    ].map((s, i) => (
+                        <div key={i} style={{
+                            background: s.bg, borderRadius: '12px', padding: '16px', color: 'white',
+                            boxShadow: '0 4px 12px rgba(0,0,0,0.08)', display: 'flex', flexDirection: 'column'
+                        }}>
+                            <div style={{ background: 'rgba(255,255,255,0.2)', width: '32px', height: '32px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '10px' }}>
+                                {s.icon}
+                            </div>
+                            <h3 style={{ fontSize: '20px', margin: '0 0 2px', fontWeight: 800 }}>{s.val}</h3>
+                            <p style={{ fontSize: '10px', textTransform: 'uppercase', letterSpacing: '0.5px', margin: 0, opacity: 0.9, fontWeight: 700 }}>{s.label}</p>
+                        </div>
+                    ))}
+                </div>
+
+                <div style={{ marginBottom: '24px' }}>
+                    <h3 style={{ fontSize: '12px', fontWeight: 800, color: '#666', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '12px' }}>
+                        Family Demographics & Analytical Graphs
+                    </h3>
+                    <FamilyAnalyticsCharts families={families} />
+                </div>
+
+                <div style={{
+                    background: '#fff', padding: '16px', borderRadius: '14px',
+                    boxShadow: '0 2px 10px rgba(0,0,0,0.03)', border: '1px solid #f0f0f0',
+                    marginBottom: '20px', display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center'
+                }}>
+                    <div style={{ flex: '1 1 240px', position: 'relative' }}>
+                        <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#999' }} />
+                        <input
+                            type="text"
+                            placeholder="Search family name, head, member, residence..."
+                            value={familySearchQuery}
+                            onChange={e => setFamilySearchQuery(e.target.value)}
+                            style={{
+                                width: '100%', padding: '9px 12px 9px 36px', borderRadius: '8px',
+                                border: '1px solid #e0e0e0', fontSize: '13px', outline: 'none', boxSizing: 'border-box'
+                            }}
+                        />
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <Filter size={14} color="#666" />
+                        <select
+                            value={familySizeFilter}
+                            onChange={e => setFamilySizeFilter(e.target.value)}
+                            style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #e0e0e0', fontSize: '12px', fontWeight: 600, color: '#444' }}
+                        >
+                            <option value="all">All Sizes</option>
+                            <option value="1-2">1-2 Members</option>
+                            <option value="3-4">3-4 Members</option>
+                            <option value="5+">5+ Members</option>
+                        </select>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <select
+                            value={familyGenderFilter}
+                            onChange={e => setFamilyGenderFilter(e.target.value)}
+                            style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #e0e0e0', fontSize: '12px', fontWeight: 600, color: '#444' }}
+                        >
+                            <option value="all">All Genders</option>
+                            <option value="Male">Has Gents (Male)</option>
+                            <option value="Female">Has Females</option>
+                        </select>
+                    </div>
+
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                        <select
+                            value={familyAgeFilter}
+                            onChange={e => setFamilyAgeFilter(e.target.value)}
+                            style={{ padding: '8px 12px', borderRadius: '8px', border: '1px solid #e0e0e0', fontSize: '12px', fontWeight: 600, color: '#444' }}
+                        >
+                            <option value="all">All Age Groups</option>
+                            <option value="Kid (12 and below)">Has Kids (≤12)</option>
+                            <option value="Youth (13-35)">Has Youth (13-35)</option>
+                            <option value="Adult (36-59)">Has Adults (36-59)</option>
+                            <option value="Elderly (60 and above)">Has Elderly (60+)</option>
+                        </select>
+                    </div>
+                </div>
+
+                {filteredFamilies.length === 0 ? (
+                    <div style={{ background: '#fff', padding: '40px', borderRadius: '14px', textAlign: 'center', color: '#888' }}>
+                        <Home size={36} style={{ color: '#ccc', marginBottom: '10px' }} />
+                        <p style={{ margin: 0, fontWeight: 600, fontSize: '14px' }}>No families match your criteria.</p>
+                    </div>
+                ) : (
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                        {filteredFamilies.map((fam) => {
+                            const isExpanded = expandedFamilyId === fam._id;
+                            const memberCount = fam.members?.length || 0;
+                            const headName = fam.headOfFamily?.username || 'Not assigned';
+
+                            return (
+                                <div key={fam._id} style={{
+                                    background: '#fff', borderRadius: '14px', border: '1px solid #e5e7eb',
+                                    boxShadow: '0 2px 8px rgba(0,0,0,0.03)', overflow: 'hidden', transition: 'all 0.2s'
+                                }}>
+                                    <div
+                                        onClick={() => setExpandedFamilyId(isExpanded ? null : fam._id)}
+                                        style={{
+                                            padding: '16px 20px', cursor: 'pointer', display: 'flex',
+                                            alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px',
+                                            background: isExpanded ? '#faf5f8' : '#fff'
+                                        }}
+                                    >
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                                            <div style={{
+                                                width: '42px', height: '42px', borderRadius: '12px',
+                                                background: `linear-gradient(135deg, ${P}, ${PL})`, color: '#fff',
+                                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                                fontWeight: 800, fontSize: '18px'
+                                            }}>
+                                                🏠
+                                            </div>
+                                            <div>
+                                                <h4 style={{ margin: '0 0 4px', fontSize: '16px', fontWeight: 800, color: '#1a1a2e' }}>
+                                                    {fam.familyName}
+                                                </h4>
+                                                <div style={{ display: 'flex', gap: '12px', fontSize: '12px', color: '#666', flexWrap: 'wrap' }}>
+                                                    <span>👑 <strong>Head:</strong> {headName}</span>
+                                                    {fam.residence && <span>📍 <strong>Residence:</strong> {fam.residence}</span>}
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                            <span style={{
+                                                background: '#f3e8ff', color: P, fontWeight: 700, fontSize: '12px',
+                                                padding: '4px 12px', borderRadius: '20px'
+                                            }}>
+                                                👨‍👩‍👧‍👦 {memberCount} {memberCount === 1 ? 'Member' : 'Members'}
+                                            </span>
+                                            <button style={{
+                                                background: 'none', border: 'none', cursor: 'pointer', color: '#666',
+                                                display: 'flex', alignItems: 'center', gap: '4px', fontSize: '12px', fontWeight: 600
+                                            }}>
+                                                {isExpanded ? <ChevronUp size={18} /> : <ChevronDown size={18} />}
+                                            </button>
+                                        </div>
+                                    </div>
+
+                                    {isExpanded && (
+                                        <div style={{ padding: '16px 20px 20px', borderTop: '1px solid #f0f0f0', background: '#fafafa' }}>
+                                            <h5 style={{ margin: '0 0 12px', fontSize: '12px', fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.6px', color: '#555' }}>
+                                                Family Members Breakdown ({fam.members?.length || 0})
+                                            </h5>
+
+                                            {(!fam.members || fam.members.length === 0) ? (
+                                                <p style={{ fontSize: '13px', color: '#999', fontStyle: 'italic', margin: 0 }}>No members linked to this family yet.</p>
+                                            ) : (
+                                                <div style={{ overflowX: 'auto' }}>
+                                                    <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px' }}>
+                                                        <thead>
+                                                            <tr style={{ background: '#edf2f7', textAlign: 'left', color: '#4a5568', fontSize: '11px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                                                <th style={{ padding: '8px 12px', borderRadius: '6px 0 0 6px' }}>Name</th>
+                                                                <th style={{ padding: '8px 12px' }}>Relationship</th>
+                                                                <th style={{ padding: '8px 12px' }}>Gender</th>
+                                                                <th style={{ padding: '8px 12px' }}>Age Group</th>
+                                                                <th style={{ padding: '8px 12px' }}>Phone</th>
+                                                                <th style={{ padding: '8px 12px' }}>Email</th>
+                                                                <th style={{ padding: '8px 12px', borderRadius: '0 6px 6px 0' }}>Residence</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            {fam.members.map((m: any, idx: number) => (
+                                                                <tr key={m._id || idx} style={{ borderBottom: '1px solid #eee', background: '#fff' }}>
+                                                                    <td style={{ padding: '10px 12px', fontWeight: 700, color: '#1a202c' }}>
+                                                                        {m.username}
+                                                                        {fam.headOfFamily?._id === m._id && <span style={{ marginLeft: '6px', fontSize: '10px', background: '#fcf2f8', color: P, border: '1px solid #f3d5ea', padding: '1px 6px', borderRadius: '8px', fontWeight: 800 }}>HEAD</span>}
+                                                                    </td>
+                                                                    <td style={{ padding: '10px 12px', color: '#4a5568' }}>{m.relationToHead || (fam.headOfFamily?._id === m._id ? 'Head' : 'Member')}</td>
+                                                                    <td style={{ padding: '10px 12px' }}>
+                                                                        <span style={{
+                                                                            padding: '2px 8px', borderRadius: '10px', fontSize: '11px', fontWeight: 700,
+                                                                            background: m.gender === 'Male' ? '#fcf2f8' : m.gender === 'Female' ? '#fef2f2' : '#f3f4f6',
+                                                                            color: m.gender === 'Male' ? P : m.gender === 'Female' ? '#b91c1c' : '#111827'
+                                                                        }}>
+                                                                            {m.gender || 'N/A'}
+                                                                        </span>
+                                                                    </td>
+                                                                    <td style={{ padding: '10px 12px', color: '#4a5568' }}>{m.ageGroup || 'N/A'}</td>
+                                                                    <td style={{ padding: '10px 12px', color: '#4a5568' }}>{m.phone || '—'}</td>
+                                                                    <td style={{ padding: '10px 12px', color: '#4a5568' }}>{m.email || '—'}</td>
+                                                                    <td style={{ padding: '10px 12px', color: '#4a5568' }}>{m.residence || fam.residence || '—'}</td>
+                                                                </tr>
+                                                            ))}
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
+                )}
+            </div>
+        );
+    };
 
     const renderActiveSection = () => {
         if (loading) {
@@ -1344,6 +1637,7 @@ const AssistantPatronDashboard: React.FC = () => {
 
         switch (activeSection) {
             case 'dashboard': return renderDashboard();
+            case 'families': return renderFamilies();
             case 'feedback': return renderFeedback();
             case 'gallery': return renderGallery();
             case 'assets': return <PatronAssets />;

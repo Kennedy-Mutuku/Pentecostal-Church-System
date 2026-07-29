@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getApiUrl, isDevMode } from '../config/environment';
+import { getApiUrl } from '../config/environment';
 
 export const useOverseerAuth = () => {
   // Synchronously initialize state to prevent React race conditions or microtask flashes

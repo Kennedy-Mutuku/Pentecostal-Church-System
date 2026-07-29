@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react';
-import ESET_IMG from '../../assets/eset.jpg';
 import styles from '../../styles/ET.module.css';
 import { Target, Eye, Activity } from 'lucide-react';
 
@@ -12,13 +11,7 @@ const Eset: React.FC = () => {
         <div className={styles.etPage}>
 
             {/* Hero Banner */}
-            <section className={styles.etPageHero}>
-                <img 
-                    src={ESET_IMG} 
-                    alt="ESET" 
-                    className={styles.pageHeroImg} 
-                    style={{ '--hero-position': 'center 35%' } as React.CSSProperties} 
-                />
+            <section className={styles.etPageHero} style={{ background: 'linear-gradient(135deg, #482078, #730051)' }}>
                 <div className={styles.pageHeroContent}>
                     <h1 className={styles.heroTitle}>Eastern Evangelistic Team</h1>
                 </div>

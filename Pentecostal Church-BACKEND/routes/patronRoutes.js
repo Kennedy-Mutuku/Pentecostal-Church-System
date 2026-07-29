@@ -9,6 +9,7 @@ router.get('/verify', patronMiddleware, patron.verify);
 router.get('/users', patronMiddleware, patron.getUsers);
 router.get('/messages', patronMiddleware, patron.getMessages);
 router.get('/media', patronMiddleware, patron.getMedia);
+router.get('/families', patronMiddleware, patron.getFamilies);
 router.post('/change-password', patronMiddleware, patron.changePassword);
 
 module.exports = router;

@@ -1,5 +1,3 @@
-import kairosBanner from '../assets/kairos_banner.png';
-
 const Kairos = () => {
     return (
         <div className="bg-[#ffffff] min-h-screen text-[#000000] font-sans">
@@ -16,18 +14,9 @@ const Kairos = () => {
                 </div>
 
                 {/* Main Content */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 items-start">
-                    {/* Image */}
-                    <div className="rounded-2xl overflow-hidden shadow-xl border-4 border-[#730051]/10 group">
-                        <img
-                            src={kairosBanner}
-                            alt="Kairos Course Banner"
-                            className="w-full h-auto object-cover transform group-hover:scale-105 transition-transform duration-700"
-                        />
-                    </div>
-
+                <div className="grid grid-cols-1 gap-12 mb-16 items-start">
                     {/* Intro Text */}
-                    <div className="space-y-8">
+                    <div className="space-y-8 max-w-3xl mx-auto">
                         <div className="bg-white p-6 border-l-4 border-[#730051] shadow-sm">
                             <h2 className="text-2xl font-bold text-[#730051] mb-4">
                                 What is Kairos?

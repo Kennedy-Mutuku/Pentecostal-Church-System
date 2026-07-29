@@ -3,7 +3,7 @@ import axios from 'axios';
 import { getApiUrl } from '../config/environment';
 import styles from '../styles/finance.module.css';
 
-type AdminType = 'patron' | 'chairperson' | 'superadmin' | 'admission' | 'bs' | 'mission' | 'news' | 'overseer';
+type AdminType = 'patron' | 'chairperson' | 'superadmin' | 'admission' | 'overseer';
 
 interface AdminUser {
   _id: string;
@@ -17,9 +17,6 @@ const adminTabs: { id: AdminType; label: string; hasPhone: boolean; singleOnly?:
   { id: 'chairperson', label: 'Chairperson', hasPhone: true },
   { id: 'superadmin', label: 'Super Admin', hasPhone: true },
   { id: 'admission', label: 'Admission', hasPhone: true },
-  { id: 'bs', label: 'Bible Study', hasPhone: true },
-  { id: 'mission', label: 'Mission', hasPhone: true },
-  { id: 'news', label: 'News', hasPhone: true },
   { id: 'overseer', label: 'Overseer', hasPhone: false },
 ];
 

@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import styles from '../styles/Media.module.css';
-import loadingAnime from '../assets/Animation - 1716747954931.gif';
-import { FaYoutube, FaFacebook, FaTiktok, FaTwitter, FaImage, FaNewspaper, FaBook, FaSearch, FaCamera, FaArrowLeft } from 'react-icons/fa';
+import loadingAnime from '../assets/loading.gif';
+import { FaYoutube, FaFacebook, FaTiktok, FaTwitter, FaImage, FaSearch } from 'react-icons/fa';
 import { getApiUrl, getImageUrl, getBaseUrl, isDevMode } from '../config/environment';
-import heroImg from '../assets/praise-and-worship.jpg';
 
 interface MediaItem {
   _id?: string;
@@ -20,8 +19,8 @@ interface MediaItem {
 }
 
 const Media: React.FC = () => {
-  const [showMediaEvents, setShowMediaEvents] = useState(false);
-  const [error, setError] = useState('');
+  const [, setShowMediaEvents] = useState(false);
+  const [, setError] = useState('');
   const [generalLoading, setGeneralLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [events, setEvents] = useState<MediaItem[]>([]);
@@ -127,17 +126,6 @@ const Media: React.FC = () => {
                 console.error('Failed to parse saved items for local sync');
             }
         }
-        
-        // Add default events that aren't already in the database
-        defaultEvents.forEach(defaultItem => {
-          const exists = mergedItems.some((item: MediaItem) => 
-            item.event === defaultItem.event && 
-            item.link === defaultItem.link
-          );
-          if (!exists) {
-            mergedItems.push(defaultItem);
-          }
-        });
         
         console.log('📱 Media: Total items after merge:', mergedItems.length);
         setEvents(mergedItems);
@@ -385,7 +373,7 @@ const Media: React.FC = () => {
       )}
 
       {generalLoading && (
-        <div className={styles['loading-screen']}>
+        <div className="loading-screen">
           <p className={styles['loading-text']}>Please wait...🤗</p>
           <img src={loadingAnime} alt="animation gif" />
         </div>
@@ -487,11 +475,13 @@ const Media: React.FC = () => {
                         src={getImageUrl(event.imageUrl)}
                         alt={event.event}
                         onError={(e) => {
-                          e.currentTarget.src = heroImg;
+                          e.currentTarget.style.display = 'none';
                         }}
                       />
                     ) : (
-                      <img src={heroImg} alt="Default Church Event" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #482078, #730051)' }}>
+                        <FaImage size={40} color="rgba(255,255,255,0.7)" />
+                      </div>
                     )}
                   </div>
                   <div className={styles.galleryItemContent}>

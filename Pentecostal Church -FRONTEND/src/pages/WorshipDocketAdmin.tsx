@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from '../styles/worshipDocketAdmin.module.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +7,6 @@ import {
     faCheckCircle,
     faArrowRight,
     faSignOutAlt,
-    faSearch,
     faImages
 } from '@fortawesome/free-solid-svg-icons';
 import { useOverseerAuth } from '../hooks/useOverseerAuth';
@@ -17,7 +16,6 @@ const WorshipDocketAdmin: React.FC = () => {
     const { authenticated, loading: authLoading, logout } = useOverseerAuth();
     const [message, setMessage] = useState('');
     const [selectedRole, setSelectedRole] = useState<string>('');
-    const [search, setSearch] = useState('');
 
     React.useEffect(() => {
         if (!authLoading && !authenticated) {
@@ -40,11 +38,6 @@ const WorshipDocketAdmin: React.FC = () => {
             navigate(`/attendance-session-management?role=${encodeURIComponent(role)}`);
         }, 800);
     };
-
-    const adminModules = useMemo(() => [
-        { title: 'Attendance', desc: 'Multi-session attendance manager', icon: faUsers, keywords: ['session', 'sign', 'register', 'leadership'], action: handleRoleSelection },
-        { title: 'Media Gallery', desc: 'Photos & media management', icon: faImages, keywords: ['gallery', 'images', 'upload', 'photos'], action: () => navigate('/media-admin') },
-    ], [navigate]);
 
     if (authLoading) {
         return (

@@ -1,5 +1,4 @@
 
-import brothersImg from '../assets/gents.jpg';
 const BrothersFellowship = () => {
     return (
         <div className="bg-[#ffffff] min-h-screen text-[#000000] font-sans overflow-hidden">
@@ -47,24 +46,6 @@ const BrothersFellowship = () => {
                                     <li>Leadership and character development</li>
                                     <li>Service and outreach activities</li>
                                 </ul>
-                            </div>
-                        </div>
-
-                        {/* Image Section */}
-                        <div className="w-full lg:w-5/12">
-                            <div className="relative group">
-                                <div className="absolute -inset-4 border-2 border-[#730051] rounded-2xl opacity-20 group-hover:rotate-0 transition-transform duration-500"></div>
-                                <div className="relative rounded-xl overflow-hidden shadow-2xl">
-                                    <img
-                                        src={brothersImg}
-                                        alt="Brothers Fellowship Gathering"
-                                        className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
-                                    />
-                                    <div className="absolute bottom-0 left-0 right-0 bg-[#730051] bg-opacity-90 p-4 text-white">
-                                        <p className="font-medium text-center">Iron sharpens iron</p>
-                                        <p>“Be watchful, stand firm in the faith, act like men, be strong.” -1 Corinthians 16:13</p>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -16,7 +16,7 @@ import {
 } from 'lucide-react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faUserLock } from '@fortawesome/free-solid-svg-icons';
-import loadingAnime from '../assets/Animation - 1716747954931.gif';
+import loadingAnime from '../assets/loading.gif';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import socketService from '../services/socketService';
@@ -341,7 +341,7 @@ const ContactUs = () => {
 
   if (generalLoading) {
     return (
-      <div className={styles['loading-screen']}>
+      <div className="loading-screen">
         <p className={styles['loading-text']}>Loading...🤗</p>
         <img src={loadingAnime} alt="animation gif" />
       </div>

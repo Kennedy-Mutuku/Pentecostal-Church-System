@@ -16,9 +16,6 @@ interface AnalyticsChartsProps {
 
 const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ users, transactions, assets }) => {
   const P = '#730051';
-  const PL = '#a0006e';
-  const P2 = '#c0006e';
-  const P3 = '#e0007e';
   const G = '#22c55e';
   const R = '#ef4444';
   const AMBER = '#f59e0b';

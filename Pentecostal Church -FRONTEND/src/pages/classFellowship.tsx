@@ -1,6 +1,4 @@
 
-import classImg from '../assets/class.png';
-
 const ClassFellowship = () => {
     return (
         <div className="bg-[#ffffff] min-h-screen text-[#000000] font-sans">
@@ -60,23 +58,6 @@ const ClassFellowship = () => {
                                         <span>Fellowship and spiritual bonding</span>
                                     </li>
                                 </ul>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* Image Section */}
-                    <div className="w-full lg:w-5/12">
-                        <div className="relative group">
-                            <div className="absolute -inset-4 border-2 border-[#730051] rounded-2xl opacity-20 group-hover:rotate-0 transition-transform duration-500"></div>
-                            <div className="relative rounded-xl overflow-hidden shadow-2xl">
-                                <img
-                                    src={classImg}
-                                    alt="Class Fellowship Group"
-                                    className="w-full h-auto object-cover transform hover:scale-105 transition-transform duration-700"
-                                />
-                                <div className="absolute bottom-0 left-0 right-0 bg-[#730051] bg-opacity-90 p-4 text-white">
-                                    <p className="text-sm text-center italic text-white/90"> “Let the word of Christ dwell in you richly as you teach and admonish one another.” - Colossians 3:16</p>
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import styles from './intercessory.module.css';
 import { Link } from 'react-router-dom';
-import intercesorryImg from '../../assets/intersesory.jpg';
 import MinistryRegistrationModal from '../../components/MinistryRegistrationModal';
 
 const IntercessoryPage: React.FC = () => {
@@ -37,7 +36,7 @@ const IntercessoryPage: React.FC = () => {
 
   return (
     <>
-      <div className={styles.heroSection} style={{ '--hero-bg': `url(${intercesorryImg})` } as React.CSSProperties}>
+      <div className={styles.heroSection} style={{ '--hero-bg': 'linear-gradient(135deg, #482078, #730051)' } as React.CSSProperties}>
         <div className={styles.heroContent}>
           <h1 className={styles.title}>Intercessory Ministry</h1>
           <p className={styles.subtitle}>Standing in the gap through prayer</p>

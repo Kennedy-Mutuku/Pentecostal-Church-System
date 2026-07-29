@@ -4,7 +4,7 @@ import { Fingerprint, CheckCircle, AlertCircle, Home } from 'lucide-react';
 import { startRegistration } from '@simplewebauthn/browser';
 import styles from '../styles/signin.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
-import loadingAnime from '../assets/Animation - 1716747954931.gif';
+import loadingAnime from '../assets/loading.gif';
 import { getApiUrl } from '../config/environment';
 
 interface UserData {
@@ -114,7 +114,7 @@ const UserProfilePage: React.FC = () => {
         return (
             <div className={styles.container}>
                 <div style={{ textAlign: 'center', padding: '50px' }}>
-                    <img src={loadingAnime} alt="Loading..." className={styles['loading-gif']} />
+                    <img src={loadingAnime} alt="Loading..." style={{ width: '80px', margin: '0 auto' }} />
                     <p>Loading your profile...</p>
                 </div>
             </div>

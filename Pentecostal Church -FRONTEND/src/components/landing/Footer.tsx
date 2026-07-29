@@ -2,12 +2,13 @@ import { Link, useLocation } from 'react-router-dom';
 import { Facebook, Instagram, Youtube, Twitter, Mail, Phone, MapPin } from 'lucide-react';
 import cuLogo from '../../assets/RPC logo updated document.png';
 
-const quickLinks = [
+const quickLinks: { label: string; href: string; external?: boolean }[] = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about' },
   { label: 'Philosophies', href: '/philosophy' },
   { label: 'Financials', href: '/financial' },
   { label: 'Leadership', href: '/leadership' },
+  { label: 'Handbook', href: '/handbook' },
   { label: 'Gallery', href: '/media' },
   { label: 'Talk to us', href: '/recomendations' },
 ];
@@ -57,14 +58,14 @@ const Footer = () => {
                       href={link.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-gray-400 hover:text-[#E53935] transition-colors text-sm"
+                      className="text-gray-300 hover:text-[#9B6FD1] hover:underline underline-offset-4 transition-colors text-sm"
                     >
                       {link.label}
                     </a>
                   ) : (
                     <Link
                       to={link.href}
-                      className="text-gray-400 hover:text-[#E53935] transition-colors text-sm"
+                      className="text-gray-300 hover:text-[#9B6FD1] hover:underline underline-offset-4 transition-colors text-sm"
                     >
                       {link.label}
                     </Link>
@@ -79,19 +80,19 @@ const Footer = () => {
             <h4 className="font-semibold text-lg mb-4">Contact Us</h4>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
-                <MapPin size={18} className="text-[#E53935] mt-0.5 flex-shrink-0" />
+                <MapPin size={18} className="text-[#9B6FD1] mt-0.5 flex-shrink-0" />
                 <span className="text-sm text-gray-400">
                   P.O BOX 408-40200<br />Kisii, Kenya
                 </span>
               </li>
               <li className="flex items-center gap-3">
-                <Phone size={18} className="text-[#E53935] flex-shrink-0" />
+                <Phone size={18} className="text-[#9B6FD1] flex-shrink-0" />
                 <a href="tel:+254762053876" className="text-sm text-gray-400 hover:text-white transition-colors">
                   +254 762 053 876
                 </a>
               </li>
               <li className="flex items-center gap-3">
-                <Mail size={18} className="text-[#E53935] flex-shrink-0" />
+                <Mail size={18} className="text-[#9B6FD1] flex-shrink-0" />
                 <a href="mailto:communityofbelieversinjesus@gmail.com" className="text-sm text-gray-400 hover:text-white transition-colors break-all">
                   communityofbelieversinjesus@gmail.com
                 </a>
@@ -112,7 +113,7 @@ const Footer = () => {
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={social.label}
-                    className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#C62828] hover:text-white hover:scale-115 transition-all duration-200"
+                    className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-[#8A5CC4] hover:text-white hover:scale-115 transition-all duration-200"
                   >
                     <Icon size={18} />
                   </a>
@@ -142,8 +143,8 @@ const Footer = () => {
         </div>
       </div>
 
-      {/* Bottom accent line - Crimson Red Theme Gradient */}
-      <div style={{ height: '4px', background: 'linear-gradient(90deg, #880000, #C62828, #E53935, #C62828, #880000)' }} />
+      {/* Bottom accent line - Brand Purple Gradient */}
+      <div style={{ height: '4px', background: 'linear-gradient(90deg, #2B0F4A, #482078, #8A5CC4, #482078, #2B0F4A)' }} />
     </footer>
   );
 };

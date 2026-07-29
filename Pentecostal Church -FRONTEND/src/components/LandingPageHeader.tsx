@@ -2,15 +2,13 @@ import { useEffect, useState } from "react";
 import { getApiUrl } from '../config/environment';
 import styles from '../styles/index.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
+import board1 from '../assets/Board 1.jpeg';
 import { Link, useNavigate } from 'react-router-dom';
-import loadingAnime from '../assets/Animation - 1716747954931.gif';
+import loadingAnime from '../assets/loading.gif';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { faDownload } from '@fortawesome/free-solid-svg-icons';
-import visionImg from '../assets/gents.jpg'
-import missionImg from '../assets/ladies.jpg'
-import valuesImg from '../assets/amptheatre.jpg'
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import { faUserLock } from '@fortawesome/free-solid-svg-icons';
 import { ChevronDown, ChevronUp, MessageSquare } from "lucide-react";
@@ -56,9 +54,9 @@ const LandingPageHeader = () => {
   ];
 
   const images = [
-    { url: visionImg, text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[0] },
-    { url: missionImg, text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[1] },
-    { url: valuesImg, text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[2] }
+    { url: `url("${board1}")`, text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[0] },
+    { url: 'linear-gradient(135deg, #730051, #482078)', text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[1] },
+    { url: 'linear-gradient(135deg, #341558, #730051)', text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[2] }
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -413,7 +411,7 @@ const LandingPageHeader = () => {
   return (
     <>
       {generalLoading && (
-        <div className={styles['loading-screen']}>
+        <div className="loading-screen">
           <p className={styles['loading-text']}>Please wait...</p>
           <img src={loadingAnime} alt="animation gif" />
         </div>
@@ -653,7 +651,7 @@ const LandingPageHeader = () => {
         <div className={`${styles['']} ${styles['container-vidTitle']}`}>
           <div className={styles['intro-video--header']} style={{ position: 'relative' }}>
             <div className={styles['video-intro']}>
-              <div className={styles['intro-video']} style={{ backgroundImage: `url(${images[currentIndex].url})` }}>
+              <div className={styles['intro-video']} style={{ backgroundImage: images[currentIndex].url }}>
                 <div dangerouslySetInnerHTML={{ __html: images[currentIndex].text }}></div>
 
                 {/* Animated Christian Quote Overlay */}

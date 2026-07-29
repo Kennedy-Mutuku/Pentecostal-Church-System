@@ -13,7 +13,8 @@ import {
   ChevronUp,
   Globe,
   Music,
-  Briefcase
+  Briefcase,
+  Home
 } from 'lucide-react';
 import styles from '../styles/patronSidebar.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
@@ -41,6 +42,7 @@ const mainItems: MenuItem[] = [
 
 const manageableItems: MenuItem[] = [
   { id: 'members', label: 'All Members', icon: <Users size={18} /> },
+  { id: 'families', label: 'Families', icon: <Home size={18} /> },
   { id: 'feedback', label: 'Feedback', icon: <MessageSquare size={18} /> },
   { id: 'gallery', label: 'Gallery', icon: <Image size={18} /> },
   { id: 'assets', label: 'Assets', icon: <Briefcase size={18} /> },
