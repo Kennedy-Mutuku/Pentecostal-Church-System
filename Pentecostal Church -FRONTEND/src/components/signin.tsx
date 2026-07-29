@@ -247,7 +247,7 @@ const SignIn: React.FC = () => {
         const domainMappings = [
             { domain: '@rpcmcsuperadmin.co.ke', endpoint: getApiUrl('superAdmin'), route: '/admin' },
             { domain: '@rikurumachurch.com', endpoint: getApiUrl('superAdmin'), route: '/admin' },
-
+            { domain: '@rpcmcadmissionadmin.co.ke', endpoint: getApiUrl('admissionAdmin'), route: '/admission' },
             { domain: '@rpcadmissionadmin.org', endpoint: getApiUrl('admissionAdmin'), route: '/admission' },
         ];
 
