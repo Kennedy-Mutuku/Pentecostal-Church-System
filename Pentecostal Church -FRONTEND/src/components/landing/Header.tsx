@@ -904,30 +904,30 @@ const Header = () => {
             {!isDashboard ? (
               <nav className="hidden md:flex items-center flex-1 min-w-0 md:ml-2 lg:ml-4 xl:ml-8">
                 {/* Centered nav links */}
-                <div className="flex-1 flex items-center justify-center gap-0.5 lg:gap-1.5 xl:gap-4 min-w-0">
-                  <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${location.pathname === '/' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Home</Link>
+                <div className="flex-1 flex items-center justify-center gap-0.5 lg:gap-1 xl:gap-2 min-w-0">
+                  <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${location.pathname === '/' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Home</Link>
 
                   {/* About Us dropdown */}
                   <div className="relative" onMouseEnter={() => handleMouseEnter('aboutUs')} onMouseLeave={handleMouseLeave}>
-                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeDropdown === 'aboutUs' || activeNav === 'aboutUs' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>
+                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeDropdown === 'aboutUs' || activeNav === 'aboutUs' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>
                       About Us
                       <ChevronDown size={12} className={`xl:w-[14px] xl:h-[14px] transition-transform ${activeDropdown === 'aboutUs' ? 'rotate-180' : ''}`} />
                     </button>
                     {activeDropdown === 'aboutUs' && renderAboutUsPanel()}
                   </div>
 
-                  <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'philosophies' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Philosophies</Link>
+                  <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'philosophies' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Philosophies</Link>
 
-                  <Link to="/financial" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'financials' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Financials</Link>
+                  <Link to="/financial" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'financials' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Financials</Link>
 
-                  <Link to="/leadership" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'leadership' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Leadership</Link>
+                  <Link to="/leadership" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'leadership' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Leadership</Link>
 
-                  <Link to="/handbook" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'handbook' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Handbook</Link>
+                  <Link to="/handbook" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'handbook' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Handbook</Link>
 
                   {/* Gallery Link */}
-                  <Link to="/media" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'media' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Gallery</Link>
+                  <Link to="/media" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'media' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Gallery</Link>
 
-                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-2 xl:px-3 py-2 font-medium text-[11px] lg:text-xs xl:text-sm whitespace-nowrap ${activeNav === 'feedback' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Talk to us</Link>
+                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'feedback' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Talk to us</Link>
                 </div>
 
                 {/* Sign In / User / Admin Logout / Patron button - always right */}

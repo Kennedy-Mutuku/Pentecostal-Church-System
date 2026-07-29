@@ -110,15 +110,7 @@ const Leadership = () => {
                 />
               </div>
 
-              {/* Name & Subtitle Text Below Image */}
-              <div className="text-center mt-3 sm:mt-4 space-y-0.5 w-full px-1">
-                <h3 className="text-base sm:text-lg font-bold text-gray-900 tracking-tight leading-snug">
-                  {leader.name}
-                </h3>
-                <p className="text-[#e65100] font-semibold text-xs sm:text-sm">
-                  {leader.role}
-                </p>
-              </div>
+
             </div>
           ))}
         </div>
