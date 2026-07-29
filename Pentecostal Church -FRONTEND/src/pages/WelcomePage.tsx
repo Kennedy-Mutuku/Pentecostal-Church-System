@@ -140,7 +140,7 @@ const WelcomePage: React.FC = () => {
     if (!userData) {
         return (
             <div className={styles.loadingPage}>
-                <div className={styles.loadingText}>Loading...</div>
+                <div className={styles.loadingText} style={{textAlign:"center", padding:"2rem"}}><img src={loadingAnime} alt="Loading..." style={{width:"80px"}} /></div>
             </div>
         );
     }

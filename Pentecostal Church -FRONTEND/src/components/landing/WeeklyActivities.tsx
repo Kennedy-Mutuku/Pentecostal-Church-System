@@ -23,7 +23,7 @@ const WeeklyActivities = () => {
     <section className="py-6 md:py-20 bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         <div className="text-center mb-3 md:mb-12">
-          <span className="inline-block px-3 py-1 bg-purple-100 text-[#730051] text-sm font-medium rounded-full mb-4">
+          <span className="inline-block px-3 py-1 bg-purple-100 text-[#3b1a62] text-sm font-medium rounded-full mb-4">
             Weekly Schedule
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
@@ -45,12 +45,12 @@ const WeeklyActivities = () => {
               }`}
             >
               {activity.highlight && (
-                <span className="absolute -top-2 -right-2 px-1.5 py-0.5 md:px-2 md:py-1 bg-[#730051] text-white text-[10px] md:text-xs font-medium rounded-full">
+                <span className="absolute -top-2 -right-2 px-1.5 py-0.5 md:px-2 md:py-1 bg-[#3b1a62] text-white text-[10px] md:text-xs font-medium rounded-full">
                   Special
                 </span>
               )}
 
-              <span className="text-xs md:text-sm font-semibold text-[#730051]">{activity.day}</span>
+              <span className="text-xs md:text-sm font-semibold text-[#3b1a62]">{activity.day}</span>
 
               <h3 className="text-sm md:text-lg font-semibold text-gray-800 mt-1 mb-1.5 md:mb-3">
                 {activity.event}

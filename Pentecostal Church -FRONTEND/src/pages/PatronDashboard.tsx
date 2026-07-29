@@ -525,7 +525,7 @@ const PatronDashboard: React.FC = () => {
         <div style={{
             position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
             zIndex: 1000000, 
-            background: 'linear-gradient(-45deg, #730051, #4a0034, #2d0020, #8a0062)',
+            background: 'linear-gradient(-45deg, #3b1a62, #4a0034, #2d0020, #8a0062)',
             backgroundSize: '400% 400%',
             animation: 'gradientBG 5s ease infinite',
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
@@ -843,7 +843,7 @@ const PatronDashboard: React.FC = () => {
                         const cats = [
                             {
                                 title: 'By Year Joined',
-                                color: '#730051',
+                                color: '#3b1a62',
                                 data: Object.entries(byYearJoined)
                                     .sort(([a], [b]) => Number(a) - Number(b))
                                     .map(([k, v]) => ({ label: k, count: v, sub: null })),
@@ -1277,7 +1277,7 @@ const PatronDashboard: React.FC = () => {
                         @media (min-width: 768px) { .patron-gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
                         @media (min-width: 1200px) { .patron-gallery-grid { grid-template-columns: repeat(4, 1fr); } }
                         .patron-gallery-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1) !important; transform: translateY(-2px); }
-                        .patron-gallery-btn:hover { background: #730051 !important; color: #fff !important; border-color: #730051 !important; }
+                        .patron-gallery-btn:hover { background: #3b1a62 !important; color: #fff !important; border-color: #3b1a62 !important; }
                     `}</style>
                     <div className="patron-gallery-grid">
                         {filteredGallery.map((item, index) => (
@@ -1475,7 +1475,7 @@ const PatronDashboard: React.FC = () => {
                         { val: totalFamiliesCount, label: 'Total Families', icon: <Home size={18} />, bg: `linear-gradient(135deg, ${P}, ${PL})` },
                         { val: totalFamilyMembersCount, label: 'Family Members', icon: <Users size={18} />, bg: 'linear-gradient(135deg, #b91c1c, #991b1b)' },
                         { val: avgFamilySize, label: 'Avg Family Size', icon: <Heart size={18} />, bg: 'linear-gradient(135deg, #1f2937, #111827)' },
-                        { val: `${maxFamilySize} members`, label: 'Largest Family', icon: <UserCheck size={18} />, bg: 'linear-gradient(135deg, #52003a, #730051)' },
+                        { val: `${maxFamilySize} members`, label: 'Largest Family', icon: <UserCheck size={18} />, bg: 'linear-gradient(135deg, #52003a, #3b1a62)' },
                     ].map((s, i) => (
                         <div key={i} style={{
                             background: s.bg, borderRadius: '12px', padding: '16px', color: 'white',

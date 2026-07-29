@@ -120,8 +120,8 @@
 }
 
 .ict-feature-card.active-card {
-  background: #730051;
-  border-color: #730051;
+  background: #3b1a62;
+  border-color: #3b1a62;
   box-shadow: 0 10px 30px rgba(115, 0, 81, 0.3);
 }
 
@@ -188,12 +188,12 @@
 }
 
 .ict-join-info {
-  background: #730051;
+  background: #3b1a62;
   padding: 30px;
   border-radius: 12px;
   margin-top: 30px;
   text-align: left;
-  border: 1px solid #730051;
+  border: 1px solid #3b1a62;
   box-shadow: 0 10px 30px rgba(115, 0, 81, 0.25);
 }
 
@@ -319,7 +319,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: #730051;
+  background: #3b1a62;
   padding: 10px 20px;
   border-radius: 20px;
 }

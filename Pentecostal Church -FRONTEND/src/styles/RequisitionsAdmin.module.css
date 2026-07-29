@@ -18,7 +18,7 @@
 }
 
 .header h1 {
-    color: #730051;
+    color: #3b1a62;
     font-size: 1.4rem;
     font-weight: 700;
     margin-bottom: 4px;
@@ -41,7 +41,7 @@
     padding: 14px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0,0,0,0.06);
-    border-left: 3px solid #730051;
+    border-left: 3px solid #3b1a62;
 }
 
 .phoneSettingRow {
@@ -52,7 +52,7 @@
 
 .phoneSettingRow label {
     font-weight: 600;
-    color: #730051;
+    color: #3b1a62;
     font-size: 0.88rem;
 }
 
@@ -73,7 +73,7 @@
 
 .phoneInput:focus {
     outline: none;
-    border-color: #730051;
+    border-color: #3b1a62;
     box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.1);
 }
 
@@ -125,7 +125,7 @@
 
 .searchInput:focus {
     outline: none;
-    border-color: #730051;
+    border-color: #3b1a62;
     box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.1);
 }
 
@@ -133,7 +133,7 @@
     display: flex;
     align-items: center;
     gap: 10px;
-    color: #730051;
+    color: #3b1a62;
     font-weight: 600;
 }
 
@@ -161,7 +161,7 @@
     gap: 16px;
     font-weight: 600;
     font-size: 0.85rem;
-    color: #730051;
+    color: #3b1a62;
     flex-wrap: wrap;
 }
 
@@ -176,7 +176,7 @@
 
 .emptyState h3 {
     margin: 20px 0 10px;
-    color: #730051;
+    color: #3b1a62;
 }
 
 /* Table Container */
@@ -194,7 +194,7 @@
 }
 
 .requisitionsGrid th {
-    background: #730051;
+    background: #3b1a62;
     color: white;
     padding: 10px 12px;
     text-align: center;
@@ -224,7 +224,7 @@
     border-radius: 8px;
     padding: 10px;
     margin-bottom: 8px;
-    border-left: 3px solid #730051;
+    border-left: 3px solid #3b1a62;
     cursor: pointer;
     transition: all 0.2s ease;
     box-shadow: 0 1px 4px rgba(0,0,0,0.06);
@@ -236,13 +236,13 @@
 
 .itemHeader {
     margin-bottom: 6px;
-    border-bottom: 1.5px solid #730051;
+    border-bottom: 1.5px solid #3b1a62;
     padding-bottom: 4px;
 }
 
 .commodityTitle {
     font-size: 0.88rem;
-    color: #730051;
+    color: #3b1a62;
     font-weight: 700;
     line-height: 1.3;
     text-transform: capitalize;
@@ -267,7 +267,7 @@
 }
 
 .actionButton {
-    background: #730051;
+    background: #3b1a62;
     color: white;
     border: none;
     padding: 4px 6px;
@@ -308,7 +308,7 @@
 
 .cardTitle h4 {
     margin: 0;
-    color: #730051;
+    color: #3b1a62;
     font-size: 0.95rem;
 }
 
@@ -358,7 +358,7 @@
 }
 
 .viewButton {
-    background: #730051;
+    background: #3b1a62;
     color: white;
 }
 
@@ -435,7 +435,7 @@
 /* Signature Section inside Edit Modal */
 .signatureSection {
     margin: 20px 0;
-    border: 2px solid #730051;
+    border: 2px solid #3b1a62;
     border-radius: 10px;
     overflow: hidden;
 }
@@ -470,7 +470,7 @@
 }
 
 .modalHeader {
-    background: linear-gradient(135deg, #730051 0%, #730051 100%);
+    background: linear-gradient(135deg, #3b1a62 0%, #3b1a62 100%);
     color: white;
     padding: 14px 16px;
     display: flex;
@@ -507,7 +507,7 @@
 }
 
 .detailSection h4 {
-    color: #730051;
+    color: #3b1a62;
     margin-bottom: 8px;
     font-size: 0.95rem;
     display: flex;
@@ -561,7 +561,7 @@
 
 .formGroup input:focus, .formGroup textarea:focus {
     outline: none;
-    border-color: #730051;
+    border-color: #3b1a62;
     box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.1);
 }
 

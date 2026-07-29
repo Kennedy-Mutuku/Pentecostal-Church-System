@@ -506,7 +506,7 @@ const ChairpersonDashboard: React.FC = () => {
     };
 
     // ── Purple-accented light theme ──
-    const P = '#730051';       // primary purple
+    const P = '#3b1a62';       // primary purple
     const PL = '#8a0062';      // lighter purple
     const R = '#ef4444';       // red for feedback/alerts
 
@@ -540,7 +540,7 @@ const ChairpersonDashboard: React.FC = () => {
     const WelcomeSplash = () => (
         <div style={{
             position: 'fixed', top: 0, left: 0, width: '100%', height: '100%',
-            zIndex: 1000000, background: 'linear-gradient(135deg, #730051 0%, #4a0034 100%)',
+            zIndex: 1000000, background: 'linear-gradient(135deg, #3b1a62 0%, #4a0034 100%)',
             display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
             color: '#fff', textAlign: 'center', animation: 'fadeIn 0.5s ease'
         }}>
@@ -773,7 +773,7 @@ const ChairpersonDashboard: React.FC = () => {
                         const cats = [
                             {
                                 title: 'By Year Joined',
-                                color: '#730051',
+                                color: '#3b1a62',
                                 data: Object.entries(byYearJoined)
                                     .sort(([a], [b]) => Number(a) - Number(b))
                                     .map(([k, v]) => ({ label: k, count: v, sub: null })),
@@ -1206,7 +1206,7 @@ const ChairpersonDashboard: React.FC = () => {
                         @media (min-width: 768px) { .Chairperson-gallery-grid { grid-template-columns: repeat(3, 1fr); gap: 16px; } }
                         @media (min-width: 1200px) { .Chairperson-gallery-grid { grid-template-columns: repeat(4, 1fr); } }
                         .Chairperson-gallery-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.1) !important; transform: translateY(-2px); }
-                        .Chairperson-gallery-btn:hover { background: #730051 !important; color: #fff !important; border-color: #730051 !important; }
+                        .Chairperson-gallery-btn:hover { background: #3b1a62 !important; color: #fff !important; border-color: #3b1a62 !important; }
                     `}</style>
                     <div className="Chairperson-gallery-grid">
                         {filteredGallery.map((item, index) => (

@@ -21,7 +21,7 @@ const PatronAssets: React.FC = () => {
     const [searchQuery, setSearchQuery] = useState('');
     const [filterDocket, setFilterDocket] = useState('All');
 
-    const P = '#730051';
+    const P = '#3b1a62';
 
     const dockets = [
         'All', 'Chairperson', 'Vice Chairperson', 'Secretary', 'Publicity secretary', 

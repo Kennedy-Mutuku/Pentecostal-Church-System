@@ -63,7 +63,7 @@ const FlyoutItem = ({ item, onClose, forceLeft = false }: { item: NavItem; onClo
         onMouseLeave={handleLeave}
       >
         <button
-          className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-md transition-colors text-left ${isHovered ? 'text-[#730051] bg-purple-50' : 'text-gray-700 hover:bg-gray-50'
+          className={`w-full flex items-center justify-between px-3 py-2 text-sm rounded-md transition-colors text-left ${isHovered ? 'text-[#3b1a62] bg-purple-50' : 'text-gray-700 hover:bg-gray-50'
             }`}
         >
           <span>{item.label}</span>
@@ -96,7 +96,7 @@ const FlyoutItem = ({ item, onClose, forceLeft = false }: { item: NavItem; onClo
         href={item.href || '#'}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-[#730051] hover:bg-purple-50 rounded-md transition-colors"
+        className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 hover:text-[#3b1a62] hover:bg-purple-50 rounded-md transition-colors"
         onClick={onClose}
       >
         <span className="truncate">{item.label}</span>
@@ -108,7 +108,7 @@ const FlyoutItem = ({ item, onClose, forceLeft = false }: { item: NavItem; onClo
   return (
     <Link
       to={item.href || '#'}
-      className="block px-3 py-2 text-sm text-gray-700 hover:text-[#730051] hover:bg-purple-50 rounded-md transition-colors truncate"
+      className="block px-3 py-2 text-sm text-gray-700 hover:text-[#3b1a62] hover:bg-purple-50 rounded-md transition-colors truncate"
       onClick={onClose}
     >
       {item.label}
@@ -126,7 +126,7 @@ const MobileSidebarItem = ({ item, depth = 0, onClose }: { item: NavItem; depth?
       <div>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className={`w-full flex items-center justify-between py-2 px-3 rounded-md text-left transition-colors ${isOpen ? 'text-[#730051] bg-purple-50' : 'text-gray-700 hover:bg-gray-50'
+          className={`w-full flex items-center justify-between py-2 px-3 rounded-md text-left transition-colors ${isOpen ? 'text-[#3b1a62] bg-purple-50' : 'text-gray-700 hover:bg-gray-50'
             }`}
           style={{ paddingLeft: `${12 + depth * 12}px` }}
         >
@@ -151,7 +151,7 @@ const MobileSidebarItem = ({ item, depth = 0, onClose }: { item: NavItem; depth?
         href={item.href || '#'}
         target="_blank"
         rel="noopener noreferrer"
-        className="flex items-center gap-1.5 py-2 px-3 rounded-md text-sm text-gray-600 hover:text-[#730051] hover:bg-purple-50 transition-colors"
+        className="flex items-center gap-1.5 py-2 px-3 rounded-md text-sm text-gray-600 hover:text-[#3b1a62] hover:bg-purple-50 transition-colors"
         style={{ paddingLeft: `${12 + depth * 12}px` }}
         onClick={onClose}
       >
@@ -164,7 +164,7 @@ const MobileSidebarItem = ({ item, depth = 0, onClose }: { item: NavItem; depth?
   return (
     <Link
       to={item.href || '#'}
-      className="block py-2 px-3 rounded-md text-sm text-gray-600 hover:text-[#730051] hover:bg-purple-50 transition-colors"
+      className="block py-2 px-3 rounded-md text-sm text-gray-600 hover:text-[#3b1a62] hover:bg-purple-50 transition-colors"
       style={{ paddingLeft: `${12 + depth * 12}px` }}
       onClick={onClose}
     >
@@ -975,10 +975,10 @@ const Header = () => {
             ) : (
               <div className="hidden md:flex items-center justify-center absolute left-1/2 -translate-x-1/2">
                  <span className="flex items-center gap-2.5 font-bold text-[11px] uppercase bg-white px-6 py-2 rounded-full shadow-sm border border-gray-200 transition-all hover:shadow-md" style={{ letterSpacing: '0.1em' }}>
-                   <Crown size={15} className="text-[#730051]" strokeWidth={2.5} />
+                   <Crown size={15} className="text-[#3b1a62]" strokeWidth={2.5} />
                    <span className="text-gray-700 font-bold" style={{ letterSpacing: '0.08em' }}>RPC Nyamira</span>
                    <span className="text-gray-300 text-[10px] px-1">•</span>
-                   <span className="text-[#730051]">
+                   <span className="text-[#3b1a62]">
                      {isPatronDashboard ? 'RPC SENIOR PASTOR PORTAL' : 
                       isAssistantPatronDashboard ? 'ASSISTANT PATRON PORTAL' : 
                       isChairpersonDashboard ? 'CHAIRPERSON PORTAL' : 

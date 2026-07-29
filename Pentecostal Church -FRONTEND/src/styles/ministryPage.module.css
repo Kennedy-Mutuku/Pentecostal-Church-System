@@ -68,7 +68,7 @@
 
 .contentSection h2, 
 .contentSection h3 {
-  color: #730051; /* Your requested purple */
+  color: #3b1a62; /* Your requested purple */
   font-weight: 700;
   margin-bottom: 25px;
 }
@@ -88,7 +88,7 @@
   padding: 25px;
   border-radius: 15px;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-  border-bottom: 4px solid #730051;
+  border-bottom: 4px solid #3b1a62;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
@@ -103,7 +103,7 @@
   content: attr(data-number);
   font-size: 1.5rem;
   font-weight: 900;
-  color: #730051;
+  color: #3b1a62;
   opacity: 0.2;
   margin-bottom: 10px;
 }
@@ -116,7 +116,7 @@
 .schedule h3 {
   font-size: 2rem;
   margin-bottom: 30px;
-  color: #730051;
+  color: #3b1a62;
 }
 
 /* Force Single Row on Desktop */
@@ -147,14 +147,14 @@
 .scheduleItem:hover {
   transform: translateY(-8px);
   background: linear-gradient(180deg, #ffffff 0%, #fff0f9 100%);
-  border-color: #730051;
+  border-color: #3b1a62;
   box-shadow: 0 15px 35px rgba(115, 0, 81, 0.15);
 }
 
 .scheduleItem strong {
   display: block;
   font-size: 1.2rem;
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 12px;
   position: relative;
 }
@@ -199,7 +199,7 @@
   /* Complex gradient to add depth compared to the flat hero gradient */
   background: radial-gradient(circle at top left, #8b0062, transparent),
               radial-gradient(circle at bottom right, #5e0042, transparent),
-              #730051;
+              #3b1a62;
   padding: 100px;
    /* Extra bottom padding for the curve */
   color: white;
@@ -317,7 +317,7 @@
   font-size: 1rem;
   text-decoration: none;
   cursor: pointer;
-  background: linear-gradient(135deg, #730051 0%, #980000 100%);
+  background: linear-gradient(135deg, #3b1a62 0%, #980000 100%);
   color: #ffffff;
   box-shadow: 0 4px 15px rgba(115, 0, 81, 0.3);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -344,7 +344,7 @@
   transform: translateY(-5px) scale(1.02);
   box-shadow: 0 8px 25px rgba(152, 0, 0, 0.4);
   /* Subtle shift in gradient on hover */
-  background: linear-gradient(135deg, #980000 0%, #730051 100%);
+  background: linear-gradient(135deg, #980000 0%, #3b1a62 100%);
 }
 
 /* Active/Click Effect */
@@ -356,13 +356,13 @@
 
 .contactButton {
   background: transparent;
-  border: 2px solid #730051;
-  color: #730051;
+  border: 2px solid #3b1a62;
+  color: #3b1a62;
   box-shadow: none;
 }
 
 .contactButton:hover {
-  background: #730051;
+  background: #3b1a62;
   color: #ffffff;
 }
 /* Animations */

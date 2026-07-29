@@ -342,7 +342,7 @@ const ContactUs = () => {
   if (generalLoading) {
     return (
       <div className="loading-screen">
-        <p className={styles['loading-text']}>Loading...🤗</p>
+        <div style={{textAlign:"center", padding:"2rem"}}><img src={loadingAnime} alt="Loading..." style={{width:"80px"}} /></div>
         <img src={loadingAnime} alt="animation gif" />
       </div>
     );

@@ -413,7 +413,7 @@ const MediaAdmin: React.FC = () => {
                         onClick={() => navigate('/worship-docket-admin')}
                         style={{
                             padding: '10px 20px',
-                            background: '#730051',
+                            background: '#3b1a62',
                             color: 'white',
                             border: 'none',
                             borderRadius: '5px',
@@ -722,7 +722,7 @@ const MediaItemCard: React.FC<MediaItemCardProps> = ({
                     />
                 </div>
             ) : (
-                <div className={styles.mediaPlaceholder} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #482078, #730051)' }}>
+                <div className={styles.mediaPlaceholder} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #482078, #3b1a62)' }}>
                     <FaImage size={40} color="rgba(255,255,255,0.7)" />
                 </div>
             )}

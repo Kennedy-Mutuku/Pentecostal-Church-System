@@ -161,7 +161,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ onUploadSuccess
         }}>
             <h2 style={{
                 textAlign: 'center',
-                color: '#730051',
+                color: '#3b1a62',
                 marginBottom: '20px',
                 fontSize: '1.5rem',
                 fontWeight: '700'
@@ -178,7 +178,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ onUploadSuccess
                         onDragOver={handleDrag}
                         onDrop={handleDrop}
                         style={{
-                            border: `2px dashed ${dragActive ? '#730051' : '#ccc'}`,
+                            border: `2px dashed ${dragActive ? '#3b1a62' : '#ccc'}`,
                             borderRadius: '12px',
                             padding: '40px 20px',
                             textAlign: 'center',
@@ -189,7 +189,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ onUploadSuccess
                         }}
                         onClick={() => fileInputRef.current?.click()}
                     >
-                        <Upload size={48} color="#730051" style={{ margin: '0 auto 15px' }} />
+                        <Upload size={48} color="#3b1a62" style={{ margin: '0 auto 15px' }} />
                         <p style={{ fontSize: '1.1rem', color: '#333', marginBottom: '10px', fontWeight: '600' }}>
                             Drag & drop your photo here
                         </p>
@@ -209,7 +209,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ onUploadSuccess
                                 alignItems: 'center',
                                 gap: '8px',
                                 padding: '12px 24px',
-                                backgroundColor: '#730051',
+                                backgroundColor: '#3b1a62',
                                 color: '#ffffff',
                                 border: 'none',
                                 borderRadius: '8px',
@@ -219,7 +219,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ onUploadSuccess
                                 transition: 'all 0.3s ease'
                             }}
                             onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#5a0040'}
-                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#730051'}
+                            onMouseOut={(e) => e.currentTarget.style.backgroundColor = '#3b1a62'}
                         >
                             <Camera size={20} />
                             Take Photo
@@ -275,7 +275,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ onUploadSuccess
                         .ReactCrop__drag-handle {
                             width: 12px !important;
                             height: 12px !important;
-                            background-color: #730051 !important;
+                            background-color: #3b1a62 !important;
                             border: 2px solid #ffffff !important;
                             box-shadow: 0 0 5px rgba(0,0,0,0.5) !important;
                         }
@@ -328,7 +328,7 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ onUploadSuccess
                                 alignItems: 'center',
                                 gap: '8px',
                                 padding: '14px 28px',
-                                backgroundColor: uploading ? '#ccc' : '#730051',
+                                backgroundColor: uploading ? '#ccc' : '#3b1a62',
                                 color: '#ffffff',
                                 border: 'none',
                                 borderRadius: '8px',
@@ -339,10 +339,10 @@ const ProfilePhotoUpload: React.FC<ProfilePhotoUploadProps> = ({ onUploadSuccess
                                 opacity: uploading ? 0.7 : 1
                             }}
                             onMouseOver={(e) => {
-                                if (!uploading) e.currentTarget.style.backgroundColor = '#8e1a6b';
+                                if (!uploading) e.currentTarget.style.backgroundColor = '#4a2375';
                             }}
                             onMouseOut={(e) => {
-                                if (!uploading) e.currentTarget.style.backgroundColor = '#730051';
+                                if (!uploading) e.currentTarget.style.backgroundColor = '#3b1a62';
                             }}
                         >
                             <Check size={20} />

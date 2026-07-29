@@ -35,7 +35,7 @@ const NavItemRenderer = ({ items, depth = 0, onLinkClick }: NavItemRendererProps
             <li key={index}>
               <button
                 onClick={() => toggleItem(index)}
-                className="w-full flex items-center justify-between py-2.5 px-4 rounded-lg text-gray-700 hover:text-[#730051] hover:bg-purple-50 transition-all duration-200 text-left"
+                className="w-full flex items-center justify-between py-2.5 px-4 rounded-lg text-gray-700 hover:text-[#3b1a62] hover:bg-purple-50 transition-all duration-200 text-left"
               >
                 <span className={depth === 0 ? 'font-medium' : ''}>{item.label}</span>
                 <ChevronRight
@@ -68,7 +68,7 @@ const NavItemRenderer = ({ items, depth = 0, onLinkClick }: NavItemRendererProps
                 href={item.href || '#'}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 py-2.5 px-4 rounded-lg text-gray-600 hover:text-[#730051] hover:bg-purple-50 transition-all duration-200"
+                className="flex items-center gap-2 py-2.5 px-4 rounded-lg text-gray-600 hover:text-[#3b1a62] hover:bg-purple-50 transition-all duration-200"
                 onClick={onLinkClick}
               >
                 {item.label}
@@ -82,7 +82,7 @@ const NavItemRenderer = ({ items, depth = 0, onLinkClick }: NavItemRendererProps
           <li key={index}>
             <Link
               to={item.href || '#'}
-              className="block py-2.5 px-4 rounded-lg text-gray-600 hover:text-[#730051] hover:bg-purple-50 transition-all duration-200"
+              className="block py-2.5 px-4 rounded-lg text-gray-600 hover:text-[#3b1a62] hover:bg-purple-50 transition-all duration-200"
               onClick={onLinkClick}
             >
               {item.label}

@@ -354,7 +354,7 @@ const Media: React.FC = () => {
       {redirectCountdown !== null && (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(255,255,255,0.95)', zIndex: 99999, display: 'flex', alignItems: 'center', justifyContent: 'center', backdropFilter: 'blur(5px)' }}>
           <div style={{ background: '#fff', padding: '0', borderRadius: '16px', textAlign: 'center', maxWidth: '420px', width: '90%', boxShadow: '0 20px 40px rgba(115, 0, 81, 0.15)', overflow: 'hidden', border: '1px solid rgba(115, 0, 81, 0.1)' }}>
-            <div style={{ backgroundColor: '#730051', padding: '24px 20px', color: 'white' }}>
+            <div style={{ backgroundColor: '#3b1a62', padding: '24px 20px', color: 'white' }}>
               <h3 style={{ margin: 0, fontSize: '22px', fontWeight: 800, letterSpacing: '0.5px' }}>Log In Required</h3>
             </div>
             <div style={{ padding: '30px 24px' }}>
@@ -432,7 +432,7 @@ const Media: React.FC = () => {
               }}>
                 Welcome to Rikuruma Pentecostal Church
                 <br />
-                <span style={{ color: '#730051', fontSize: '19px', fontWeight: 700 }}>Family Gallery</span>
+                <span style={{ color: '#3b1a62', fontSize: '19px', fontWeight: 700 }}>Family Gallery</span>
               </h2>
               <p style={{ margin: '4px 0 16px', fontSize: '12px', color: '#aaa' }}>
                 {sortedEvents.length} albums
@@ -479,7 +479,7 @@ const Media: React.FC = () => {
                         }}
                       />
                     ) : (
-                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #482078, #730051)' }}>
+                      <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'linear-gradient(135deg, #482078, #3b1a62)' }}>
                         <FaImage size={40} color="rgba(255,255,255,0.7)" />
                       </div>
                     )}

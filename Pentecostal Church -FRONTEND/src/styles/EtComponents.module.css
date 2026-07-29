@@ -1,6 +1,6 @@
 .etHeader {
     background-color: #ffffff;
-    color: #730051;
+    color: #3b1a62;
     padding: 1.5rem 2rem;
     display: flex;
     align-items: center;
@@ -18,7 +18,7 @@
     font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 1px;
-    background: linear-gradient(135deg, #730051 0%, #2c3e50 100%);
+    background: linear-gradient(135deg, #3b1a62 0%, #2c3e50 100%);
     -webkit-background-clip: text;
     background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -26,8 +26,8 @@
 
 .backBtn {
     background: transparent;
-    color: #730051;
-    border: 1px solid #730051;
+    color: #3b1a62;
+    border: 1px solid #3b1a62;
     padding: 0.6rem 1.2rem;
     border-radius: 30px;
     cursor: pointer;
@@ -40,7 +40,7 @@
 }
 
 .backBtn:hover {
-    background: #730051;
+    background: #3b1a62;
     color: white;
     transform: translateX(-5px);
 }
@@ -53,7 +53,7 @@
 }
 
 .etFooterLinksTitle {
-    color: #730051;
+    color: #3b1a62;
     margin-bottom: 2.5rem;
     font-size: 1.4rem;
     font-weight: 800;
@@ -72,8 +72,8 @@
 .etLinkItem {
     padding: 0.8rem 1.5rem;
     background: white;
-    border: 1px solid #730051;
-    color: #730051;
+    border: 1px solid #3b1a62;
+    color: #3b1a62;
     border-radius: 30px;
     text-decoration: none;
     font-weight: 600;
@@ -82,14 +82,14 @@
 }
 
 .etLinkItem:hover {
-    background: #730051;
+    background: #3b1a62;
     color: white;
     transform: translateY(-3px);
     box-shadow: 0 5px 15px rgba(115, 0, 81, 0.2);
 }
 
 .etLinkItem.active {
-    background: #730051;
+    background: #3b1a62;
     color: white;
     pointer-events: none;
     opacity: 0.7;

@@ -1,9 +1,9 @@
 /* MinistriesAdmin.module.css */
 
 :root {
-    --primary-color: #730051;
+    --primary-color: #3b1a62;
     --primary-hover-color: #4e0037;
-    --secondary-color: #730051;
+    --secondary-color: #3b1a62;
     --success-color: #10b981;
     --warning-color: #f59e0b;
     --error-color: #ef4444;
@@ -903,7 +903,7 @@
 }
 
 .generate {
-    background: linear-gradient(135deg, #730051, #a0006e);
+    background: linear-gradient(135deg, #3b1a62, #5a2d8a);
     color: white;
 }
 

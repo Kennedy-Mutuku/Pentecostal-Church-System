@@ -338,7 +338,7 @@ const AdmissionAdmin: React.FC = () => {
         .af-row label.err-label { color: #E53935; }
         .af-hint { font-size: 11px; color: #E53935; margin-top: 2px; display: block; margin-left: 4px; }
         .af-field { position: relative; }
-        .af-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #730051; opacity: 0.6; pointer-events: none; transition: opacity 0.2s; }
+        .af-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #3b1a62; opacity: 0.6; pointer-events: none; transition: opacity 0.2s; }
         
         .af-input, .af-select {
           width: 100%; padding: 8px 12px 8px 36px; border-radius: 12px;
@@ -351,7 +351,7 @@ const AdmissionAdmin: React.FC = () => {
         }
         
         .af-input:focus, .af-select:focus {
-          border-color: #730051;
+          border-color: #3b1a62;
           box-shadow: 0 0 0 4px rgba(115,0,81,0.1);
           background-color: #fff;
         }
@@ -381,10 +381,10 @@ const AdmissionAdmin: React.FC = () => {
           border-radius: 10px; transition: all 0.25s ease;
         }
         .af-role-btn:hover { color: #2d3748; }
-        .af-role-btn.active { background: #730051; color: #fff; box-shadow: 0 4px 12px rgba(115,0,81,0.25); }
+        .af-role-btn.active { background: #3b1a62; color: #fff; box-shadow: 0 4px 12px rgba(115,0,81,0.25); }
         .af-btns-row { flex-wrap: nowrap; margin-top: 10px; }
         .af-btn { flex: 1 1 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: flex; justify-content: center; align-items: center; font-weight: 700; transition: all 0.2s; }
-        .af-btn.primary { background: linear-gradient(135deg, #730051, #9a006d); color: white; box-shadow: 0 6px 16px rgba(115,0,81,0.25); border: none; }
+        .af-btn.primary { background: linear-gradient(135deg, #3b1a62, #9a006d); color: white; box-shadow: 0 6px 16px rgba(115,0,81,0.25); border: none; }
         .af-btn.primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(115,0,81,0.3); }
         .af-btn.secondary { background: #edf2f7; color: #4a5568; border: none; }
         .af-btn.secondary:hover { background: #e2e8f0; }

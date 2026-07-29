@@ -418,7 +418,7 @@ const ChangeDetails: React.FC = () => {
               onClick={handleLogout}
               disabled={loading}
               style={{
-                backgroundColor: '#730051',
+                backgroundColor: '#3b1a62',
                 color: 'white',
                 border: 'none',
                 padding: '12px 30px',
@@ -455,7 +455,7 @@ const ChangeDetails: React.FC = () => {
           <div style={{ textAlign: 'center', marginBottom: '15px' }}>
             <span style={{
               display: 'inline-block',
-              background: 'linear-gradient(135deg, #730051, #a0006e)',
+              background: 'linear-gradient(135deg, #3b1a62, #5a2d8a)',
               color: 'white',
               padding: '4px 16px',
               borderRadius: '20px',
@@ -491,7 +491,7 @@ const ChangeDetails: React.FC = () => {
             height: window.innerWidth < 480 ? '90px' : '110px',
             borderRadius: '50%',
             overflow: 'hidden',
-            border: '4px solid #73005120',
+            border: '4px solid #3b1a6220',
             boxShadow: '0 4px 15px rgba(115, 0, 81, 0.1)',
             backgroundColor: '#f8f0f5',
             transition: 'all 0.3s ease',
@@ -513,7 +513,7 @@ const ChangeDetails: React.FC = () => {
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                color: '#73005130'
+                color: '#3b1a6230'
               }}>
                 <Upload size={40} />
               </div>
@@ -528,9 +528,9 @@ const ChangeDetails: React.FC = () => {
                 alignItems: 'center',
                 gap: '6px',
                 padding: window.innerWidth < 480 ? '5px 12px' : '6px 14px',
-                backgroundColor: '#73005110',
-                color: '#730051',
-                border: '1.5px solid #73005130',
+                backgroundColor: '#3b1a6210',
+                color: '#3b1a62',
+                border: '1.5px solid #3b1a6230',
                 borderRadius: '20px',
                 fontSize: window.innerWidth < 480 ? '11px' : '12px',
                 fontWeight: '700',
@@ -538,11 +538,11 @@ const ChangeDetails: React.FC = () => {
                 transition: 'all 0.2s ease',
               }}
               onMouseEnter={(e) => {
-                e.currentTarget.style.backgroundColor = '#73005120';
+                e.currentTarget.style.backgroundColor = '#3b1a6220';
                 e.currentTarget.style.transform = 'translateY(-1px)';
               }}
               onMouseLeave={(e) => {
-                e.currentTarget.style.backgroundColor = '#73005110';
+                e.currentTarget.style.backgroundColor = '#3b1a6210';
                 e.currentTarget.style.transform = 'translateY(0)';
               }}
             >
@@ -621,7 +621,7 @@ const ChangeDetails: React.FC = () => {
                   zIndex: 1,
                 }}
               >
-                <CloseIcon size={18} color="#730051" />
+                <CloseIcon size={18} color="#3b1a62" />
               </button>
               <ProfilePhotoUpload
                 onUploadSuccess={handlePhotoUploadSuccess}
@@ -837,7 +837,7 @@ const ChangeDetails: React.FC = () => {
             onClick={handleLogout}
             disabled={loading}
             style={{
-              backgroundColor: '#730051',
+              backgroundColor: '#3b1a62',
               color: 'white',
               border: 'none',
               padding: '12px 30px',
@@ -857,7 +857,7 @@ const ChangeDetails: React.FC = () => {
               }
             }}
             onMouseLeave={(e) => {
-              e.currentTarget.style.backgroundColor = '#730051';
+              e.currentTarget.style.backgroundColor = '#3b1a62';
               e.currentTarget.style.transform = 'translateY(0)';
               e.currentTarget.style.boxShadow = '0 2px 10px rgba(115, 0, 81, 0.3)';
             }}
@@ -873,7 +873,7 @@ const ChangeDetails: React.FC = () => {
 
       {/* Loading animation */}
       <div className={`${styles.loading} ${loading ? styles['loading-active'] : ''}`}>
-        <p>Loading...</p>
+        <div className="loading-container" style={{textAlign:"center", padding:"2rem"}}><img src={loadingAnime} alt="Loading..." style={{width:"80px"}} /></div>
       </div>
 
       {/* Password Confirmation Dialog */}
@@ -904,7 +904,7 @@ const ChangeDetails: React.FC = () => {
               width: '50px',
               height: '50px',
               borderRadius: '50%',
-              background: 'linear-gradient(135deg, #730051, #a0006e)',
+              background: 'linear-gradient(135deg, #3b1a62, #5a2d8a)',
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'center',
@@ -941,7 +941,7 @@ const ChangeDetails: React.FC = () => {
                   padding: '12px',
                   borderRadius: '10px',
                   border: 'none',
-                  background: 'linear-gradient(135deg, #730051, #a0006e)',
+                  background: 'linear-gradient(135deg, #3b1a62, #5a2d8a)',
                   color: '#fff',
                   fontSize: '14px',
                   fontWeight: '600',

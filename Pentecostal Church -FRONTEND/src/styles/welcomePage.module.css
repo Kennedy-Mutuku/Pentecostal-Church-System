@@ -2,7 +2,7 @@
 
 .page {
     min-height: 100vh;
-    background: linear-gradient(160deg, #730051 0%, #4a0035 100%);
+    background: linear-gradient(160deg, #3b1a62 0%, #4a0035 100%);
     padding: 40px 20px;
     display: flex;
     align-items: center;
@@ -28,7 +28,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #730051, #a0006e, #730051);
+    background: linear-gradient(90deg, #3b1a62, #5a2d8a, #3b1a62);
 }
 
 /* Header */
@@ -41,7 +41,7 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: linear-gradient(135deg, #730051, #a0006e);
+    background: linear-gradient(135deg, #3b1a62, #5a2d8a);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -66,7 +66,7 @@
 /* Verse */
 .verse {
     text-align: center;
-    color: #730051;
+    color: #3b1a62;
     font-size: 0.85em;
     font-style: italic;
     font-weight: 500;
@@ -74,7 +74,7 @@
     padding: 12px 16px;
     background: #f8f0f5;
     border-radius: 10px;
-    border-left: 3px solid #730051;
+    border-left: 3px solid #3b1a62;
 }
 
 /* Photo section */
@@ -115,17 +115,17 @@
 }
 
 .uploadArea:hover {
-    border-color: #730051;
+    border-color: #3b1a62;
     background: #fdf5fa;
 }
 
 .uploadAreaActive {
-    border-color: #730051;
+    border-color: #3b1a62;
     background: #fdf5fa;
 }
 
 .uploadIcon {
-    color: #730051;
+    color: #3b1a62;
     margin-bottom: 8px;
 }
 
@@ -155,7 +155,7 @@
     gap: 6px;
     padding: 8px 16px;
     background: #f8f0f5;
-    color: #730051;
+    color: #3b1a62;
     border: 1.5px solid #e0c0d6;
     border-radius: 8px;
     font-size: 0.82em;
@@ -165,9 +165,9 @@
 }
 
 .cameraBtn:hover {
-    background: #730051;
+    background: #3b1a62;
     color: white;
-    border-color: #730051;
+    border-color: #3b1a62;
 }
 
 /* Cropper container — react-easy-crop needs a positioned parent with dimensions */
@@ -213,7 +213,7 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #730051;
+    background: #3b1a62;
     cursor: pointer;
     border: 2px solid #fff;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -223,7 +223,7 @@
     width: 18px;
     height: 18px;
     border-radius: 50%;
-    background: #730051;
+    background: #3b1a62;
     cursor: pointer;
     border: 2px solid #fff;
     box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
@@ -240,7 +240,7 @@
     align-items: center;
     gap: 6px;
     padding: 10px 20px;
-    background: #730051;
+    background: #3b1a62;
     color: white;
     border: none;
     border-radius: 8px;
@@ -304,7 +304,7 @@
 
 .photoChangeLink {
     font-size: 0.8em;
-    color: #730051;
+    color: #3b1a62;
     font-weight: 600;
     cursor: pointer;
     background: none;
@@ -332,7 +332,7 @@
     gap: 8px;
     width: 100%;
     padding: 14px;
-    background: linear-gradient(135deg, #730051, #a0006e);
+    background: linear-gradient(135deg, #3b1a62, #5a2d8a);
     color: white;
     border: none;
     border-radius: 12px;

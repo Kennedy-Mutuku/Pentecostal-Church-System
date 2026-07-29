@@ -346,7 +346,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                 )}
 
                 {/* Header */}
-                <div className="px-4 py-3 bg-gradient-to-r from-[#730051] to-[#9d176e] flex items-center justify-between shrink-0">
+                <div className="px-4 py-3 bg-gradient-to-r from-[#3b1a62] to-[#9d176e] flex items-center justify-between shrink-0">
                     <div className="flex items-center gap-2 flex-1 min-w-0">
                         {currentStep !== 'search' && (
                             <button
@@ -386,7 +386,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                     placeholder="NAME OR PHONE NO"
-                                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#730051]/40 focus:ring-2 focus:ring-[#730051]/10 outline-none transition-all text-sm font-bold uppercase text-center text-red-600 placeholder:text-red-300 placeholder:lowercase placeholder:font-medium"
+                                    className="w-full pl-9 pr-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#3b1a62]/40 focus:ring-2 focus:ring-[#3b1a62]/10 outline-none transition-all text-sm font-bold uppercase text-center text-red-600 placeholder:text-red-300 placeholder:lowercase placeholder:font-medium"
                                     required
                                 />
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
@@ -394,7 +394,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                             <button
                                 type="submit"
                                 disabled={searching}
-                                className="w-full py-2.5 bg-[#730051] text-white text-sm font-bold rounded-lg hover:bg-[#5a0040] transition-all flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-60"
+                                className="w-full py-2.5 bg-[#3b1a62] text-white text-sm font-bold rounded-lg hover:bg-[#5a0040] transition-all flex items-center justify-center gap-2 active:scale-[0.98] disabled:opacity-60"
                             >
                                 {searching ? <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : 'Look Up'}
                             </button>
@@ -412,19 +412,19 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                                         onClick={() => selectUser(u)}
                                         className="flex items-center gap-3 p-3 bg-gray-50 hover:bg-gray-100 rounded-lg border border-gray-100 transition-colors text-left"
                                     >
-                                        <div className="w-10 h-10 rounded-full bg-[#730051]/10 flex items-center justify-center flex-shrink-0">
-                                            <User size={18} className="text-[#730051]" />
+                                        <div className="w-10 h-10 rounded-full bg-[#3b1a62]/10 flex items-center justify-center flex-shrink-0">
+                                            <User size={18} className="text-[#3b1a62]" />
                                         </div>
                                         <div className="min-w-0 flex-1">
                                             <p className="text-sm font-bold text-gray-900 truncate">{u.username}</p>
-                                            <p className="text-[11px] font-semibold text-[#730051] tracking-wide">{u.phone}</p>
+                                            <p className="text-[11px] font-semibold text-[#3b1a62] tracking-wide">{u.phone}</p>
                                         </div>
                                     </button>
                                 ))}
                             </div>
                             <button
                                 onClick={handleNotMe}
-                                className="w-full mt-2 py-2 text-xs font-semibold text-gray-500 hover:text-[#730051] transition-colors"
+                                className="w-full mt-2 py-2 text-xs font-semibold text-gray-500 hover:text-[#3b1a62] transition-colors"
                             >
                                 None of these — enter details manually
                             </button>
@@ -435,23 +435,23 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                     {currentStep === 'found' && (
                         <div className="space-y-3">
                             <div className="flex items-center gap-3 p-3 bg-gray-50 rounded-lg border border-gray-100">
-                                <div className="w-10 h-10 rounded-full bg-[#730051]/10 flex items-center justify-center flex-shrink-0">
-                                    <User size={18} className="text-[#730051]" />
+                                <div className="w-10 h-10 rounded-full bg-[#3b1a62]/10 flex items-center justify-center flex-shrink-0">
+                                    <User size={18} className="text-[#3b1a62]" />
                                 </div>
                                 <div className="min-w-0 flex-1">
                                     <p className="text-sm font-bold text-gray-900 truncate">{attendanceData.fullName}</p>
-                                    <p className="text-[11px] font-semibold text-[#730051] tracking-wide">{attendanceData.phoneNumber}</p>
+                                    <p className="text-[11px] font-semibold text-[#3b1a62] tracking-wide">{attendanceData.phoneNumber}</p>
                                 </div>
                             </div>
                             <button
                                 onClick={() => { setError(''); setCurrentStep('sign'); }}
-                                className="w-full py-2.5 bg-[#730051] text-white text-sm font-bold rounded-lg hover:bg-[#5a0040] transition-all active:scale-[0.98]"
+                                className="w-full py-2.5 bg-[#3b1a62] text-white text-sm font-bold rounded-lg hover:bg-[#5a0040] transition-all active:scale-[0.98]"
                             >
                                 Continue as {attendanceData.fullName.split(' ')[0]}
                             </button>
                             <button
                                 onClick={handleNotMe}
-                                className="w-full py-2 text-xs font-semibold text-gray-500 hover:text-[#730051] transition-colors"
+                                className="w-full py-2 text-xs font-semibold text-gray-500 hover:text-[#3b1a62] transition-colors"
                             >
                                 Not me — go back
                             </button>
@@ -462,34 +462,34 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                     {currentStep === 'manual' && (
                         <form onSubmit={handleManualSubmit} className="space-y-2.5">
                             <div className="flex p-0.5 bg-gray-100 rounded-md mb-1">
-                                <button type="button" onClick={() => setAttendanceData(p => ({ ...p, userType: 'student' }))} className={`flex-1 py-1.5 text-[10px] font-bold rounded-md transition-all ${attendanceData.userType === 'student' ? 'bg-white shadow-sm text-[#730051]' : 'text-gray-500'}`}>MEMBER</button>
-                                <button type="button" onClick={() => setAttendanceData(p => ({ ...p, userType: 'visitor' }))} className={`flex-1 py-1.5 text-[10px] font-bold rounded-md transition-all ${attendanceData.userType === 'visitor' ? 'bg-white shadow-sm text-[#730051]' : 'text-gray-500'}`}>VISITOR</button>
+                                <button type="button" onClick={() => setAttendanceData(p => ({ ...p, userType: 'student' }))} className={`flex-1 py-1.5 text-[10px] font-bold rounded-md transition-all ${attendanceData.userType === 'student' ? 'bg-white shadow-sm text-[#3b1a62]' : 'text-gray-500'}`}>MEMBER</button>
+                                <button type="button" onClick={() => setAttendanceData(p => ({ ...p, userType: 'visitor' }))} className={`flex-1 py-1.5 text-[10px] font-bold rounded-md transition-all ${attendanceData.userType === 'visitor' ? 'bg-white shadow-sm text-[#3b1a62]' : 'text-gray-500'}`}>VISITOR</button>
                             </div>
-                            <input type="text" placeholder="Full Name" value={attendanceData.fullName} onChange={e => setAttendanceData(p => ({ ...p, fullName: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#730051]/30 outline-none transition-all text-sm font-medium" required />
+                            <input type="text" placeholder="Full Name" value={attendanceData.fullName} onChange={e => setAttendanceData(p => ({ ...p, fullName: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#3b1a62]/30 outline-none transition-all text-sm font-medium" required />
                             {attendanceData.userType === 'student' && (
                                 <>
-                                    <input type="text" placeholder="ID Number" value={attendanceData.registrationNumber} onChange={e => setAttendanceData(p => ({ ...p, registrationNumber: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#730051]/30 outline-none transition-all text-sm font-medium uppercase" required />
+                                    <input type="text" placeholder="ID Number" value={attendanceData.registrationNumber} onChange={e => setAttendanceData(p => ({ ...p, registrationNumber: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#3b1a62]/30 outline-none transition-all text-sm font-medium uppercase" required />
                                     <div className="grid grid-cols-2 gap-2">
-                                        <select value={attendanceData.course} onChange={e => setAttendanceData(p => ({ ...p, course: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#730051]/30 outline-none transition-all text-sm font-medium" required>
+                                        <select value={attendanceData.course} onChange={e => setAttendanceData(p => ({ ...p, course: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#3b1a62]/30 outline-none transition-all text-sm font-medium" required>
                                             <option value="">Gender</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Other">Other</option>
                                         </select>
-                                        <select value={attendanceData.yearOfStudy} onChange={e => setAttendanceData(p => ({ ...p, yearOfStudy: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#730051]/30 outline-none transition-all text-sm font-medium" required>
+                                        <select value={attendanceData.yearOfStudy} onChange={e => setAttendanceData(p => ({ ...p, yearOfStudy: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#3b1a62]/30 outline-none transition-all text-sm font-medium" required>
                                             <option value="">Age Group</option>
                                             <option value="Youth">Youth</option>
                                             <option value="Adult">Adult</option>
                                             <option value="Elder">Elder</option>
                                         </select>
                                     </div>
-                                    <input type="tel" placeholder="Phone" value={attendanceData.phoneNumber} onChange={e => setAttendanceData(p => ({ ...p, phoneNumber: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#730051]/30 outline-none transition-all text-sm font-medium mt-2" required />
+                                    <input type="tel" placeholder="Phone" value={attendanceData.phoneNumber} onChange={e => setAttendanceData(p => ({ ...p, phoneNumber: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#3b1a62]/30 outline-none transition-all text-sm font-medium mt-2" required />
                                 </>
                             )}
                             {attendanceData.userType === 'visitor' && (
-                                <input type="tel" placeholder="Phone Number" value={attendanceData.phoneNumber} onChange={e => setAttendanceData(p => ({ ...p, phoneNumber: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#730051]/30 outline-none transition-all text-sm font-medium" required />
+                                <input type="tel" placeholder="Phone Number" value={attendanceData.phoneNumber} onChange={e => setAttendanceData(p => ({ ...p, phoneNumber: e.target.value }))} className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:border-[#3b1a62]/30 outline-none transition-all text-sm font-medium" required />
                             )}
-                            <button type="submit" className="w-full py-2.5 bg-[#730051] text-white text-sm font-bold rounded-lg hover:bg-[#5a0040] transition-all mt-1 active:scale-[0.98]">
+                            <button type="submit" className="w-full py-2.5 bg-[#3b1a62] text-white text-sm font-bold rounded-lg hover:bg-[#5a0040] transition-all mt-1 active:scale-[0.98]">
                                 Continue to Signature
                             </button>
                         </form>
@@ -499,8 +499,8 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                     {currentStep === 'sign' && (
                         <div className="space-y-3">
                             <div className="flex items-center gap-2 p-2 bg-gray-50 rounded-lg">
-                                <div className="w-7 h-7 rounded-full bg-[#730051]/10 flex items-center justify-center flex-shrink-0">
-                                    <User size={12} className="text-[#730051]" />
+                                <div className="w-7 h-7 rounded-full bg-[#3b1a62]/10 flex items-center justify-center flex-shrink-0">
+                                    <User size={12} className="text-[#3b1a62]" />
                                 </div>
                                 <div className="min-w-0">
                                     <p className="text-xs font-bold text-gray-900 truncate">{attendanceData.fullName}</p>
@@ -513,7 +513,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                                 <button
                                     onClick={handleFingerprintAuth}
                                     disabled={loading}
-                                    className="w-full py-3 bg-[#f8f9fa] border-2 border-[#730051]/20 text-[#730051] text-sm font-bold rounded-lg hover:bg-[#730051]/5 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
+                                    className="w-full py-3 bg-[#f8f9fa] border-2 border-[#3b1a62]/20 text-[#3b1a62] text-sm font-bold rounded-lg hover:bg-[#3b1a62]/5 transition-all active:scale-[0.98] disabled:opacity-50 flex items-center justify-center gap-2"
                                 >
                                     <Fingerprint size={18} />
                                     Use Fingerprint
@@ -532,7 +532,7 @@ const QuickAttendanceSign = ({ session, onClose }: QuickAttendanceSignProps) => 
                                 <button
                                     onClick={handleSubmitFinal}
                                     disabled={loading || !attendanceData.signature}
-                                    className="w-full py-2.5 bg-[#730051] text-white text-sm font-bold rounded-lg hover:bg-[#5a0040] transition-all active:scale-[0.98] disabled:opacity-50"
+                                    className="w-full py-2.5 bg-[#3b1a62] text-white text-sm font-bold rounded-lg hover:bg-[#5a0040] transition-all active:scale-[0.98] disabled:opacity-50"
                                 >
                                     {loading ? 'Submitting...' : 'Submit Attendance'}
                                 </button>

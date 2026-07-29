@@ -6,8 +6,8 @@ const DiscipleshipClass = () => {
             <div className="relative">
                 <div className="max-w-7xl mx-auto pt-8 pb-24 px-4 md:px-12">
                     {/* Header Section */}
-                    <div className="mb-12 border-b-2 border-[#730051]/20 pb-6">
-                        <h3 className="text-4xl md:text-5xl font-bold text-[#730051] mb-4">
+                    <div className="mb-12 border-b-2 border-[#3b1a62]/20 pb-6">
+                        <h3 className="text-4xl md:text-5xl font-bold text-[#3b1a62] mb-4">
                             Discipleship Classes
                         </h3>
                         <p className="text-xl md:text-2xl font-light text-[#000000] opacity-80 max-w-3xl">
@@ -28,28 +28,28 @@ const DiscipleshipClass = () => {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="bg-[#ffffff] p-6 rounded-lg shadow-sm border border-[#730051]/10 border-t-4 border-t-[#730051]">
-                                    <h4 className="text-[#730051] font-bold text-lg mb-2">Schedule</h4>
+                                <div className="bg-[#ffffff] p-6 rounded-lg shadow-sm border border-[#3b1a62]/10 border-t-4 border-t-[#3b1a62]">
+                                    <h4 className="text-[#3b1a62] font-bold text-lg mb-2">Schedule</h4>
                                     <p className="text-[#000000]">Every Monday</p>
                                     <p className="text-[#000000] font-medium">6:50pm - 8:50pm</p>
                                 </div>
-                                <div className="bg-[#ffffff] p-6 rounded-lg shadow-sm border border-[#730051]/10 border-t-4 border-t-[#730051]">
-                                    <h4 className="text-[#730051] font-bold text-lg mb-4">Program Structure</h4>
+                                <div className="bg-[#ffffff] p-6 rounded-lg shadow-sm border border-[#3b1a62]/10 border-t-4 border-t-[#3b1a62]">
+                                    <h4 className="text-[#3b1a62] font-bold text-lg mb-4">Program Structure</h4>
                                     <ul className="space-y-3">
                                         <li className="flex items-start text-[#000000]">
-                                            <span className="mr-3 text-[#730051] font-bold">•</span>
+                                            <span className="mr-3 text-[#3b1a62] font-bold">•</span>
                                             <span>Understanding the foundations of the Christian faith</span>
                                         </li>
                                         <li className="flex items-start text-[#000000]">
-                                            <span className="mr-3 text-[#730051] font-bold">•</span>
+                                            <span className="mr-3 text-[#3b1a62] font-bold">•</span>
                                             <span>Developing Christ-like character</span>
                                         </li>
                                         <li className="flex items-start text-[#000000]">
-                                            <span className="mr-3 text-[#730051] font-bold">•</span>
+                                            <span className="mr-3 text-[#3b1a62] font-bold">•</span>
                                             <span>Spiritual disciplines: prayer, study, and service</span>
                                         </li>
                                         <li className="flex items-start text-[#000000]">
-                                            <span className="mr-3 text-[#730051] font-bold">•</span>
+                                            <span className="mr-3 text-[#3b1a62] font-bold">•</span>
                                             <span>Mentorship and accountability</span>
                                         </li>
                                     </ul>

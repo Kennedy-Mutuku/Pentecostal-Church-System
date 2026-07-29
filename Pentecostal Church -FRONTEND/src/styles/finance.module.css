@@ -31,9 +31,9 @@
 }
 
 .activeTab {
-  background: #730051;
+  background: #3b1a62;
   color: #fff;
-  border-color: #730051;
+  border-color: #3b1a62;
 }
 
 .activeTab:hover {
@@ -88,8 +88,8 @@
   margin: 0;
 }
 
-.income { background: #730051; }
-.expense { background: #a0006e; }
+.income { background: #3b1a62; }
+.expense { background: #5a2d8a; }
 .net { background: #2d3748; }
 
 /* Table */
@@ -145,7 +145,7 @@
 /* Buttons */
 .actionBtn {
   padding: 8px 16px;
-  background: #730051;
+  background: #3b1a62;
   color: #fff;
   border: none;
   border-radius: 6px;
@@ -223,7 +223,7 @@
 .form input:focus,
 .form select:focus,
 .form textarea:focus {
-  border-color: #730051;
+  border-color: #3b1a62;
   box-shadow: 0 0 0 2px rgba(115, 0, 81, 0.1);
 }
 

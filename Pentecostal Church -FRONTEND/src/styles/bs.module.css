@@ -7,7 +7,7 @@
     text-align: center;
     font-size: 1.8rem;
     font-weight: 700;
-    color: #730051;
+    color: #3b1a62;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
     position: relative;
 }
@@ -20,7 +20,7 @@
     transform: translateX(-50%);
     width: 80px;
     height: 4px;
-    background: linear-gradient(135deg, #730051, #730051);
+    background: linear-gradient(135deg, #3b1a62, #3b1a62);
     border-radius: 2px;
 }
 
@@ -43,7 +43,7 @@
     left: 0;
     right: 0;
     height: 6px;
-    background: linear-gradient(135deg, #730051, #730051);
+    background: linear-gradient(135deg, #3b1a62, #3b1a62);
 }
 
 .text {
@@ -97,7 +97,7 @@
 .form input[type="number"]:focus,
 .form select:focus {
     outline: none;
-    border-color: #730051;
+    border-color: #3b1a62;
     background: #ffffff;
     box-shadow: 0 0 0 3px rgba(115, 0, 81, 0.1);
     transform: translateY(-2px);
@@ -148,14 +148,14 @@
 
 .radioItem:hover {
     background: #ffffff;
-    border-color: #730051;
+    border-color: #3b1a62;
     transform: translateY(-1px);
 }
 
 .radioItem input[type="radio"] {
     width: 18px;
     height: 18px;
-    accent-color: #730051;
+    accent-color: #3b1a62;
     cursor: pointer;
 }
 
@@ -175,7 +175,7 @@
 
 .pastorCard {
     background: #f8fafc;
-    border: 1.5px solid #730051;
+    border: 1.5px solid #3b1a62;
     border-radius: 10px;
     padding: 12px 16px;
     position: relative;
@@ -188,7 +188,7 @@
     position: absolute;
     top: 8px;
     right: 12px;
-    background: #730051;
+    background: #3b1a62;
     color: white;
     font-size: 0.7rem;
     font-weight: 600;
@@ -199,13 +199,13 @@
 
 .pastorCard:hover {
     background: #f0f4ff;
-    border-color: #730051;
+    border-color: #3b1a62;
     transform: translateY(-1px);
     box-shadow: 0 6px 20px rgba(115, 0, 81, 0.2);
 }
 
 .pastorCard:hover::after {
-    background: #730051;
+    background: #3b1a62;
     opacity: 1;
 }
 
@@ -218,7 +218,7 @@
 .pastorCheckbox {
     width: 20px;
     height: 20px;
-    accent-color: #730051;
+    accent-color: #3b1a62;
     cursor: pointer;
     transition: all 0.2s ease;
 }
@@ -228,7 +228,7 @@
 }
 
 .pastorCheckbox:checked {
-    accent-color: #730051;
+    accent-color: #3b1a62;
 }
 
 .pastorLabel {
@@ -242,7 +242,7 @@
     display: block;
     font-size: 1.1rem;
     font-weight: 700;
-    color: #730051;
+    color: #3b1a62;
     margin-bottom: 4px;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -288,7 +288,7 @@
 }
 
 .submitData {
-    background: linear-gradient(135deg, #730051, #730051);
+    background: linear-gradient(135deg, #3b1a62, #3b1a62);
     color: white;
     border: none;
     padding: 12px 24px;
@@ -342,14 +342,14 @@
 }
 
 .form-footer a {
-    color: #730051;
+    color: #3b1a62;
     text-decoration: none;
     font-weight: 600;
     transition: all 0.3s ease;
 }
 
 .form-footer a:hover {
-    color: #730051;
+    color: #3b1a62;
     text-decoration: underline;
 }
 

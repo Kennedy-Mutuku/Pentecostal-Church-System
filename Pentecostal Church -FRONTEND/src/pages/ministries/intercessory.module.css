@@ -191,7 +191,7 @@
 .requirements li::before {
   /* Use a nice checkmark or dash instead of a basic bullet for a refined look */
   content: '—'; 
-  color: #730051;
+  color: #3b1a62;
   font-weight: bold;
   font-size: 1.2rem;
   position: absolute;
@@ -219,7 +219,7 @@
   font-size: 1.05rem;
   text-decoration: none;
   cursor: pointer;
-  background: #730051;
+  background: #3b1a62;
   color: #ffffff;
   transition: all 0.3s ease;
 }
@@ -257,11 +257,11 @@
 }
 
 .contactButton:hover {
-  color: #730051;
+  color: #3b1a62;
 }
 
 .contactButton:hover::after {
-  background-color: #730051;
+  background-color: #3b1a62;
 }
 
 /* Animations */

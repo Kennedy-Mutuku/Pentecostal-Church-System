@@ -60,7 +60,7 @@ const UserProfile: React.FC<UserProfileProps> = ({ userData, isLoading }) => {
             <h2 className={styles.text} style={{
                 margin: '10px 0',
                 fontSize: '1.6rem',
-                color: '#730051',
+                color: '#3b1a62',
                 textAlign: 'center'
             }}>
                 Welcome back, {userData.username}!

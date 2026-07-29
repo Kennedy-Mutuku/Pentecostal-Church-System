@@ -9,7 +9,7 @@
 
 /* Header */
 .baa-header {
-  background: linear-gradient(135deg, #730051, #a20072);
+  background: linear-gradient(135deg, #3b1a62, #a20072);
   color: #fff;
   padding: 20px 30px;
   box-shadow: 0 4px 20px rgba(115, 0, 81, 0.3);
@@ -71,7 +71,7 @@
   padding: 22px 24px;
   box-shadow: 0 4px 15px rgba(0,0,0,0.06);
   cursor: pointer;
-  border-bottom: 4px solid #730051;
+  border-bottom: 4px solid #3b1a62;
 }
 .baa-stat-card:hover {
   box-shadow: 0 8px 25px rgba(115, 0, 81, 0.15);
@@ -130,12 +130,12 @@
   gap: 8px;
 }
 .baa-tab:hover {
-  border-color: #730051;
-  color: #730051;
+  border-color: #3b1a62;
+  color: #3b1a62;
 }
 .baa-tab.active {
-  background: #730051;
-  border-color: #730051;
+  background: #3b1a62;
+  border-color: #3b1a62;
   color: #fff;
 }
 .baa-tab-count {
@@ -157,7 +157,7 @@
   font-family: 'Inter', sans-serif;
 }
 .baa-search:focus {
-  border-color: #730051;
+  border-color: #3b1a62;
 }
 
 /* Table */
@@ -212,7 +212,7 @@
 }
 .baa-board-badge {
   background: rgba(115, 0, 81, 0.08);
-  color: #730051;
+  color: #3b1a62;
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 0.78rem;
@@ -274,7 +274,7 @@
   color: #888;
   font-size: 1rem;
 }
-.baa-loading i { color: #730051; font-size: 2rem; margin-bottom: 10px; display: block; }
+.baa-loading i { color: #3b1a62; font-size: 2rem; margin-bottom: 10px; display: block; }
 .baa-error { color: #dc2626; }
 .baa-error i { font-size: 2rem; display: block; margin-bottom: 10px; }
 .baa-empty i { font-size: 3rem; display: block; margin-bottom: 10px; color: #ddd; }

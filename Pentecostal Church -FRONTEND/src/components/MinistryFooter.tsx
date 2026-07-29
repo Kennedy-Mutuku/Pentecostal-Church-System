@@ -27,7 +27,7 @@ const MinistryFooter = () => {
 
     return (
         <>
-            <footer className="bg-[#730051] text-white">
+            <footer className="bg-[#3b1a62] text-white">
                 {/* Main Footer Content */}
                 <div className="max-w-6xl mx-auto px-4 py-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -112,7 +112,7 @@ const MinistryFooter = () => {
                                             target="_blank"
                                             rel="noopener noreferrer"
                                             aria-label={social.label}
-                                            className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white hover:text-[#730051] transition-all duration-200"
+                                            className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-white hover:text-[#3b1a62] transition-all duration-200"
                                         >
                                             <Icon size={18} />
                                         </a>
@@ -156,7 +156,7 @@ const MinistryFooter = () => {
                             boxShadow: '0 20px 60px rgba(0,0,0,0.3)',
                             color: '#333'
                         }}>
-                            <h3 style={{ color: '#730051', margin: '0 0 20px 0', fontSize: '1.5rem', fontWeight: 'bold' }}>Overseer Access</h3>
+                            <h3 style={{ color: '#3b1a62', margin: '0 0 20px 0', fontSize: '1.5rem', fontWeight: 'bold' }}>Overseer Access</h3>
                             <form onSubmit={(e) => {
                                 e.preventDefault();
                                 if (adminPassword === 'Overseer') {
@@ -194,7 +194,7 @@ const MinistryFooter = () => {
                                     <button
                                         type="submit"
                                         style={{
-                                            flex: 1, padding: '12px', background: '#730051', color: 'white',
+                                            flex: 1, padding: '12px', background: '#3b1a62', color: 'white',
                                             border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: '600'
                                         }}
                                     >

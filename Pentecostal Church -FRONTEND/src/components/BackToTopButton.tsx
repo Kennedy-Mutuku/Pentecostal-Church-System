@@ -52,7 +52,7 @@ const BackToTopButton: React.FC = () => {
     bottom: isMobile ? '150px' : '180px',
     width: isMobile ? '50px' : '60px',
     height: isMobile ? '50px' : '60px',
-    backgroundColor: '#730051',
+    backgroundColor: '#3b1a62',
     color: 'white',
     borderRadius: '15px',
     display: 'flex',
@@ -76,7 +76,7 @@ const BackToTopButton: React.FC = () => {
   };
 
   const handleMouseLeave = (e: React.MouseEvent<HTMLDivElement>) => {
-    e.currentTarget.style.backgroundColor = '#730051';
+    e.currentTarget.style.backgroundColor = '#3b1a62';
     e.currentTarget.style.transform = 'scale(1)';
     e.currentTarget.style.boxShadow = '0 4px 15px rgba(115, 0, 81, 0.4)';
   };

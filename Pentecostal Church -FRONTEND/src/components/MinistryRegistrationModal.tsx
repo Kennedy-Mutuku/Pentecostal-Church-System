@@ -131,7 +131,7 @@ const MinistryRegistrationModal: React.FC<MinistryRegistrationModalProps> = ({ i
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Header */}
-                <div className="bg-gradient-to-r from-[#730051] to-[#8B1C3F] p-6 relative">
+                <div className="bg-gradient-to-r from-[#3b1a62] to-[#8B1C3F] p-6 relative">
                     <button
                         onClick={onClose}
                         className="absolute top-4 right-4 text-white/80 hover:text-white transition-colors"
@@ -167,7 +167,7 @@ const MinistryRegistrationModal: React.FC<MinistryRegistrationModalProps> = ({ i
                                             onClose();
                                             window.location.href = joinPath;
                                         }}
-                                        className="w-full py-3 px-4 bg-gradient-to-r from-[#730051] to-[#8B1C3F] hover:shadow-lg text-white rounded-lg font-bold transition-all transform hover:-translate-y-0.5"
+                                        className="w-full py-3 px-4 bg-gradient-to-r from-[#3b1a62] to-[#8B1C3F] hover:shadow-lg text-white rounded-lg font-bold transition-all transform hover:-translate-y-0.5"
                                     >
                                         Sign Commitment
                                     </button>
@@ -195,7 +195,7 @@ const MinistryRegistrationModal: React.FC<MinistryRegistrationModalProps> = ({ i
                                     name="fullName"
                                     value={formData.fullName}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#730051] focus:border-[#730051] outline-none transition-all"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3b1a62] focus:border-[#3b1a62] outline-none transition-all"
                                     placeholder="e.g. John Doe"
                                     required
                                 />
@@ -209,7 +209,7 @@ const MinistryRegistrationModal: React.FC<MinistryRegistrationModalProps> = ({ i
                                     value={formData.registrationNumber}
                                     onChange={handleChange}
                                     disabled={!!formData.registrationNumber}
-                                    className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#730051] focus:border-[#730051] outline-none transition-all ${!!formData.registrationNumber ? 'bg-gray-100 cursor-not-allowed' : ''}`}
+                                    className={`w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3b1a62] focus:border-[#3b1a62] outline-none transition-all ${!!formData.registrationNumber ? 'bg-gray-100 cursor-not-allowed' : ''}`}
                                     placeholder="Enter your registration number"
                                     required
                                     readOnly={!!formData.registrationNumber}
@@ -223,7 +223,7 @@ const MinistryRegistrationModal: React.FC<MinistryRegistrationModalProps> = ({ i
                                     name="phoneNumber"
                                     value={formData.phoneNumber}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#730051] focus:border-[#730051] outline-none transition-all"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3b1a62] focus:border-[#3b1a62] outline-none transition-all"
                                     placeholder="e.g. 0712345678"
                                     required
                                 />
@@ -251,7 +251,7 @@ const MinistryRegistrationModal: React.FC<MinistryRegistrationModalProps> = ({ i
                                         name="yearOfStudy"
                                         value={formData.yearOfStudy}
                                         onChange={handleChange}
-                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#730051] focus:border-[#730051] outline-none transition-all"
+                                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3b1a62] focus:border-[#3b1a62] outline-none transition-all"
                                         required
                                     >
                                         <option value="">Select</option>
@@ -272,7 +272,7 @@ const MinistryRegistrationModal: React.FC<MinistryRegistrationModalProps> = ({ i
                                     name="course"
                                     value={formData.course}
                                     onChange={handleChange}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#730051] focus:border-[#730051] outline-none transition-all"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3b1a62] focus:border-[#3b1a62] outline-none transition-all"
                                     placeholder="e.g. BSc. Computer Science"
                                     required
                                 />
@@ -285,7 +285,7 @@ const MinistryRegistrationModal: React.FC<MinistryRegistrationModalProps> = ({ i
                                     value={formData.reasonForJoining}
                                     onChange={handleChange}
                                     rows={3}
-                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#730051] focus:border-[#730051] outline-none transition-all resize-none"
+                                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#3b1a62] focus:border-[#3b1a62] outline-none transition-all resize-none"
                                     placeholder="Why do you want to join this ministry?"
                                     required
                                 />
@@ -295,7 +295,7 @@ const MinistryRegistrationModal: React.FC<MinistryRegistrationModalProps> = ({ i
                                 type="submit"
                                 disabled={isLoading}
                                 className={`w-full py-3 px-4 mt-6 rounded-lg font-bold text-white shadow-lg transform transition-all 
-                  ${isLoading ? 'bg-purple-400 cursor-not-allowed' : 'bg-gradient-to-r from-[#730051] to-[#8B1C3F] hover:from-[#8B1C3F] hover:to-[#730051] hover:-translate-y-0.5 hover:shadow-xl'}
+                  ${isLoading ? 'bg-purple-400 cursor-not-allowed' : 'bg-gradient-to-r from-[#3b1a62] to-[#8B1C3F] hover:from-[#8B1C3F] hover:to-[#3b1a62] hover:-translate-y-0.5 hover:shadow-xl'}
                 `}
                             >
                                 {isLoading ? (

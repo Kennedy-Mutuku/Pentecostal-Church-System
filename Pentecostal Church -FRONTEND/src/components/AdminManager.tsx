@@ -170,7 +170,7 @@ const AdminManager: React.FC = () => {
             <label>Password
               <div style={{ position: 'relative' }}>
                 <input type={showCreatePassword ? 'text' : 'password'} value={form.password} onChange={e => setForm({ ...form, password: e.target.value })} required placeholder="Strong password" style={{ paddingRight: '50px' }} />
-                <button type="button" onClick={() => setShowCreatePassword(!showCreatePassword)} style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#730051' }}>{showCreatePassword ? 'Hide' : 'Show'}</button>
+                <button type="button" onClick={() => setShowCreatePassword(!showCreatePassword)} style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#3b1a62' }}>{showCreatePassword ? 'Hide' : 'Show'}</button>
               </div>
               <PasswordStrength password={form.password} />
             </label>
@@ -179,7 +179,7 @@ const AdminManager: React.FC = () => {
         )}
 
         <h4 style={{ margin: '0 0 12px', fontSize: '14px', color: '#333' }}>
-          {loading ? 'Loading...' : `Existing ${currentTab.label} Accounts (${admins.length})`}
+          {loading ? (<img src={loadingAnime} alt="Loading..." style={{width:"30px", verticalAlign:"middle"}} />) : `Existing ${currentTab.label} Accounts (${admins.length})`}
         </h4>
         <div className={styles.tableWrap}>
           <table className={styles.table}>
@@ -236,7 +236,7 @@ const AdminManager: React.FC = () => {
                 onClick={() => setShowResetPw(!showResetPw)}
                 style={{
                   position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)',
-                  background: 'none', border: 'none', cursor: 'pointer', fontSize: '13px', color: '#730051'
+                  background: 'none', border: 'none', cursor: 'pointer', fontSize: '13px', color: '#3b1a62'
                 }}
               >{showResetPw ? 'Hide' : 'Show'}</button>
             </div>
@@ -251,7 +251,7 @@ const AdminManager: React.FC = () => {
                 disabled={!isPasswordValid(resetPw)}
                 style={{
                   padding: '8px 20px', borderRadius: '8px', border: 'none',
-                  background: isPasswordValid(resetPw) ? '#730051' : '#ccc',
+                  background: isPasswordValid(resetPw) ? '#3b1a62' : '#ccc',
                   color: '#fff', cursor: isPasswordValid(resetPw) ? 'pointer' : 'not-allowed',
                   fontSize: '13px', fontWeight: 600
                 }}

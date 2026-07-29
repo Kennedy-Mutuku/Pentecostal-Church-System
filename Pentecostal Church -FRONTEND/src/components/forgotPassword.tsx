@@ -68,7 +68,7 @@ const Forgotpassword: React.FC = () => {
                             to="/signIn"
                             style={{
                                 display: 'inline-block',
-                                background: '#730051',
+                                background: '#3b1a62',
                                 color: 'white',
                                 padding: '12px 30px',
                                 borderRadius: '25px',

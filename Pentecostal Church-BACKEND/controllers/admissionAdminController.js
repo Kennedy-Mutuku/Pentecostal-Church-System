@@ -4,6 +4,55 @@ const User = require('../models/user');
 const AdmissionAdmin = require('../models/admissionAdmin');
 const Family = require('../models/family');
 
+// Promote a dependent to head of a new family
+exports.promoteToHead = async (req, res) => {
+    try {
+        const { userId, newFamilyName } = req.body;
+        if (!userId || !newFamilyName) {
+            return res.status(400).json({ message: 'User ID and New Family Name are required' });
+        }
+
+        const user = await User.findById(userId);
+        if (!user) return res.status(404).json({ message: 'User not found' });
+
+        const originFamilyId = user.family; // Their current family
+
+        // Remove from old family
+        if (originFamilyId) {
+            await Family.findByIdAndUpdate(originFamilyId, {
+                $pull: { members: user._id }
+            });
+        }
+
+        // Create new family
+        const newFamily = new Family({
+            familyName: newFamilyName,
+            headOfFamily: user._id,
+            members: [user._id],
+            originFamily: originFamilyId || null,
+            residence: user.residence || null
+        });
+
+        await newFamily.save();
+
+        // Update user
+        user.family = newFamily._id;
+        user.relationToHead = 'Head';
+        await user.save();
+
+        res.status(200).json({
+            message: 'User successfully promoted to head of a new family!',
+            family: newFamily
+        });
+
+    } catch (error) {
+        console.error('Error promoting to head:', error);
+        res.status(500).json({ message: 'Server error while promoting user', error });
+    }
+};
+
+// --- INITIAL SUPERADMIN SETUP (one-time use or protected script) ---
+
 // Attach a user to a family's members list (idempotent) and stamp their family/relation fields.
 // Does not save() the user - caller is responsible for persisting both docs.
 async function attachMemberToFamily(family, user, relationToHead) {

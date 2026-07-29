@@ -15,7 +15,7 @@ interface AnalyticsChartsProps {
 
 
 const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ users, transactions, assets }) => {
-  const P = '#730051';
+  const P = '#3b1a62';
   const G = '#22c55e';
   const R = '#ef4444';
   const AMBER = '#f59e0b';
@@ -112,7 +112,7 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ users, transactions, 
     ];
   };
 
-  const MIN_COLORS = ['#730051','#8a0062','#a0006e','#b5007a','#c90086','#de0092','#f2009e'];
+  const MIN_COLORS = ['#3b1a62','#8a0062','#5a2d8a','#b5007a','#c90086','#de0092','#f2009e'];
 
   const memberData = getMemberYearJoinedData();
   const financeData = getFinanceDetailData();
@@ -252,8 +252,8 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ users, transactions, 
                 ]}
               />
               <Bar dataKey="Members" radius={[5, 5, 0, 0]} barSize={28}>
-                <Cell fill="#730051" />
-                <Cell fill="#a0006e" />
+                <Cell fill="#3b1a62" />
+                <Cell fill="#5a2d8a" />
                 <Cell fill="#c9006e" />
                 <Cell fill="#ef4444" />
               </Bar>

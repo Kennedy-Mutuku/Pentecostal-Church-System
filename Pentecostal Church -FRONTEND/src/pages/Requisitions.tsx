@@ -793,7 +793,7 @@ const Requisitions: React.FC = () => {
               title="Terms and Conditions"
               summary="Review and accept the equipment requisition terms"
               content={`<div style="text-align: left;">
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #730051;">Contents</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #3b1a62;">Contents</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>Introduction</li>
 <li>Equipment Care & Responsibility</li>
@@ -803,16 +803,16 @@ const Requisitions: React.FC = () => {
 <li>Entire Agreement</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #730051;">1. Introduction</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #3b1a62;">1. Introduction</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>1.1 These general terms and conditions shall apply to all requisitions made through RPC and shall govern your use of the equipment requisition system and related services.</li>
 <li>1.2 By submitting a requisition, you accept these general terms and conditions in full. If you disagree with these general terms and conditions or any part of these general terms and conditions, you must not submit a requisition.</li>
 <li>1.3 These terms apply to all recipients of equipment from RPC and govern the use, care, and return of all equipment borrowed through this requisition system.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #730051;">2. Equipment Care & Responsibility</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #3b1a62;">2. Equipment Care & Responsibility</h4>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">2.1 Damage Liability</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">2.1 Damage Liability</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>2.1.1 Any damage to equipment must be reported immediately to the requisition officer.</li>
 <li>2.1.2 Costs for repair or replacement will be charged to the requisitioner on or before the agreed return date.</li>
@@ -820,7 +820,7 @@ const Requisitions: React.FC = () => {
 <li>2.1.4 The requisitioner accepts full liability for damages occurring during the loan period.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">2.2 Loss Policy</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">2.2 Loss Policy</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>2.2.1 Full replacement cost will be charged for any lost equipment.</li>
 <li>2.2.2 A police report or written explanation of circumstances must be provided within 24 hours of discovering the loss.</li>
@@ -828,7 +828,7 @@ const Requisitions: React.FC = () => {
 <li>2.2.4 The requisitioner is solely responsible for safeguarding all equipment during the loan period.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">2.3 Condition Check</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">2.3 Condition Check</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>2.3.1 Equipment will be inspected upon return for any damage or wear.</li>
 <li>2.3.2 Any damage beyond normal wear will incur charges as determined by RPC.</li>
@@ -836,9 +836,9 @@ const Requisitions: React.FC = () => {
 <li>2.3.4 Photographic documentation may be taken to record equipment condition at issue and return.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #730051;">3. Payment & Return Policy</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #3b1a62;">3. Payment & Return Policy</h4>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">3.1 Payment Due</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">3.1 Payment Due</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>3.1.1 All fees associated with equipment rental must be settled on or before the agreed equipment return date.</li>
 <li>3.1.2 Failure to pay outstanding fees may result in restricted access to future equipment requisitions.</li>
@@ -846,7 +846,7 @@ const Requisitions: React.FC = () => {
 <li>3.1.4 Invoices for damages or replacement will be issued within 7 days of equipment assessment.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">3.2 Late Return Penalty</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">3.2 Late Return Penalty</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>3.2.1 Late returns will incur additional daily charges of KES 200 per item per day.</li>
 <li>3.2.2 Charges begin to accrue immediately upon the agreed return time.</li>
@@ -854,7 +854,7 @@ const Requisitions: React.FC = () => {
 <li>3.2.4 Repeated late returns may result in future requisition requests being denied.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">3.3 Extended Use</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">3.3 Extended Use</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>3.3.1 Equipment needed beyond the agreed return time requires prior approval from RPC administration.</li>
 <li>3.3.2 Extensions must be requested before the original return time.</li>
@@ -862,9 +862,9 @@ const Requisitions: React.FC = () => {
 <li>3.3.4 Extensions are subject to availability and may not be granted if equipment is needed for other events.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #730051;">4. Usage Guidelines</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #3b1a62;">4. Usage Guidelines</h4>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">4.1 Authorized Use Only</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">4.1 Authorized Use Only</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>4.1.1 Equipment is strictly for the stated purpose on the requisition form and may not be loaned to third parties.</li>
 <li>4.1.2 Any unauthorized use of equipment is prohibited and may result in legal action.</li>
@@ -872,7 +872,7 @@ const Requisitions: React.FC = () => {
 <li>4.1.4 Equipment must only be used by authorized personnel as named on the requisition form.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">4.2 Proper Handling</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">4.2 Proper Handling</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>4.2.1 Equipment must be handled with care according to manufacturer guidelines.</li>
 <li>4.2.2 Operators must be trained and competent in the use of all equipment.</li>
@@ -880,7 +880,7 @@ const Requisitions: React.FC = () => {
 <li>4.2.4 All safety instructions provided with equipment must be strictly observed.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">4.3 Return Condition</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">4.3 Return Condition</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>4.3.1 All items must be returned clean and in proper working condition.</li>
 <li>4.3.2 Equipment must be returned to the designated location at the agreed date and time.</li>
@@ -888,9 +888,9 @@ const Requisitions: React.FC = () => {
 <li>4.3.4 Any components, parts, or accessories must be accounted for and returned.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #730051;">5. Compliance & Restrictions</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #3b1a62;">5. Compliance & Restrictions</h4>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">5.1 Agreement Binding</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">5.1 Agreement Binding</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>5.1.1 By submitting this requisition form, you agree to all terms and conditions stated above.</li>
 <li>5.1.2 You accept full responsibility for any damage, loss, or late return penalties.</li>
@@ -898,7 +898,7 @@ const Requisitions: React.FC = () => {
 <li>5.1.4 Failure to comply with these terms may result in legal proceedings.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">5.2 Future Access</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">5.2 Future Access</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>5.2.1 Failure to comply with these terms may result in restricted access to future equipment requisitions.</li>
 <li>5.2.2 Repeated violations may result in permanent denial of requisition privileges.</li>
@@ -906,7 +906,7 @@ const Requisitions: React.FC = () => {
 <li>5.2.4 RPC reserves the right to ban any individual or organization from using the requisition system.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #730051;">5.3 RPC Rights</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 12px; margin-bottom: 8px; margin-left: 0; color: #3b1a62;">5.3 RPC Rights</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>5.3.1 RPC reserves the right to refuse equipment requests at any time and for any reason.</li>
 <li>5.3.2 RPC reserves the right to modify these terms and conditions as necessary.</li>
@@ -914,7 +914,7 @@ const Requisitions: React.FC = () => {
 <li>5.3.4 RPC is not liable for any damages or losses resulting from equipment malfunction or failure.</li>
 </ul>
 
-<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #730051;">6. Entire Agreement</h4>
+<h4 style="font-weight: bold; text-transform: uppercase; margin-top: 15px; margin-bottom: 10px; color: #3b1a62;">6. Entire Agreement</h4>
 <ul style="margin-left: 20px; line-height: 1.8;">
 <li>6.1 These general terms and conditions constitute the entire agreement between you and RPC in relation to your use of the equipment requisition system and the provision of equipment.</li>
 <li>6.2 These terms supersede and extinguish all previous negotiations, understandings and agreements relating to equipment requisitions.</li>

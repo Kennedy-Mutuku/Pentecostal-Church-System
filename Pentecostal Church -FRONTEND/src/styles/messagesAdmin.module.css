@@ -24,7 +24,7 @@
 
 .loading-text {
   font-size: 1.2rem;
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 20px;
   font-weight: 600;
 }
@@ -118,7 +118,7 @@
 
 .userIcon {
   font-size: 18px;
-  color: #730051;
+  color: #3b1a62;
 }
 
 .username {
@@ -161,7 +161,7 @@
 }
 
 .statCard {
-  background: linear-gradient(135deg, #730051, #8e1a6b);
+  background: linear-gradient(135deg, #3b1a62, #4a2375);
   color: white;
   padding: 20px 15px;
   border-radius: 12px;
@@ -220,7 +220,7 @@
 
 .searchInput:focus {
   outline: none;
-  border-color: #730051;
+  border-color: #3b1a62;
   box-shadow: 0 0 0 3px rgba(115, 0, 81, 0.1);
 }
 
@@ -265,7 +265,7 @@
 
 .filterSelect:focus {
   outline: none;
-  border-color: #730051;
+  border-color: #3b1a62;
   box-shadow: 0 0 0 2px rgba(115, 0, 81, 0.1);
 }
 
@@ -323,12 +323,12 @@
 }
 
 .messageCard.unread::before {
-  background: linear-gradient(135deg, #730051, #730051);
+  background: linear-gradient(135deg, #3b1a62, #3b1a62);
 }
 
 .messageCard.unread {
   background: rgba(115, 0, 81, 0.02);
-  border-left: 4px solid #730051;
+  border-left: 4px solid #3b1a62;
 }
 
 .messageCard:hover {
@@ -338,7 +338,7 @@
 
 .messageCard.selected {
   background: linear-gradient(135deg, rgba(115, 0, 81, 0.08), rgba(0, 198, 255, 0.03));
-  border-left: 4px solid #730051;
+  border-left: 4px solid #3b1a62;
 }
 
 .messageHeader {
@@ -588,7 +588,7 @@
   align-items: center;
   gap: 6px;
   background: rgba(115, 0, 81, 0.1);
-  color: #730051;
+  color: #3b1a62;
   padding: 8px 12px;
   border-radius: 20px;
   font-weight: 500;

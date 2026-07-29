@@ -39,7 +39,7 @@ const AboutSection = () => {
     <section id="about" className="py-6 md:py-20 bg-gradient-to-b from-gray-50 to-white">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         <div className="text-center mb-3 md:mb-12">
-          <span className="inline-block px-3 py-1 bg-purple-100 text-[#730051] text-sm font-medium rounded-full mb-4">
+          <span className="inline-block px-3 py-1 bg-purple-100 text-[#3b1a62] text-sm font-medium rounded-full mb-4">
             Who We Are
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
@@ -51,7 +51,7 @@ const AboutSection = () => {
           <div className="bg-white p-6 md:p-8 rounded-2xl shadow-sm border border-gray-200">
             <div className="flex items-center gap-3 mb-4">
               <div className="w-10 h-10 flex items-center justify-center bg-purple-100 rounded-lg">
-                <Target size={20} className="text-[#730051]" />
+                <Target size={20} className="text-[#3b1a62]" />
               </div>
               <h3 className="text-xl font-bold text-gray-800">Our Mission</h3>
             </div>
@@ -87,7 +87,7 @@ const AboutSection = () => {
               return (
                 <div key={index} className="flex gap-4">
                   <div className="w-10 h-10 flex-shrink-0 flex items-center justify-center bg-purple-50 rounded-lg">
-                    <Icon size={20} className="text-[#730051]" />
+                    <Icon size={20} className="text-[#3b1a62]" />
                   </div>
                   <div>
                     <h4 className="font-semibold text-gray-800 mb-1">
@@ -100,7 +100,7 @@ const AboutSection = () => {
                           {' '}
                           <Link
                             to={objective.link}
-                            className="text-[#730051] hover:text-[#5a0040] underline font-medium transition-colors"
+                            className="text-[#3b1a62] hover:text-[#5a0040] underline font-medium transition-colors"
                           >
                             {objective.linkText || 'Learn more'}
                           </Link>
@@ -120,14 +120,14 @@ const AboutSection = () => {
             <div className="flex flex-wrap gap-3 justify-center">
               <Link
                 to="/Bs"
-                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#730051] text-white font-medium rounded-lg hover:bg-[#5a0040] transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#3b1a62] text-white font-medium rounded-lg hover:bg-[#5a0040] transition-colors"
               >
                 <CheckCircle size={18} />
                 Register for Bible Study
               </Link>
               <Link
                 to="/signIn"
-                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#730051] text-[#730051] font-medium rounded-lg hover:bg-purple-50 transition-colors"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#3b1a62] text-[#3b1a62] font-medium rounded-lg hover:bg-purple-50 transition-colors"
               >
                 Join RPC
               </Link>

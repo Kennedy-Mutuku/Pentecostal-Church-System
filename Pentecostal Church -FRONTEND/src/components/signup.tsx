@@ -339,7 +339,7 @@ const SignUp: React.FC = () => {
             left: role === 'student' ? '4px' : '50%',
             width: 'calc(50% - 4px)',
             height: 'calc(100% - 8px)',
-            background: 'linear-gradient(135deg, #730051, #a0006e)',
+            background: 'linear-gradient(135deg, #3b1a62, #5a2d8a)',
             borderRadius: '10px',
             transition: 'left 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
             boxShadow: '0 2px 8px rgba(115, 0, 81, 0.3)',
@@ -419,7 +419,7 @@ const SignUp: React.FC = () => {
             {fieldErrors.phone && (
               <p style={{ width: '100%', color: '#dc2626', fontSize: '11px', margin: '2px 0 0', textAlign: 'right' }}>
                 {fieldErrors.phone}{' '}
-                <Link to="/signIn" style={{ color: '#730051', fontWeight: 'bold' }}>Login</Link> or <Link to="/forgotPassword" style={{ color: '#730051', fontWeight: 'bold' }}>Forgot Password?</Link>
+                <Link to="/signIn" style={{ color: '#3b1a62', fontWeight: 'bold' }}>Login</Link> or <Link to="/forgotPassword" style={{ color: '#3b1a62', fontWeight: 'bold' }}>Forgot Password?</Link>
               </p>
             )}
           </div>
@@ -444,7 +444,7 @@ const SignUp: React.FC = () => {
             {fieldErrors.email && (
               <p style={{ width: '100%', color: '#dc2626', fontSize: '11px', margin: '2px 0 0', textAlign: 'right' }}>
                 {fieldErrors.email}{' '}
-                <Link to="/signIn" style={{ color: '#730051', fontWeight: 'bold' }}>Login</Link> or <Link to="/forgotPassword" style={{ color: '#730051', fontWeight: 'bold' }}>Forgot Password?</Link>
+                <Link to="/signIn" style={{ color: '#3b1a62', fontWeight: 'bold' }}>Login</Link> or <Link to="/forgotPassword" style={{ color: '#3b1a62', fontWeight: 'bold' }}>Forgot Password?</Link>
               </p>
             )}
           </div>
@@ -503,7 +503,7 @@ const SignUp: React.FC = () => {
                 {fieldErrors.reg && (
                   <p style={{ width: '100%', color: '#dc2626', fontSize: '11px', margin: '2px 0 0', textAlign: 'right' }}>
                     {fieldErrors.reg}{' '}
-                    <Link to="/signIn" style={{ color: '#730051', fontWeight: 'bold' }}>Login</Link> or <Link to="/forgotPassword" style={{ color: '#730051', fontWeight: 'bold' }}>Forgot Password?</Link>
+                    <Link to="/signIn" style={{ color: '#3b1a62', fontWeight: 'bold' }}>Login</Link> or <Link to="/forgotPassword" style={{ color: '#3b1a62', fontWeight: 'bold' }}>Forgot Password?</Link>
                   </p>
                 )}
               </div>

@@ -835,7 +835,7 @@ const LandingPage = () => {
             }}>
               {/* Header */}
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-                <h3 style={{ color: '#730051', margin: 0, fontSize: '1.4rem', fontWeight: '800', letterSpacing: '-0.5px' }}>
+                <h3 style={{ color: '#3b1a62', margin: 0, fontSize: '1.4rem', fontWeight: '800', letterSpacing: '-0.5px' }}>
                   {hasSearched ? (selectedUser ? 'Confirm Identity' : 'Complete Details') : 'Sign Attendance'}
                 </h3>
                 <button
@@ -1539,7 +1539,7 @@ const LandingPage = () => {
               }}>✓</div>
 
               <h2 style={{
-                color: '#730051',
+                color: '#3b1a62',
                 marginBottom: '15px',
                 fontSize: '24px'
               }}>Already Signed!</h2>
@@ -1565,7 +1565,7 @@ const LandingPage = () => {
                   }}
                   style={{
                     padding: '12px 25px',
-                    background: '#730051',
+                    background: '#3b1a62',
                     color: 'white',
                     border: 'none',
                     borderRadius: '10px',
@@ -1621,7 +1621,7 @@ const LandingPage = () => {
             width: '90%', maxWidth: '350px', textAlign: 'center',
             boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
           }}>
-            <h3 style={{ color: '#730051', margin: '0 0 20px 0' }}>Overseer Access</h3>
+            <h3 style={{ color: '#3b1a62', margin: '0 0 20px 0' }}>Overseer Access</h3>
             <form onSubmit={(e) => {
               e.preventDefault();
               if (adminPassword === 'Overseer') {
@@ -1658,7 +1658,7 @@ const LandingPage = () => {
                 <button
                   type="submit"
                   style={{
-                    flex: 1, padding: '12px', background: '#730051', color: 'white',
+                    flex: 1, padding: '12px', background: '#3b1a62', color: 'white',
                     border: 'none', borderRadius: '10px', cursor: 'pointer', fontWeight: '600'
                   }}
                 >

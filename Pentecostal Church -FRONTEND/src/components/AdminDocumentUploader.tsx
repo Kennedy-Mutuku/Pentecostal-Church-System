@@ -243,7 +243,7 @@ const AdminDocumentUploader = ({
           onDrop={handleDrop}
           onClick={() => fileInputRef.current?.click()}
           style={{
-            border: '2px dashed #730051',
+            border: '2px dashed #3b1a62',
             borderRadius: '8px',
             padding: '40px 20px',
             textAlign: 'center',
@@ -257,7 +257,7 @@ const AdminDocumentUploader = ({
             (e.currentTarget as HTMLDivElement).style.backgroundColor = '#e3f2fd';
           }}
           onMouseLeave={(e) => {
-            (e.currentTarget as HTMLDivElement).style.borderColor = '#730051';
+            (e.currentTarget as HTMLDivElement).style.borderColor = '#3b1a62';
             (e.currentTarget as HTMLDivElement).style.backgroundColor = files.length > 0 ? '#e3f2fd' : '#f0f9ff';
           }}
         >
@@ -274,7 +274,7 @@ const AdminDocumentUploader = ({
             accept=".pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt,.jpg,.jpeg,.png,.gif,.webp"
           />
 
-          <Upload size={32} style={{ color: '#730051', marginBottom: '10px' }} />
+          <Upload size={32} style={{ color: '#3b1a62', marginBottom: '10px' }} />
           <p style={{ margin: '10px 0 0 0', color: '#333', fontWeight: '600' }}>
             Drag files here or click to browse
           </p>
@@ -439,7 +439,7 @@ const AdminDocumentUploader = ({
             style={{
               flex: 1,
               padding: '12px',
-              backgroundColor: files.length > 0 && !loading ? '#730051' : '#ccc',
+              backgroundColor: files.length > 0 && !loading ? '#3b1a62' : '#ccc',
               color: '#000',
               border: 'none',
               borderRadius: '6px',
@@ -455,7 +455,7 @@ const AdminDocumentUploader = ({
             }}
             onMouseLeave={(e) => {
               if (files.length > 0 && !loading) {
-                (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#730051';
+                (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#3b1a62';
               }
             }}
           >

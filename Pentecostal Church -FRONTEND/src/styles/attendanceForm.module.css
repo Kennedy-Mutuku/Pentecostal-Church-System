@@ -6,7 +6,7 @@
 }
 
 .toggleButton {
-  background: linear-gradient(135deg, #730051, #8e1a6b);
+  background: linear-gradient(135deg, #3b1a62, #4a2375);
   color: white;
   border: none;
   padding: 15px 30px;
@@ -21,7 +21,7 @@
 }
 
 .toggleButton:hover {
-  background: linear-gradient(135deg, #8e1a6b, #a01f75);
+  background: linear-gradient(135deg, #4a2375, #a01f75);
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(115, 0, 81, 0.4);
 }
@@ -48,7 +48,7 @@
 }
 
 .formTitle {
-  color: #730051;
+  color: #3b1a62;
   font-size: 1.5rem;
   font-weight: 700;
   margin: 0;
@@ -109,7 +109,7 @@
 .input:focus,
 .select:focus {
   outline: none;
-  border-color: #730051;
+  border-color: #3b1a62;
   box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.1);
   transform: translateY(-1px);
 }
@@ -167,7 +167,7 @@
 .submitButton {
   flex: 2;
   padding: 12px 20px;
-  background: linear-gradient(135deg, #730051, #5a0040);
+  background: linear-gradient(135deg, #3b1a62, #5a0040);
   color: white;
   border: none;
   border-radius: 10px;
@@ -206,7 +206,7 @@
 }
 
 .footerNote {
-  color: #730051;
+  color: #3b1a62;
   font-size: 0.85rem;
   text-align: center;
   margin: 5px 0 0 0;

@@ -139,7 +139,7 @@ const UserProfilePage: React.FC = () => {
                     <img src={cuLogo} alt="RPC logo" style={{ height: '80px', objectFit: 'contain' }} />
                 </div>
 
-                <h2 style={{ fontSize: '1.5rem', color: '#730051', textAlign: 'center', marginBottom: '8px' }}>
+                <h2 style={{ fontSize: '1.5rem', color: '#3b1a62', textAlign: 'center', marginBottom: '8px' }}>
                     Welcome back, {userData.username}!
                 </h2>
                 <p style={{ color: '#666', textAlign: 'center', fontSize: '0.9rem', marginBottom: '30px' }}>
@@ -149,7 +149,7 @@ const UserProfilePage: React.FC = () => {
                 {/* Fingerprint Registration Section */}
                 <div style={{ background: '#f8f9fa', border: '1px solid #eee', borderRadius: '12px', padding: '20px', marginBottom: '20px' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '15px' }}>
-                        <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#730051', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                        <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: '#3b1a62', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                             <Fingerprint size={20} color="white" />
                         </div>
                         <div>
@@ -175,7 +175,7 @@ const UserProfilePage: React.FC = () => {
                             onClick={handleRegisterFingerprint}
                             disabled={isRegistering}
                             style={{ 
-                                width: '100%', padding: '12px', background: '#730051', color: 'white', 
+                                width: '100%', padding: '12px', background: '#3b1a62', color: 'white', 
                                 border: 'none', borderRadius: '8px', fontWeight: 'bold', fontSize: '0.95rem',
                                 cursor: isRegistering ? 'not-allowed' : 'pointer', opacity: isRegistering ? 0.7 : 1,
                                 display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px',
@@ -199,7 +199,7 @@ const UserProfilePage: React.FC = () => {
 
                 <button 
                     onClick={() => navigate('/')}
-                    style={{ width: '100%', padding: '12px', background: 'transparent', color: '#730051', border: '2px solid #730051', borderRadius: '8px', fontWeight: 'bold', fontSize: '0.95rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
+                    style={{ width: '100%', padding: '12px', background: 'transparent', color: '#3b1a62', border: '2px solid #3b1a62', borderRadius: '8px', fontWeight: 'bold', fontSize: '0.95rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px' }}
                 >
                     <Home size={18} />
                     Go to Homepage

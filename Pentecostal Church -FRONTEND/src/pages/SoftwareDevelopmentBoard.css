@@ -24,7 +24,7 @@
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  background: #730051;
+  background: #3b1a62;
   padding: 120px 20px 80px;
 }
 
@@ -133,7 +133,7 @@
 .sdb-section-header h2 {
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   font-weight: 700;
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 12px;
 }
 
@@ -148,7 +148,7 @@
 .sdb-divider {
   width: 56px;
   height: 4px;
-  background: #730051;
+  background: #3b1a62;
   border-radius: 4px;
   margin: 16px auto 0;
 }
@@ -179,7 +179,7 @@
 .sdb-role-card:hover {
   transform: translateY(-8px) scale(1.02);
   box-shadow: 0 16px 40px rgba(115, 0, 81, 0.18);
-  border-color: #730051;
+  border-color: #3b1a62;
 }
 
 .sdb-role-card.featured {
@@ -194,7 +194,7 @@
 
 .sdb-role-icon {
   font-size: 2.2rem;
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 16px;
   display: block;
 }
@@ -203,7 +203,7 @@
   font-size: 1.05rem;
   font-weight: 700;
   margin-bottom: 10px;
-  color: #730051;
+  color: #3b1a62;
 }
 
 .sdb-role-card p {
@@ -226,7 +226,7 @@
 .sdb-stacking-intro h2 {
   font-size: clamp(1.8rem, 4vw, 2.8rem);
   font-weight: 700;
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 12px;
 }
 
@@ -294,7 +294,7 @@
   height: 80px;
   border-radius: 50%;
   object-fit: cover;
-  border: 3px solid #730051;
+  border: 3px solid #3b1a62;
   box-shadow: 0 4px 16px rgba(115, 0, 81, 0.25);
 }
 
@@ -319,7 +319,7 @@
 
 .sdb-member-role-badge {
   display: inline-block;
-  background: #730051;
+  background: #3b1a62;
   color: #fff;
   font-size: 0.72rem;
   font-weight: 700;
@@ -333,7 +333,7 @@
 .sdb-member-name {
   font-size: 1.25rem;
   font-weight: 700;
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 8px;
 }
 
@@ -348,7 +348,7 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: #730051;
+  color: #3b1a62;
   text-decoration: none;
   font-size: 0.9rem;
   font-weight: 600;
@@ -369,7 +369,7 @@
   justify-content: center;
   font-size: 0.85rem;
   font-weight: 800;
-  color: #730051;
+  color: #3b1a62;
 }
 
 /* Card accent strip on left */
@@ -380,7 +380,7 @@
   left: 0;
   width: 5px;
   height: 100%;
-  background: #730051;
+  background: #3b1a62;
 }
 
 /* ========== RECRUITMENT SECTION ========== */
@@ -388,7 +388,7 @@
   max-width: 900px;
   margin: 0 auto 80px;
   padding: 60px 40px;
-  background: #730051;
+  background: #3b1a62;
   border-radius: 28px;
   text-align: center;
   position: relative;
@@ -430,7 +430,7 @@
 
 .sdb-btn-primary {
   background: #fff;
-  color: #730051;
+  color: #3b1a62;
   box-shadow: 0 6px 24px rgba(0, 0, 0, 0.2);
 }
 .sdb-btn-primary:hover {
@@ -516,7 +516,7 @@
 }
 
 .sdb-submit-btn {
-  background: #730051;
+  background: #3b1a62;
   color: #fff;
   padding: 14px 36px;
   border: none;
@@ -553,7 +553,7 @@
 
 /* ========== FOOTER STRIP ========== */
 .sdb-footer-strip {
-  background: #730051;
+  background: #3b1a62;
   color: rgba(255,255,255,0.7);
   text-align: center;
   padding: 28px 20px;

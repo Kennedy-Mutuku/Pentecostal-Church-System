@@ -6,8 +6,8 @@ const BrothersFellowship = () => {
             <div className="relative">
                 <div className="max-w-7xl mx-auto pt-8 pb-24 px-4 md:px-12">
                     {/* Header Section */}
-                    <div className="mb-12 border-b-2 border-[#730051]/20 pb-6">
-                        <h3 className="text-4xl md:text-5xl font-bold text-[#730051] mb-4">
+                    <div className="mb-12 border-b-2 border-[#3b1a62]/20 pb-6">
+                        <h3 className="text-4xl md:text-5xl font-bold text-[#3b1a62] mb-4">
                             Brothers' Fellowship
                         </h3>
                         <p className="text-xl md:text-2xl font-light text-[#000000] opacity-80 max-w-3xl">
@@ -27,19 +27,19 @@ const BrothersFellowship = () => {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="bg-[#ffffff] border border-[#730051]/20 p-6 rounded-lg hover:border-[#730051] transition-colors duration-300 shadow-sm hover:shadow-md">
-                                    <h4 className="text-[#730051] font-bold text-lg mb-2">Timing</h4>
+                                <div className="bg-[#ffffff] border border-[#3b1a62]/20 p-6 rounded-lg hover:border-[#3b1a62] transition-colors duration-300 shadow-sm hover:shadow-md">
+                                    <h4 className="text-[#3b1a62] font-bold text-lg mb-2">Timing</h4>
                                     <p className="text-[#000000]">Sunday Evenings</p>
                                     <p className="text-[#000000] font-medium">6:50pm - 8:50pm</p>
                                 </div>
-                                <div className="bg-[#ffffff] border border-[#730051]/20 p-6 rounded-lg hover:border-[#730051] transition-colors duration-300 shadow-sm hover:shadow-md">
-                                    <h4 className="text-[#730051] font-bold text-lg mb-2">Leadership</h4>
+                                <div className="bg-[#ffffff] border border-[#3b1a62]/20 p-6 rounded-lg hover:border-[#3b1a62] transition-colors duration-300 shadow-sm hover:shadow-md">
+                                    <h4 className="text-[#3b1a62] font-bold text-lg mb-2">Leadership</h4>
                                     <p className="text-[#000000]">Led by the</p>
                                     <p className="text-[#000000] font-medium">Brother-in-charge</p>
                                 </div>
                             </div>
-                            <div className="bg-[#730051]/5 p-6 rounded-lg">
-                                <h4 className="text-[#730051] font-bold text-lg mb-3">Core Focus Areas</h4>
+                            <div className="bg-[#3b1a62]/5 p-6 rounded-lg">
+                                <h4 className="text-[#3b1a62] font-bold text-lg mb-3">Core Focus Areas</h4>
                                 <ul>
                                     <li>Bible study and prayer meetings</li>
                                     <li>Men's mentorship and accountability groups</li>

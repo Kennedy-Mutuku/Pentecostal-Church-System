@@ -574,7 +574,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
           <label>Password
             <div style={{ position: 'relative' }}>
               <input type={showCreatePassword ? 'text' : 'password'} value={userForm.password} onChange={e => setUserForm({ ...userForm, password: e.target.value })} required placeholder="Strong password" style={{ paddingRight: '50px' }} />
-              <button type="button" onClick={() => setShowCreatePassword(!showCreatePassword)} style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#730051' }}>{showCreatePassword ? 'Hide' : 'Show'}</button>
+              <button type="button" onClick={() => setShowCreatePassword(!showCreatePassword)} style={{ position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)', background: 'none', border: 'none', cursor: 'pointer', fontSize: '12px', color: '#3b1a62' }}>{showCreatePassword ? 'Hide' : 'Show'}</button>
             </div>
             <PasswordStrength password={userForm.password} />
           </label>
@@ -618,7 +618,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
   );
 
   const renderContent = () => {
-    if (loading) return <p>Loading...</p>;
+    if (loading) return <div className="loading-container" style={{textAlign:"center", padding:"2rem"}}><img src={loadingAnime} alt="Loading..." style={{width:"80px"}} /></div>;
     switch (activeTab) {
       case 'dashboard': return renderDashboard();
       case 'transactions': return renderTransactions();
@@ -687,7 +687,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
                 onClick={() => setShowPassword(!showPassword)}
                 style={{
                   position: 'absolute', right: '8px', top: '50%', transform: 'translateY(-50%)',
-                  background: 'none', border: 'none', cursor: 'pointer', fontSize: '13px', color: '#730051'
+                  background: 'none', border: 'none', cursor: 'pointer', fontSize: '13px', color: '#3b1a62'
                 }}
               >{showPassword ? 'Hide' : 'Show'}</button>
             </div>
@@ -705,7 +705,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
                 disabled={!isPasswordValid(resetPassword)}
                 style={{
                   padding: '8px 20px', borderRadius: '8px', border: 'none',
-                  background: isPasswordValid(resetPassword) ? '#730051' : '#ccc',
+                  background: isPasswordValid(resetPassword) ? '#3b1a62' : '#ccc',
                   color: '#fff', cursor: isPasswordValid(resetPassword) ? 'pointer' : 'not-allowed',
                   fontSize: '13px', fontWeight: 600
                 }}

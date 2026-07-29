@@ -128,7 +128,7 @@ const AttendanceSection = () => {
 
           ctx.lineWidth = 3;
           ctx.lineCap = 'round';
-          ctx.strokeStyle = '#730051';
+          ctx.strokeStyle = '#3b1a62';
           ctx.beginPath();
           ctx.moveTo(lastX, lastY);
           ctx.lineTo(currentX, currentY);

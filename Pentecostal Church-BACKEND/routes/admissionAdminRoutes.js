@@ -13,6 +13,7 @@ router.get('/families', admissionAdminMiddleware, admissionAdminController.getAl
 router.get('/families/:familyId', admissionAdminMiddleware, admissionAdminController.getFamily);
 router.post('/families/link', admissionAdminMiddleware, admissionAdminController.linkFamilyMembers);
 router.post('/families/unlink', admissionAdminMiddleware, admissionAdminController.unlinkFamilyMember);
+router.post('/promote-to-head', admissionAdminMiddleware, admissionAdminController.promoteToHead);
 router.post('/logout', admissionAdminMiddleware, admissionAdminController.logout);
 
 module.exports = router;

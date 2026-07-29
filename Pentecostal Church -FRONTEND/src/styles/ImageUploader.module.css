@@ -26,7 +26,7 @@
   .fileInputLabel {
     display: inline-block;
     padding: 10px 20px;
-    background-color: #730051;
+    background-color: #3b1a62;
     color: white;
     border-radius: 8px;
     cursor: pointer;
@@ -76,7 +76,7 @@
     height: 150px;
     border-radius: 50%;
     overflow: hidden;
-    border: 3px solid #730051;
+    border: 3px solid #3b1a62;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     background: #eee;
   }
@@ -112,7 +112,7 @@
   
   .loadingSpinner {
     border: 4px solid rgba(0, 0, 0, 0.1);
-    border-left-color: #730051;
+    border-left-color: #3b1a62;
     border-radius: 50%;
     width: 30px;
     height: 30px;

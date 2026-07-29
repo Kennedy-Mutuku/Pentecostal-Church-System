@@ -6,8 +6,8 @@ const SistersFellowship = () => {
             <div className="relative">
                 <div className="max-w-7xl mx-auto pt-8 pb-24 px-4 md:px-12">
                     {/* Header Section */}
-                    <div className="mb-12 border-b-2 border-[#730051]/20 pb-6">
-                        <h3 className="text-4xl md:text-5xl font-bold text-[#730051] mb-4">
+                    <div className="mb-12 border-b-2 border-[#3b1a62]/20 pb-6">
+                        <h3 className="text-4xl md:text-5xl font-bold text-[#3b1a62] mb-4">
                             Sisters' Fellowship
                         </h3>
                         <p className="text-xl md:text-2xl font-light text-[#000000] opacity-80 max-w-3xl">
@@ -27,34 +27,34 @@ const SistersFellowship = () => {
                             </div>
 
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                                <div className="bg-[#ffffff] border border-[#730051]/20 p-6 rounded-lg hover:border-[#730051] transition-colors duration-300 shadow-sm hover:shadow-md">
-                                    <h4 className="text-[#730051] font-bold text-lg mb-2">Timing</h4>
+                                <div className="bg-[#ffffff] border border-[#3b1a62]/20 p-6 rounded-lg hover:border-[#3b1a62] transition-colors duration-300 shadow-sm hover:shadow-md">
+                                    <h4 className="text-[#3b1a62] font-bold text-lg mb-2">Timing</h4>
                                     <p className="text-[#000000]">Sunday Evenings</p>
                                     <p className="text-[#000000] font-medium">6:50pm - 8:50pm</p>
                                 </div>
-                                <div className="bg-[#ffffff] border border-[#730051]/20 p-6 rounded-lg hover:border-[#730051] transition-colors duration-300 shadow-sm hover:shadow-md">
-                                    <h4 className="text-[#730051] font-bold text-lg mb-2">Leadership</h4>
+                                <div className="bg-[#ffffff] border border-[#3b1a62]/20 p-6 rounded-lg hover:border-[#3b1a62] transition-colors duration-300 shadow-sm hover:shadow-md">
+                                    <h4 className="text-[#3b1a62] font-bold text-lg mb-2">Leadership</h4>
                                     <p className="text-[#000000]">Led by the</p>
                                     <p className="text-[#000000] font-medium">Sister-in-charge</p>
                                 </div>
                             </div>
-                            <div className="bg-[#ffffff] border border-[#730051]/20 p-6 rounded-lg shadow-sm">
-                                <h4 className="text-[#730051] font-bold text-lg mb-4 uppercase tracking-wider">Program Structure</h4>
+                            <div className="bg-[#ffffff] border border-[#3b1a62]/20 p-6 rounded-lg shadow-sm">
+                                <h4 className="text-[#3b1a62] font-bold text-lg mb-4 uppercase tracking-wider">Program Structure</h4>
                                 <ul className="space-y-3">
                                     <li className="flex items-start text-[#000000]">
-                                        <span className="mr-3 text-[#730051] font-bold">•</span>
+                                        <span className="mr-3 text-[#3b1a62] font-bold">•</span>
                                         <span>Weekly Bible study and prayer sessions</span>
                                     </li>
                                     <li className="flex items-start text-[#000000]">
-                                        <span className="mr-3 text-[#730051] font-bold">•</span>
+                                        <span className="mr-3 text-[#3b1a62] font-bold">•</span>
                                         <span>Women's mentorship and encouragement</span>
                                     </li>
                                     <li className="flex items-start text-[#000000]">
-                                        <span className="mr-3 text-[#730051] font-bold">•</span>
+                                        <span className="mr-3 text-[#3b1a62] font-bold">•</span>
                                         <span>Community outreach and charity initiatives</span>
                                     </li>
                                     <li className="flex items-start text-[#000000]">
-                                        <span className="mr-3 text-[#730051] font-bold">•</span>
+                                        <span className="mr-3 text-[#3b1a62] font-bold">•</span>
                                         <span>Fellowship gatherings and special events</span>
                                     </li>
                                 </ul>

@@ -424,7 +424,7 @@ const SuperAdmin: React.FC = () => {
                 borderRadius: '8px',
                 border: '1px solid #f0e0ec'
             }}>
-                <h3 style={{ color: '#730051', marginBottom: '6px', fontSize: '15px', fontWeight: 700 }}>Academic Year Advancement</h3>
+                <h3 style={{ color: '#3b1a62', marginBottom: '6px', fontSize: '15px', fontWeight: 700 }}>Academic Year Advancement</h3>
                 <p style={{ color: '#666', fontSize: '13px', marginBottom: '12px', lineHeight: '1.5' }}>
                     Advance all students by one year. Students at year 4 (or year 6 for medical) will be
                     promoted to Associate status automatically.
@@ -589,7 +589,7 @@ const SuperAdmin: React.FC = () => {
         if (loading) {
             return (
                 <div className={styles.loadingContainer}>
-                    <p>Loading...</p>
+                    <div className="loading-container" style={{textAlign:"center", padding:"2rem"}}><img src={loadingAnime} alt="Loading..." style={{width:"80px"}} /></div>
                 </div>
             );
         }
@@ -689,7 +689,7 @@ const SuperAdmin: React.FC = () => {
                                         className={styles.dangerButton}
                                         onClick={handleAdvanceYears}
                                         disabled={isAdvancing}
-                                        style={{ background: '#730051' }}
+                                        style={{ background: '#3b1a62' }}
                                     >
                                         {isAdvancing ? 'Advancing...' : 'Yes, Advance All'}
                                     </button>

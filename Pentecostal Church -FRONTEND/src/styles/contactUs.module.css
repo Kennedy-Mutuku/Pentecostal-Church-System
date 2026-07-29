@@ -40,7 +40,7 @@
 
 .loading-text {
   font-size: 1.2rem;
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 20px;
   font-weight: 600;
 }
@@ -52,8 +52,8 @@
 
 /* Header */
 .header {
-  background: #730051;
-  background: linear-gradient(135deg, #730051, #8e1a6b);
+  background: #3b1a62;
+  background: linear-gradient(135deg, #3b1a62, #4a2375);
   color: white;
   position: -webkit-sticky;
   position: fixed;
@@ -200,13 +200,13 @@ header h1 {
   left: 0;
   right: 0;
   height: 4px;
-  background: linear-gradient(90deg, #730051, #730051, #730051);
+  background: linear-gradient(90deg, #3b1a62, #3b1a62, #3b1a62);
 }
 
 .heroIcon {
   width: 60px;
   height: 60px;
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 20px;
   filter: drop-shadow(0 2px 8px rgba(115, 0, 81, 0.2));
   animation: float 3s ease-in-out infinite;
@@ -281,7 +281,7 @@ header h1 {
 }
 
 .toggleButton.active {
-  background: linear-gradient(135deg, #730051, #8e1a6b);
+  background: linear-gradient(135deg, #3b1a62, #4a2375);
   color: white;
   box-shadow: 0 4px 15px rgba(115, 0, 81, 0.3);
   transform: translateY(-1px);
@@ -289,11 +289,11 @@ header h1 {
 
 .toggleButton:not(.active):hover:not(:disabled) {
   background: rgba(115, 0, 81, 0.05);
-  color: #730051;
+  color: #3b1a62;
 }
 
 .shieldIcon {
-  color: #730051;
+  color: #3b1a62;
   filter: drop-shadow(0 0 4px rgba(0, 198, 255, 0.3));
 }
 
@@ -372,9 +372,9 @@ header h1 {
 }
 
 .categoryButton.selected {
-  border-color: #730051;
+  border-color: #3b1a62;
   background: linear-gradient(135deg, rgba(115, 0, 81, 0.1), rgba(0, 198, 255, 0.05));
-  color: #730051;
+  color: #3b1a62;
   font-weight: 600;
 }
 
@@ -405,7 +405,7 @@ header h1 {
 .input:focus,
 .textarea:focus {
   outline: none;
-  border-color: #730051;
+  border-color: #3b1a62;
   box-shadow: 0 0 0 3px rgba(115, 0, 81, 0.1);
   background: rgba(115, 0, 81, 0.01);
 }
@@ -425,7 +425,7 @@ header h1 {
 }
 
 .previewTitle {
-  color: #730051;
+  color: #3b1a62;
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 15px;
@@ -458,7 +458,7 @@ header h1 {
   justify-content: center;
   gap: 10px;
   padding: 18px 24px;
-  background: linear-gradient(135deg, #730051, #8e1a6b);
+  background: linear-gradient(135deg, #3b1a62, #4a2375);
   color: white;
   border: none;
   border-radius: 12px;
@@ -485,7 +485,7 @@ header h1 {
 .submitButton:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 8px 25px rgba(115, 0, 81, 0.4);
-  background: linear-gradient(135deg, #8e1a6b, #a01f75);
+  background: linear-gradient(135deg, #4a2375, #a01f75);
 }
 
 .submitButton:hover:not(:disabled)::before {
@@ -591,7 +591,7 @@ header h1 {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  color: #730051;
+  color: #3b1a62;
   font-weight: 600;
   font-size: 0.95rem;
 }
@@ -790,17 +790,17 @@ header h1 {
   cursor: pointer;
   transition: all 0.3s ease;
   background: transparent;
-  color: #730051;
+  color: #3b1a62;
 }
 
 .tabLink:hover {
-  background: linear-gradient(135deg, #730051, #f704ae);
+  background: linear-gradient(135deg, #3b1a62, #f704ae);
   color: #f8f5f7;
   transition: 0.4ms ease-in-out;
 }
 
 .activeTab {
-  background: #730051;
+  background: #3b1a62;
   color: white !important;
   box-shadow: 0 4px 15px rgba(115, 0, 81, 0.2);
 }
@@ -835,8 +835,8 @@ header h1 {
 
 .secondaryButton {
   background: transparent;
-  border: 2px solid #730051;
-  color: #730051;
+  border: 2px solid #3b1a62;
+  color: #3b1a62;
   padding: 10px 20px;
   border-radius: 10px;
   font-weight: 600;
@@ -846,7 +846,7 @@ header h1 {
 }
 
 .secondaryButton:hover {
-  background: #730051;
+  background: #3b1a62;
   color: white;
 }
 
@@ -932,7 +932,7 @@ header h1 {
 .ministryTag {
   display: inline-flex;
   background: #f8f9fa;
-  color: #730051;
+  color: #3b1a62;
   font-size: 0.8rem;
   font-weight: 600;
   padding: 4px 10px;
@@ -945,14 +945,14 @@ header h1 {
   padding: 20px;
   background: linear-gradient(135deg, #f8f9fa 0%, #f1f3f5 100%);
   border-radius: 12px;
-  border-left: 4px solid #730051;
+  border-left: 4px solid #3b1a62;
 }
 
 .replyHeader {
   display: flex;
   align-items: center;
   gap: 8px;
-  color: #730051;
+  color: #3b1a62;
   font-weight: 700;
   font-size: 0.9rem;
   margin-bottom: 10px;
@@ -1018,13 +1018,13 @@ header h1 {
   align-self: flex-start;
   background: #f1f3f5;
   color: #2c3e50;
-  border-left: 3px solid #730051;
+  border-left: 3px solid #3b1a62;
   border-bottom-left-radius: 2px;
 }
 
 .userChat {
   align-self: flex-end;
-  background: #730051;
+  background: #3b1a62;
   color: white;
   border-bottom-right-radius: 2px;
 }
@@ -1045,7 +1045,7 @@ header h1 {
 }
 
 .overseerChat .chatInfo {
-  color: #730051;
+  color: #3b1a62;
 }
 
 .chatTime {
@@ -1070,8 +1070,8 @@ header h1 {
   align-items: center;
   gap: 8px;
   background: white;
-  border: 1px solid #730051;
-  color: #730051;
+  border: 1px solid #3b1a62;
+  color: #3b1a62;
   padding: 8px 18px;
   border-radius: 10px;
   font-size: 0.9rem;
@@ -1081,7 +1081,7 @@ header h1 {
 }
 
 .replyButton:hover {
-  background: #730051;
+  background: #3b1a62;
   color: white;
   box-shadow: 0 4px 12px rgba(115, 0, 81, 0.2);
 }
@@ -1120,7 +1120,7 @@ header h1 {
 
 .inlineTextarea:focus {
   outline: none;
-  border-color: #730051;
+  border-color: #3b1a62;
 }
 
 .inlineActions {
@@ -1151,14 +1151,14 @@ header h1 {
 }
 
 .sendButton {
-  background: #730051;
+  background: #3b1a62;
   border: none;
   color: white;
   box-shadow: 0 4px 10px rgba(115, 0, 81, 0.2);
 }
 
 .sendButton:hover:not(:disabled) {
-  background: #8e1a6b;
+  background: #4a2375;
   transform: translateY(-1px);
   box-shadow: 0 6px 15px rgba(115, 0, 81, 0.3);
 }

@@ -336,7 +336,7 @@ const MinutesManager: React.FC<MinutesManagerProps> = ({ onClose, onUploadSucces
       {/* Minutes List Section */}
       <div className={styles.listSection}>
         <h3>
-          Minutes List {loading && <span className={styles.loading}>Loading...</span>}
+          Minutes List {loading && <span className={styles.loading}><img src={loadingAnime} alt="Loading..." style={{width:"30px", verticalAlign:"middle"}} /></span>}
         </h3>
 
         {minutes.length === 0 ? (

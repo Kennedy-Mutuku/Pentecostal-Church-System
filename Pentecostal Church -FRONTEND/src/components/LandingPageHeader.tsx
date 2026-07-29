@@ -55,8 +55,8 @@ const LandingPageHeader = () => {
 
   const images = [
     { url: `url("${board1}")`, text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[0] },
-    { url: 'linear-gradient(135deg, #730051, #482078)', text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[1] },
-    { url: 'linear-gradient(135deg, #341558, #730051)', text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[2] }
+    { url: 'linear-gradient(135deg, #3b1a62, #482078)', text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[1] },
+    { url: 'linear-gradient(135deg, #341558, #3b1a62)', text: `<h1 class="${styles['section-text']}"></h1><div class="${styles['loadingBar-intro']}"></div>`, quote: christianQuotes[2] }
   ];
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -706,7 +706,7 @@ const LandingPageHeader = () => {
                 {newsData.eventDate && (
                   <div className={styles.eventSection}>
                     <div className={styles.eventInfo} style={{ textAlign: 'center' }}>
-                      <h4 style={{ color: '#730051', margin: '0 0 10px 0', textAlign: 'center' }}>Upcoming Event</h4>
+                      <h4 style={{ color: '#3b1a62', margin: '0 0 10px 0', textAlign: 'center' }}>Upcoming Event</h4>
                       <p style={{ margin: '5px 0', color: '#666', fontWeight: '600', textAlign: 'center' }}>
                         {new Date(newsData.eventDate).toLocaleDateString('en-US', {
                           weekday: 'long',
@@ -720,7 +720,7 @@ const LandingPageHeader = () => {
 
                     {countdown && !eventPassed && (
                       <div className={styles.countdownTimer}>
-                        <h5 style={{ color: '#730051', margin: '10px 0 5px 0', textAlign: 'center' }}>Time Remaining</h5>
+                        <h5 style={{ color: '#3b1a62', margin: '10px 0 5px 0', textAlign: 'center' }}>Time Remaining</h5>
                         <div style={{
                           display: 'grid',
                           gridTemplateColumns: 'repeat(4, 1fr)',
@@ -734,8 +734,8 @@ const LandingPageHeader = () => {
                             textAlign: 'center',
                             border: '1px solid rgba(115, 0, 81, 0.2)'
                           }}>
-                            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#730051' }}>{String(countdown.days || 0).padStart(2, '0')}</div>
-                            <div style={{ fontSize: '10px', color: '#730051', textTransform: 'uppercase' }}>Days</div>
+                            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#3b1a62' }}>{String(countdown.days || 0).padStart(2, '0')}</div>
+                            <div style={{ fontSize: '10px', color: '#3b1a62', textTransform: 'uppercase' }}>Days</div>
                           </div>
                           <div style={{
                             background: 'rgba(115, 0, 81, 0.1)',
@@ -744,8 +744,8 @@ const LandingPageHeader = () => {
                             textAlign: 'center',
                             border: '1px solid rgba(115, 0, 81, 0.2)'
                           }}>
-                            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#730051' }}>{String(countdown.hours || 0).padStart(2, '0')}</div>
-                            <div style={{ fontSize: '10px', color: '#730051', textTransform: 'uppercase' }}>Hours</div>
+                            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#3b1a62' }}>{String(countdown.hours || 0).padStart(2, '0')}</div>
+                            <div style={{ fontSize: '10px', color: '#3b1a62', textTransform: 'uppercase' }}>Hours</div>
                           </div>
                           <div style={{
                             background: 'rgba(115, 0, 81, 0.1)',
@@ -754,8 +754,8 @@ const LandingPageHeader = () => {
                             textAlign: 'center',
                             border: '1px solid rgba(115, 0, 81, 0.2)'
                           }}>
-                            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#730051' }}>{String(countdown.minutes || 0).padStart(2, '0')}</div>
-                            <div style={{ fontSize: '10px', color: '#730051', textTransform: 'uppercase' }}>Minutes</div>
+                            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#3b1a62' }}>{String(countdown.minutes || 0).padStart(2, '0')}</div>
+                            <div style={{ fontSize: '10px', color: '#3b1a62', textTransform: 'uppercase' }}>Minutes</div>
                           </div>
                           <div style={{
                             background: 'rgba(115, 0, 81, 0.1)',
@@ -764,8 +764,8 @@ const LandingPageHeader = () => {
                             textAlign: 'center',
                             border: '1px solid rgba(115, 0, 81, 0.2)'
                           }}>
-                            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#730051' }}>{String(countdown.seconds || 0).padStart(2, '0')}</div>
-                            <div style={{ fontSize: '10px', color: '#730051', textTransform: 'uppercase' }}>Seconds</div>
+                            <div style={{ fontSize: '18px', fontWeight: 'bold', color: '#3b1a62' }}>{String(countdown.seconds || 0).padStart(2, '0')}</div>
+                            <div style={{ fontSize: '10px', color: '#3b1a62', textTransform: 'uppercase' }}>Seconds</div>
                           </div>
                         </div>
                       </div>

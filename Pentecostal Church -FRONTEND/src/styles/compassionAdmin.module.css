@@ -9,7 +9,7 @@
 
 /* Header */
 .header {
-  background: linear-gradient(135deg, #730051 0%, #730051 100%);
+  background: linear-gradient(135deg, #3b1a62 0%, #3b1a62 100%);
   color: white;
   text-align: center;
   padding: 40px 20px;
@@ -107,11 +107,11 @@
 
 .tabButton:hover {
   background: #f8f9fa;
-  color: #730051;
+  color: #3b1a62;
 }
 
 .tabButton.active {
-  background: linear-gradient(135deg, #730051, #730051);
+  background: linear-gradient(135deg, #3b1a62, #3b1a62);
   color: white;
 }
 
@@ -146,7 +146,7 @@
 .filterIcon {
   width: 18px;
   height: 18px;
-  color: #730051;
+  color: #3b1a62;
 }
 
 .searchFilter input,
@@ -164,7 +164,7 @@
 .statusFilter select:focus,
 .urgencyFilter select:focus {
   outline: none;
-  border-color: #730051;
+  border-color: #3b1a62;
   box-shadow: 0 0 0 3px rgba(0, 198, 255, 0.1);
 }
 
@@ -179,7 +179,7 @@
 
 .requestsList h2,
 .donationsList h2 {
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 25px;
   font-size: 1.8rem;
   text-align: center;
@@ -260,7 +260,7 @@
 }
 
 .cardBody h3 {
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 10px;
   font-size: 1.2rem;
 }
@@ -312,7 +312,7 @@
 .contactIcon {
   width: 14px;
   height: 14px;
-  color: #730051;
+  color: #3b1a62;
 }
 
 .timestamp {
@@ -349,13 +349,13 @@
 }
 
 .viewButton {
-  background: #730051;
+  background: #3b1a62;
   color: white;
   flex: 1;
 }
 
 .viewButton:hover {
-  background: #5a003d;
+  background: #281045;
   transform: translateY(-1px);
 }
 
@@ -407,7 +407,7 @@
   align-items: center;
   padding: 20px 30px;
   border-bottom: 1px solid #e9ecef;
-  background: linear-gradient(135deg, #730051, #730051);
+  background: linear-gradient(135deg, #3b1a62, #3b1a62);
   color: white;
   border-radius: 15px 15px 0 0;
 }
@@ -458,7 +458,7 @@
 .detailItem .icon {
   width: 18px;
   height: 18px;
-  color: #730051;
+  color: #3b1a62;
   margin-top: 2px;
   flex-shrink: 0;
 }
@@ -486,7 +486,7 @@
 }
 
 .descriptionSection strong {
-  color: #730051;
+  color: #3b1a62;
   display: block;
   margin-bottom: 10px;
 }
@@ -504,7 +504,7 @@
 }
 
 .statusActions strong {
-  color: #730051;
+  color: #3b1a62;
   display: block;
   margin-bottom: 15px;
 }
@@ -542,7 +542,7 @@
 }
 
 .settingsContainer h2 {
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 30px;
   font-size: 1.8rem;
   text-align: center;
@@ -555,7 +555,7 @@
 }
 
 .settingsSection h3 {
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 20px;
   font-size: 1.4rem;
   border-bottom: 2px solid #e9ecef;
@@ -573,7 +573,7 @@
   background: #f8f9fa;
   border-radius: 10px;
   padding: 20px;
-  border-left: 4px solid #730051;
+  border-left: 4px solid #3b1a62;
   transition: all 0.3s ease;
 }
 
@@ -589,7 +589,7 @@
 }
 
 .settingHeader h4 {
-  color: #730051;
+  color: #3b1a62;
   margin: 0;
   font-size: 1.1rem;
 }
@@ -629,12 +629,12 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  background: #730051;
+  background: #3b1a62;
   color: white;
 }
 
 .toggleButton:hover {
-  background: #5a003d;
+  background: #281045;
   transform: translateY(-1px);
 }
 
@@ -643,12 +643,12 @@
   background: #e3f2fd;
   border-radius: 10px;
   padding: 20px;
-  border: 2px dashed #730051;
+  border: 2px dashed #3b1a62;
 }
 
 .addMethodSection h4,
 .addContactSection h4 {
-  color: #730051;
+  color: #3b1a62;
   margin-bottom: 15px;
   font-size: 1.1rem;
 }
@@ -663,7 +663,7 @@
   padding: 10px 15px;
   border: none;
   border-radius: 8px;
-  background: linear-gradient(135deg, #730051, #730051);
+  background: linear-gradient(135deg, #3b1a62, #3b1a62);
   color: white;
   font-size: 0.9rem;
   font-weight: 600;
@@ -1302,7 +1302,7 @@
 .formGroup select:focus,
 .formGroup textarea:focus {
   outline: none;
-  border-color: #730051;
+  border-color: #3b1a62;
   box-shadow: 0 0 0 2px rgba(115, 0, 81, 0.25);
 }
 
@@ -1375,7 +1375,7 @@
 }
 
 .saveButton {
-  background: #730051;
+  background: #3b1a62;
   color: white;
   border: none;
   border-radius: 4px;

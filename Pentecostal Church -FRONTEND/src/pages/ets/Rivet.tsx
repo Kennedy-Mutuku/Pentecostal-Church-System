@@ -11,7 +11,7 @@ const Rivet: React.FC = () => {
         <div className={styles.etPage}>
 
             {/* Hero Banner */}
-            <section className={styles.etPageHero} style={{ background: 'linear-gradient(135deg, #482078, #730051)' }}>
+            <section className={styles.etPageHero} style={{ background: 'linear-gradient(135deg, #482078, #3b1a62)' }}>
                 <div className={styles.pageHeroContent}>
                     <h1 className={styles.heroTitle}>Rift Valley Evangelistic Team</h1>
                 </div>

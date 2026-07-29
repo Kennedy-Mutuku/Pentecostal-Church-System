@@ -57,7 +57,7 @@
 .header.warning,
 .header.danger,
 .header.success {
-    background: #730051;
+    background: #3b1a62;
     color: white;
     border-bottom: none;
 }
@@ -144,7 +144,7 @@
 .confirmBtn.warning,
 .confirmBtn.danger,
 .confirmBtn.success {
-    background: #730051;
+    background: #3b1a62;
 }
 
 .confirmBtn.info:hover,

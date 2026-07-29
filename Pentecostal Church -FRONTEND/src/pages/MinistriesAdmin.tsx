@@ -520,9 +520,9 @@ const MinistriesAdmin: React.FC = () => {
                     body { font-family: 'Arial', sans-serif; margin: 0; padding: 0; font-size: 12px; }
                     .letterhead-img { width: 100%; max-width: 100%; height: auto; margin: 0 auto 15px; display: block; }
                     .header { text-align: center; margin-bottom: 15px; }
-                    .header h2 { color: #730051; font-size: 18px; margin: 5px 0; font-weight: bold; }
+                    .header h2 { color: #3b1a62; font-size: 18px; margin: 5px 0; font-weight: bold; }
                     .session-info { 
-                        background: linear-gradient(135deg, #730051, #00C6FF); 
+                        background: linear-gradient(135deg, #3b1a62, #00C6FF); 
                         color: white; 
                         padding: 8px 15px; 
                         border-radius: 5px; 
@@ -540,7 +540,7 @@ const MinistriesAdmin: React.FC = () => {
                         font-size: 11px;
                     }
                     .attendance-table th { 
-                        background: linear-gradient(135deg, #730051, #8e1a6b); 
+                        background: linear-gradient(135deg, #3b1a62, #4a2375); 
                         color: white; 
                         padding: 8px 4px; 
                         text-align: center; 
@@ -563,14 +563,14 @@ const MinistriesAdmin: React.FC = () => {
                     .attendance-table tr:nth-child(even) { background: #f0f8ff; }
                     .attendance-table tr:nth-child(odd) { background: #fff; }
                     .attendance-table tr:hover { background: #e6f3ff; }
-                    .name-col { text-align: left !important; font-weight: bold; color: #730051; }
+                    .name-col { text-align: left !important; font-weight: bold; color: #3b1a62; }
                     .number-col { background: #00C6FF !important; color: white; font-weight: bold; }
                     .footer { 
                         margin-top: 15px; 
                         text-align: center; 
                         font-size: 9px; 
                         color: #666; 
-                        border-top: 2px solid #730051; 
+                        border-top: 2px solid #3b1a62; 
                         padding-top: 10px; 
                     }
                     .signature-section {
@@ -581,12 +581,12 @@ const MinistriesAdmin: React.FC = () => {
                     .signature-box {
                         width: 45%;
                         text-align: center;
-                        border: 2px solid #730051;
+                        border: 2px solid #3b1a62;
                         padding: 15px;
                         border-radius: 5px;
                     }
                     .signature-line { 
-                        border-bottom: 2px solid #730051; 
+                        border-bottom: 2px solid #3b1a62; 
                         margin: 10px 0; 
                         height: 30px;
                     }
@@ -649,13 +649,13 @@ const MinistriesAdmin: React.FC = () => {
 
                 <div class="signature-section">
                     <div class="signature-box">
-                        <strong style="color: #730051;">LEADER SIGNATURE</strong>
+                        <strong style="color: #3b1a62;">LEADER SIGNATURE</strong>
                         <div class="signature-line"></div>
                         <p>Name: _______________________</p>
                         <p>Date: _______________________</p>
                     </div>
                     <div class="signature-box">
-                        <strong style="color: #730051;">MINISTRY COORDINATOR</strong>
+                        <strong style="color: #3b1a62;">MINISTRY COORDINATOR</strong>
                         <div class="signature-line"></div>
                         <p>Name: _______________________</p>
                         <p>Date: _______________________</p>
@@ -663,7 +663,7 @@ const MinistriesAdmin: React.FC = () => {
                 </div>
                 
                 <div class="footer">
-                    <p style="color: #730051; font-weight: bold;">RPC Nyamira | P.O BOX 408-40200, KISII, KENYA</p>
+                    <p style="color: #3b1a62; font-weight: bold;">RPC Nyamira | P.O BOX 408-40200, KISII, KENYA</p>
                     <p>www.rpcmc.org | rpcnyamira@gmail.com</p>
                 </div>
             </body>
@@ -683,13 +683,13 @@ const MinistriesAdmin: React.FC = () => {
                     body { font-family: 'Times New Roman', serif; margin: 0; padding: 0; line-height: 1.4; }
                     .letterhead-img { width: 100%; max-width: 800px; height: auto; margin: 0 auto 20px; display: block; }
                     .header { text-align: center; margin-bottom: 30px; }
-                    .header h1 { color: #730051; font-size: 24px; margin: 10px 0; text-transform: uppercase; }
+                    .header h1 { color: #3b1a62; font-size: 24px; margin: 10px 0; text-transform: uppercase; }
                     .header h2 { color: #00C6FF; font-size: 18px; margin: 5px 0; }
                     .report-info { background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0; }
-                    .report-info h3 { color: #730051; margin: 0 0 10px 0; }
+                    .report-info h3 { color: #3b1a62; margin: 0 0 10px 0; }
                     .commitments-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
                     .commitments-table th, .commitments-table td { border: 1px solid #ddd; padding: 8px; text-align: left; font-size: 12px; }
-                    .commitments-table th { background: #730051; color: white; font-weight: bold; }
+                    .commitments-table th { background: #3b1a62; color: white; font-weight: bold; }
                     .commitments-table tr:nth-child(even) { background: #f9f9f9; }
                     .status-badge { padding: 3px 8px; border-radius: 12px; font-size: 10px; font-weight: bold; }
                     .status-approved { background: #e8f5e8; color: #2d5a2d; }
@@ -765,7 +765,7 @@ const MinistriesAdmin: React.FC = () => {
                     body { font-family: 'Times New Roman', serif; margin: 0; padding: 0; }
                     .letterhead-img { width: 100%; max-width: 800px; height: auto; margin: 0 auto 20px; display: block; }
                     .document-title { text-align: center; margin: 20px 0; }
-                    .document-title h2 { color: #730051; font-size: 20px; margin: 0; text-transform: uppercase; }
+                    .document-title h2 { color: #3b1a62; font-size: 20px; margin: 0; text-transform: uppercase; }
                     .form-section { margin: 20px 0; }
                     .form-row { display: flex; justify-content: space-between; margin: 10px 0; }
                     .form-field { flex: 1; margin-right: 20px; }
@@ -1576,7 +1576,7 @@ const MinistriesAdmin: React.FC = () => {
                                     <div className={styles.tableResponsive}>
                                         <table className={styles.dataTable} style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
                                             <thead>
-                                                <tr style={{ backgroundColor: '#730051', color: 'white', textAlign: 'left' }}>
+                                                <tr style={{ backgroundColor: '#3b1a62', color: 'white', textAlign: 'left' }}>
                                                     <th style={{ padding: '12px', borderBottom: '2px solid #ddd' }}>#</th>
                                                     <th style={{ padding: '12px', borderBottom: '2px solid #ddd' }}>Name</th>
                                                     <th style={{ padding: '12px', borderBottom: '2px solid #ddd' }}>Reg Number</th>

@@ -415,7 +415,7 @@ const RequisitionsAdmin: React.FC = () => {
               onClick={() => navigate("/worship-docket-admin")}
               style={{
                 padding: "10px 20px",
-                background: "#730051",
+                background: "#3b1a62",
                 color: "white",
                 border: "none",
                 borderRadius: "5px",

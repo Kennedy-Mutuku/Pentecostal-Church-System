@@ -482,7 +482,7 @@ select {
 }
 
 .footer {
-  background-color: #730051;
+  background-color: #3b1a62;
   padding: 20px;
   text-align: center;
   color: #fff;
@@ -586,7 +586,7 @@ select {
     color: #2c3e50;
     letter-spacing: 0.8px;
     text-transform: uppercase;
-    background: linear-gradient(135deg, #730051, #2c3e50);
+    background: linear-gradient(135deg, #3b1a62, #2c3e50);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;

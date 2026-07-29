@@ -86,7 +86,7 @@ const ForumsSection = () => {
     <section className="py-6 md:py-20 bg-white">
       <div className="max-w-6xl mx-auto px-4 md:px-6">
         <div className="text-center mb-3 md:mb-12">
-          <span className="inline-block px-3 py-1 bg-purple-100 text-[#730051] text-sm font-medium rounded-full mb-4">
+          <span className="inline-block px-3 py-1 bg-purple-100 text-[#3b1a62] text-sm font-medium rounded-full mb-4">
             Get Involved
           </span>
           <h2 className="text-3xl md:text-4xl font-bold text-gray-800 mb-4">
@@ -104,9 +104,9 @@ const ForumsSection = () => {
             // Render content inside the card
             const cardContent = (
               <>
-                <div className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center bg-purple-100 rounded-lg md:rounded-xl mb-2 md:mb-4 group-hover:bg-[#730051] transition-colors duration-300">
-                  <Icon size={16} className="text-[#730051] group-hover:text-white md:hidden" />
-                  <Icon size={24} className="text-[#730051] group-hover:text-white hidden md:block" />
+                <div className="w-8 h-8 md:w-12 md:h-12 flex items-center justify-center bg-purple-100 rounded-lg md:rounded-xl mb-2 md:mb-4 group-hover:bg-[#3b1a62] transition-colors duration-300">
+                  <Icon size={16} className="text-[#3b1a62] group-hover:text-white md:hidden" />
+                  <Icon size={24} className="text-[#3b1a62] group-hover:text-white hidden md:block" />
                 </div>
                 <h3 className="text-sm md:text-lg font-semibold text-gray-800 mb-1 md:mb-2">
                   {forum.title}
@@ -157,7 +157,7 @@ const ForumsSection = () => {
             <div className="flex items-start justify-between mb-6">
               <div className="flex items-center gap-4">
                 <div className="w-12 h-12 flex items-center justify-center bg-purple-100 rounded-xl">
-                  <selectedForum.icon size={24} className="text-[#730051]" />
+                  <selectedForum.icon size={24} className="text-[#3b1a62]" />
                 </div>
                 <h3 className="text-xl font-bold text-gray-800">
                   {selectedForum.title}
@@ -179,7 +179,7 @@ const ForumsSection = () => {
             <div className="mt-8 flex gap-3">
               <button
                 onClick={() => setSelectedForum(null)}
-                className="flex-1 py-3 px-4 bg-[#730051] text-white font-medium rounded-lg hover:bg-[#5a0040] transition-colors"
+                className="flex-1 py-3 px-4 bg-[#3b1a62] text-white font-medium rounded-lg hover:bg-[#5a0040] transition-colors"
               >
                 Got it
               </button>

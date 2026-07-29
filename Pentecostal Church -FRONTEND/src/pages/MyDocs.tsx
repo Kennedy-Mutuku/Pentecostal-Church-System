@@ -115,7 +115,7 @@ const MyDocs = () => {
     <div style={{ padding: '20px', maxWidth: '1200px', margin: '0 auto' }}>
       {/* Header */}
       <div style={{ marginBottom: '30px' }}>
-        <h1 style={{ color: '#730051', fontSize: '2rem', marginBottom: '10px' }}>My Documents</h1>
+        <h1 style={{ color: '#3b1a62', fontSize: '2rem', marginBottom: '10px' }}>My Documents</h1>
         <p style={{ color: '#666', fontSize: '1rem' }}>
           View and manage your personal documents uploaded by administrators
         </p>
@@ -250,7 +250,7 @@ const MyDocs = () => {
                       <button
                         onClick={() => handleView(doc._id)}
                         style={{
-                          backgroundColor: '#730051',
+                          backgroundColor: '#3b1a62',
                           color: '#000',
                           border: 'none',
                           borderRadius: '6px',
@@ -266,7 +266,7 @@ const MyDocs = () => {
                           (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#5a0040';
                         }}
                         onMouseLeave={(e) => {
-                          (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#730051';
+                          (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#3b1a62';
                         }}
                       >
                         <Eye size={16} /> View

@@ -229,7 +229,7 @@
 
 /* Login Section */
 .loginCard {
-    background: linear-gradient(135deg, #730051, #5a003d);
+    background: linear-gradient(135deg, #3b1a62, #281045);
     border-radius: 16px;
     padding: 40px 30px;
     text-align: center;
@@ -285,7 +285,7 @@
 }
 
 .loginButton {
-    background: linear-gradient(135deg, #a0006e, #c4007e);
+    background: linear-gradient(135deg, #5a2d8a, #c4007e);
     color: white;
     border: none;
     padding: 12px 36px;
@@ -327,7 +327,7 @@
 }
 
 .newsDisplayCard h2 {
-    color: #730051;
+    color: #3b1a62;
     font-size: 1rem;
     margin-bottom: 10px;
     display: flex;
@@ -359,7 +359,7 @@
 }
 
 .loadingMessage h3 {
-    color: #730051;
+    color: #3b1a62;
     margin: 0.5rem 0;
     font-size: 1rem;
 }
@@ -372,7 +372,7 @@
 
 .loadingIcon {
     font-size: 2rem;
-    color: #730051;
+    color: #3b1a62;
     animation: pulse 2s infinite;
 }
 
@@ -394,7 +394,7 @@
 }
 
 .sessionTitle {
-    color: #730051;
+    color: #3b1a62;
     font-size: 1rem;
     margin-bottom: 12px;
     display: flex;
@@ -436,7 +436,7 @@
 
 .sessionStatus {
     background: #f8f9fa;
-    border-left: 3px solid #730051;
+    border-left: 3px solid #3b1a62;
     padding: 10px 14px;
     border-radius: 6px;
     margin-top: 10px;
@@ -462,7 +462,7 @@
 }
 
 .selectionCard h2 {
-    color: #730051;
+    color: #3b1a62;
     font-size: 1.1rem;
     margin-bottom: 14px;
     display: flex;
@@ -507,7 +507,7 @@
 .ministrySelect:focus,
 .dateInput:focus {
     outline: none;
-    border-color: #730051;
+    border-color: #3b1a62;
     box-shadow: 0 0 0 2px rgba(115, 0, 81, 0.1);
 }
 
@@ -547,7 +547,7 @@
 }
 
 .attendanceHeader h2 {
-    color: #730051;
+    color: #3b1a62;
     font-size: 1.1rem;
     margin-bottom: 8px;
     display: flex;
@@ -568,7 +568,7 @@
 }
 
 .countBadge {
-    background: linear-gradient(135deg, #730051, #8e1a6b);
+    background: linear-gradient(135deg, #3b1a62, #4a2375);
     color: white;
     padding: 4px 14px;
     border-radius: 16px;
@@ -582,7 +582,7 @@
 }
 
 .downloadPdfButton {
-    background: linear-gradient(135deg, #730051, #a0006e);
+    background: linear-gradient(135deg, #3b1a62, #5a2d8a);
     color: white;
     border: none;
     padding: 10px 24px;
@@ -616,7 +616,7 @@
 }
 
 .attendanceTable thead {
-    background: linear-gradient(135deg, #730051, #8e1a6b);
+    background: linear-gradient(135deg, #3b1a62, #4a2375);
 }
 
 .attendanceTable th {
@@ -642,7 +642,7 @@
 
 .numberCell {
     font-weight: 700;
-    color: #730051;
+    color: #3b1a62;
     text-align: center;
     width: 40px;
 }
@@ -654,7 +654,7 @@
 
 .regCell {
     font-family: monospace;
-    color: #730051;
+    color: #3b1a62;
     font-weight: 500;
 }
 
@@ -713,7 +713,7 @@
 }
 
 .leadershipRoleButton {
-    background: linear-gradient(135deg, #730051, #5a003d);
+    background: linear-gradient(135deg, #3b1a62, #281045);
     color: white;
     border: none;
     padding: 10px 14px;

@@ -97,7 +97,7 @@ const SignatureField: React.FC<{
         className={`relative border-2 rounded-lg overflow-hidden transition-colors ${
           disabled
             ? "border-gray-200 bg-gray-50"
-            : "border-[#730051]/30 bg-white hover:border-[#730051]/50"
+            : "border-[#3b1a62]/30 bg-white hover:border-[#3b1a62]/50"
         }`}
       >
         <SignatureCanvas
@@ -129,7 +129,7 @@ const SignatureField: React.FC<{
         <button
           type="button"
           onClick={handleClear}
-          className="mt-2 text-xs font-medium text-[#730051] hover:text-[#5a0040] hover:underline transition-colors"
+          className="mt-2 text-xs font-medium text-[#3b1a62] hover:text-[#5a0040] hover:underline transition-colors"
         >
           Clear signature
         </button>
@@ -146,7 +146,7 @@ const AssetTransferForm: React.FC<AssetTransferFormProps> = ({
   return (
     <div className="w-full bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
       {/* Title */}
-      <div className="bg-gradient-to-r from-[#730051] to-[#a0006e] px-4 py-2 sm:px-6 sm:py-4">
+      <div className="bg-gradient-to-r from-[#3b1a62] to-[#5a2d8a] px-4 py-2 sm:px-6 sm:py-4">
         <h2 className="text-xs sm:text-lg font-bold tracking-wide text-white text-center uppercase">
           Asset Transfer Form
         </h2>
@@ -157,10 +157,10 @@ const AssetTransferForm: React.FC<AssetTransferFormProps> = ({
         {/* LEFT SIDE - ASSETS RECEIVED BY */}
         <div className="p-3 sm:p-6">
           <div className="mb-1">
-            <h3 className="text-xs sm:text-sm font-bold tracking-wide text-[#730051] mb-0.5">
+            <h3 className="text-xs sm:text-sm font-bold tracking-wide text-[#3b1a62] mb-0.5">
               ASSETS RECEIVED BY
             </h3>
-            <div className="h-0.5 w-8 bg-[#730051]/30 rounded-full mb-3"></div>
+            <div className="h-0.5 w-8 bg-[#3b1a62]/30 rounded-full mb-3"></div>
           </div>
 
           {/* Name Field */}
@@ -177,7 +177,7 @@ const AssetTransferForm: React.FC<AssetTransferFormProps> = ({
                   receivedByName: e.target.value,
                 })
               }
-              className="w-full border-b border-gray-300 focus:border-[#730051] bg-transparent px-0 py-1 text-sm transition-colors focus:outline-none"
+              className="w-full border-b border-gray-300 focus:border-[#3b1a62] bg-transparent px-0 py-1 text-sm transition-colors focus:outline-none"
               placeholder="Enter full name"
             />
           </div>
@@ -201,10 +201,10 @@ const AssetTransferForm: React.FC<AssetTransferFormProps> = ({
             <div className="md:hidden border-t border-gray-200"></div>
             <div className="p-3 sm:p-6">
               <div className="mb-1">
-                <h3 className="text-xs sm:text-sm font-bold tracking-wide text-[#730051] mb-0.5">
+                <h3 className="text-xs sm:text-sm font-bold tracking-wide text-[#3b1a62] mb-0.5">
                   ASSETS RELEASED BY
                 </h3>
-                <div className="h-0.5 w-8 bg-[#730051]/30 rounded-full mb-3"></div>
+                <div className="h-0.5 w-8 bg-[#3b1a62]/30 rounded-full mb-3"></div>
               </div>
 
               {/* Name Field */}
@@ -221,7 +221,7 @@ const AssetTransferForm: React.FC<AssetTransferFormProps> = ({
                       releasedByName: e.target.value,
                     })
                   }
-                  className="w-full border-b border-gray-300 focus:border-[#730051] bg-transparent px-0 py-1 text-sm transition-colors focus:outline-none"
+                  className="w-full border-b border-gray-300 focus:border-[#3b1a62] bg-transparent px-0 py-1 text-sm transition-colors focus:outline-none"
                   placeholder="Enter full name"
                 />
               </div>
@@ -257,7 +257,7 @@ const AssetTransferForm: React.FC<AssetTransferFormProps> = ({
             })
           }
           disabled={isRequesterOnly && !data.date}
-          className="px-2 py-1 text-xs sm:text-sm border border-gray-300 rounded bg-white focus:outline-none focus:ring-1 focus:ring-[#730051]/20 focus:border-[#730051] disabled:opacity-50 w-full sm:w-auto"
+          className="px-2 py-1 text-xs sm:text-sm border border-gray-300 rounded bg-white focus:outline-none focus:ring-1 focus:ring-[#3b1a62]/20 focus:border-[#3b1a62] disabled:opacity-50 w-full sm:w-auto"
         />
       </div>
     </div>

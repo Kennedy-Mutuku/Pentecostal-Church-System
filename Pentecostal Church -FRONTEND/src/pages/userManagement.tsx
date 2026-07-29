@@ -35,6 +35,7 @@ const UserManagement: React.FC = () => {
   const [editFormData, setEditFormData] = useState<UserData | null>(null);
   const [savingUser, setSavingUser] = useState(false);
   const [showFullSize, setShowFullSize] = useState<string | null>(null);
+  const [viewMode, setViewMode] = useState<'family' | 'list'>('family');
 
   // Link-existing-members modal state
   const [linkModalOpen, setLinkModalOpen] = useState(false);
@@ -273,7 +274,7 @@ const UserManagement: React.FC = () => {
                         height: '80px',
                         borderRadius: '50%',
                         overflow: 'hidden',
-                        border: '3px solid #730051',
+                        border: '3px solid #3b1a62',
                         flexShrink: 0,
                         backgroundColor: '#f0f0f0',
                         display: 'flex',
@@ -300,7 +301,7 @@ const UserManagement: React.FC = () => {
                           }}
                         />
                       ) : (
-                        <User size={40} color="#730051" />
+                        <User size={40} color="#3b1a62" />
                       )}
                     </div>
 
@@ -311,11 +312,11 @@ const UserManagement: React.FC = () => {
                       flex: 1
                     }}>
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <User size={16} color="#730051" />
+                        <User size={16} color="#3b1a62" />
                         <div>
                           <strong>Name:</strong> {user.username}
                           {user.relationToHead && (
-                            <span style={{ marginLeft: '6px', fontSize: '11px', color: '#730051', background: '#f1d9ea', padding: '1px 6px', borderRadius: '4px' }}>
+                            <span style={{ marginLeft: '6px', fontSize: '11px', color: '#3b1a62', background: '#f1d9ea', padding: '1px 6px', borderRadius: '4px' }}>
                               {user.relationToHead}
                             </span>
                           )}
@@ -323,14 +324,14 @@ const UserManagement: React.FC = () => {
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Mail size={16} color="#730051" />
+                        <Mail size={16} color="#3b1a62" />
                         <div>
                           <strong>Email:</strong> {user.email || '—'}
                         </div>
                       </div>
 
                       <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <Phone size={16} color="#730051" />
+                        <Phone size={16} color="#3b1a62" />
                         <div>
                           <strong>Phone:</strong> {user.phone || '—'}
                         </div>
@@ -375,7 +376,7 @@ const UserManagement: React.FC = () => {
                         padding: '4px 8px',
                         borderRadius: '4px'
                       }}>
-                        Default Password: {user.phone}
+                        Default Password: {user.phone || <span style={{color:"#999", fontStyle:"italic"}}>N/A</span>}
                       </div>
                     ) : (
                       <div style={{
@@ -394,10 +395,10 @@ const UserManagement: React.FC = () => {
                           onClick={() => handleEditClick(user)}
                           style={{
                             padding: '8px 15px',
-                            border: '1px solid #730051',
+                            border: '1px solid #3b1a62',
                             borderRadius: '5px',
                             background: 'white',
-                            color: '#730051',
+                            color: '#3b1a62',
                             cursor: 'pointer',
                             fontSize: '12px',
                             fontWeight: 'bold'
@@ -484,7 +485,7 @@ const UserManagement: React.FC = () => {
                 top: '20px',
                 right: '20px',
                 color: 'white',
-                background: '#730051',
+                background: '#3b1a62',
                 border: '2px solid white',
                 cursor: 'pointer',
                 display: 'flex',
@@ -580,7 +581,7 @@ const UserManagement: React.FC = () => {
                     overflowY: 'auto',
                     boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
                 }}>
-                    <h3 style={{ marginBottom: '20px', color: '#730051', borderBottom: '2px solid #730051', paddingBottom: '10px' }}>Edit User Details</h3>
+                    <h3 style={{ marginBottom: '20px', color: '#3b1a62', borderBottom: '2px solid #3b1a62', paddingBottom: '10px' }}>Edit User Details</h3>
                     <form onSubmit={handleUpdateSubmit}>
                         {!editFormData.email && !editFormData.phone && (
                             <div style={{ background: '#e8f4fd', border: '1px solid #bee5eb', borderRadius: '8px', padding: '10px 12px', marginBottom: '15px', fontSize: '12.5px', color: '#0c5460' }}>
@@ -648,7 +649,7 @@ const UserManagement: React.FC = () => {
                         </div>
 
                         <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-                            <button type="submit" disabled={savingUser} style={{ flex: 1, padding: '10px', background: '#730051', color: 'white', border: 'none', borderRadius: '6px', cursor: savingUser ? 'not-allowed' : 'pointer' }}>
+                            <button type="submit" disabled={savingUser} style={{ flex: 1, padding: '10px', background: '#3b1a62', color: 'white', border: 'none', borderRadius: '6px', cursor: savingUser ? 'not-allowed' : 'pointer' }}>
                                 {savingUser ? 'Saving...' : 'Update Details'}
                             </button>
                             <button type="button" onClick={() => setEditingUser(null)} style={{ flex: 1, padding: '10px', background: '#ccc', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
@@ -671,7 +672,7 @@ const UserManagement: React.FC = () => {
                     background: 'white', padding: '25px', borderRadius: '12px', width: '100%',
                     maxWidth: '480px', maxHeight: '90vh', overflowY: 'auto', boxShadow: '0 10px 25px rgba(0,0,0,0.2)'
                 }}>
-                    <h3 style={{ marginBottom: '20px', color: '#730051', borderBottom: '2px solid #730051', paddingBottom: '10px' }}>Link Existing Members Into a Family</h3>
+                    <h3 style={{ marginBottom: '20px', color: '#3b1a62', borderBottom: '2px solid #3b1a62', paddingBottom: '10px' }}>Link Existing Members Into a Family</h3>
                     {linkError && (
                         <div style={{ background: '#f8d7da', color: '#721c24', padding: '8px 12px', borderRadius: '5px', marginBottom: '15px', fontSize: '13px' }}>
                             {linkError}
@@ -717,7 +718,7 @@ const UserManagement: React.FC = () => {
                         </div>
 
                         <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
-                            <button type="submit" disabled={linkSaving} style={{ flex: 1, padding: '10px', background: '#730051', color: 'white', border: 'none', borderRadius: '6px', cursor: linkSaving ? 'not-allowed' : 'pointer' }}>
+                            <button type="submit" disabled={linkSaving} style={{ flex: 1, padding: '10px', background: '#3b1a62', color: 'white', border: 'none', borderRadius: '6px', cursor: linkSaving ? 'not-allowed' : 'pointer' }}>
                                 {linkSaving ? 'Linking...' : 'Link Members'}
                             </button>
                             <button type="button" onClick={() => setLinkModalOpen(false)} style={{ flex: 1, padding: '10px', background: '#ccc', border: 'none', borderRadius: '6px', cursor: 'pointer' }}>
@@ -786,7 +787,7 @@ const UserManagement: React.FC = () => {
                 padding: '10px 15px',
                 border: 'none',
                 borderRadius: '5px',
-                background: '#730051',
+                background: '#3b1a62',
                 color: 'white',
                 cursor: 'pointer',
                 display: 'flex',
@@ -825,17 +826,47 @@ const UserManagement: React.FC = () => {
               </div>
             ) : (
               <>
+                
+            {viewMode === 'list' ? (
+              <div style={{ overflowX: 'auto' }}>
+                <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px', background: 'white', borderRadius: '8px', overflow: 'hidden', boxShadow: '0 2px 10px rgba(0,0,0,0.05)' }}>
+                  <thead style={{ background: '#f8f9fa' }}>
+                    <tr>
+                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Name</th>
+                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Email</th>
+                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Phone</th>
+                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Role</th>
+                      <th style={{ padding: '12px', textAlign: 'left', borderBottom: '2px solid #dee2e6' }}>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {filteredUsers.map(user => (
+                      <tr key={user._id} style={{ borderBottom: '1px solid #eee' }}>
+                        <td style={{ padding: '12px' }}>{user.username}</td>
+                        <td style={{ padding: '12px' }}>{user.email || 'N/A'}</td>
+                        <td style={{ padding: '12px' }}>{user.phone || 'N/A'}</td>
+                        <td style={{ padding: '12px' }}>{user.relationToHead || 'N/A'}</td>
+                        <td style={{ padding: '12px' }}>
+                          <button onClick={() => { setEditingUser(user); setEditFormData({ ...user, familyId: user.family?._id }); }} style={{ background: 'transparent', border: '1px solid #3b1a62', color: '#3b1a62', padding: '4px 8px', borderRadius: '4px', cursor: 'pointer' }}>Edit</button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            ) : (
+              <>
                 {familyGroups.map(([familyId, group]) => (
                   <div key={familyId} style={{ marginBottom: '25px', border: '1px solid #e0c9da', borderRadius: '10px', padding: '12px', background: '#fdf6fa' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '12px' }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#730051', fontWeight: 700, fontSize: '15px' }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#3b1a62', fontWeight: 700, fontSize: '15px' }}>
                         <Home size={18} />
                         {group.familyName}
                         {group.residence && <span style={{ fontSize: '12px', fontWeight: 500, color: '#888' }}>· {group.residence}</span>}
                       </div>
                       <Link to={`/admission?familyId=${familyId}&familyRole=joinFamily`} style={{
                         display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px',
-                        background: '#730051', color: 'white', borderRadius: '5px', fontSize: '12px',
+                        background: '#3b1a62', color: 'white', borderRadius: '5px', fontSize: '12px',
                         fontWeight: 'bold', textDecoration: 'none'
                       }}>
                         <UserPlus size={14} />
@@ -856,8 +887,10 @@ const UserManagement: React.FC = () => {
                 )}
               </>
             )}
-          </div>
-        )}
+            </>
+          )}
+        </div>
+      )}
 
         {/* Professional Sticky Action Footer */}
         <div style={{ 
@@ -894,7 +927,7 @@ const UserManagement: React.FC = () => {
             justifyContent: 'center',
             gap: '6px',
             padding: '12px 0',
-            background: '#730051',
+            background: '#3b1a62',
             color: '#fff',
             textDecoration: 'none',
             borderRadius: '8px',

@@ -187,10 +187,10 @@ const NewsPage: React.FC = () => {
           boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
           margin: '2rem'
         }}>
-          <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'linear-gradient(135deg, #730051, #a0006e)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', fontSize: '1.8rem' }}>
+          <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'linear-gradient(135deg, #3b1a62, #5a2d8a)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', fontSize: '1.8rem' }}>
             📰
           </div>
-          <h2 style={{ color: '#730051', fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>
+          <h2 style={{ color: '#3b1a62', fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>
             {error ? 'Unable to Load News' : 'No News Available'}
           </h2>
           <p style={{ color: '#6b7280', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '2rem' }}>
@@ -201,7 +201,7 @@ const NewsPage: React.FC = () => {
           <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
             <Link to="/signIn" style={{
               padding: '10px 24px',
-              background: 'linear-gradient(135deg, #730051, #a0006e)',
+              background: 'linear-gradient(135deg, #3b1a62, #5a2d8a)',
               color: 'white',
               borderRadius: '10px',
               textDecoration: 'none',

@@ -54,7 +54,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background: #730051;
+    background: #3b1a62;
     padding: 12px 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     position: sticky;
@@ -88,7 +88,7 @@
 
 .backBtn:hover {
     background: white;
-    color: #730051;
+    color: #3b1a62;
     transform: translateX(-5px) scale(1.05);
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
@@ -111,14 +111,14 @@
 /* Original Header styles (overridden by customHeader) */
 .h1 {
     text-align: center;
-    color: #730051;
+    color: #3b1a62;
     margin: 20px 0;
 }
 
 /* Fixed header styles */
 .h1_original {
     text-align: center;
-    color: #730051;
+    color: #3b1a62;
     position: sticky;
     top: 0;
     z-index: 10;
@@ -192,9 +192,9 @@
 }
 
 .filterActive {
-    background: #730051;
+    background: #3b1a62;
     color: white;
-    border-color: #730051;
+    border-color: #3b1a62;
     box-shadow: 0 4px 12px rgba(115, 0, 81, 0.2);
 }
 
@@ -238,11 +238,11 @@
 
 .dropdownItem:hover {
     background: #f8f4f7;
-    color: #730051;
+    color: #3b1a62;
 }
 
 .activeItem {
-    background: #730051 !important;
+    background: #3b1a62 !important;
     color: white !important;
 }
 
@@ -310,7 +310,7 @@
 .coverPlaceholder {
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, #730051 0%, #4a0034 100%);
+    background: linear-gradient(135deg, #3b1a62 0%, #4a0034 100%);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -365,7 +365,7 @@
 }
 
 .downloadBtn {
-    background: #730051;
+    background: #3b1a62;
     color: white;
     border: 1px solid rgba(0, 0, 0, 0.06);
 }
@@ -376,13 +376,13 @@
 
 .openBtn {
     background: #f8f4f7;
-    color: #730051;
+    color: #3b1a62;
     border: 1px solid transparent;
     font-weight: 600;
 }
 
 .openBtn:hover {
-    background: #730051;
+    background: #3b1a62;
     color: white;
 }
 
@@ -414,7 +414,7 @@
 }
 
 .close {
-    color: #730051;
+    color: #3b1a62;
     float: right;
     font-size: 28px;
     font-weight: bold;

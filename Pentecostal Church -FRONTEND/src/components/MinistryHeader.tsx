@@ -209,7 +209,7 @@ const MinistryHeader = () => {
                                                 <Link
                                                     key={index}
                                                     to={link.href}
-                                                    className="block px-4 py-2.5 text-gray-600 hover:text-[#730051] hover:bg-purple-50 transition-colors"
+                                                    className="block px-4 py-2.5 text-gray-600 hover:text-[#3b1a62] hover:bg-purple-50 transition-colors"
                                                     onClick={() => setShowQuickLinks(false)}
                                                 >
                                                     {link.label}
@@ -231,7 +231,7 @@ const MinistryHeader = () => {
                                 <div className="flex items-center gap-2">
                                     <button
                                         onClick={() => navigate(isSuperAdmin ? '/admin' : '/profile')}
-                                        className="flex items-center gap-2 px-3 py-1 rounded-lg font-medium text-[#730051] bg-purple-50 hover:bg-purple-100 transition-colors"
+                                        className="flex items-center gap-2 px-3 py-1 rounded-lg font-medium text-[#3b1a62] bg-purple-50 hover:bg-purple-100 transition-colors"
                                     >
                                         <User size={18} />
                                         {userData.username}
@@ -249,7 +249,7 @@ const MinistryHeader = () => {
                             ) : (
                                 <Link
                                     to="/signIn"
-                                    className="ml-2 px-4 py-1.5 bg-[#730051] text-white font-medium rounded-lg hover:bg-[#5a0040] transition-colors"
+                                    className="ml-2 px-4 py-1.5 bg-[#3b1a62] text-white font-medium rounded-lg hover:bg-[#5a0040] transition-colors"
                                 >
                                     Sign In
                                 </Link>
@@ -326,7 +326,7 @@ const MinistryHeader = () => {
                                             navigate(isSuperAdmin ? '/admin' : '/profile');
                                             closeMenu();
                                         }}
-                                        className="w-full flex items-center justify-center gap-2 p-3 bg-purple-50 text-[#730051] font-medium rounded-lg"
+                                        className="w-full flex items-center justify-center gap-2 p-3 bg-purple-50 text-[#3b1a62] font-medium rounded-lg"
                                     >
                                         <User size={18} />
                                         {userData.username}
@@ -342,7 +342,7 @@ const MinistryHeader = () => {
                             ) : (
                                 <Link
                                     to="/signIn"
-                                    className="block w-full text-center p-3 bg-[#730051] text-white font-medium rounded-lg"
+                                    className="block w-full text-center p-3 bg-[#3b1a62] text-white font-medium rounded-lg"
                                     onClick={closeMenu}
                                 >
                                     Sign In

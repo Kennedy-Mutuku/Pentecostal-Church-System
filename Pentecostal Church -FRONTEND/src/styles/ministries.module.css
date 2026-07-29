@@ -27,7 +27,7 @@ html{
     border-radius: 0;
     box-shadow: none;
     padding: 30px 20px;
-    border-left: 4px solid #730051;
+    border-left: 4px solid #3b1a62;
 }
 
 .ministry-img{
@@ -46,7 +46,7 @@ html{
     font-weight: 700;
     margin-bottom: 20px;
     text-align: center;
-    color: #730051;
+    color: #3b1a62;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -70,7 +70,7 @@ html{
 }
 
 .ministries--title{
-    color: #730051;
+    color: #3b1a62;
     font-weight: 900;
     font-size: 2.5rem;
     margin-bottom: 50px;
@@ -89,7 +89,7 @@ html{
     height: 1px;
     width: 60%;
     margin: 50px auto;
-    background: #730051;
+    background: #3b1a62;
     border: none;
 }
 
@@ -97,13 +97,13 @@ html{
     display: inline-block;
     margin: 20px auto;
     font-size: 0.9rem;
-    color: #730051;
+    color: #3b1a62;
     text-decoration: underline;
     font-weight: 600;
 }
 
 .commitment-link:hover{
-    color: #730051;
+    color: #3b1a62;
 }
 
 @media (min-width: 768px){
@@ -117,7 +117,7 @@ html{
         width: 85%;
         padding: 50px 40px;
         background: #ffffff;
-        border-left: 6px solid #730051;
+        border-left: 6px solid #3b1a62;
     }
     .ministry-img,
     .ministry-section--flex{
@@ -127,7 +127,7 @@ html{
     .ministry-section--reverse{
         flex-direction: row-reverse;
         border-left: none;
-        border-right: 6px solid #730051;
+        border-right: 6px solid #3b1a62;
     }
 
     .ministry-img{
@@ -155,7 +155,7 @@ html{
         text-align: left;
         margin-bottom: 25px;
         font-size: 1.8rem;
-        color: #730051;
+        color: #3b1a62;
         font-weight: 900;
         text-transform: uppercase;
         letter-spacing: 1px;
@@ -173,14 +173,14 @@ html{
         max-width: 400px;
         margin: 80px auto;
         height: 1px;
-        background: #730051;
+        background: #3b1a62;
     }
 
     .ministries--title{
         font-size: 3rem;
         font-weight: 900;
         margin-bottom: 100px;
-        color: #730051;
+        color: #3b1a62;
         text-transform: uppercase;
         letter-spacing: 3px;
     }

@@ -173,10 +173,10 @@ const QuickLinksButton = () => {
                 transformOrigin: 'right center',
               }}
             >
-              <div className="w-9 h-9 flex items-center justify-center bg-purple-50 rounded-full group-hover:bg-[#730051] transition-colors duration-200 flex-shrink-0">
-                <Icon size={18} className="text-[#730051] group-hover:text-white transition-colors duration-200" />
+              <div className="w-9 h-9 flex items-center justify-center bg-purple-50 rounded-full group-hover:bg-[#3b1a62] transition-colors duration-200 flex-shrink-0">
+                <Icon size={18} className="text-[#3b1a62] group-hover:text-white transition-colors duration-200" />
               </div>
-              <span className="text-sm font-medium text-gray-700 group-hover:text-[#730051] transition-colors duration-200 pr-1 whitespace-nowrap">
+              <span className="text-sm font-medium text-gray-700 group-hover:text-[#3b1a62] transition-colors duration-200 pr-1 whitespace-nowrap">
                 {link.label}
               </span>
             </button>
@@ -186,7 +186,7 @@ const QuickLinksButton = () => {
         {/* FAB Button */}
         <button
           onClick={handleToggle}
-          className={`relative ${isMobile ? 'w-12 h-12' : 'w-14 h-14'} bg-white text-[#730051] rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center z-10 outline-none focus:outline-none ${!isOpen && !isFabCentered ? 'animate-pulse-soft' : ''}`}
+          className={`relative ${isMobile ? 'w-12 h-12' : 'w-14 h-14'} bg-white text-[#3b1a62] rounded-full shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 flex items-center justify-center z-10 outline-none focus:outline-none ${!isOpen && !isFabCentered ? 'animate-pulse-soft' : ''}`}
           aria-label={isOpen ? 'Close quick links' : 'Open quick links'}
           style={{
             boxShadow: '0 4px 20px rgba(115, 0, 81, 0.3)',

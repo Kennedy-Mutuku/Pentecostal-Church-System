@@ -36,7 +36,7 @@ const ChoirPage: React.FC = () => {
 
   return (
     <>
-      <div className={styles.heroSection} style={{ '--hero-bg': 'linear-gradient(135deg, #482078, #730051)' } as React.CSSProperties}>
+      <div className={styles.heroSection} style={{ '--hero-bg': 'linear-gradient(135deg, #482078, #3b1a62)' } as React.CSSProperties}>
         <div className={styles.heroContent}>
           <h1 className={styles.title}>Choir Ministry</h1>
           <p className={styles.subtitle}>Voices united in harmony to glorify God</p>

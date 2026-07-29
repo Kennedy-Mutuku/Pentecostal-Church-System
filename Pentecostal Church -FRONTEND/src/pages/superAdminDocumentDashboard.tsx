@@ -235,7 +235,7 @@ const SuperAdminDocumentDashboard = () => {
             border: '1px solid #eee'
           }}>
             <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '0.9rem' }}>Total Documents</p>
-            <h3 style={{ margin: 0, fontSize: '2rem', color: '#730051' }}>{stats.totalDocuments}</h3>
+            <h3 style={{ margin: 0, fontSize: '2rem', color: '#3b1a62' }}>{stats.totalDocuments}</h3>
           </div>
           <div style={{
             backgroundColor: '#f8f8f8',
@@ -244,7 +244,7 @@ const SuperAdminDocumentDashboard = () => {
             border: '1px solid #eee'
           }}>
             <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '0.9rem' }}>Total Users</p>
-            <h3 style={{ margin: 0, fontSize: '2rem', color: '#730051' }}>{stats.totalUsers}</h3>
+            <h3 style={{ margin: 0, fontSize: '2rem', color: '#3b1a62' }}>{stats.totalUsers}</h3>
           </div>
           <div style={{
             backgroundColor: '#f8f8f8',
@@ -253,7 +253,7 @@ const SuperAdminDocumentDashboard = () => {
             border: '1px solid #eee'
           }}>
             <p style={{ margin: '0 0 8px 0', color: '#666', fontSize: '0.9rem' }}>Categories</p>
-            <h3 style={{ margin: 0, fontSize: '2rem', color: '#730051' }}>{stats.totalCategories}</h3>
+            <h3 style={{ margin: 0, fontSize: '2rem', color: '#3b1a62' }}>{stats.totalCategories}</h3>
           </div>
           <div style={{
             backgroundColor: '#f8f8f8',
@@ -357,7 +357,7 @@ const SuperAdminDocumentDashboard = () => {
             onClick={() => setShowUploader(true)}
             style={{
               padding: '12px 20px',
-              backgroundColor: '#730051',
+              backgroundColor: '#3b1a62',
               color: '#000',
               border: 'none',
               borderRadius: '6px',
@@ -369,7 +369,7 @@ const SuperAdminDocumentDashboard = () => {
               transition: 'background-color 0.3s'
             }}
             onMouseEnter={(e) => (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#5a0040'}
-            onMouseLeave={(e) => (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#730051'}
+            onMouseLeave={(e) => (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#3b1a62'}
           >
             <Upload size={18} />
             Upload Documents

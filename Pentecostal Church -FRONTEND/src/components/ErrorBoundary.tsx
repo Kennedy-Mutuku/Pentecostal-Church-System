@@ -62,7 +62,7 @@ class ErrorBoundary extends React.Component<Props, State> {
                         style={{
                             marginTop: '20px',
                             padding: '10px 20px',
-                            backgroundColor: '#730051',
+                            backgroundColor: '#3b1a62',
                             color: 'white',
                             border: 'none',
                             borderRadius: '5px',
@@ -77,7 +77,7 @@ class ErrorBoundary extends React.Component<Props, State> {
                         style={{
                             display: 'inline-block',
                             marginTop: '10px',
-                            color: '#730051',
+                            color: '#3b1a62',
                             textDecoration: 'none'
                         }}
                     >
