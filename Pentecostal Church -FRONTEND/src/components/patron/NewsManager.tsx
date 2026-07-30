@@ -17,6 +17,8 @@ const CATEGORIES = ['Service', 'Revival', 'Concert', 'Conference', 'Outreach', '
 
 const EMPTY_FORM = { title: '', description: '', date: '', endDate: '', location: 'RPC Nyamira', category: 'Service' };
 
+const DRAFT_KEY = 'rpc_event_draft';
+
 const categoryColor: Record<string, string> = {
   Service: '#6d28d9', Revival: '#dc2626', Concert: '#0891b2',
   Conference: '#d97706', Outreach: '#059669', Other: '#6b7280',
@@ -34,6 +36,7 @@ export default function NewsManager() {
   const [msg, setMsg]             = useState('');
   const [err, setErr]             = useState('');
   const [deleting, setDeleting]   = useState<string | null>(null);
+  const [draftSaved, setDraftSaved] = useState(false);
 
   const base = getBaseUrl();
 
@@ -48,12 +51,28 @@ export default function NewsManager() {
 
   useEffect(() => { fetchEvents(); }, [fetchEvents]);
 
+  // Auto-save draft for new events only (not edits)
+  useEffect(() => {
+    if (!showForm || editId) return;
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(form));
+    setDraftSaved(true);
+    const t = setTimeout(() => setDraftSaved(false), 1800);
+    return () => clearTimeout(t);
+  }, [form, showForm, editId]);
+
   const flash = (m: string, isErr = false) => {
     if (isErr) setErr(m); else setMsg(m);
     setTimeout(() => { setMsg(''); setErr(''); }, 3500);
   };
 
-  const openCreate = () => { setForm({ ...EMPTY_FORM }); setEditId(null); setPosterFile(null); setPosterPreview(''); setShowForm(true); };
+  const openCreate = () => {
+    const saved = localStorage.getItem(DRAFT_KEY);
+    setForm(saved ? JSON.parse(saved) : { ...EMPTY_FORM });
+    setEditId(null);
+    setPosterFile(null);
+    setPosterPreview('');
+    setShowForm(true);
+  };
   const openEdit   = (ev: ChurchEvent) => {
     setForm({
       title:       ev.title,
@@ -81,6 +100,7 @@ export default function NewsManager() {
       const res = await fetch(url, { method, credentials: 'include', body: fd });
       if (!res.ok) throw new Error((await res.json()).message || 'Error');
       flash(editId ? 'Event updated.' : 'Event created.');
+      localStorage.removeItem(DRAFT_KEY);
       setShowForm(false);
       setPosterFile(null);
       setPosterPreview('');
@@ -135,9 +155,8 @@ export default function NewsManager() {
     catBadge:  { fontSize: 10.5, fontWeight: 700, color: '#fff', borderRadius: 20, padding: '2px 9px', letterSpacing: 0.5 },
     empty:     { textAlign: 'center' as const, color: '#6b7280', padding: '40px 20px', border: '1px dashed #d1d5db', borderRadius: 12, fontSize: 14 },
     // Form overlay
-    overlay:   { position: 'fixed' as const, inset: 0, background: 'rgba(0,0,0,0.45)', zIndex: 9000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 20 },
-    modal:     { background: '#fff', borderRadius: 16, width: '100%', maxWidth: 500, maxHeight: '90vh', overflowY: 'auto' as const, padding: '28px 28px 32px' },
-    modalH:    { margin: '0 0 20px', fontSize: 18, fontWeight: 700, color: '#111827' },
+    overlay:   { position: 'fixed' as const, inset: 0, background: 'rgba(0,0,0,0.6)', zIndex: 9000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '20px 16px' },
+    modal:     { background: '#fff', borderRadius: 18, width: '100%', maxWidth: 540, maxHeight: '92vh', overflowY: 'auto' as const, padding: '24px 28px 32px', boxShadow: '0 24px 64px rgba(0,0,0,0.25)' },
     field:     { marginBottom: 14 },
     label:     { display: 'block', fontSize: 12, fontWeight: 600, color: '#374151', marginBottom: 4 },
     input:     { width: '100%', boxSizing: 'border-box' as const, padding: '9px 11px', border: '1px solid #d1d5db', borderRadius: 8, fontSize: 13.5, outline: 'none', background: '#f9fafb' },
@@ -196,9 +215,32 @@ export default function NewsManager() {
 
       {/* Create / Edit modal */}
       {showForm && (
-        <div style={s.overlay} onClick={() => setShowForm(false)}>
-          <div style={s.modal} onClick={e => e.stopPropagation()}>
-            <h3 style={s.modalH}>{editId ? 'Edit Event' : 'New Event'}</h3>
+        <div style={s.overlay}>
+          <div style={s.modal}>
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: '#111827' }}>{editId ? 'Edit Event' : 'New Event'}</h3>
+                {!editId && (
+                  <span style={{
+                    fontSize: 10, fontWeight: 600, color: draftSaved ? '#16a34a' : '#9ca3af',
+                    background: draftSaved ? '#f0fdf4' : '#f3f4f6',
+                    border: `1px solid ${draftSaved ? '#bbf7d0' : '#e5e7eb'}`,
+                    borderRadius: 20, padding: '2px 9px',
+                    transition: 'all 0.3s ease',
+                  }}>
+                    {draftSaved ? 'Draft saved' : 'Auto-save on'}
+                  </span>
+                )}
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowForm(false)}
+                style={{ background: '#f3f4f6', border: 'none', borderRadius: 8, width: 32, height: 32, display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', color: '#6b7280', flexShrink: 0 }}
+              >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
+            </div>
             <form onSubmit={handleSubmit}>
               <div style={s.field}>
                 <label style={s.label}>Title *</label>
