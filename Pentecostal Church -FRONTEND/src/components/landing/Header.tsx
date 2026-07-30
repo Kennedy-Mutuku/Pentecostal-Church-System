@@ -855,12 +855,12 @@ const Header = () => {
                     <span className="text-[10px] font-bold">Log Out</span>
                   </button>
                 ) : userData ? (
-                  <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-red-50 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap group">
-                    <div className="w-6 h-6 rounded-full overflow-hidden border-2 border-[#FF3B30] flex items-center justify-center bg-[#FF3B30]/5 transition-transform group-hover:scale-110">
+                  <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-purple-50 border border-[#482078]/20 rounded-full font-bold text-[#482078] transition-all shadow-sm active:scale-95 whitespace-nowrap group">
+                    <div className="w-6 h-6 rounded-full overflow-hidden border-2 border-[#482078] flex items-center justify-center bg-[#482078]/5 transition-transform group-hover:scale-110">
                       {userData.profilePhoto ? (
                         <img src={profilePhotoUrl} alt="" className="w-full h-full object-cover" />
                       ) : (
-                        <User size={14} className="text-[#FF3B30]" strokeWidth={2.5} />
+                        <User size={14} className="text-[#482078]" strokeWidth={2.5} />
                       )}
                     </div>
                     <span className="text-[10px] capitalize leading-none tracking-tight">{userData.username}</span>
@@ -937,12 +937,12 @@ const Header = () => {
                       <span className="hidden xl:inline">Log Out</span>
                     </button>
                   ) : userData ? (
-                    <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-red-50 border-2 border-[#FF3B30]/10 hover:border-[#FF3B30]/30 rounded-full font-bold text-[#FF3B30] transition-all shadow-md hover:shadow-[#FF3B30]/5 active:scale-95 whitespace-nowrap group">
-                      <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#FF3B30] flex items-center justify-center bg-[#FF3B30]/5 transition-all group-hover:ring-2 group-hover:ring-red-200">
+                    <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-purple-50 border-2 border-[#482078]/10 hover:border-[#482078]/30 rounded-full font-bold text-[#482078] transition-all shadow-md hover:shadow-[#482078]/5 active:scale-95 whitespace-nowrap group">
+                      <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#482078] flex items-center justify-center bg-[#482078]/5 transition-all group-hover:ring-2 group-hover:ring-purple-200">
                         {userData.profilePhoto ? (
                           <img src={profilePhotoUrl} alt="" className="w-full h-full object-cover" />
                         ) : (
-                          <User size={18} className="text-[#FF3B30]" strokeWidth={2.5} />
+                          <User size={18} className="text-[#482078]" strokeWidth={2.5} />
                         )}
                       </div>
                       <span className="text-[12px] xl:text-[13px] capitalize leading-none tracking-tight">{userData.username}</span>
