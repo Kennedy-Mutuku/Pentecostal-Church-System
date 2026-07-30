@@ -11,7 +11,6 @@ interface Asset {
     valuation: number;
     condition: string;
     updatedAt: string;
-    docket?: string;
 }
 
 const PatronAssets: React.FC = () => {
@@ -19,15 +18,8 @@ const PatronAssets: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [filterDocket, setFilterDocket] = useState('All');
 
     const P = '#3b1a62';
-
-    const dockets = [
-        'All', 'Chairperson', 'Vice Chairperson', 'Secretary', 'Publicity secretary', 
-        'Treasurer', 'Worship Coordinator', 'Boards Coordinator', 'Missions Coordinator', 
-        'Bible study Coordinator', 'Discipleship Coordinator', 'Other'
-    ];
 
     const ensureFinanceToken = async () => {
         const token = localStorage.getItem('finance_token');
@@ -66,10 +58,8 @@ const PatronAssets: React.FC = () => {
     }, []);
 
     const filteredAssets = assets.filter(a => {
-        const matchesSearch = a.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                             (a.description && a.description.toLowerCase().includes(searchQuery.toLowerCase()));
-        const matchesDocket = filterDocket === 'All' || a.docket === filterDocket;
-        return matchesSearch && matchesDocket;
+        return a.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            (a.description && a.description.toLowerCase().includes(searchQuery.toLowerCase()));
     });
 
     const formatCurrency = (amount: number) => {
@@ -111,17 +101,6 @@ const PatronAssets: React.FC = () => {
                     RPC Nyamira Fixed Assets & Trends
                 </h2>
                 <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
-                    <div style={{ position: 'relative', minWidth: '180px' }}>
-                        <select 
-                            value={filterDocket} 
-                            onChange={e => setFilterDocket(e.target.value)}
-                            style={{ ...inputStyle, paddingLeft: '14px', cursor: 'pointer', appearance: 'auto' }}
-                        >
-                            {dockets.map(d => (
-                                <option key={d} value={d}>{d === 'All' ? 'All Dockets' : d}</option>
-                            ))}
-                        </select>
-                    </div>
                     <div style={{ position: 'relative', minWidth: '220px' }}>
                         <Search size={16} style={{ position: 'absolute', left: '12px', top: '50%', transform: 'translateY(-50%)', color: '#888' }} />
                         <input
@@ -180,7 +159,6 @@ const PatronAssets: React.FC = () => {
                     <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '13px', textAlign: 'left' }}>
                         <thead>
                             <tr style={{ background: '#f4f4f4', borderBottom: '2px solid #ddd' }}>
-                                <th style={{ padding: '12px 16px', textAlign: 'left', color: '#555' }}>Docket</th>
                                 <th style={{ padding: '12px 16px', textAlign: 'left', color: '#555' }}>Asset Name</th>
                                 <th style={{ padding: '12px 16px', textAlign: 'left', color: '#555' }}>Pur. Date</th>
                                 <th style={{ padding: '12px 16px', textAlign: 'right', color: '#555' }}>Pur. Price</th>
@@ -194,7 +172,6 @@ const PatronAssets: React.FC = () => {
                                 const trend = getTrend(asset.valuation, asset.purchase_amount);
                                 return (
                                     <tr key={asset._id} style={{ borderBottom: '1px solid #eee', transition: 'background 0.2s', ...({ '&:hover': { background: '#fafafa' } } as any) }}>
-                                        <td style={{ padding: '12px 16px', fontWeight: 600, color: '#666', fontSize: '11px' }}>{asset.docket || '-'}</td>
                                         <td style={{ padding: '12px 16px' }}>
                                             <div style={{ fontWeight: 600, color: '#333' }}>{asset.name}</div>
                                             <div style={{ fontSize: '11px', color: '#888' }}>{asset.description || '-'}</div>

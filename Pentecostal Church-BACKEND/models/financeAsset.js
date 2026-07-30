@@ -18,7 +18,6 @@ const financeAssetSchema = new mongoose.Schema(
     valuation: { type: Number, required: true },
     purchase_amount: { type: Number, required: true },
     purchase_date: { type: Date, required: true },
-    docket: { type: String, required: true },
     condition: { type: String, enum: ["good", "fair", "poor", "new"], default: "good" },
     recorded_by: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     valuationHistory: { type: [valuationHistoryEntrySchema], default: [] },

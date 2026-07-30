@@ -120,20 +120,6 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ users, transactions, 
   const ageGroupData = getAgeGroupData();
   const genderData = getGenderData();
 
-  // 6. Asset Worth by Docket
-  const getAssetDocketData = () => {
-    const dockets: { [key: string]: number } = {};
-    (assets || []).forEach(a => {
-      const d = a.docket || 'Other';
-      dockets[d] = (dockets[d] || 0) + (a.valuation || 0);
-    });
-    return Object.entries(dockets)
-      .map(([name, value]) => ({ name: name.length > 10 ? name.slice(0, 10) + '…' : name, value }))
-      .sort((a, b) => b.value - a.value);
-  };
-
-  const assetDocketData = getAssetDocketData();
-
   return (
     <div style={{
       display: 'grid',
@@ -298,25 +284,6 @@ const AnalyticsCharts: React.FC<AnalyticsChartsProps> = ({ users, transactions, 
                 <Cell fill="#3b82f6" />  {/* Male — blue */}
                 <Cell fill="#ec4899" />  {/* Female — pink */}
                 <Cell fill="#8b5cf6" />  {/* Other — violet */}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
-      </div>
-
-      {/* 6. Asset Worth by Docket */}
-      <div style={card}>
-        <h4 style={title}>Asset Valuation</h4>
-        <div style={{ height: chartH, position: 'relative' }}>
-          {assetDocketData.length === 0 && <div style={emptyOverlay}>No data yet</div>}
-          <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={assetDocketData.length > 0 ? assetDocketData : [{name:'', value:0}]} margin={{ top: 10, right: 5, left: -15, bottom: 40 }}>
-              <XAxis dataKey="name" fontSize={7} tickLine={{ stroke: '#ccc' }} axisLine={{ stroke: '#ccc' }} interval={0} angle={-25} textAnchor="end" label={{ value: 'Leadership Dockets', position: 'insideBottom', offset: -25, fontSize: 9, fontWeight: 600 }} />
-              <YAxis fontSize={8} axisLine={{ stroke: '#ccc' }} tickLine={{ stroke: '#ccc' }} tickFormatter={(v) => v >= 1000 ? `KES ${v/1000}k` : v} label={{ value: 'Asset Worth', angle: -90, position: 'insideLeft', offset: 15, fontSize: 9, fontWeight: 600 }} />
-              <Tooltip cursor={{ fill: 'rgba(115,0,81,0.05)' }} contentStyle={tip}
-                formatter={(v: any) => [`KES ${Number(v).toLocaleString()}`, 'Total Worth']} />
-              <Bar dataKey="value" name="Worth" radius={[4, 4, 0, 0]} barSize={14}>
-                {assetDocketData.map((_, i) => <Cell key={i} fill={MIN_COLORS[i % MIN_COLORS.length]} />)}
               </Bar>
             </BarChart>
           </ResponsiveContainer>
