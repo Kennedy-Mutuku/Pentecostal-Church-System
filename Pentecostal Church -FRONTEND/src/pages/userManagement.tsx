@@ -5,6 +5,7 @@ import styles from '../styles/signup.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
 import { getApiUrl, getImageUrl } from '../config/environment';
 import { Search, RefreshCw, Phone, Mail, User, X, Home, UserPlus, Link2 } from 'lucide-react';
+import ProfileAvatarImg from '../components/ProfileAvatarImg';
 
 interface UserData {
   _id: string;
@@ -288,8 +289,8 @@ const UserManagement: React.FC = () => {
                       title="Click to view full size"
                     >
                       {user.profilePhoto ? (
-                        <img
-                          src={getImageUrl(user.profilePhoto)}
+                        <ProfileAvatarImg
+                          photoPath={user.profilePhoto}
                           alt={user.username}
                           style={{
                             width: '100%',

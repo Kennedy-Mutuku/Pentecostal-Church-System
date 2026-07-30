@@ -20,7 +20,7 @@ const FeedbackForm: React.FC = () => {
     const [formData, setFormData] = useState({
         message: '',
         category: 'feedback',
-        isAnonymous: true
+        isAnonymous: false
     });
 
     const [userData, setUserData] = useState<any>(null);
@@ -41,14 +41,16 @@ const FeedbackForm: React.FC = () => {
 
             if (response.ok) {
                 const data = await response.json();
-                const firstName = data.username.split(' ')[0];
+                const firstName = data.username?.split(' ')[0] || data.username;
                 setUserData({
                     ...data,
                     username: firstName
                 });
+            } else {
+                console.log('fetchUserData: not logged in or session expired', response.status);
             }
         } catch (error) {
-            console.log('User not logged in or error fetching user data');
+            console.error('fetchUserData: error fetching user data', error);
         }
     };
 
@@ -109,7 +111,7 @@ const FeedbackForm: React.FC = () => {
                 setFormData({
                     message: '',
                     category: 'feedback',
-                    isAnonymous: true
+                    isAnonymous: false
                 });
 
                 setTimeout(() => {
@@ -206,15 +208,6 @@ const FeedbackForm: React.FC = () => {
                                 rows={6}
                             />
                         </div>
-
-                        {!formData.isAnonymous && userData && (
-                            <div className={styles.userInfo}>
-                                <p><strong>Your message will be sent from:</strong></p>
-                                <p>Name: {userData.username}</p>
-                                <p>Email: {userData.email}</p>
-                                <p>Ministry: {userData.ministry}</p>
-                            </div>
-                        )}
 
                         <section className={styles.submission}>
                             <button

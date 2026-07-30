@@ -1,5 +1,5 @@
 // @ts-nocheck
-import React, { useState, useEffect, useRef, Fragment } from 'react';
+import React, { useState, useEffect, useMemo, useRef, Fragment } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   User, ChevronDown, ChevronRight, ExternalLink, Menu,
@@ -443,7 +443,7 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
                   {isUser ? (
                     userData?.profilePhoto ? (
                       <img
-                        src={getImageUrl(userData.profilePhoto)}
+                        src={profilePhotoUrl}
                         alt=""
                         style={{ width: '20px', height: '20px', borderRadius: '50%', objectFit: 'cover', border: '1.5px solid rgba(255,255,255,0.8)' }}
                       />
@@ -610,6 +610,13 @@ const Header = () => {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
   const closeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const navigate = useNavigate();
+
+  // Resolve once per actual photo change, not on every re-render (e.g. the 5s session poll below),
+  // so the avatar doesn't flicker/re-fetch on every unrelated state update.
+  const profilePhotoUrl = useMemo(
+    () => (userData?.profilePhoto ? getImageUrl(userData.profilePhoto) : ''),
+    [userData?.profilePhoto]
+  );
 
   const handleAdminLogout = () => {
     // Clear all cookies
@@ -851,7 +858,7 @@ const Header = () => {
                   <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-red-50 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap group">
                     <div className="w-6 h-6 rounded-full overflow-hidden border-2 border-[#FF3B30] flex items-center justify-center bg-[#FF3B30]/5 transition-transform group-hover:scale-110">
                       {userData.profilePhoto ? (
-                        <img src={getImageUrl(userData.profilePhoto)} alt="" className="w-full h-full object-cover" />
+                        <img src={profilePhotoUrl} alt="" className="w-full h-full object-cover" />
                       ) : (
                         <User size={14} className="text-[#FF3B30]" strokeWidth={2.5} />
                       )}
@@ -933,7 +940,7 @@ const Header = () => {
                     <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-red-50 border-2 border-[#FF3B30]/10 hover:border-[#FF3B30]/30 rounded-full font-bold text-[#FF3B30] transition-all shadow-md hover:shadow-[#FF3B30]/5 active:scale-95 whitespace-nowrap group">
                       <div className="w-8 h-8 rounded-full overflow-hidden border-2 border-[#FF3B30] flex items-center justify-center bg-[#FF3B30]/5 transition-all group-hover:ring-2 group-hover:ring-red-200">
                         {userData.profilePhoto ? (
-                          <img src={getImageUrl(userData.profilePhoto)} alt="" className="w-full h-full object-cover" />
+                          <img src={profilePhotoUrl} alt="" className="w-full h-full object-cover" />
                         ) : (
                           <User size={18} className="text-[#FF3B30]" strokeWidth={2.5} />
                         )}

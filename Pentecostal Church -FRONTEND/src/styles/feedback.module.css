@@ -191,24 +191,6 @@ textarea.inputs {
     box-shadow: 0 0 0 3px rgba(72, 32, 120, 0.25);
 }
 
-.userInfo {
-    background: rgba(72, 32, 120, 0.05);
-    padding: 15px 20px;
-    border-radius: 12px;
-    border: 1px solid rgba(72, 32, 120, 0.2);
-    margin-bottom: 20px;
-}
-
-.userInfo p {
-    margin: 6px 0;
-    color: #4b5563;
-    font-size: 0.95rem;
-}
-
-.userInfo strong {
-    color: var(--primary-color, #6B4C5A);
-}
-
 .loginNote {
     background: rgba(245, 158, 11, 0.1);
     padding: 15px;

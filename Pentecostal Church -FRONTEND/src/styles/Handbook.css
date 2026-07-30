@@ -512,16 +512,15 @@
     letter-spacing: -0.3px;
   }
   .handbook-toc {
-    margin-top: -12px;
-    padding: 8px 12px;
-    gap: 6px;
-    justify-content: flex-start;
-    overflow-x: auto;
-    flex-wrap: nowrap;
-    -webkit-overflow-scrolling: touch;
+    position: static;
+    margin: -12px auto 0;
+    padding: 10px 12px;
+    gap: 6px 8px;
+    justify-content: center;
+    flex-wrap: wrap;
   }
   .handbook-toc-link {
-    font-size: 0.68rem;
+    font-size: 0.66rem;
     padding: 6px 10px;
   }
   .handbook-body {

@@ -122,6 +122,7 @@ const WelcomePage: React.FC = () => {
 
             setPhotoUploaded(true);
             setImageSrc('');
+            window.dispatchEvent(new CustomEvent('userDataUpdated'));
         } catch (err) {
             setError(err instanceof Error ? err.message : 'Upload failed');
         } finally {

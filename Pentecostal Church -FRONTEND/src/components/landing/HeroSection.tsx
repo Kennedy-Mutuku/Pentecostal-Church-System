@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight, Pause, Play } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Import all 7 hero images from assets
 import hero1 from '../../assets/hero-1.jpg';
@@ -66,7 +66,6 @@ const slides: Slide[] = [
 const HeroSection = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
   const [touchStart, setTouchStart] = useState<number | null>(null);
   const [touchEnd, setTouchEnd] = useState<number | null>(null);
 
@@ -80,12 +79,11 @@ const HeroSection = () => {
 
   // Auto-advance timer
   useEffect(() => {
-    if (!isPlaying) return;
     const interval = setInterval(() => {
       nextSlide();
     }, 5500);
     return () => clearInterval(interval);
-  }, [isPlaying, nextSlide]);
+  }, [nextSlide]);
 
   // Touch handlers for mobile swiping
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -146,26 +144,6 @@ const HeroSection = () => {
 
       {/* Content Overlay */}
       <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-between py-10 md:py-16">
-        
-        {/* Top bar with slide counter controls */}
-        <div className="flex justify-end items-center">
-          <div className="flex items-center gap-3">
-            <span className="text-white/80 text-xs sm:text-sm font-semibold tracking-wider bg-black/40 backdrop-blur-md px-3 py-1 rounded-full border border-white/10">
-              <span className="text-amber-400 font-bold">{String(currentSlide + 1).padStart(2, '0')}</span>
-              <span className="text-white/40 mx-1">/</span>
-              <span>{String(slides.length).padStart(2, '0')}</span>
-            </span>
-
-            <button
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="p-2 rounded-full bg-black/40 backdrop-blur-md border border-white/20 text-white/80 hover:text-white hover:bg-black/60 transition-all duration-200"
-              title={isPlaying ? 'Pause auto-slide' : 'Play auto-slide'}
-              aria-label={isPlaying ? 'Pause carousel' : 'Play carousel'}
-            >
-              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 ml-0.5" />}
-            </button>
-          </div>
-        </div>
 
         {/* Center Main Slide Text */}
         <div className="my-auto text-center max-w-4xl mx-auto">
