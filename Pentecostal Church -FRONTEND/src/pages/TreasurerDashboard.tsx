@@ -94,16 +94,16 @@ const TreasurerDashboard: React.FC = () => {
                     <div className={tStyles.fadeIn}>
                         {renderOverview()}
                         <div className={tStyles.panelWrapper}>
-                            <FinancePanel initialTab="dashboard" />
+                            <FinancePanel initialTab="dashboard" hideTabBar />
                         </div>
                     </div>
                 );
-            case 'transactions':  return <FinancePanel initialTab="transactions" />;
-            case 'requisitions':  return <FinancePanel initialTab="requisitions" />;
-            case 'assets':        return <FinancePanel initialTab="assets" />;
-            case 'reports':       return <FinancePanel initialTab="reports" />;
-            case 'mpesa':         return <FinancePanel initialTab="mpesa" />;
-            case 'audit':         return <FinancePanel initialTab="auditLogs" />;
+            case 'transactions':  return <FinancePanel initialTab="transactions" hideTabBar />;
+            case 'requisitions':  return <FinancePanel initialTab="requisitions" hideTabBar />;
+            case 'assets':        return <FinancePanel initialTab="assets" hideTabBar />;
+            case 'reports':       return <FinancePanel initialTab="reports" hideTabBar />;
+            case 'mpesa':         return <FinancePanel initialTab="mpesa" hideTabBar />;
+            case 'audit':         return <FinancePanel initialTab="auditLogs" hideTabBar />;
             case 'settings':
                 return (
                     <div className={tStyles.settingsCard}>

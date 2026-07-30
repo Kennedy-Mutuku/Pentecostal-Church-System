@@ -8,6 +8,7 @@ type FinanceTab = 'dashboard' | 'transactions' | 'newTransaction' | 'requisition
 interface FinancePanelProps {
   isPatron?: boolean;
   initialTab?: FinanceTab | string;
+  hideTabBar?: boolean;
 }
 
 interface Transaction {
@@ -48,7 +49,6 @@ interface Asset {
   valuation: number;
   purchase_amount: number;
   purchase_date: string;
-  docket: string;
   condition: string;
   createdAt: string;
   updatedAt: string;
@@ -72,7 +72,7 @@ interface FinanceUser {
   createdAt: string;
 }
 
-const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTab }) => {
+const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTab, hideTabBar = false }) => {
   const [activeTab, setActiveTab] = useState<FinanceTab>((initialTab as FinanceTab) || 'dashboard');
 
   useEffect(() => {
@@ -95,7 +95,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
   // Form states
   const [txForm, setTxForm] = useState({ type: 'cash_in', category: 'offering', source: 'cash', phone: '', amount: '', description: '' });
   const [reqForm, setReqForm] = useState({ reason: '', amount_requested: '' });
-  const [assetForm, setAssetForm] = useState({ name: '', description: '', valuation: '', purchase_amount: '', purchase_date: '', docket: '', condition: 'good' });
+  const [assetForm, setAssetForm] = useState({ name: '', description: '', valuation: '', purchase_amount: '', purchase_date: '', condition: 'good' });
   const [revalueModal, setRevalueModal] = useState<Asset | null>(null);
   const [revalueForm, setRevalueForm] = useState({ new_value: '', method: '', reason: '' });
   const [historyModal, setHistoryModal] = useState<Asset | null>(null);
@@ -186,7 +186,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
     try {
       await financeApi.post('/assets', { ...assetForm, valuation: Number(assetForm.valuation), purchase_amount: Number(assetForm.purchase_amount) });
       setSuccess('Asset recorded.');
-      setAssetForm({ name: '', description: '', valuation: '', purchase_amount: '', purchase_date: '', docket: '', condition: 'good' });
+      setAssetForm({ name: '', description: '', valuation: '', purchase_amount: '', purchase_date: '', condition: 'good' });
       setActiveTab('assets');
     } catch (err: any) { setError(err.message); }
   };
@@ -478,11 +478,10 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
       </div>
       <div className={styles.tableWrap}>
         <table className={styles.table}>
-          <thead><tr><th>Docket</th><th>Name</th><th>Description</th><th>Purchase Price</th><th>Current Valuation</th><th>Last Valued</th><th>Condition</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Name</th><th>Description</th><th>Purchase Price</th><th>Current Valuation</th><th>Last Valued</th><th>Condition</th><th>Actions</th></tr></thead>
           <tbody>
             {assets.map(a => (
               <tr key={a._id}>
-                <td>{a.docket || '-'}</td>
                 <td>{a.name}</td>
                 <td>{a.description || '-'}</td>
                 <td>{formatAmount(a.purchase_amount)}</td>
@@ -511,23 +510,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
       <form onSubmit={handleCreateAsset} className={styles.form}>
         <label>Name<input type="text" value={assetForm.name} onChange={e => setAssetForm({ ...assetForm, name: e.target.value })} required /></label>
         <label>Description<textarea value={assetForm.description} onChange={e => setAssetForm({ ...assetForm, description: e.target.value })} rows={2} /></label>
-        <div className={styles.formRow}>
-          <label>Docket<select value={assetForm.docket} onChange={e => setAssetForm({ ...assetForm, docket: e.target.value })} required>
-            <option value="">Select Docket</option>
-            <option value="Chairperson">Chairperson</option>
-            <option value="Vice Chairperson">Vice Chairperson</option>
-            <option value="Secretary">Secretary</option>
-            <option value="Publicity secretary">Publicity secretary</option>
-            <option value="Treasurer">Treasurer</option>
-            <option value="Worship Coordinator">Worship Coordinator</option>
-            <option value="Boards Coordinator">Boards Coordinator</option>
-            <option value="Missions Coordinator">Missions Coordinator</option>
-            <option value="Bible study Coordinator">Bible study Coordinator</option>
-            <option value="Discipleship Coordinator">Discipleship Coordinator</option>
-            <option value="Other">Other</option>
-          </select></label>
-          <label>Condition<select value={assetForm.condition} onChange={e => setAssetForm({ ...assetForm, condition: e.target.value })}><option value="new">New</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></label>
-        </div>
+        <label>Condition<select value={assetForm.condition} onChange={e => setAssetForm({ ...assetForm, condition: e.target.value })}><option value="new">New</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></label>
         <div className={styles.formRow}>
           <label>Purchase Amount (KES)<input type="number" value={assetForm.purchase_amount} onChange={e => setAssetForm({ ...assetForm, purchase_amount: e.target.value })} required min="0" /></label>
           <label>Purchase Date<input type="date" value={assetForm.purchase_date} onChange={e => setAssetForm({ ...assetForm, purchase_date: e.target.value })} required /></label>
@@ -693,17 +676,19 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
 
   return (
     <div className={styles.financePanel}>
-      <div className={styles.tabBar}>
-        {tabs.filter(t => !t.hidden).map(t => (
-          <button
-            key={t.id}
-            className={`${styles.tab} ${activeTab === t.id ? styles.activeTab : ''}`}
-            onClick={() => setActiveTab(t.id)}
-          >
-            {t.label}
-          </button>
-        ))}
-      </div>
+      {!hideTabBar && (
+        <div className={styles.tabBar}>
+          {tabs.filter(t => !t.hidden).map(t => (
+            <button
+              key={t.id}
+              className={`${styles.tab} ${activeTab === t.id ? styles.activeTab : ''}`}
+              onClick={() => setActiveTab(t.id)}
+            >
+              {t.label}
+            </button>
+          ))}
+        </div>
+      )}
       {error && <div className={styles.error}>{error}</div>}
       {success && <div className={styles.success}>{success}</div>}
       <div className={styles.tabContent}>

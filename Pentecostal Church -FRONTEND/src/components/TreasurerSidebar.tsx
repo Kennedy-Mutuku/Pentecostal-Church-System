@@ -10,7 +10,7 @@ import {
   X,
   ShieldCheck
 } from 'lucide-react';
-import styles from '../styles/chairpersonSidebar.module.css'; // Reusing established styles
+import styles from '../styles/treasurerSidebar.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
 
 export type TreasurerSection = 'dashboard' | 'transactions' | 'requisitions' | 'assets' | 'reports' | 'mpesa' | 'audit' | 'settings';
