@@ -24,7 +24,7 @@ const FinancialsPage: React.FC = () => {
   const [contributions, setContributions] = useState<Contribution[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [payForm, setPayForm] = useState({ phone: '', amount: '', category: 'offering' });
+  const [payForm, setPayForm] = useState({ phone: '', amount: '', category: '' });
   const [payLoading, setPayLoading] = useState(false);
   const [payMsg, setPayMsg] = useState('');
   const [payError, setPayError] = useState('');
@@ -144,13 +144,6 @@ const FinancialsPage: React.FC = () => {
   const totalContributions = contributions.reduce((sum, c) => sum + c.amount, 0);
   const verse = verses[verseIndex];
 
-  const categoryCards = [
-    { id: 'offering', label: 'Offering', icon: '\u2764', desc: 'Give your offering to support the work of the Lord' },
-    { id: 'tithe', label: 'Tithe', icon: '\u2726', desc: 'A tenth of your increase, honouring God with your firstfruits' },
-    { id: 'thanksgiving', label: 'Thanksgiving', icon: '\u2606', desc: 'Express gratitude to God for His faithfulness' },
-    { id: 'aob', label: 'AOB', icon: '\u2756', desc: 'Any other contributions to support the church' },
-  ];
-
   return (
     <main className="fin-page">
       <style>{`
@@ -199,8 +192,11 @@ const FinancialsPage: React.FC = () => {
 
         .fin-field { margin-bottom: 10px; }
         .fin-field label { display: block; font-size: 11.5px; color: #374151; margin-bottom: 3px; font-weight: 600; }
-        .fin-field input { width: 100%; padding: 9px 11px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13.5px; box-sizing: border-box; outline: none; background: #f9fafb; }
-        .fin-field input:focus { border-color: #E53935; }
+        .fin-field input, .fin-field select { width: 100%; padding: 9px 11px; border: 1px solid #d1d5db; border-radius: 6px; font-size: 13.5px; box-sizing: border-box; outline: none; background: #f9fafb; appearance: none; -webkit-appearance: none; cursor: pointer; }
+        .fin-field input:focus, .fin-field select:focus { border-color: #E53935; box-shadow: 0 0 0 2px rgba(229,57,53,0.1); }
+        .fin-field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 11px center; padding-right: 32px; }
+        .fin-field select:required:has(option[value=""]:checked) { color: #9ca3af; }
+        .fin-field select option { color: #111827; }
         .fin-submit { width: 100%; padding: 11px; border: none; border-radius: 6px; background: #E53935; color: #fff; font-size: 13.5px; font-weight: 600; cursor: pointer; transition: background 0.2s ease; margin-top: 2px; }
         .fin-submit:disabled { background: #d1d5db; cursor: not-allowed; }
         .fin-submit:not(:disabled):hover { background: #c62828; }
@@ -248,20 +244,6 @@ const FinancialsPage: React.FC = () => {
         </div>
       </div>
 
-      {/* Giving category selector */}
-      <div className="fin-categories">
-        {categoryCards.map(c => (
-          <button
-            key={c.id}
-            onClick={() => setPayForm({ ...payForm, category: c.id })}
-            className={`fin-cat-btn${payForm.category === c.id ? ' active' : ''}`}
-          >
-            <span className="icon">{c.icon}</span>
-            <span className="label">{c.label}</span>
-          </button>
-        ))}
-      </div>
-
       {/* M-Pesa Payment Form */}
       <div className="fin-form-card">
         <div className="fin-secure-badge">🔒 Secure payment powered by M-Pesa</div>
@@ -270,7 +252,7 @@ const FinancialsPage: React.FC = () => {
           <div className="badge">M</div>
           <div>
             <h3>Lipa Na M-Pesa</h3>
-            <p>Contributing as: <strong>{payForm.category}</strong></p>
+            <p>Contributing as: <strong>{payForm.category ? payForm.category.charAt(0).toUpperCase() + payForm.category.slice(1) : '—'}</strong></p>
           </div>
         </div>
 
@@ -294,7 +276,21 @@ const FinancialsPage: React.FC = () => {
 
         <form onSubmit={handlePay}>
           <div className="fin-field">
-            <label>Phone Number</label>
+            <label>Contribution Type <span style={{ color: '#E53935' }}>*</span></label>
+            <select
+              value={payForm.category}
+              onChange={e => setPayForm({ ...payForm, category: e.target.value })}
+              required
+            >
+              <option value="" disabled>— Select category —</option>
+              <option value="offering">❤ Offering</option>
+              <option value="tithe">✦ Tithe</option>
+              <option value="thanksgiving">☆ Thanksgiving</option>
+              <option value="aob">❖ AOB (Any Other Business)</option>
+            </select>
+          </div>
+          <div className="fin-field">
+            <label>Phone Number <span style={{ color: '#E53935' }}>*</span></label>
             <input type="tel" value={payForm.phone} onChange={e => setPayForm({ ...payForm, phone: e.target.value })} placeholder="0712345678" required />
           </div>
           <div className="fin-field">
