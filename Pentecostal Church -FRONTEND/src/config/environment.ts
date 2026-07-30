@@ -96,12 +96,6 @@ interface ApiConfig {
     patronMedia: string;
     patronFamilies: string;
     patronChangePassword: string;
-    assistantPatronVerify: string;
-    assistantPatronUsers: string;
-    assistantPatronMessages: string;
-    assistantPatronMedia: string;
-    assistantPatronLogout: string;
-    assistantPatronChangePassword: string;
   };
 }
 
@@ -206,12 +200,6 @@ const developmentConfig: ApiConfig = {
     patronMedia: '/patron/media',
     patronFamilies: '/patron/families',
     patronChangePassword: '/patron/change-password',
-    assistantPatronVerify: '/patron/verify',
-    assistantPatronUsers: '/patron/users',
-    assistantPatronMessages: '/patron/messages',
-    assistantPatronMedia: '/patron/media',
-    assistantPatronLogout: '/patron/logout',
-    assistantPatronChangePassword: '/patron/change-password'
   }
 };
 
@@ -313,12 +301,6 @@ const productionConfig: ApiConfig = {
     patronMedia: '/patron/media',
     patronFamilies: '/patron/families',
     patronChangePassword: '/patron/change-password',
-    assistantPatronVerify: '/patron/verify',
-    assistantPatronUsers: '/patron/users',
-    assistantPatronMessages: '/patron/messages',
-    assistantPatronMedia: '/patron/media',
-    assistantPatronLogout: '/patron/logout',
-    assistantPatronChangePassword: '/patron/change-password'
   }
 };
 

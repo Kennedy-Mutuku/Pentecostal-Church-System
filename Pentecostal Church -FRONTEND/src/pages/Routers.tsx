@@ -78,7 +78,6 @@ const WelcomePage = lazy(() => import("./WelcomePage"));
 const PatronDashboard = lazy(() => import("./PatronDashboard"));
 const ChairpersonDashboard = lazy(() => import("./ChairpersonDashboard"));
 const TreasurerDashboard = lazy(() => import("./TreasurerDashboard"));
-const AssistantPatronDashboard = lazy(() => import("./AssistantPatronDashboard"));
 
 
 
@@ -154,7 +153,6 @@ export const router = createBrowserRouter([
             { path: "/committee-admin", element: <CommitteeAdmin /> },
             { path: "/welcome", element: <WelcomePage /> },
             { path: "/patron", element: <PatronDashboard /> },
-            { path: "/assistant-patron", element: <AssistantPatronDashboard /> },
 
             /* Fellowships and Classes */
             { path: "/brothersfellowship", element: <BrothersFellowship /> },

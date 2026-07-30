@@ -220,7 +220,7 @@ const Media: React.FC = () => {
 
       if (!response.ok) {
         // Check if patron is logged in
-        if (localStorage.getItem('patronSession') === 'true' || localStorage.getItem('assistantPatronSession') === 'true') {
+        if (localStorage.getItem('patronSession') === 'true') {
           setIsAuthenticated(true);
           return;
         }
@@ -236,7 +236,7 @@ const Media: React.FC = () => {
     } catch (error) {
       console.error('Error fetching user data:', error);
       // Check if patron is logged in
-      if (localStorage.getItem('patronSession') === 'true' || localStorage.getItem('assistantPatronSession') === 'true') {
+      if (localStorage.getItem('patronSession') === 'true') {
         setIsAuthenticated(true);
         setShowMediaEvents(true);
         return;
