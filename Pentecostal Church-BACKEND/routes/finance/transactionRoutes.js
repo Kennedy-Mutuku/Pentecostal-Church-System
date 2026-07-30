@@ -7,8 +7,8 @@ const transactionValidator = require("../../validators/finance/transactionValida
 const validateRequest = require("../../middlewares/validateRequest");
 
 router.post("/", authorize("treasurer"), uploadReceipt.single("receipt"), transactionValidator.create, validateRequest, controller.create);
-router.get("/", authorize("admin", "treasurer", "auditor", "chair_accounts", "chairperson", "patron"), controller.getAll);
-router.get("/balance", authorize("admin", "treasurer", "auditor", "chair_accounts", "chairperson", "patron"), controller.getBalance);
-router.get("/:id", authorize("admin", "treasurer", "auditor", "chair_accounts", "chairperson"), controller.getById);
+router.get("/", authorize("treasurer", "patron"), controller.getAll);
+router.get("/balance", authorize("treasurer", "patron"), controller.getBalance);
+router.get("/:id", authorize("treasurer"), controller.getById);
 
 module.exports = router;

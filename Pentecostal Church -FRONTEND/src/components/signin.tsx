@@ -4,7 +4,7 @@ import styles from '../styles/signin.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
 import { Link, useNavigate } from 'react-router-dom';
 import loadingAnime from '../assets/loading.gif';
-import { Eye, EyeOff, User, Phone, Mail, CreditCard, Users, ChevronDown, Calendar, MapPin, Home, Search, Shield } from 'lucide-react';
+import { Eye, EyeOff, User, Phone, Mail, CreditCard, Users, ChevronDown, Calendar, MapPin, Home, Search, Shield, Lock } from 'lucide-react';
 import { getApiUrl, isDevMode } from '../config/environment';
 import UserProfile from './userProfile';
 import ErrorBoundary from './ErrorBoundary';
@@ -300,15 +300,11 @@ const SignIn: React.FC = () => {
                 // Patron login
                 endpoint = getApiUrl('patronLogin');
                 route = '/patron';
-            } else if (processedEmail === 'assistantpatron@rpc-nyamira.co.ke' || processedEmail === 'assistantpatron@ksucu-mc.co.ke') {
-                // Assistant Patron login
-                endpoint = getApiUrl('patronLogin'); // Use patronLogin to ensure correct auth cookie is generated
-                route = '/assistant-patron';
             } else if (processedEmail === 'chairperson@rpc.ac.ke') {
                 // Chairperson login
                 endpoint = getApiUrl('superAdmin');
                 route = '/chairperson';
-            } else if (processedEmail.startsWith('treasurer@')) {
+            } else if (processedEmail.startsWith('treasurer@') || processedEmail.endsWith('@rpctreasurer.org')) {
                 // Treasurer login
                 endpoint = '/api/finance/auth/login'; // Authenticates directly against the finance backend
                 route = '/treasurer';
@@ -352,12 +348,8 @@ const SignIn: React.FC = () => {
                  localStorage.setItem('finance_token', response.data.token);
              }
 
-            // Log into the finance backend in the background to get a JWT token if patron/assistant patron
-            if (
-                processedEmail === 'admin@rpcpastor.org' ||
-                processedEmail === 'assistantpatron@rpc-nyamira.co.ke' ||
-                processedEmail === 'assistantpatron@ksucu-mc.co.ke'
-            ) {
+            // Log into the finance backend in the background to get a JWT token if patron
+            if (processedEmail === 'admin@rpcpastor.org') {
                 try {
                     // Use the finance backend's dedicated read-only patron account
                     const financeRes = await axios.post('/api/finance/auth/login', {
@@ -381,19 +373,12 @@ const SignIn: React.FC = () => {
             if (processedEmail === 'admin@rpcpastor.org') {
                 localStorage.setItem('adminSession', 'true');
                 localStorage.setItem('patronSession', 'true');
-                localStorage.removeItem('assistantPatronSession');
-            } else if (processedEmail === 'assistantpatron@rpc-nyamira.co.ke' || processedEmail === 'assistantpatron@ksucu-mc.co.ke') {
-                localStorage.setItem('adminSession', 'true');
-                localStorage.setItem('assistantPatronSession', 'true');
-                localStorage.removeItem('patronSession');
-            } else if (mapping || processedEmail.startsWith('treasurer@') || processedEmail === 'chairperson@rpc.ac.ke') {
+            } else if (mapping || processedEmail.startsWith('treasurer@') || processedEmail.endsWith('@rpctreasurer.org') || processedEmail === 'chairperson@rpc.ac.ke') {
                 localStorage.setItem('adminSession', 'true');
                 localStorage.removeItem('patronSession');
-                localStorage.removeItem('assistantPatronSession');
             } else {
                 localStorage.removeItem('adminSession');
                 localStorage.removeItem('patronSession');
-                localStorage.removeItem('assistantPatronSession');
             }
 
             // Check for profile photo if regular user login
@@ -476,8 +461,8 @@ const SignIn: React.FC = () => {
                     </div>
                 )}
                 <div className={styles['container']}>
-                    <Link to={"/"} style={{ display: 'flex', justifyContent: 'center', marginBottom: '2px' }}>
-                        <img src={cuLogo} alt="RPC logo" style={{ width: '56px', height: '56px', objectFit: 'contain' }} />
+                    <Link to={"/"} className={styles['logoBadge']}>
+                        <img src={cuLogo} alt="RPC logo" />
                     </Link>
 
                     {error && <div className={styles.error}>{error}</div>}
@@ -921,25 +906,30 @@ const SignIn: React.FC = () => {
                     {!showWhatsAppHelp && !showRegistration && (
                         <div>
                             <h2 className={styles['text']}>Log in</h2>
+                            <p className={styles['subtitle']}>Welcome back. Please sign in to continue.</p>
 
                             <form action="" className={styles['form']}>
 
                                 <div className={styles['form-div']}>
                                     <label htmlFor="email">E-mail</label>
-                                    <input
-                                        type="email"
-                                        id="email"
-                                        className={styles['input']}
-                                        value={formData.email}
-                                        onChange={handleChange}
-                                        placeholder="Enter your email"
-                                        required
-                                    />
+                                    <section className={styles['inputIconWrap']}>
+                                        <Mail size={16} className={styles['inputIcon']} />
+                                        <input
+                                            type="email"
+                                            id="email"
+                                            className={styles['input']}
+                                            value={formData.email}
+                                            onChange={handleChange}
+                                            placeholder="Enter your email"
+                                            required
+                                        />
+                                    </section>
                                 </div>
 
                                 <div className={styles['form-div']}>
                                     <label htmlFor="password">Password</label>
-                                    <section className={styles['password-wrapper']}>
+                                    <section className={`${styles['password-wrapper']} ${styles['inputIconWrap']}`}>
+                                        <Lock size={16} className={styles['inputIcon']} />
                                         <input
                                             type={showPassword ? "text" : "password"}
                                             id="password"

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { financeApi } from '../../services/financeApi';
 import styles from '../../styles/finance.module.css';
+import loadingAnime from '../../assets/loading.gif';
 
 type FinanceTab = 'dashboard' | 'transactions' | 'newTransaction' | 'requisitions' | 'newRequisition' | 'assets' | 'newAsset' | 'reports' | 'auditLogs' | 'mpesa' | 'users';
 
@@ -33,13 +34,25 @@ interface Requisition {
   createdAt: string;
 }
 
+interface ValuationHistoryEntry {
+  value: number;
+  method: string;
+  reason?: string;
+  valued_at: string;
+}
+
 interface Asset {
   _id: string;
   name: string;
   description?: string;
   valuation: number;
+  purchase_amount: number;
+  purchase_date: string;
+  docket: string;
   condition: string;
   createdAt: string;
+  updatedAt: string;
+  valuationHistory?: ValuationHistoryEntry[];
 }
 
 interface AuditLog {
@@ -82,7 +95,10 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
   // Form states
   const [txForm, setTxForm] = useState({ type: 'cash_in', category: 'offering', source: 'cash', phone: '', amount: '', description: '' });
   const [reqForm, setReqForm] = useState({ reason: '', amount_requested: '' });
-  const [assetForm, setAssetForm] = useState({ name: '', description: '', valuation: '', condition: 'good' });
+  const [assetForm, setAssetForm] = useState({ name: '', description: '', valuation: '', purchase_amount: '', purchase_date: '', docket: '', condition: 'good' });
+  const [revalueModal, setRevalueModal] = useState<Asset | null>(null);
+  const [revalueForm, setRevalueForm] = useState({ new_value: '', method: '', reason: '' });
+  const [historyModal, setHistoryModal] = useState<Asset | null>(null);
   const [mpesaForm, setMpesaForm] = useState({ phone: '', amount: '', category: 'offering' });
   const [mpesaStatus, setMpesaStatus] = useState<'idle' | 'sending' | 'waiting' | 'success' | 'failed'>('idle');
   const [mpesaMsg, setMpesaMsg] = useState('');
@@ -168,10 +184,27 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
     e.preventDefault();
     setError(''); setSuccess('');
     try {
-      await financeApi.post('/assets', { ...assetForm, valuation: Number(assetForm.valuation) });
+      await financeApi.post('/assets', { ...assetForm, valuation: Number(assetForm.valuation), purchase_amount: Number(assetForm.purchase_amount) });
       setSuccess('Asset recorded.');
-      setAssetForm({ name: '', description: '', valuation: '', condition: 'good' });
+      setAssetForm({ name: '', description: '', valuation: '', purchase_amount: '', purchase_date: '', docket: '', condition: 'good' });
       setActiveTab('assets');
+    } catch (err: any) { setError(err.message); }
+  };
+
+  const handleRevalueAsset = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!revalueModal) return;
+    setError(''); setSuccess('');
+    try {
+      await financeApi.put(`/assets/${revalueModal._id}/revalue`, {
+        new_value: Number(revalueForm.new_value),
+        method: revalueForm.method || undefined,
+        reason: revalueForm.reason,
+      });
+      setSuccess(`${revalueModal.name} revalued to ${formatAmount(Number(revalueForm.new_value))}.`);
+      setRevalueModal(null);
+      setRevalueForm({ new_value: '', method: '', reason: '' });
+      loadTabData();
     } catch (err: any) { setError(err.message); }
   };
 
@@ -440,17 +473,27 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
         <h3 className={styles.tabTitle}>Assets</h3>
         <button className={styles.actionBtn} onClick={() => setActiveTab('newAsset')}>Add Asset</button>
       </div>
+      <div style={{ padding: '10px 14px', background: '#f8fdfa', border: '1px solid #d1e7dd', borderRadius: '8px', marginBottom: '14px', fontSize: '13px', color: '#333' }}>
+        <strong>Total Current Assets Value:</strong> {formatAmount(assets.reduce((sum, a) => sum + (a.valuation || 0), 0))}
+      </div>
       <div className={styles.tableWrap}>
         <table className={styles.table}>
-          <thead><tr><th>Name</th><th>Description</th><th>Valuation</th><th>Condition</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Docket</th><th>Name</th><th>Description</th><th>Purchase Price</th><th>Current Valuation</th><th>Last Valued</th><th>Condition</th><th>Actions</th></tr></thead>
           <tbody>
             {assets.map(a => (
               <tr key={a._id}>
+                <td>{a.docket || '-'}</td>
                 <td>{a.name}</td>
                 <td>{a.description || '-'}</td>
+                <td>{formatAmount(a.purchase_amount)}</td>
                 <td>{formatAmount(a.valuation)}</td>
+                <td>{formatDate(a.updatedAt)}</td>
                 <td><span className={`${styles.badge} ${styles[a.condition]}`}>{a.condition}</span></td>
-                <td><button className={styles.rejectBtn} onClick={() => handleDeleteAsset(a._id)}>Delete</button></td>
+                <td style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+                  <button className={styles.approveBtn} onClick={() => { setRevalueModal(a); setRevalueForm({ new_value: String(a.valuation), method: '', reason: '' }); }}>Revalue</button>
+                  <button className={styles.actionBtn} style={{ fontSize: '12px', padding: '4px 10px' }} onClick={() => setHistoryModal(a)}>History</button>
+                  <button className={styles.rejectBtn} onClick={() => handleDeleteAsset(a._id)}>Delete</button>
+                </td>
               </tr>
             ))}
           </tbody>
@@ -468,8 +511,28 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
       <form onSubmit={handleCreateAsset} className={styles.form}>
         <label>Name<input type="text" value={assetForm.name} onChange={e => setAssetForm({ ...assetForm, name: e.target.value })} required /></label>
         <label>Description<textarea value={assetForm.description} onChange={e => setAssetForm({ ...assetForm, description: e.target.value })} rows={2} /></label>
-        <label>Valuation (KES)<input type="number" value={assetForm.valuation} onChange={e => setAssetForm({ ...assetForm, valuation: e.target.value })} required min="0" /></label>
-        <label>Condition<select value={assetForm.condition} onChange={e => setAssetForm({ ...assetForm, condition: e.target.value })}><option value="new">New</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></label>
+        <div className={styles.formRow}>
+          <label>Docket<select value={assetForm.docket} onChange={e => setAssetForm({ ...assetForm, docket: e.target.value })} required>
+            <option value="">Select Docket</option>
+            <option value="Chairperson">Chairperson</option>
+            <option value="Vice Chairperson">Vice Chairperson</option>
+            <option value="Secretary">Secretary</option>
+            <option value="Publicity secretary">Publicity secretary</option>
+            <option value="Treasurer">Treasurer</option>
+            <option value="Worship Coordinator">Worship Coordinator</option>
+            <option value="Boards Coordinator">Boards Coordinator</option>
+            <option value="Missions Coordinator">Missions Coordinator</option>
+            <option value="Bible study Coordinator">Bible study Coordinator</option>
+            <option value="Discipleship Coordinator">Discipleship Coordinator</option>
+            <option value="Other">Other</option>
+          </select></label>
+          <label>Condition<select value={assetForm.condition} onChange={e => setAssetForm({ ...assetForm, condition: e.target.value })}><option value="new">New</option><option value="good">Good</option><option value="fair">Fair</option><option value="poor">Poor</option></select></label>
+        </div>
+        <div className={styles.formRow}>
+          <label>Purchase Amount (KES)<input type="number" value={assetForm.purchase_amount} onChange={e => setAssetForm({ ...assetForm, purchase_amount: e.target.value })} required min="0" /></label>
+          <label>Purchase Date<input type="date" value={assetForm.purchase_date} onChange={e => setAssetForm({ ...assetForm, purchase_date: e.target.value })} required /></label>
+        </div>
+        <label>Current Valuation (KES)<input type="number" value={assetForm.valuation} onChange={e => setAssetForm({ ...assetForm, valuation: e.target.value })} required min="0" /></label>
         <button type="submit" className={styles.actionBtn}>Save Asset</button>
       </form>
     </div>
@@ -561,11 +624,11 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
     <div>
       <h3 className={styles.tabTitle}>Finance Users</h3>
       <p style={{ color: '#666', fontSize: '13px', marginBottom: '16px' }}>
-        Manage accounts for the finance subdomain. These users can log in to finance.rpc-nyamira.co.ke with their assigned role.
+        Manage Treasurer accounts for the finance subdomain.
       </p>
 
       <form onSubmit={handleCreateUser} className={styles.form} style={{ marginBottom: '24px' }}>
-        <h4 style={{ margin: '0 0 12px', fontSize: '14px', color: '#333' }}>Create Finance User</h4>
+        <h4 style={{ margin: '0 0 12px', fontSize: '14px', color: '#333' }}>Create Treasurer Account</h4>
         <div className={styles.formRow}>
           <label>Name<input type="text" value={userForm.name} onChange={e => setUserForm({ ...userForm, name: e.target.value })} placeholder="Full name" /></label>
           <label>Email<input type="email" value={userForm.email} onChange={e => setUserForm({ ...userForm, email: e.target.value })} required placeholder="user@example.com" /></label>
@@ -578,15 +641,8 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
             </div>
             <PasswordStrength password={userForm.password} />
           </label>
-          <label>Role
-            <select value={userForm.role} onChange={e => setUserForm({ ...userForm, role: e.target.value })}>
-              <option value="treasurer">Treasurer</option>
-              <option value="auditor">Auditor</option>
-              <option value="chair_accounts">Chair Accounts</option>
-            </select>
-          </label>
+          <label>Phone (optional)<input type="text" value={userForm.phone} onChange={e => setUserForm({ ...userForm, phone: e.target.value })} placeholder="0712345678" /></label>
         </div>
-        <label>Phone (optional)<input type="text" value={userForm.phone} onChange={e => setUserForm({ ...userForm, phone: e.target.value })} placeholder="0712345678" /></label>
         <button type="submit" className={styles.actionBtn}>Create User</button>
       </form>
 
@@ -710,6 +766,85 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
                   fontSize: '13px', fontWeight: 600
                 }}
               >Reset Password</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Revalue Asset Modal */}
+      {revalueModal && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999
+        }}>
+          <form onSubmit={handleRevalueAsset} style={{
+            background: '#fff', borderRadius: '12px', padding: '28px', width: '420px', maxWidth: '90vw',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+          }}>
+            <h3 style={{ margin: '0 0 4px', fontSize: '16px', color: '#1a1a1a' }}>Revalue Asset</h3>
+            <p style={{ margin: '0 0 20px', fontSize: '13px', color: '#666' }}>
+              <strong>{revalueModal.name}</strong> — current value {formatAmount(revalueModal.valuation)}
+            </p>
+            <label>New Valuation (KES)
+              <input type="number" min="0" required value={revalueForm.new_value}
+                onChange={e => setRevalueForm({ ...revalueForm, new_value: e.target.value })}
+                style={{ width: '100%', padding: '10px 12px', fontSize: '14px', border: '1px solid #ddd', borderRadius: '8px', boxSizing: 'border-box', outline: 'none', marginBottom: '12px' }} />
+            </label>
+            <label>Method
+              <select value={revalueForm.method} onChange={e => setRevalueForm({ ...revalueForm, method: e.target.value })}
+                style={{ width: '100%', padding: '10px 12px', fontSize: '14px', border: '1px solid #ddd', borderRadius: '8px', boxSizing: 'border-box', outline: 'none', marginBottom: '12px' }}>
+                <option value="">Auto-detect (from value change)</option>
+                <option value="appreciation">Appreciation</option>
+                <option value="depreciation">Depreciation</option>
+                <option value="market_appraisal">Market Appraisal</option>
+              </select>
+            </label>
+            <label>Reason / Note
+              <textarea value={revalueForm.reason} onChange={e => setRevalueForm({ ...revalueForm, reason: e.target.value })} rows={2}
+                placeholder="e.g. Annual depreciation, market re-appraisal..."
+                style={{ width: '100%', padding: '10px 12px', fontSize: '14px', border: '1px solid #ddd', borderRadius: '8px', boxSizing: 'border-box', outline: 'none', marginBottom: '4px', resize: 'vertical' }} />
+            </label>
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '16px' }}>
+              <button type="button" onClick={() => { setRevalueModal(null); setRevalueForm({ new_value: '', method: '', reason: '' }); }}
+                style={{ padding: '8px 20px', borderRadius: '8px', border: '1px solid #ddd', background: '#fff', cursor: 'pointer', fontSize: '13px', color: '#333' }}>Cancel</button>
+              <button type="submit"
+                style={{ padding: '8px 20px', borderRadius: '8px', border: 'none', background: '#3b1a62', color: '#fff', cursor: 'pointer', fontSize: '13px', fontWeight: 600 }}>Save Valuation</button>
+            </div>
+          </form>
+        </div>
+      )}
+
+      {/* Valuation History Modal */}
+      {historyModal && (
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+          background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999
+        }}>
+          <div style={{
+            background: '#fff', borderRadius: '12px', padding: '28px', width: '480px', maxWidth: '90vw', maxHeight: '80vh', overflowY: 'auto',
+            boxShadow: '0 20px 60px rgba(0,0,0,0.3)'
+          }}>
+            <h3 style={{ margin: '0 0 4px', fontSize: '16px', color: '#1a1a1a' }}>Valuation History</h3>
+            <p style={{ margin: '0 0 16px', fontSize: '13px', color: '#666' }}>{historyModal.name}</p>
+            {(!historyModal.valuationHistory || historyModal.valuationHistory.length === 0) ? (
+              <p style={{ color: '#999', fontSize: '13px' }}>No valuation history recorded.</p>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                {[...historyModal.valuationHistory].reverse().map((h, i) => (
+                  <div key={i} style={{ border: '1px solid #eee', borderRadius: '8px', padding: '10px 12px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <strong style={{ fontSize: '14px', color: '#1a1a1a' }}>{formatAmount(h.value)}</strong>
+                      <span style={{ fontSize: '11px', color: '#888' }}>{formatDate(h.valued_at)}</span>
+                    </div>
+                    <div style={{ fontSize: '12px', color: '#666', marginTop: '2px', textTransform: 'capitalize' }}>{h.method.replace('_', ' ')}</div>
+                    {h.reason && <div style={{ fontSize: '12px', color: '#888', marginTop: '2px' }}>{h.reason}</div>}
+                  </div>
+                ))}
+              </div>
+            )}
+            <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '16px' }}>
+              <button onClick={() => setHistoryModal(null)}
+                style={{ padding: '8px 20px', borderRadius: '8px', border: '1px solid #ddd', background: '#fff', cursor: 'pointer', fontSize: '13px', color: '#333' }}>Close</button>
             </div>
           </div>
         </div>

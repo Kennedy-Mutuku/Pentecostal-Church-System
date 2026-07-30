@@ -51,8 +51,6 @@ const manageableItems: MenuItem[] = [
 const financeItems: MenuItem[] = [
   { id: 'finance-dashboard', label: 'Dashboard', icon: <DollarSign size={16} /> },
   { id: 'finance-transactions', label: 'Transactions', icon: <DollarSign size={16} /> },
-  { id: 'finance-requisitions', label: 'Requisitions', icon: <DollarSign size={16} /> },
-  { id: 'finance-reports', label: 'Reports', icon: <DollarSign size={16} /> },
 ];
 
 const ageItems: MenuItem[] = AGE_GROUPS.map(age => ({

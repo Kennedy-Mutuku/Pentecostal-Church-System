@@ -15,7 +15,7 @@ const userSchema = new mongoose.Schema({
   graduationYear: { type: Number, default: null },
   financeRole: {
     type: String,
-    enum: ['treasurer', 'auditor', 'chair_accounts', 'chairperson', null],
+    enum: ['treasurer', null],
     default: null
   },
   family: { type: mongoose.Schema.Types.ObjectId, ref: 'Family', default: null },

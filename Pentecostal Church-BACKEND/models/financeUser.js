@@ -7,7 +7,8 @@ const financeUserSchema = new mongoose.Schema(
     password: { type: String, required: true },
     role: {
       type: String,
-      enum: ["treasurer", "auditor", "chair_accounts", "chairperson"],
+      enum: ["treasurer"],
+      default: "treasurer",
       required: true,
     },
     phone: { type: String },

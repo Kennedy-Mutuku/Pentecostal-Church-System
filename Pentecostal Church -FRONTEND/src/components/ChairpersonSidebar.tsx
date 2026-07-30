@@ -5,15 +5,13 @@ import {
   MessageSquare,
   Image,
   Settings,
-  DollarSign,
   LogOut,
   Crown,
   X,
   ChevronDown,
   ChevronUp,
   Globe,
-  Music,
-  Briefcase
+  Music
 } from 'lucide-react';
 import styles from '../styles/chairpersonSidebar.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
@@ -43,14 +41,6 @@ const manageableItems: MenuItem[] = [
   { id: 'members', label: 'All Members', icon: <Users size={18} /> },
   { id: 'feedback', label: 'Feedback', icon: <MessageSquare size={18} /> },
   { id: 'gallery', label: 'Gallery', icon: <Image size={18} /> },
-  { id: 'assets', label: 'Assets', icon: <Briefcase size={18} /> },
-];
-
-const financeItems: MenuItem[] = [
-  { id: 'finance-dashboard', label: 'Dashboard', icon: <DollarSign size={16} /> },
-  { id: 'finance-transactions', label: 'Transactions', icon: <DollarSign size={16} /> },
-  { id: 'finance-requisitions', label: 'Requisitions', icon: <DollarSign size={16} /> },
-  { id: 'finance-reports', label: 'Reports', icon: <DollarSign size={16} /> },
 ];
 
 const ageItems: MenuItem[] = AGE_GROUPS.map(age => ({
@@ -178,7 +168,6 @@ const ChairpersonSidebar: React.FC<ChairpersonSidebarProps> = ({
         <nav className={styles.nav}>
           {renderGroup('Main', mainItems)}
           {renderGroup('Management', manageableItems)}
-          {renderExpandableGroup('Finance', financeItems, 'fin', <DollarSign size={18} />)}
           {renderExpandableGroup('Age Groups', ageItems, 'age', <Globe size={18} />)}
           {renderExpandableGroup('Gents & Females', genderItems, 'gender', <Music size={18} />)}
           {renderGroup('System', systemItems)}

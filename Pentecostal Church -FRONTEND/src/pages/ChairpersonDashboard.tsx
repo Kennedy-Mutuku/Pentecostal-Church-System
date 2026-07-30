@@ -5,15 +5,12 @@ import axios from 'axios';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import styles from '../styles/superAdmin.module.css';
-import { X, Search, RefreshCw, User, Mail, Phone, BookOpen, Wallet, Gem, ShieldCheck, Layers, Users, MessageSquare, Bell } from 'lucide-react';
+import { X, Search, RefreshCw, User, Mail, Phone, BookOpen, ShieldCheck, Layers, Users, MessageSquare, Bell } from 'lucide-react';
 import { getApiUrl, getImageUrl } from '../config/environment';
 // TODO: letterhead.png is missing from assets — reusing the RPC logo as a stopgap. Replace with the real letterhead image.
 import letterhead from '../assets/RPC logo updated document.png';
 import ChairpersonSidebar, { ChairpersonSection } from '../components/ChairpersonSidebar';
-import { financeApi } from '../services/financeApi';
-import FinancePanel from '../components/finance/FinancePanel';
 import AnalyticsCharts from '../components/patron/AnalyticsCharts';
-import ChairpersonAssets from '../components/patron/PatronAssets';
 
 import cuLogo from '../assets/RPC logo updated document.png';
 
@@ -29,15 +26,6 @@ interface User {
     et: string;
     profilePhoto?: string;
     createdAt?: string;
-}
-
-interface FinanceTransaction {
-    _id: string;
-    type: string;
-    category: string;
-    amount: number;
-    source: string;
-    createdAt: string;
 }
 
 interface Message {
@@ -85,16 +73,11 @@ const ChairpersonDashboard: React.FC = () => {
     const [usersByMinistry, setUsersByMinistry] = useState<{ [key: string]: number }>({});
     const [usersByEt, setUsersByEt] = useState<{ [key: string]: number }>({});
     const [messages, setMessages] = useState<Message[]>([]);
-    const [financeTransactions, setFinanceTransactions] = useState<FinanceTransaction[]>([]);
     const [mediaItems, setMediaItems] = useState<MediaItem[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
-    const [financeLoading, setFinanceLoading] = useState<boolean>(false);
     const [error, setError] = useState<string | null>(null);
-    const [totalAssetValue, setTotalAssetValue] = useState<number>(0);
-    const [accountBalance, setAccountBalance] = useState<number>(0);
     const [studentsInMinistries, setStudentsInMinistries] = useState<number>(0);
     const [studentsInEts, setStudentsInEts] = useState<number>(0);
-    const [assets, setAssets] = useState<any[]>([]);
 
     // UI state
     const [activeSection, setActiveSection] = useState<ChairpersonSection>('dashboard');
@@ -156,7 +139,7 @@ const ChairpersonDashboard: React.FC = () => {
                 setTimeout(() => setShowWelcome(false), 3000);
             }
 
-            await Promise.all([fetchUsers(), fetchMessages(), fetchMedia(), fetchFinanceData()]);
+            await Promise.all([fetchUsers(), fetchMessages(), fetchMedia()]);
             
             // Set initial counts after first full fetch to avoid "new login" spam notifications
             // However, the user wants to see "what has changed", so if we want to show things 
@@ -263,64 +246,6 @@ const ChairpersonDashboard: React.FC = () => {
         { event: "Hymn Sunday", date: "23rd March", link: "https://photos.app.goo.gl/RWWRM2zp9LkmVgtU6" },
         { event: "Sunday service", date: "24th March", link: "https://photos.app.goo.gl/UnA7f6Aqp3kHtsxaA" },
     ];
-
-    const fetchFinanceData = async () => {
-        setFinanceLoading(true);
-        try {
-            // Fetch Transactions & Assets in parallel
-            const [txs, assets] = await Promise.all([
-                financeApi.get('/transactions'),
-                financeApi.get('/assets')
-            ]);
-
-            setFinanceTransactions(txs || []);
-            setAssets(assets || []);
-            
-            // Calculate Balance
-            const income = (txs || []).filter((t: any) => t.type === 'cash_in').reduce((acc: number, t: any) => acc + t.amount, 0);
-            const expense = (txs || []).filter((t: any) => t.type === 'cash_out').reduce((acc: number, t: any) => acc + t.amount, 0);
-            setAccountBalance(income - expense);
-
-            // Calculate Asset Total
-            const assetTotal = (assets || []).reduce((acc: number, a: any) => acc + (a.valuation || 0), 0);
-            setTotalAssetValue(assetTotal);
-
-            // Track new assets
-            if (lastCounts.current.assets > 0 && (assets || []).length > lastCounts.current.assets) {
-                const newCount = (assets || []).length - lastCounts.current.assets;
-                const latest = [...(assets || [])].sort((a, b) => 
-                    new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
-                )[0];
-                addNotification(
-                    'New Asset Recorded',
-                    `${newCount} new asset(s) added. Latest: ${latest.name} (${formatCurrencyShort(latest.valuation || 0)})`,
-                    'asset',
-                    'assets'
-                );
-            }
-            lastCounts.current.assets = (assets || []).length;
-
-            // Track new transactions
-            if (lastCounts.current.transactions > 0 && (txs || []).length > lastCounts.current.transactions) {
-                const newCount = (txs || []).length - lastCounts.current.transactions;
-                const latest = [...(txs || [])].sort((a, b) => 
-                    new Date(b.createdAt || 0).getTime() - new Date(a.createdAt || 0).getTime()
-                )[0];
-                addNotification(
-                    'New Financial Entry',
-                    `${newCount} new transaction(s) recorded. Latest: ${latest.type.replace('_', ' ')} of ${formatCurrencyShort(latest.amount)}`,
-                    'finance',
-                    'finance-transactions'
-                );
-            }
-            lastCounts.current.transactions = (txs || []).length;
-
-        } catch (err) {
-            console.error('Error fetching finance data for analytics:', err);
-        } finally {
-            setFinanceLoading(false);
-        }
-    };
 
     const fetchMedia = async () => {
         try {
@@ -626,7 +551,7 @@ const ChairpersonDashboard: React.FC = () => {
                 onMouseLeave={e => { e.currentTarget.style.background = '#f8f9fa'; e.currentTarget.style.color = '#555'; }}
                 title="Refresh All Data"
             >
-                <RefreshCw size={16} className={financeLoading ? 'animate-spin' : ''} />
+                <RefreshCw size={16} className={loading ? 'animate-spin' : ''} />
             </button>
             
             <div style={{ position: 'relative' }}>
@@ -674,7 +599,6 @@ const ChairpersonDashboard: React.FC = () => {
             }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
                     <h2 className={styles.sectionTitle} style={{ ...titleStyle, marginBottom: 0, border: 'none' }}>Overview & Analytics</h2>
-                    {financeLoading && <div style={{ fontSize: '11px', color: P, display: 'flex', alignItems: 'center', gap: '6px' }}><RefreshCw size={12} className="animate-spin" /> Syncing data...</div>}
                 </div>
                 
                 <DashboardControls />
@@ -689,11 +613,6 @@ const ChairpersonDashboard: React.FC = () => {
             }}>
                 {[
                     { val: userCount, label: 'RPC Members', icon: <Users size={16} />, bg: `linear-gradient(135deg, ${P}, ${PL})` },
-                    
-                    
-                    { val: formatCurrencyShort(totalAssetValue), label: 'Total Assets', icon: <Gem size={16} />, bg: `linear-gradient(135deg, #f59e0b, #d97706)` },
-                    { val: formatCurrencyShort(accountBalance), label: 'In Account', icon: <Wallet size={16} />, bg: `linear-gradient(135deg, #4f46e5, #3730a3)` },
-                    { val: formatCurrencyShort(totalAssetValue + accountBalance), label: 'Net Worth', icon: <RefreshCw size={16} />, bg: `linear-gradient(135deg, #7c3aed, #5b21b6)` },
                     { val: messages.length, label: 'Feedback', icon: <MessageSquare size={16} />, bg: R },
                 ].map((s, i) => (
                     <div key={i} style={{ 
@@ -726,12 +645,10 @@ const ChairpersonDashboard: React.FC = () => {
 
             {/* Professional Analytics Graphs */}
             <div style={{ padding: '0 0 40px', borderBottom: '1px solid #f0f0f0' }}>
-                <AnalyticsCharts 
-                    users={users} 
-                     
-                     
-                    transactions={financeTransactions} 
-                    assets={assets}
+                <AnalyticsCharts
+                    users={users}
+                    transactions={[]}
+                    assets={[]}
                 />
             </div>
 
@@ -1362,13 +1279,7 @@ const ChairpersonDashboard: React.FC = () => {
             case 'dashboard': return renderDashboard();
             case 'feedback': return renderFeedback();
             case 'gallery': return renderGallery();
-            case 'assets': return <ChairpersonAssets />;
             case 'settings': return renderSettings();
-            case 'finance': 
-            case 'finance-dashboard': return <FinancePanel isPatron initialTab="dashboard" />;
-            case 'finance-transactions': return <FinancePanel isPatron initialTab="transactions" />;
-            case 'finance-requisitions': return <FinancePanel isPatron initialTab="requisitions" />;
-            case 'finance-reports': return <FinancePanel isPatron initialTab="reports" />;
             default: return renderDashboard();
         }
     };

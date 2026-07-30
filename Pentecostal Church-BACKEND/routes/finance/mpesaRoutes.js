@@ -3,6 +3,6 @@ const router = express.Router();
 const controller = require("../../controllers/finance/mpesaController");
 const authorize = require("../../middlewares/financeAuthorize");
 
-router.post("/stkpush", authorize("admin", "treasurer"), controller.initiatePayment);
+router.post("/stkpush", authorize("treasurer"), controller.initiatePayment);
 
 module.exports = router;

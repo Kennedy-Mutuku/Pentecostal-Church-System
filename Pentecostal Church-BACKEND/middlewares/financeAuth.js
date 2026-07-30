@@ -2,16 +2,20 @@ const jwt = require('jsonwebtoken');
 
 /**
  * Finance authentication middleware.
- * Accepts System Admin (sadmin_token), Patron (patron_token),
- * OR any standard user (user_s) with an authorized finance role.
+ * Accepts System Admin (sadmin_token, account-provisioning only),
+ * Patron (patron_token, read-only oversight), OR a Treasurer
+ * (user_s with role=treasurer, or the finance SPA's Bearer token).
  *
- * Finance-authorized roles: treasurer, auditor, chair_accounts, chairperson, admin
+ * Finance-authorized data-access role: treasurer only.
+ * (auditor / chair_accounts / chairperson / blanket admin access were removed.)
  */
 
-const FINANCE_ROLES = ['treasurer', 'auditor', 'chair_accounts', 'chairperson', 'admin'];
+const FINANCE_ROLES = ['treasurer'];
 
 module.exports = (req, res, next) => {
-  // 1. Check for System Admin (sadmin_token)
+  // 1. Check for System Admin (sadmin_token) — identifies as role 'admin'.
+  //    Route-level authorize() lists decide what 'admin' may actually touch;
+  //    it is no longer an automatic bypass of finance data access.
   const adminToken = req.cookies.sadmin_token;
   if (adminToken) {
     try {
@@ -19,7 +23,6 @@ module.exports = (req, res, next) => {
       req.user = {
         id: decoded.userId,
         role: decoded.role || 'admin',
-        isSuperAdmin: !decoded.role || decoded.role === 'admin',
       };
       return next();
     } catch (err) {
@@ -63,12 +66,12 @@ module.exports = (req, res, next) => {
     }
   }
 
-  // 4. Also check Authorization header (Bearer token) for the finance subdomain SPA
+  // 4. Also check Authorization header (Bearer token) for the finance SPA
   const authHeader = req.headers.authorization;
   if (authHeader && authHeader.startsWith('Bearer ')) {
     const token = authHeader.substring(7);
     try {
-      // Try user secret first (treasurer/auditor accounts)
+      // Try user secret first (treasurer accounts)
       const decoded = jwt.verify(token, process.env.JWT_USER_SECRET);
       const role = (decoded.role || '').toLowerCase();
       if (FINANCE_ROLES.includes(role)) {
@@ -81,12 +84,12 @@ module.exports = (req, res, next) => {
       return res.status(403).json({ message: 'Access denied: Your role does not have finance access.' });
     } catch (err) {
       try {
-        // Try admin secret (admin accounts)
+        // finance_token is signed with the admin secret; decode it but keep
+        // the ACTUAL role from the payload — do not grant a blanket admin bypass.
         const decoded = jwt.verify(token, process.env.JWT_ADMIN_SECRET);
         req.user = {
           id: decoded.userId,
           role: decoded.role || 'admin',
-          isSuperAdmin: true,
         };
         return next();
       } catch (err2) {
