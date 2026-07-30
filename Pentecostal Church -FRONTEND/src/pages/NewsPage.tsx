@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { getBaseUrl } from '../config/environment';
+import { getBaseUrl, getImageUrl } from '../config/environment';
 
 interface ChurchEvent {
   _id: string;
@@ -9,6 +9,7 @@ interface ChurchEvent {
   endDate?: string;
   location: string;
   category: string;
+  poster?: string;
   isActive: boolean;
 }
 
@@ -191,8 +192,24 @@ function EventCard({ ev, formatDate, formatTime, status = 'upcoming' }: {
       display: 'flex',
       flexDirection: 'column',
     }}>
-      {/* Accent bar */}
-      <div style={{ height: 4, background: status === 'live' ? '#22c55e' : color }} />
+      {/* Poster image or accent bar */}
+      {ev.poster ? (
+        <div style={{ position: 'relative', height: 200, overflow: 'hidden', flexShrink: 0 }}>
+          <img
+            src={getImageUrl(ev.poster)}
+            alt={ev.title}
+            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+          />
+          {status === 'live' && (
+            <span style={{ position: 'absolute', top: 12, left: 12, display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 11, fontWeight: 700, color: '#fff', background: '#16a34a', borderRadius: 20, padding: '4px 10px' }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', display: 'inline-block' }} />
+              Live Now
+            </span>
+          )}
+        </div>
+      ) : (
+        <div style={{ height: 4, background: status === 'live' ? '#22c55e' : color }} />
+      )}
 
       <div style={{ padding: '22px 24px 24px' }}>
         {/* Top row */}

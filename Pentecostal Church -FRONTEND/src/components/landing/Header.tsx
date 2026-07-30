@@ -6,7 +6,7 @@ import {
   Home, Building2, Globe, Music,
   UsersRound, GraduationCap, Crown, LogIn, LogOut,
   ClipboardList, BookOpen, Tv2, FileText, AlertCircle,
-  MessageSquare, Coins, Folder, Book, UserPlus, Info
+  MessageSquare, Coins, Folder, Book, UserPlus, Info, Newspaper
 } from 'lucide-react';
 
 import { getApiUrl, getImageUrl } from '../../config/environment';
@@ -179,6 +179,7 @@ const mobileNavTabs: { key: string; icon: React.ElementType; label: string; }[] 
   { key: 'dashboard', icon: Home, label: 'Home' },
   { key: 'aboutUs', icon: Info, label: 'About Us' },
   { key: 'departments', icon: Building2, label: 'Departments' },
+  { key: 'news', icon: Newspaper, label: 'News' },
   { key: 'philosophies', icon: BookOpen, label: 'Philosophies' },
   { key: 'financials', icon: Coins, label: 'Financials' },
   { key: 'leadership', icon: Crown, label: 'Leadership' },
@@ -265,6 +266,13 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
       setExpandedNestedItem(null);
       setIsManualExpanded(false);
       onNavigate('/departments');
+      return;
+    }
+    if (key === 'news') {
+      setActiveTab(null);
+      setExpandedNestedItem(null);
+      setIsManualExpanded(false);
+      onNavigate('/news');
       return;
     }
     if (key === 'philosophies') {
@@ -648,7 +656,8 @@ const Header = () => {
     if (path.startsWith('/departments')) return 'departments';
     if (path.startsWith('/philosophy')) return 'philosophies';
     if (path === '/') return 'dashboard';
-    if (path.startsWith('/news') || path.startsWith('/media')) return 'mediadesk';
+    if (path.startsWith('/news')) return 'news';
+    if (path.startsWith('/media')) return 'mediadesk';
     if (path.startsWith('/ministries')) return 'ministries';
     if (path.startsWith('/ets/') || path.startsWith('/e-teams')) return 'eteams';
     if (['/brothersfellowship', '/sistersfellowship', '/fellowships'].some(p => path.startsWith(p))) return 'fellowships';
@@ -944,6 +953,8 @@ const Header = () => {
                     </button>
                     {activeDropdown === 'departments' && renderDepartmentsPanel()}
                   </div>
+
+                  <Link to="/news" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'news' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>News</Link>
 
                   <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'philosophies' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Philosophies</Link>
 

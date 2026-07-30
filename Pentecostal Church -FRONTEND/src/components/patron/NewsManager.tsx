@@ -9,6 +9,7 @@ interface ChurchEvent {
   endDate?: string;
   location: string;
   category: string;
+  poster?: string;
   isActive: boolean;
 }
 
@@ -28,6 +29,8 @@ export default function NewsManager() {
   const [showForm, setShowForm]   = useState(false);
   const [editId, setEditId]       = useState<string | null>(null);
   const [form, setForm]           = useState({ ...EMPTY_FORM });
+  const [posterFile, setPosterFile] = useState<File | null>(null);
+  const [posterPreview, setPosterPreview] = useState<string>('');
   const [msg, setMsg]             = useState('');
   const [err, setErr]             = useState('');
   const [deleting, setDeleting]   = useState<string | null>(null);
@@ -50,7 +53,7 @@ export default function NewsManager() {
     setTimeout(() => { setMsg(''); setErr(''); }, 3500);
   };
 
-  const openCreate = () => { setForm({ ...EMPTY_FORM }); setEditId(null); setShowForm(true); };
+  const openCreate = () => { setForm({ ...EMPTY_FORM }); setEditId(null); setPosterFile(null); setPosterPreview(''); setShowForm(true); };
   const openEdit   = (ev: ChurchEvent) => {
     setForm({
       title:       ev.title,
@@ -60,6 +63,8 @@ export default function NewsManager() {
       location:    ev.location,
       category:    ev.category,
     });
+    setPosterFile(null);
+    setPosterPreview(ev.poster ? `${base}${ev.poster}` : '');
     setEditId(ev._id);
     setShowForm(true);
   };
@@ -70,15 +75,15 @@ export default function NewsManager() {
     try {
       const method = editId ? 'PUT' : 'POST';
       const url    = editId ? `${base}/api/events/${editId}` : `${base}/api/events`;
-      const res    = await fetch(url, {
-        method,
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include',
-        body: JSON.stringify(form),
-      });
+      const fd = new FormData();
+      Object.entries(form).forEach(([k, v]) => { if (v) fd.append(k, v); });
+      if (posterFile) fd.append('poster', posterFile);
+      const res = await fetch(url, { method, credentials: 'include', body: fd });
       if (!res.ok) throw new Error((await res.json()).message || 'Error');
       flash(editId ? 'Event updated.' : 'Event created.');
       setShowForm(false);
+      setPosterFile(null);
+      setPosterPreview('');
       fetchEvents();
     } catch (e: any) {
       flash(e.message || 'Something went wrong', true);
@@ -220,6 +225,25 @@ export default function NewsManager() {
                 <select style={s.input} value={form.category} onChange={e => setForm(f => ({ ...f, category: e.target.value }))}>
                   {CATEGORIES.map(c => <option key={c} value={c}>{c}</option>)}
                 </select>
+              </div>
+              <div style={s.field}>
+                <label style={s.label}>Event Poster <span style={{ fontWeight: 400, color: '#9ca3af' }}>(optional image)</span></label>
+                {posterPreview && (
+                  <div style={{ marginBottom: 8, borderRadius: 8, overflow: 'hidden', border: '1px solid #e5e7eb', maxHeight: 160 }}>
+                    <img src={posterPreview} alt="Poster preview" style={{ width: '100%', maxHeight: 160, objectFit: 'cover', display: 'block' }} />
+                  </div>
+                )}
+                <input
+                  type="file"
+                  accept="image/jpeg,image/jpg,image/png,image/webp"
+                  style={{ ...s.input, padding: '6px 8px', cursor: 'pointer' }}
+                  onChange={e => {
+                    const file = e.target.files?.[0] || null;
+                    setPosterFile(file);
+                    if (file) setPosterPreview(URL.createObjectURL(file));
+                  }}
+                />
+                {posterFile && <p style={{ margin: '4px 0 0', fontSize: 11, color: '#6b7280' }}>{posterFile.name}</p>}
               </div>
               <div style={s.formBtns}>
                 <button type="button" style={s.cancelBtn} onClick={() => setShowForm(false)}>Cancel</button>
