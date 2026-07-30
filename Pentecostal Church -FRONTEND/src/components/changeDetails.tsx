@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import cuLogo from '../assets/RPC logo updated document.png';
+import loadingAnime from '../assets/loading.gif';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/changeDetails.module.css';
 import Cookies from 'js-cookie';

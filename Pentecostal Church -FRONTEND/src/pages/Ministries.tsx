@@ -3,6 +3,7 @@ import styles from '../styles/ministries.module.css';
 
 import MinistryFooter from '../components/MinistryFooter';
 import { useLocation } from 'react-router-dom';
+import loadingAnime from '../assets/loading.gif';
 
 const MinistriesPage: React.FC = () => {
   const location = useLocation();

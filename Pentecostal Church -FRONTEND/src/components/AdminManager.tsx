@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { getApiUrl } from '../config/environment';
 import styles from '../styles/finance.module.css';
+import loadingAnime from '../assets/loading.gif';
 
 type AdminType = 'patron' | 'chairperson' | 'superadmin' | 'admission' | 'overseer';
 

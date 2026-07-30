@@ -8,6 +8,7 @@ import { Menu, X } from 'lucide-react';
 import { getApiUrl } from '../config/environment';
 // TODO: letterhead.png is missing from assets — reusing the RPC logo as a stopgap. Replace with the real letterhead image.
 import letterhead from '../assets/RPC logo updated document.png';
+import loadingAnime from '../assets/loading.gif';
 import DocumentUploader from '../components/DocumentUploader';
 import MinutesManager from '../components/MinutesManager';
 import AdminSidebar, { AdminSection } from '../components/AdminSidebar';

@@ -5,6 +5,7 @@ import type { Area } from 'react-easy-crop';
 import { Heart, ArrowRight, Upload, Camera, X, Check, ZoomIn, ZoomOut } from 'lucide-react';
 import { getApiUrl } from '../config/environment';
 import styles from '../styles/welcomePage.module.css';
+import loadingAnime from '../assets/loading.gif';
 
 const OUTPUT_SIZE = 300;
 

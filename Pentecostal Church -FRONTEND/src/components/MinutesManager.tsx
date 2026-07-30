@@ -3,6 +3,7 @@ import axios from 'axios';
 import { getApiUrl } from '../config/environment';
 import styles from '../styles/minutesManager.module.css';
 import ConfirmDialog from './ConfirmDialog';
+import loadingAnime from '../assets/loading.gif';
 
 interface Minute {
   _id: string;
