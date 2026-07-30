@@ -14,7 +14,8 @@ import {
   Globe,
   Music,
   Briefcase,
-  Home
+  Home,
+  CalendarDays
 } from 'lucide-react';
 import styles from '../styles/patronSidebar.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
@@ -46,6 +47,7 @@ const manageableItems: MenuItem[] = [
   { id: 'feedback', label: 'Feedback', icon: <MessageSquare size={18} /> },
   { id: 'gallery', label: 'Gallery', icon: <Image size={18} /> },
   { id: 'assets', label: 'Assets', icon: <Briefcase size={18} /> },
+  { id: 'news', label: 'News & Events', icon: <CalendarDays size={18} /> },
 ];
 
 const financeItems: MenuItem[] = [
