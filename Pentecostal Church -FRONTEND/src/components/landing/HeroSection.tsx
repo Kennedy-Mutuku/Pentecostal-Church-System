@@ -228,7 +228,7 @@ const HeroSection = () => {
           const ss = getSundayServiceStatus();
           return (
             <div
-              className="flex justify-center px-0 mb-2"
+              className="flex justify-center px-6 sm:px-2 mb-2"
               style={{
                 opacity: bubbleVisible ? 1 : 0,
                 transform: bubbleVisible ? 'translateY(0)' : 'translateY(14px)',
@@ -249,9 +249,9 @@ const HeroSection = () => {
                 </div>
 
                 {/* ── Pinned: Sunday Service ── */}
-                <div style={{ padding: '10px 20px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-                  <p style={{ fontSize: 18, fontWeight: 700, color: '#fff', lineHeight: 1.2, marginBottom: 3 }}>Sunday Service</p>
-                  <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.32)', marginBottom: 7 }}>RPC Nyamira · 9:00 AM – 1:00 PM</p>
+                <div style={{ padding: '8px 16px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                  <p style={{ fontSize: 16, fontWeight: 700, color: '#fff', lineHeight: 1.2, marginBottom: 3 }}>Sunday Service</p>
+                  <p style={{ fontSize: 10, color: 'rgba(255,255,255,0.32)', marginBottom: 6 }}>RPC Nyamira · 9:00 AM – 1:00 PM</p>
 
                   {ss.type === 'live' && (
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, fontWeight: 700, color: '#4ade80', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: 20, padding: '3px 11px' }}>
