@@ -6,6 +6,7 @@ interface ChurchEvent {
   title: string;
   description: string;
   date: string;
+  endDate?: string;
   location: string;
   category: string;
   isActive: boolean;
@@ -13,7 +14,7 @@ interface ChurchEvent {
 
 const CATEGORIES = ['Service', 'Revival', 'Concert', 'Conference', 'Outreach', 'Other'];
 
-const EMPTY_FORM = { title: '', description: '', date: '', location: 'RPC Nyamira', category: 'Service' };
+const EMPTY_FORM = { title: '', description: '', date: '', endDate: '', location: 'RPC Nyamira', category: 'Service' };
 
 const categoryColor: Record<string, string> = {
   Service: '#6d28d9', Revival: '#dc2626', Concert: '#0891b2',
@@ -54,7 +55,8 @@ export default function NewsManager() {
     setForm({
       title:       ev.title,
       description: ev.description,
-      date:        ev.date.slice(0, 16),   // datetime-local value
+      date:        ev.date.slice(0, 16),
+      endDate:     ev.endDate ? ev.endDate.slice(0, 16) : '',
       location:    ev.location,
       category:    ev.category,
     });
@@ -202,8 +204,12 @@ export default function NewsManager() {
                 <textarea style={s.textarea} value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} required placeholder="Describe the event…" />
               </div>
               <div style={s.field}>
-                <label style={s.label}>Date &amp; Time *</label>
+                <label style={s.label}>Start Date &amp; Time *</label>
                 <input style={s.input} type="datetime-local" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} required />
+              </div>
+              <div style={s.field}>
+                <label style={s.label}>End Date &amp; Time <span style={{ fontWeight: 400, color: '#9ca3af' }}>(optional — used to show "Happening Now" and "Event Ended")</span></label>
+                <input style={s.input} type="datetime-local" value={form.endDate} onChange={e => setForm(f => ({ ...f, endDate: e.target.value }))} />
               </div>
               <div style={s.field}>
                 <label style={s.label}>Location</label>

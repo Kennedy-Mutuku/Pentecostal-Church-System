@@ -23,10 +23,30 @@ interface ChurchEvent {
   _id: string;
   title: string;
   date: string;
+  endDate?: string;
   category: string;
 }
 
-interface Countdown { days: number; hours: number; minutes: number; seconds: number; }
+type EventStatus =
+  | { type: 'countdown'; days: number; hours: number; minutes: number; seconds: number }
+  | { type: 'live' }
+  | { type: 'ended'; endedAt: string };
+
+function getEventStatus(ev: ChurchEvent): EventStatus {
+  const now = Date.now();
+  const start = new Date(ev.date).getTime();
+  const end = ev.endDate ? new Date(ev.endDate).getTime() : null;
+  if (end && now >= end) return { type: 'ended', endedAt: ev.endDate! };
+  if (now >= start) return { type: 'live' };
+  const diff = start - now;
+  return {
+    type: 'countdown',
+    days:    Math.floor(diff / 86400000),
+    hours:   Math.floor((diff % 86400000) / 3600000),
+    minutes: Math.floor((diff % 3600000)  / 60000),
+    seconds: Math.floor((diff % 60000)    / 1000),
+  };
+}
 
 const slides: Slide[] = [
   { image: hero1, title: 'Welcome to Rikuruma Pentecostal Church', subtitle: 'A Spirit-filled community transforming lives through the power of God in Nyamira', objectPosition: 'center 30%' },
@@ -38,30 +58,14 @@ const slides: Slide[] = [
   { image: hero7, title: 'Fellowship & Love in Action', subtitle: "Demonstrating Christ's love through genuine fellowship and compassionate outreach", objectPosition: 'center 30%' },
 ];
 
-const categoryAccent: Record<string, string> = {
-  Service: '#7c3aed', Revival: '#dc2626', Concert: '#0891b2',
-  Conference: '#d97706', Outreach: '#059669', Other: '#6b7280',
-};
-
-function calcCountdown(dateStr: string): Countdown | null {
-  const diff = new Date(dateStr).getTime() - Date.now();
-  if (diff <= 0) return null;
-  return {
-    days:    Math.floor(diff / 86400000),
-    hours:   Math.floor((diff % 86400000) / 3600000),
-    minutes: Math.floor((diff % 3600000)  / 60000),
-    seconds: Math.floor((diff % 60000)    / 1000),
-  };
-}
-
 const HeroSection = () => {
   const navigate = useNavigate();
   const [currentSlide, setCurrentSlide]   = useState(0);
   const [touchStart, setTouchStart]       = useState<number | null>(null);
   const [touchEnd, setTouchEnd]           = useState<number | null>(null);
-  const [upcomingEvent, setUpcomingEvent] = useState<ChurchEvent | null>(null);
-  const [countdown, setCountdown]         = useState<Countdown | null>(null);
+  const [events, setEvents]               = useState<ChurchEvent[]>([]);
   const [bubbleVisible, setBubbleVisible] = useState(false);
+  const [, setTick]                       = useState(0);
 
   const nextSlide = useCallback(() => setCurrentSlide((p) => (p + 1) % slides.length), []);
   const prevSlide = useCallback(() => setCurrentSlide((p) => (p - 1 + slides.length) % slides.length), []);
@@ -81,34 +85,41 @@ const HeroSection = () => {
     if (d > 50) nextSlide(); else if (d < -50) prevSlide();
   };
 
-  // Fetch next upcoming event
+  // Fetch events for bubble
   useEffect(() => {
     (async () => {
       try {
         const res = await fetch(`${getBaseUrl()}/api/events`, { credentials: 'include' });
         if (!res.ok) return;
-        const events: ChurchEvent[] = await res.json();
-        const upcoming = events
-          .filter(e => new Date(e.date).getTime() > Date.now())
-          .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
-        if (upcoming) {
-          setUpcomingEvent(upcoming);
+        const all: ChurchEvent[] = await res.json();
+        const now = Date.now();
+        const relevant = all
+          .filter(e => {
+            const end = e.endDate ? new Date(e.endDate).getTime() : null;
+            return !end || now < end + 7200000; // hide >2h after ending
+          })
+          .sort((a, b) => {
+            const aStarted = now >= new Date(a.date).getTime();
+            const bStarted = now >= new Date(b.date).getTime();
+            if (aStarted && !bStarted) return -1;
+            if (!aStarted && bStarted) return 1;
+            return new Date(a.date).getTime() - new Date(b.date).getTime();
+          })
+          .slice(0, 3);
+        if (relevant.length > 0) {
+          setEvents(relevant);
           setTimeout(() => setBubbleVisible(true), 800);
         }
       } catch { /* silent */ }
     })();
   }, []);
 
-  // Live countdown tick
+  // Tick every second to keep countdowns live
   useEffect(() => {
-    if (!upcomingEvent) return;
-    const tick = () => setCountdown(calcCountdown(upcomingEvent.date));
-    tick();
-    const id = setInterval(tick, 1000);
+    if (events.length === 0) return;
+    const id = setInterval(() => setTick(t => t + 1), 1000);
     return () => clearInterval(id);
-  }, [upcomingEvent]);
-
-  const accent = upcomingEvent ? (categoryAccent[upcomingEvent.category] || '#6b7280') : '#dc2626';
+  }, [events.length]);
 
   return (
     <section
@@ -172,81 +183,109 @@ const HeroSection = () => {
       </div>
 
       {/* ── Event Bubble ──────────────────────────────────────────── */}
-      {upcomingEvent && countdown && (
+      {events.length > 0 && (
         <div
-          className="absolute z-30 bottom-11 sm:bottom-13 left-0 right-0 flex justify-center px-4"
+          className="absolute z-30 bottom-10 sm:bottom-12 left-0 right-0 flex justify-center px-4"
           style={{
             opacity: bubbleVisible ? 1 : 0,
-            transform: bubbleVisible ? 'translateY(0)' : 'translateY(28px)',
-            transition: 'opacity 0.6s cubic-bezier(0.34,1.56,0.64,1), transform 0.6s cubic-bezier(0.34,1.56,0.64,1)',
+            transform: bubbleVisible ? 'translateY(0)' : 'translateY(22px)',
+            transition: 'opacity 0.55s ease, transform 0.55s ease',
           }}
         >
-          {/* Bubble */}
           <div
-            className="flex items-center gap-4 sm:gap-5 rounded-xl px-5 sm:px-6 py-3.5 sm:py-4 w-full"
             style={{
-              maxWidth: 580,
-              background: 'rgba(6,18,10,0.88)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              borderLeft: '3px solid #22c55e',
-              border: '1px solid rgba(34,197,94,0.28)',
-              borderLeftWidth: 3,
-              borderLeftColor: '#22c55e',
-              boxShadow: '0 6px 24px rgba(0,0,0,0.5)',
+              width: '100%',
+              maxWidth: 520,
+              background: 'rgba(5,16,9,0.92)',
+              backdropFilter: 'blur(18px)',
+              WebkitBackdropFilter: 'blur(18px)',
+              border: '1px solid rgba(34,197,94,0.22)',
+              borderRadius: 12,
+              overflow: 'hidden',
             }}
           >
-            {/* Pulsing dot */}
-            <div className="relative flex-shrink-0">
-              <div className="w-3 h-3 rounded-full" style={{ background: '#22c55e' }} />
-              <div className="absolute inset-0 w-3 h-3 rounded-full animate-ping" style={{ background: '#22c55e', opacity: 0.5 }} />
+            {/* Header */}
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, padding: '9px 16px 8px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+              <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 8, height: 8 }}>
+                <span className="animate-ping" style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#22c55e', opacity: 0.55 }} />
+                <span style={{ display: 'block', width: 8, height: 8, borderRadius: '50%', background: '#22c55e', position: 'relative' }} />
+              </span>
+              <span style={{ fontSize: 10, fontWeight: 700, color: '#86efac', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
+                {events.length === 1 ? 'Next Event' : 'Upcoming Events'}
+              </span>
             </div>
 
-            {/* Text content */}
-            <div className="flex-1 min-w-0">
-              <p style={{ fontSize: 10, fontWeight: 600, color: '#86efac', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 4 }}>
-                Next Event
-              </p>
-              <p style={{ fontSize: 21, fontWeight: 700, color: '#fff', lineHeight: 1.2, marginBottom: 5 }} className="truncate sm:text-[24px]">
-                {upcomingEvent.title}
-              </p>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 5 }}>
-                {countdown.days > 0 && (
-                  <>
-                    <span style={{ fontSize: 14, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{countdown.days}</span>
-                    <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginRight: 1 }}>d</span>
-                  </>
-                )}
-                <span style={{ fontSize: 14, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(countdown.hours).padStart(2,'0')}</span>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>h</span>
-                <span style={{ fontSize: 14, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(countdown.minutes).padStart(2,'0')}</span>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>m</span>
-                <span style={{ fontSize: 14, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(countdown.seconds).padStart(2,'0')}</span>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>s</span>
-              </div>
-            </div>
+            {/* Event rows */}
+            {events.map((ev, i) => {
+              const status = getEventStatus(ev);
+              return (
+                <div
+                  key={ev._id}
+                  style={{
+                    padding: '11px 20px',
+                    textAlign: 'center',
+                    borderBottom: i < events.length - 1 ? '1px solid rgba(255,255,255,0.04)' : undefined,
+                  }}
+                >
+                  <p style={{ fontSize: 19, fontWeight: 700, color: '#fff', lineHeight: 1.25, marginBottom: 7, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+                    {ev.title}
+                  </p>
 
-            {/* Details button */}
-            <button
-              onClick={() => navigate('/news')}
-              style={{
-                flexShrink: 0,
-                fontSize: 11,
-                fontWeight: 700,
-                color: '#fff',
-                background: '#16a34a',
-                border: 'none',
-                borderRadius: 7,
-                padding: '6px 13px',
-                cursor: 'pointer',
-                letterSpacing: '0.03em',
-                transition: 'background 0.15s',
-              }}
-              onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#15803d'; }}
-              onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#16a34a'; }}
-            >
-              Details
-            </button>
+                  {status.type === 'live' && (
+                    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, fontWeight: 700, color: '#4ade80', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: 20, padding: '3px 11px' }}>
+                      <span className="animate-ping" style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', display: 'inline-block', flexShrink: 0 }} />
+                      Happening Now
+                    </span>
+                  )}
+
+                  {status.type === 'ended' && (
+                    <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.38)', fontWeight: 500 }}>
+                      Ended · {new Date(status.endedAt).toLocaleDateString('en-KE', { month: 'short', day: 'numeric' })} at {new Date(status.endedAt).toLocaleTimeString('en-KE', { hour: '2-digit', minute: '2-digit' })}
+                    </span>
+                  )}
+
+                  {status.type === 'countdown' && (
+                    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 5 }}>
+                      {status.days > 0 && (
+                        <>
+                          <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{status.days}</span>
+                          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', marginRight: 2 }}>d</span>
+                        </>
+                      )}
+                      <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(status.hours).padStart(2,'0')}</span>
+                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>h</span>
+                      <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(status.minutes).padStart(2,'0')}</span>
+                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>m</span>
+                      <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(status.seconds).padStart(2,'0')}</span>
+                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>s</span>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* View All button */}
+            <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 16px 11px' }}>
+              <button
+                onClick={() => navigate('/news')}
+                style={{
+                  fontSize: 11,
+                  fontWeight: 700,
+                  color: '#fff',
+                  background: '#16a34a',
+                  border: 'none',
+                  borderRadius: 7,
+                  padding: '6px 20px',
+                  cursor: 'pointer',
+                  letterSpacing: '0.04em',
+                  transition: 'background 0.15s',
+                }}
+                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#15803d'; }}
+                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#16a34a'; }}
+              >
+                View All Events
+              </button>
+            </div>
           </div>
         </div>
       )}

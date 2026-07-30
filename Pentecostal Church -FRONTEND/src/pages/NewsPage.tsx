@@ -6,6 +6,7 @@ interface ChurchEvent {
   title: string;
   description: string;
   date: string;
+  endDate?: string;
   location: string;
   category: string;
   isActive: boolean;
@@ -75,8 +76,10 @@ const NewsPage: React.FC = () => {
     fetchEvents();
   }, [fetchEvents]);
 
-  const upcoming = events.filter(e => new Date(e.date).getTime() > Date.now());
-  const past     = events.filter(e => new Date(e.date).getTime() <= Date.now());
+  const now = Date.now();
+  const live     = events.filter(e => new Date(e.date).getTime() <= now && (!e.endDate || new Date(e.endDate).getTime() > now));
+  const upcoming = events.filter(e => new Date(e.date).getTime() > now);
+  const past     = events.filter(e => new Date(e.date).getTime() <= now && e.endDate && new Date(e.endDate).getTime() <= now);
 
   const formatDate = (d: string) =>
     new Date(d).toLocaleDateString('en-KE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
@@ -125,6 +128,19 @@ const NewsPage: React.FC = () => {
           </div>
         )}
 
+        {/* Happening Now */}
+        {live.length > 0 && (
+          <>
+            <h2 style={{ fontSize: 13, fontWeight: 700, textTransform: 'uppercase', letterSpacing: 2, color: '#16a34a', marginBottom: 20, display: 'flex', alignItems: 'center', gap: 8 }}>
+              <span style={{ width: 8, height: 8, background: '#22c55e', borderRadius: '50%', display: 'inline-block', animation: 'pulse 2s infinite' }} />
+              Happening Now
+            </h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 20, marginBottom: 48 }}>
+              {live.map(ev => <EventCard key={ev._id} ev={ev} formatDate={formatDate} formatTime={formatTime} status="live" />)}
+            </div>
+          </>
+        )}
+
         {/* Upcoming */}
         {upcoming.length > 0 && (
           <>
@@ -148,7 +164,7 @@ const NewsPage: React.FC = () => {
               <span style={{ width: 24, height: 2, background: '#d1d5db', display: 'inline-block', borderRadius: 2 }} />
             </h2>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 16, opacity: 0.7 }}>
-              {past.map(ev => <EventCard key={ev._id} ev={ev} formatDate={formatDate} formatTime={formatTime} past />)}
+              {past.map(ev => <EventCard key={ev._id} ev={ev} formatDate={formatDate} formatTime={formatTime} status="past" />)}
             </div>
           </>
         )}
@@ -158,33 +174,38 @@ const NewsPage: React.FC = () => {
 };
 
 /* ── Event Card ────────────────────────────────────────────────── */
-function EventCard({ ev, formatDate, formatTime, past = false }: {
+function EventCard({ ev, formatDate, formatTime, status = 'upcoming' }: {
   ev: ChurchEvent;
   formatDate: (d: string) => string;
   formatTime: (d: string) => string;
-  past?: boolean;
+  status?: 'live' | 'upcoming' | 'past';
 }) {
-  const color = categoryColor[ev.category] || '#6b7280';
+  const color = status === 'past' ? '#9ca3af' : (categoryColor[ev.category] || '#6b7280');
 
   return (
     <div style={{
       background: '#fff',
       borderRadius: 16,
       overflow: 'hidden',
-      boxShadow: '0 2px 12px rgba(0,0,0,0.06)',
       border: '1px solid rgba(0,0,0,0.05)',
       display: 'flex',
       flexDirection: 'column',
     }}>
       {/* Accent bar */}
-      <div style={{ height: 4, background: past ? '#d1d5db' : color, boxShadow: past ? 'none' : `0 0 12px ${color}55` }} />
+      <div style={{ height: 4, background: status === 'live' ? '#22c55e' : color }} />
 
       <div style={{ padding: '22px 24px 24px' }}>
         {/* Top row */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12, flexWrap: 'wrap' }}>
-          <span style={{ fontSize: 11, fontWeight: 700, color: '#fff', background: past ? '#9ca3af' : color, padding: '3px 11px', borderRadius: 20, letterSpacing: 0.5 }}>
+          <span style={{ fontSize: 11, fontWeight: 700, color: '#fff', background: status === 'live' ? '#16a34a' : color, padding: '3px 11px', borderRadius: 20, letterSpacing: 0.5 }}>
             {ev.category}
           </span>
+          {status === 'live' && (
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 11, fontWeight: 700, color: '#16a34a', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 20, padding: '2px 9px' }}>
+              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#22c55e', display: 'inline-block' }} />
+              Happening Now
+            </span>
+          )}
           <span style={{ fontSize: 12, color: '#9ca3af' }}>
             {formatDate(ev.date)} · {formatTime(ev.date)}
           </span>
@@ -198,9 +219,19 @@ function EventCard({ ev, formatDate, formatTime, past = false }: {
           {ev.description}
         </p>
 
-        {/* Countdown */}
+        {/* Status row */}
         <div style={{ marginBottom: 18 }}>
-          <LiveCountdown dateStr={ev.date} />
+          {status === 'upcoming' && <LiveCountdown dateStr={ev.date} />}
+          {status === 'live' && (
+            <span style={{ fontSize: 13, color: '#16a34a', fontWeight: 600 }}>
+              Started {formatTime(ev.date)}{ev.endDate ? ` · Ends ${formatTime(ev.endDate)}` : ''}
+            </span>
+          )}
+          {status === 'past' && ev.endDate && (
+            <span style={{ fontSize: 13, color: '#9ca3af' }}>
+              Ended {formatDate(ev.endDate)} at {formatTime(ev.endDate)}
+            </span>
+          )}
         </div>
 
         {/* Location */}
