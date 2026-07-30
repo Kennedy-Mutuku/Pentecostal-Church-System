@@ -141,57 +141,45 @@ const HeroSection = () => {
       })}
 
       {/* Content Overlay */}
-      <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-between py-10 md:py-16">
+      <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col pt-8 pb-5 md:pt-12 md:pb-6">
 
-        {/* Center Main Slide Text */}
-        <div className="my-auto text-center max-w-4xl mx-auto">
-          {slides.map((slide, index) => {
-            if (index !== currentSlide) return null;
-            return (
-              <div key={index} className="space-y-4 md:space-y-6 transition-all duration-500">
-                <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white font-extrabold tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: "'Archivo Black', 'Poppins', sans-serif", textShadow: '0 3px 8px rgba(0,0,0,0.9)' }}>
-                  {slide.title}
-                </h1>
-                <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow-md px-2" style={{ fontFamily: "'Poppins', sans-serif", textShadow: '0 2px 4px rgba(0,0,0,0.85)' }}>
-                  {slide.subtitle}
-                </p>
-                <div className="pt-2 md:pt-4 flex flex-row gap-3.5 justify-center items-center">
-                  <a href="#about" className="px-6 py-2.5 sm:px-8 sm:py-3.5 bg-[#FF3B30] hover:bg-[#E0221A] text-white text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:scale-105 shadow-xl shadow-red-900/30 cursor-pointer text-center">
-                    Learn More
-                  </a>
-                  <button onClick={() => navigate('/signIn')} className="px-6 py-2.5 sm:px-8 sm:py-3.5 bg-white/10 hover:bg-white text-white hover:text-black text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg backdrop-blur-md transition-all duration-300 hover:scale-105 border border-white/40 hover:border-white cursor-pointer text-center">
-                    Join Us
-                  </button>
+        {/* Center Main Slide Text — flex-1 centers it in remaining space */}
+        <div className="flex-1 flex items-center justify-center">
+          <div className="text-center max-w-4xl mx-auto">
+            {slides.map((slide, index) => {
+              if (index !== currentSlide) return null;
+              return (
+                <div key={index} className="space-y-4 md:space-y-6 transition-all duration-500">
+                  <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white font-extrabold tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: "'Archivo Black', 'Poppins', sans-serif", textShadow: '0 3px 8px rgba(0,0,0,0.9)' }}>
+                    {slide.title}
+                  </h1>
+                  <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow-md px-2" style={{ fontFamily: "'Poppins', sans-serif", textShadow: '0 2px 4px rgba(0,0,0,0.85)' }}>
+                    {slide.subtitle}
+                  </p>
+                  <div className="pt-2 md:pt-4 flex flex-row gap-3.5 justify-center items-center">
+                    <a href="#about" className="px-6 py-2.5 sm:px-8 sm:py-3.5 bg-[#FF3B30] hover:bg-[#E0221A] text-white text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:scale-105 shadow-xl shadow-red-900/30 cursor-pointer text-center">
+                      Learn More
+                    </a>
+                    <button onClick={() => navigate('/signIn')} className="px-6 py-2.5 sm:px-8 sm:py-3.5 bg-white/10 hover:bg-white text-white hover:text-black text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg backdrop-blur-md transition-all duration-300 hover:scale-105 border border-white/40 hover:border-white cursor-pointer text-center">
+                      Join Us
+                    </button>
+                  </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
 
-        {/* Bottom dots */}
-        <div className="flex items-center justify-center gap-2 sm:gap-3">
-          {slides.map((_, index) => {
-            const isActive = index === currentSlide;
-            return (
-              <button key={index} onClick={() => setCurrentSlide(index)}
-                className={`group relative h-2.5 rounded-full transition-all duration-500 focus:outline-none ${isActive ? 'w-10 sm:w-12 bg-amber-400' : 'w-2.5 sm:w-3 bg-white/40 hover:bg-white/70'}`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            );
-          })}
-        </div>
-      </div>
-
-      {/* ── Event Bubble ──────────────────────────────────────────── */}
-      {events.length > 0 && (
-        <div
-          className="absolute z-30 bottom-10 sm:bottom-12 left-0 right-0 flex justify-center px-4"
-          style={{
-            opacity: bubbleVisible ? 1 : 0,
-            transform: bubbleVisible ? 'translateY(0)' : 'translateY(22px)',
-            transition: 'opacity 0.55s ease, transform 0.55s ease',
-          }}
-        >
+        {/* ── Event Bubble — sits between buttons and dots, never overlaps ── */}
+        {events.length > 0 && (
+          <div
+            className="flex justify-center px-0 mb-2"
+            style={{
+              opacity: bubbleVisible ? 1 : 0,
+              transform: bubbleVisible ? 'translateY(0)' : 'translateY(14px)',
+              transition: 'opacity 0.55s ease, transform 0.55s ease',
+            }}
+          >
           <div
             style={{
               width: '100%',
@@ -288,7 +276,21 @@ const HeroSection = () => {
             </div>
           </div>
         </div>
-      )}
+        )}
+
+        {/* Bottom dots */}
+        <div className="flex items-center justify-center gap-2 sm:gap-3 mt-1">
+          {slides.map((_, index) => {
+            const isActive = index === currentSlide;
+            return (
+              <button key={index} onClick={() => setCurrentSlide(index)}
+                className={`group relative h-2.5 rounded-full transition-all duration-500 focus:outline-none ${isActive ? 'w-10 sm:w-12 bg-amber-400' : 'w-2.5 sm:w-3 bg-white/40 hover:bg-white/70'}`}
+                aria-label={`Go to slide ${index + 1}`}
+              />
+            );
+          })}
+        </div>
+      </div>
 
       {/* Navigation Arrows */}
       <button onClick={prevSlide} className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2.5 sm:p-3 rounded-full bg-black/30 hover:bg-black/70 text-white/80 hover:text-white backdrop-blur-md border border-white/20 transition-all duration-300 hover:scale-110 shadow-xl opacity-90 hover:opacity-100 focus:outline-none" aria-label="Previous Slide">
