@@ -12,8 +12,9 @@ const eventSchema = new mongoose.Schema(
       enum: ['Service', 'Revival', 'Concert', 'Conference', 'Outreach', 'Other'],
       default: 'Service',
     },
-    poster:   { type: String },
-    isActive: { type: Boolean, default: true },
+    poster:      { type: String },
+    isActive:    { type: Boolean, default: true },
+    isPermanent: { type: Boolean, default: false },
   },
   { timestamps: true }
 );

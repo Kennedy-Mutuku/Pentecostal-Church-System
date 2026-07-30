@@ -11,6 +11,7 @@ interface ChurchEvent {
   category: string;
   poster?: string;
   isActive: boolean;
+  isPermanent?: boolean;
 }
 
 const CATEGORIES = ['Service', 'Revival', 'Concert', 'Conference', 'Outreach', 'Other'];
@@ -181,36 +182,65 @@ export default function NewsManager() {
 
       {loading ? (
         <p style={{ color: '#6b7280', fontSize: 14 }}>Loading events…</p>
-      ) : events.length === 0 ? (
-        <div style={s.empty}>
-          <p style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>No events yet</p>
-          <p style={{ margin: '6px 0 0', fontSize: 13 }}>Click "Create Event" to add one. It will appear on the homepage automatically.</p>
-        </div>
       ) : (
-        events.map(ev => (
-          <div key={ev._id} style={{ ...s.card, opacity: ev.isActive ? 1 : 0.55 }}>
-            <div style={{ ...s.cardAccent, background: categoryColor[ev.category] || '#6b7280' }} />
-            <div style={s.cardBody}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
-                <span style={{ ...s.catBadge, background: categoryColor[ev.category] || '#6b7280' }}>{ev.category}</span>
-                {!ev.isActive && <span style={{ fontSize: 11, color: '#9ca3af', fontWeight: 600 }}>Hidden</span>}
-              </div>
-              <p style={s.cardTitle}>{ev.title}</p>
-              <div style={s.cardMeta}>
-                <span>📅 {new Date(ev.date).toLocaleDateString('en-KE', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
-                <span>📍 {ev.location}</span>
-              </div>
-              <p style={s.cardDesc}>{ev.description}</p>
-              <div style={s.cardBtns}>
-                <button style={s.editBtn} onClick={() => openEdit(ev)}>Edit</button>
-                <button style={s.toggleBtn} onClick={() => toggleActive(ev)}>{ev.isActive ? 'Hide' : 'Show'}</button>
-                <button style={s.delBtn} onClick={() => handleDelete(ev._id)} disabled={deleting === ev._id}>
-                  {deleting === ev._id ? '…' : 'Delete'}
-                </button>
+        <>
+          {/* ── Permanent Sunday Service card ── */}
+          {events.filter(e => e.isPermanent).map(ev => (
+            <div key={ev._id} style={{ ...s.card, border: '1.5px solid #7c3aed', background: '#faf5ff', marginBottom: 16 }}>
+              {ev.poster && (
+                <img src={`${base}${ev.poster}`} alt="poster" style={{ width: 64, height: 64, objectFit: 'cover', borderRadius: 8, flexShrink: 0 }} />
+              )}
+              <div style={s.cardBody}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 5 }}>
+                  <span style={{ ...s.catBadge, background: '#7c3aed' }}>Sunday Service</span>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: '#7c3aed', background: '#ede9fe', border: '1px solid #c4b5fd', borderRadius: 20, padding: '2px 8px' }}>Recurring · Cannot be deleted</span>
+                </div>
+                <p style={s.cardTitle}>{ev.title}</p>
+                <div style={s.cardMeta}>
+                  <span>📅 {new Date(ev.date).toLocaleTimeString('en-KE', { hour: '2-digit', minute: '2-digit' })} – {ev.endDate ? new Date(ev.endDate).toLocaleTimeString('en-KE', { hour: '2-digit', minute: '2-digit' }) : '—'} · Every Sunday</span>
+                  <span>📍 {ev.location}</span>
+                </div>
+                <p style={s.cardDesc}>{ev.description}</p>
+                <div style={s.cardBtns}>
+                  <button style={s.editBtn} onClick={() => openEdit(ev)}>Edit Time / Poster</button>
+                </div>
               </div>
             </div>
-          </div>
-        ))
+          ))}
+
+          {/* ── Regular events ── */}
+          {events.filter(e => !e.isPermanent).length === 0 ? (
+            <div style={s.empty}>
+              <p style={{ margin: 0, fontSize: 15, fontWeight: 600 }}>No other events yet</p>
+              <p style={{ margin: '6px 0 0', fontSize: 13 }}>Click "Create Event" to add one. It will appear on the homepage automatically.</p>
+            </div>
+          ) : (
+            events.filter(e => !e.isPermanent).map(ev => (
+              <div key={ev._id} style={{ ...s.card, opacity: ev.isActive ? 1 : 0.55 }}>
+                <div style={{ ...s.cardAccent, background: categoryColor[ev.category] || '#6b7280' }} />
+                <div style={s.cardBody}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6 }}>
+                    <span style={{ ...s.catBadge, background: categoryColor[ev.category] || '#6b7280' }}>{ev.category}</span>
+                    {!ev.isActive && <span style={{ fontSize: 11, color: '#9ca3af', fontWeight: 600 }}>Hidden</span>}
+                  </div>
+                  <p style={s.cardTitle}>{ev.title}</p>
+                  <div style={s.cardMeta}>
+                    <span>📅 {new Date(ev.date).toLocaleDateString('en-KE', { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+                    <span>📍 {ev.location}</span>
+                  </div>
+                  <p style={s.cardDesc}>{ev.description}</p>
+                  <div style={s.cardBtns}>
+                    <button style={s.editBtn} onClick={() => openEdit(ev)}>Edit</button>
+                    <button style={s.toggleBtn} onClick={() => toggleActive(ev)}>{ev.isActive ? 'Hide' : 'Show'}</button>
+                    <button style={s.delBtn} onClick={() => handleDelete(ev._id)} disabled={deleting === ev._id}>
+                      {deleting === ev._id ? '…' : 'Delete'}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))
+          )}
+        </>
       )}
 
       {/* Create / Edit modal */}
@@ -220,7 +250,9 @@ export default function NewsManager() {
             {/* Header */}
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 20 }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-                <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: '#111827' }}>{editId ? 'Edit Event' : 'New Event'}</h3>
+                <h3 style={{ margin: 0, fontSize: 18, fontWeight: 700, color: '#111827' }}>
+                  {editId && events.find(e => e._id === editId)?.isPermanent ? 'Edit Sunday Service' : editId ? 'Edit Event' : 'New Event'}
+                </h3>
                 {!editId && (
                   <span style={{
                     fontSize: 10, fontWeight: 600, color: draftSaved ? '#16a34a' : '#9ca3af',
@@ -251,11 +283,16 @@ export default function NewsManager() {
                 <textarea style={s.textarea} value={form.description} onChange={e => setForm(f => ({ ...f, description: e.target.value }))} required placeholder="Describe the event…" />
               </div>
               <div style={s.field}>
-                <label style={s.label}>Start Date &amp; Time *</label>
+                <label style={s.label}>
+                  Start Date &amp; Time *
+                  {editId && events.find(e => e._id === editId)?.isPermanent && (
+                    <span style={{ fontWeight: 400, color: '#7c3aed', marginLeft: 6 }}>(date auto-advances to next Sunday — set the time only)</span>
+                  )}
+                </label>
                 <input style={s.input} type="datetime-local" value={form.date} onChange={e => setForm(f => ({ ...f, date: e.target.value }))} required />
               </div>
               <div style={s.field}>
-                <label style={s.label}>End Date &amp; Time <span style={{ fontWeight: 400, color: '#9ca3af' }}>(optional — used to show "Happening Now" and "Event Ended")</span></label>
+                <label style={s.label}>End Date &amp; Time <span style={{ fontWeight: 400, color: '#9ca3af' }}>(used to show "Happening Now" and "Event Ended")</span></label>
                 <input style={s.input} type="datetime-local" value={form.endDate} onChange={e => setForm(f => ({ ...f, endDate: e.target.value }))} />
               </div>
               <div style={s.field}>

@@ -35,10 +35,44 @@ exports.uploadPoster = (req, res, next) => {
   }
 };
 
+// Helper: next Sunday at given hour:minute
+function nextSundayAt(hour, minute) {
+  const d = new Date();
+  const day = d.getDay(); // 0 = Sunday
+  d.setDate(d.getDate() + (day === 0 ? 7 : 7 - day));
+  d.setHours(hour, minute, 0, 0);
+  return d;
+}
+
 // Public — get all active events ordered soonest first
 exports.getEvents = async (req, res) => {
   try {
-    const events = await Event.find({ isActive: true }).sort({ date: 1 }).lean();
+    const now = new Date();
+
+    // Seed or auto-advance the permanent Sunday Service
+    let sunday = await Event.findOne({ isPermanent: true });
+    if (!sunday) {
+      await Event.create({
+        title: 'Sunday Service',
+        description: 'Join us every Sunday for a time of worship, prayer and the Word of God. All are welcome at RPC Nyamira.',
+        date:    nextSundayAt(9, 0),
+        endDate: nextSundayAt(13, 0),
+        location: 'RPC Nyamira',
+        category: 'Service',
+        isActive: true,
+        isPermanent: true,
+      });
+    } else if (sunday.endDate && sunday.endDate < now) {
+      // Auto-advance to next Sunday keeping admin-set hours
+      const sh = sunday.date.getHours(), sm = sunday.date.getMinutes();
+      const eh = sunday.endDate.getHours(), em = sunday.endDate.getMinutes();
+      await Event.findByIdAndUpdate(sunday._id, {
+        date:    nextSundayAt(sh, sm),
+        endDate: nextSundayAt(eh, em),
+      });
+    }
+
+    const events = await Event.find({ isActive: true }).sort({ isPermanent: -1, date: 1 }).lean();
     res.json(events);
   } catch {
     res.status(500).json({ message: 'Failed to fetch events' });
@@ -75,10 +109,13 @@ exports.updateEvent = async (req, res) => {
   }
 };
 
-// Patron — delete
+// Patron — delete (permanent events cannot be deleted)
 exports.deleteEvent = async (req, res) => {
   try {
-    await Event.findByIdAndDelete(req.params.id);
+    const ev = await Event.findById(req.params.id);
+    if (!ev) return res.status(404).json({ message: 'Event not found' });
+    if (ev.isPermanent) return res.status(403).json({ message: 'Sunday Service cannot be deleted' });
+    await ev.deleteOne();
     res.json({ message: 'Event deleted' });
   } catch {
     res.status(500).json({ message: 'Failed to delete event' });

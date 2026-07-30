@@ -25,6 +25,7 @@ interface ChurchEvent {
   date: string;
   endDate?: string;
   category: string;
+  isPermanent?: boolean;
 }
 
 type EventStatus =
@@ -146,6 +147,7 @@ const HeroSection = () => {
         const now = Date.now();
         const relevant = all
           .filter(e => {
+            if (e.isPermanent) return false; // shown as pinned Sunday Service row
             const end = e.endDate ? new Date(e.endDate).getTime() : null;
             return !end || now < end + 7200000; // hide >2h after ending
           })
