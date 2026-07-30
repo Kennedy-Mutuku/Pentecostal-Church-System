@@ -78,6 +78,7 @@ const WelcomePage = lazy(() => import("./WelcomePage"));
 const PatronDashboard = lazy(() => import("./PatronDashboard"));
 const ChairpersonDashboard = lazy(() => import("./ChairpersonDashboard"));
 const TreasurerDashboard = lazy(() => import("./TreasurerDashboard"));
+const DepartmentsPage = lazy(() => import("./Departments"));
 
 
 
@@ -89,6 +90,7 @@ export const router = createBrowserRouter([
             { path: "", element: <LandingPage /> },
             { path: "/Home", element: <LandingPage /> },
             { path: "/about", element: <AboutUsPage /> },
+            { path: "/departments", element: <DepartmentsPage /> },
             { path: "/philosophy", element: <PhilosophiesPage /> },
             { path: "/handbook", element: <HandbookPage /> },
             { path: "/financial", element: <FinancialsPage /> },

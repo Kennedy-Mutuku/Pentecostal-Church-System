@@ -178,6 +178,7 @@ const MobileSidebarItem = ({ item, depth = 0, onClose }: { item: NavItem; depth?
 const mobileNavTabs: { key: string; icon: React.ElementType; label: string; }[] = [
   { key: 'dashboard', icon: Home, label: 'Home' },
   { key: 'aboutUs', icon: Info, label: 'About Us' },
+  { key: 'departments', icon: Building2, label: 'Departments' },
   { key: 'philosophies', icon: BookOpen, label: 'Philosophies' },
   { key: 'financials', icon: Coins, label: 'Financials' },
   { key: 'leadership', icon: Crown, label: 'Leadership' },
@@ -257,6 +258,13 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
       setExpandedNestedItem(null);
       setIsManualExpanded(false);
       onNavigate(userData ? '/changeDetails' : '/signIn');
+      return;
+    }
+    if (key === 'departments') {
+      setActiveTab(null);
+      setExpandedNestedItem(null);
+      setIsManualExpanded(false);
+      onNavigate('/departments');
       return;
     }
     if (key === 'philosophies') {
@@ -637,6 +645,7 @@ const Header = () => {
   // Determine which nav group is active based on current path
   const getActiveNav = (path: string): string | null => {
     if (path.startsWith('/about') || path.startsWith('/history') || path.startsWith('/vision-mission') || path.startsWith('/statement-of-faith')) return 'aboutUs';
+    if (path.startsWith('/departments')) return 'departments';
     if (path.startsWith('/philosophy')) return 'philosophies';
     if (path === '/') return 'dashboard';
     if (path.startsWith('/news') || path.startsWith('/media')) return 'mediadesk';
@@ -756,6 +765,25 @@ const Header = () => {
   const renderAboutUsPanel = () => (
     <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-xl border border-gray-200 py-2 min-w-[220px] z-50">
       {headerNavGroups.aboutUs.map((item, i) => (
+        <FlyoutItem key={i} item={item} onClose={closeDropdown} />
+      ))}
+    </div>
+  );
+
+  const departmentNavItems = [
+    { label: 'Trumpet of Yahweh Choir', href: '/departments#trumpet-of-yahweh' },
+    { label: 'Born to Worship Choir',   href: '/departments#born-to-worship'    },
+    { label: 'Agape Hearts Choir',      href: '/departments#agape-hearts'       },
+    { label: 'Agape Voices',            href: '/departments#agape-voices'       },
+    { label: 'Sunday School',           href: '/departments#sunday-school'      },
+    { label: 'Men Fellowship',          href: '/departments#men-fellowship'     },
+    { label: 'Women Fellowship',        href: '/departments#women-fellowship'   },
+    { label: 'Youths',                  href: '/departments#youths'             },
+  ];
+
+  const renderDepartmentsPanel = () => (
+    <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-xl border border-gray-200 py-2 min-w-[230px] z-50">
+      {departmentNavItems.map((item, i) => (
         <FlyoutItem key={i} item={item} onClose={closeDropdown} />
       ))}
     </div>
@@ -896,34 +924,43 @@ const Header = () => {
             {!isDashboard ? (
               <nav className="hidden md:flex items-center flex-1 min-w-0 md:ml-2 lg:ml-4 xl:ml-8">
                 {/* Centered nav links */}
-                <div className="flex-1 flex items-center justify-center gap-0.5 lg:gap-1 xl:gap-2 min-w-0">
-                  <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${location.pathname === '/' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Home</Link>
+                <div className="flex-1 flex items-center justify-center gap-0 lg:gap-0.5 xl:gap-1 min-w-0">
+                  <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${location.pathname === '/' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Home</Link>
 
                   {/* About Us dropdown */}
                   <div className="relative" onMouseEnter={() => handleMouseEnter('aboutUs')} onMouseLeave={handleMouseLeave}>
-                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeDropdown === 'aboutUs' || activeNav === 'aboutUs' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>
+                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeDropdown === 'aboutUs' || activeNav === 'aboutUs' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>
                       About Us
                       <ChevronDown size={12} className={`xl:w-[14px] xl:h-[14px] transition-transform ${activeDropdown === 'aboutUs' ? 'rotate-180' : ''}`} />
                     </button>
                     {activeDropdown === 'aboutUs' && renderAboutUsPanel()}
                   </div>
 
-                  <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'philosophies' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Philosophies</Link>
+                  {/* Departments dropdown */}
+                  <div className="relative" onMouseEnter={() => handleMouseEnter('departments')} onMouseLeave={handleMouseLeave}>
+                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeDropdown === 'departments' || activeNav === 'departments' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>
+                      Departments
+                      <ChevronDown size={12} className={`xl:w-[14px] xl:h-[14px] transition-transform ${activeDropdown === 'departments' ? 'rotate-180' : ''}`} />
+                    </button>
+                    {activeDropdown === 'departments' && renderDepartmentsPanel()}
+                  </div>
 
-                  <Link to="/financial" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'financials' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Financials</Link>
+                  <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'philosophies' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Philosophies</Link>
 
-                  <Link to="/leadership" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'leadership' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Leadership</Link>
+                  <Link to="/financial" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'financials' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Financials</Link>
 
-                  <Link to="/handbook" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'handbook' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Handbook</Link>
+                  <Link to="/leadership" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'leadership' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Leadership</Link>
+
+                  <Link to="/handbook" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'handbook' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Handbook</Link>
 
                   {/* Gallery Link */}
-                  <Link to="/media" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'media' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Gallery</Link>
+                  <Link to="/media" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'media' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Gallery</Link>
 
-                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'feedback' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Feedback</Link>
+                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'feedback' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Feedback</Link>
                 </div>
 
                 {/* Sign In / User / Admin Logout / Patron button - always right */}
-                <div className="flex-shrink-0 ml-2 xl:ml-4">
+                <div className="flex-shrink-0 ml-1 xl:ml-2">
                   {isAdmin && isPatron ? (
                     <button onClick={() => navigate('/patron')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-red-50 border-2 border-[#FF3B30]/10 hover:border-[#FF3B30]/30 rounded-full font-bold text-[#FF3B30] transition-all shadow-md hover:shadow-[#FF3B30]/5 active:scale-95 whitespace-nowrap group">
                       <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#FF3B30] text-white transition-all group-hover:ring-2 group-hover:ring-red-200">
