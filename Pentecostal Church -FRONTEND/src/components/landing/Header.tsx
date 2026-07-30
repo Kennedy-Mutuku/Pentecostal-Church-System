@@ -183,7 +183,7 @@ const mobileNavTabs: { key: string; icon: React.ElementType; label: string; }[] 
   { key: 'leadership', icon: Crown, label: 'Leadership' },
   { key: 'handbook', icon: FileText, label: 'Handbook' },
   { key: 'media', icon: Tv2, label: 'Gallery' },
-  { key: 'feedback', icon: MessageSquare, label: 'Talk to us' },
+  { key: 'feedback', icon: MessageSquare, label: 'Feedback' },
 ];
 
 interface TabSection {
@@ -201,7 +201,7 @@ const getTabSections = (key: string, activeSessions: Session[]): TabSection[] =>
     case 'fellowships': return [{ title: 'Fellowships', icon: UsersRound, items: organizationSections[4].items }];
     case 'biblestudy': return [{ title: 'Bible Study', icon: BookOpen, items: [{ label: 'Register for Bible Study', href: '/Bs' }, { label: 'View BS Groups', href: '/Bs' }] }];
     case 'classes': return [{ title: 'Classes', icon: GraduationCap, items: organizationSections[6].items }];
-    case 'feedback': return [{ title: 'Talk to us', icon: MessageSquare, items: [{ label: 'Submit Anonymously', href: '/recomendations' }, { label: 'Submit with Identity', href: '/recomendations' }] }];
+    case 'feedback': return [{ title: 'Feedback', icon: MessageSquare, items: [{ label: 'Submit Anonymously', href: '/recomendations' }, { label: 'Submit with Identity', href: '/recomendations' }] }];
     case 'financials': return [{ title: 'Financials', icon: Coins, items: [{ label: 'View Financial Statements', href: '/financial' }, { label: 'My Contributions', href: '/financial' }] }];
     case 'requisitions': return [{ title: 'Requisitions', icon: FileText, items: [{ label: 'My Requisitions', href: '/requisitions' }, { label: 'New Requisition', href: '/requisitions' }] }];
     case 'filemanager': return [{ title: 'File Manager', icon: Folder, items: [{ label: 'My Documents', href: '/my-docs' }, { label: 'Shared Files', href: '/my-docs' }] }];
@@ -604,7 +604,6 @@ const Header = () => {
   const [userData, setUserData] = useState<UserData | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isPatron, setIsPatron] = useState(false);
-  const [isAssistantPatron, setIsAssistantPatron] = useState(false);
   const [activeSessions, setActiveSessions] = useState<Session[]>([]);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const [signingSession, setSigningSession] = useState<Session | null>(null);
@@ -623,7 +622,6 @@ const Header = () => {
     sessionStorage.clear();
     setIsAdmin(false);
     setIsPatron(false);
-    setIsAssistantPatron(false);
     setUserData(null);
     navigate('/signIn', { replace: true });
   };
@@ -657,11 +655,10 @@ const Header = () => {
   };
   const activeNav = getActiveNav(location.pathname);
   
-  const isPatronDashboard = location.pathname.startsWith('/patron') && !location.pathname.startsWith('/assistant-patron');
-  const isAssistantPatronDashboard = location.pathname.startsWith('/assistant-patron');
+  const isPatronDashboard = location.pathname.startsWith('/patron');
   const isChairpersonDashboard = location.pathname.startsWith('/chairperson');
   const isTreasurerDashboard = location.pathname.startsWith('/treasurer');
-  const isDashboard = isPatronDashboard || isAssistantPatronDashboard || isChairpersonDashboard || isTreasurerDashboard;
+  const isDashboard = isPatronDashboard || isChairpersonDashboard || isTreasurerDashboard;
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -701,7 +698,6 @@ const Header = () => {
           setUserData({ ...data, username: firstName });
           setIsAdmin(false);
           setIsPatron(false);
-          setIsAssistantPatron(false);
         } else if (localStorage.getItem('adminSession') === 'true') {
           // Verify admin session with backend
           try {
@@ -710,14 +706,11 @@ const Header = () => {
             if (adminRes.ok) {
               setIsAdmin(true);
               setIsPatron(localStorage.getItem('patronSession') === 'true');
-              setIsAssistantPatron(localStorage.getItem('assistantPatronSession') === 'true');
             } else {
               localStorage.removeItem('adminSession');
               localStorage.removeItem('patronSession');
-              localStorage.removeItem('assistantPatronSession');
               setIsAdmin(false);
               setIsPatron(false);
-              setIsAssistantPatron(false);
             }
           } catch (e) {
             console.error('Error verifying admin session:', e);
@@ -810,7 +803,6 @@ const Header = () => {
                 if (isDashboard) {
                   let eventName = 'toggleSidebar';
                   if (isPatronDashboard) eventName = 'togglePatronSidebar';
-                  else if (isAssistantPatronDashboard) eventName = 'toggleAssistantPatronSidebar';
                   else if (isChairpersonDashboard) eventName = 'toggleChairpersonSidebar';
                   else if (isTreasurerDashboard) eventName = 'toggleTreasurerSidebar';
                   window.dispatchEvent(new Event(eventName));
@@ -849,13 +841,6 @@ const Header = () => {
                       <Crown size={12} strokeWidth={2.5} />
                     </div>
                     <span className="text-[10px] leading-none tracking-tight">Patron</span>
-                  </button>
-                ) : isAdmin && isAssistantPatron ? (
-                  <button onClick={() => navigate('/assistant-patron')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-red-50 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[#FF3B30] text-white">
-                      <Crown size={12} strokeWidth={2.5} />
-                    </div>
-                    <span className="text-[10px] leading-none tracking-tight">Asst Patron</span>
                   </button>
                 ) : isAdmin ? (
                   <button onClick={handleAdminLogout} className="flex items-center gap-1 pl-1 pr-2 py-1 bg-[#FF3B30] text-white rounded-full transition-all shadow-sm active:scale-95 whitespace-nowrap">
@@ -927,7 +912,7 @@ const Header = () => {
                   {/* Gallery Link */}
                   <Link to="/media" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'media' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Gallery</Link>
 
-                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'feedback' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Talk to us</Link>
+                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[10px] lg:text-[11px] xl:text-[13px] whitespace-nowrap ${activeNav === 'feedback' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Feedback</Link>
                 </div>
 
                 {/* Sign In / User / Admin Logout / Patron button - always right */}
@@ -938,13 +923,6 @@ const Header = () => {
                         <Crown size={16} strokeWidth={2.5} />
                       </div>
                       <span className="text-[12px] xl:text-[13px] leading-none tracking-tight">Patron</span>
-                    </button>
-                  ) : isAdmin && isAssistantPatron ? (
-                    <button onClick={() => navigate('/assistant-patron')} className="flex items-center gap-2 pl-1.5 pr-4 py-1.5 bg-white hover:bg-red-50 border-2 border-[#FF3B30]/10 hover:border-[#FF3B30]/30 rounded-full font-bold text-[#FF3B30] transition-all shadow-md hover:shadow-[#FF3B30]/5 active:scale-95 whitespace-nowrap group">
-                      <div className="w-8 h-8 rounded-full flex items-center justify-center bg-[#FF3B30] text-white transition-all group-hover:ring-2 group-hover:ring-red-200">
-                        <Crown size={16} strokeWidth={2.5} />
-                      </div>
-                      <span className="text-[12px] xl:text-[13px] leading-none tracking-tight">Assistant Patron</span>
                     </button>
                   ) : isAdmin ? (
                     <button onClick={handleAdminLogout} className="flex items-center gap-1.5 px-2.5 xl:px-4 py-1.5 xl:py-2 bg-[#FF3B30] text-white font-medium text-[11px] xl:text-sm rounded-lg hover:bg-[#E0221A] transition-colors shadow-lg shadow-red-900/10 active:scale-95 transform transition-all whitespace-nowrap">
@@ -979,9 +957,8 @@ const Header = () => {
                    <span className="text-gray-700 font-bold" style={{ letterSpacing: '0.08em' }}>RPC Nyamira</span>
                    <span className="text-gray-300 text-[10px] px-1">•</span>
                    <span className="text-[#3b1a62]">
-                     {isPatronDashboard ? 'RPC SENIOR PASTOR PORTAL' : 
-                      isAssistantPatronDashboard ? 'ASSISTANT PATRON PORTAL' : 
-                      isChairpersonDashboard ? 'CHAIRPERSON PORTAL' : 
+                     {isPatronDashboard ? 'RPC SENIOR PASTOR PORTAL' :
+                      isChairpersonDashboard ? 'CHAIRPERSON PORTAL' :
                       'TREASURER PORTAL'}
                    </span>
                  </span>

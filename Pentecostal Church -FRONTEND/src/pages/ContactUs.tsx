@@ -358,7 +358,7 @@ const ContactUs = () => {
 
           <div className={styles.logoSection}>
             <img src={cuLogo} alt="RPC Logo" className={styles.logo} />
-            <h1 className={styles.title}>Talk to Us</h1>
+            <h1 className={styles.title}>Feedback</h1>
           </div>
 
           <div className={styles.userSection}>

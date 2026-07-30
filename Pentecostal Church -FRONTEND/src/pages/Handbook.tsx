@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import '../styles/Handbook.css';
 
 interface DeptSection {
@@ -264,10 +264,37 @@ const tocItems = [
 ];
 
 const HandbookPage: React.FC = () => {
+  const [activeSection, setActiveSection] = useState(tocItems[0].id);
+  const [openDept, setOpenDept] = useState<string | null>(departments[0].num);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     document.title = 'Church Handbook | RPC Nyamira';
   }, []);
+
+  useEffect(() => {
+    const sections = tocItems
+      .map((item) => document.getElementById(item.id))
+      .filter((el): el is HTMLElement => el !== null);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-15% 0px -70% 0px', threshold: 0 }
+    );
+
+    sections.forEach((el) => observer.observe(el));
+    return () => observer.disconnect();
+  }, []);
+
+  const toggleDept = (num: string) => {
+    setOpenDept((current) => (current === num ? null : num));
+  };
 
   return (
     <div className="handbook-page">
@@ -275,23 +302,16 @@ const HandbookPage: React.FC = () => {
         <div className="handbook-hero-content">
           <span className="handbook-eyebrow">Reaching Nations With The Gospel Of Jesus Christ &mdash; Matthew 28:19&ndash;20</span>
           <h1>Rikuruma Church Handbook</h1>
-          <p className="handbook-tagline">"Building Structure. Strengthening Leaders. Advancing the Kingdom."</p>
-          <div className="handbook-meta">
-            <span>Rikuruma Pentecostal Church &ndash; Nyamira</span>
-            <span className="handbook-meta-dot">&bull;</span>
-            <span>A ministry of Kisii Pentecostal Church</span>
-            <span className="handbook-meta-dot">&bull;</span>
-            <span>Magwagwa, Nyamira County, Kenya</span>
-          </div>
-          <div className="handbook-drafted">
-            Drafted by Rev. Omondi Kepher, Snr. Pastor &mdash; Office of the Senior Pastor
-          </div>
         </div>
       </div>
 
       <nav className="handbook-toc" aria-label="Handbook sections">
         {tocItems.map((item) => (
-          <a key={item.id} href={`#${item.id}`} className="handbook-toc-link">
+          <a
+            key={item.id}
+            href={`#${item.id}`}
+            className={`handbook-toc-link${activeSection === item.id ? ' active' : ''}`}
+          >
             {item.label}
           </a>
         ))}
@@ -305,7 +325,7 @@ const HandbookPage: React.FC = () => {
           <p>
             I am writing this to you not as one holding a title, but as one carrying a divine assignment. The role
             of a Senior Pastor is not ceremonial; it is structural, spiritual, and strategic. God has entrusted us
-            with more than a congregation &mdash; He has entrusted us with a calling, a community, and a commission.
+            with more than a congregation. He has entrusted us with a calling, a community, and a commission.
             As a local church positioned in this generation, we must not only grow numerically but grow
             structurally, spiritually, and strategically.
           </p>
@@ -330,7 +350,10 @@ const HandbookPage: React.FC = () => {
           <div className="handbook-card">
             <div className="handbook-card-header">
               <div className="handbook-icon"><i className="fas fa-cross"></i></div>
-              <h3>1. Executive Leadership &mdash; Senior Pastor: Rev. Omondi Kepher</h3>
+              <div>
+                <h3>1. Executive Leadership</h3>
+                <p className="handbook-card-subtitle">Senior Pastor: Rev. Omondi Kepher</p>
+              </div>
             </div>
             <p className="handbook-card-label">Primary Responsibilities</p>
             <ul className="handbook-list">
@@ -434,52 +457,66 @@ const HandbookPage: React.FC = () => {
             <li>Leadership development</li>
             <li>Measurable Kingdom impact</li>
           </ul>
+          <p className="handbook-dept-hint">Tap a department below to view its training modules and expected outcomes.</p>
 
-          <div className="handbook-dept-grid">
-            {departments.map((d) => (
-              <div key={d.num} className="handbook-dept-card">
-                <div className="dept-header">
-                  <div className="dept-icon-wrapper">
-                    <i className={d.icon}></i>
-                  </div>
-                  <div className="dept-meta">
-                    <span className="dept-num">Department {d.num}</span>
-                    <h3 className="dept-title">{d.title}</h3>
-                    {d.theme && <p className="dept-theme">"{d.theme}"</p>}
+          <div className="handbook-dept-accordion">
+            {departments.map((d) => {
+              const isOpen = openDept === d.num;
+              return (
+                <div key={d.num} className={`handbook-dept-card${isOpen ? ' open' : ''}`}>
+                  <button
+                    type="button"
+                    className="dept-header"
+                    onClick={() => toggleDept(d.num)}
+                    aria-expanded={isOpen}
+                  >
+                    <div className="dept-icon-wrapper">
+                      <i className={d.icon}></i>
+                    </div>
+                    <div className="dept-meta">
+                      <span className="dept-num">Department {d.num}</span>
+                      <h3 className="dept-title">{d.title}</h3>
+                      {d.theme && <p className="dept-theme">"{d.theme}"</p>}
+                    </div>
+                    <i className="fas fa-chevron-down dept-chevron"></i>
+                  </button>
+
+                  <div className="dept-body">
+                    <div className="dept-body-inner">
+                      <p className="dept-purpose">{d.purpose}</p>
+
+                      {d.sections.map((s, i) => (
+                        <div key={i} className="dept-subsection">
+                          <p className="dept-subheading">{s.heading}</p>
+                          <ul className="handbook-list">
+                            {s.items.map((item, idx) => (
+                              <li key={idx}>{item}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      ))}
+
+                      {d.outcomes.length > 0 && (
+                        <div className="dept-outcomes">
+                          <p className="dept-subheading">Expected Outcomes</p>
+                          <ul className="handbook-list handbook-list-check">
+                            {d.outcomes.map((o, idx) => (
+                              <li key={idx}>{o}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
-
-                <p className="dept-purpose">{d.purpose}</p>
-
-                {d.sections.map((s, i) => (
-                  <div key={i} className="dept-subsection">
-                    <p className="dept-subheading">{s.heading}</p>
-                    <ul className="handbook-list">
-                      {s.items.map((item, idx) => (
-                        <li key={idx}>{item}</li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-
-                {d.outcomes.length > 0 && (
-                  <div className="dept-outcomes">
-                    <p className="dept-subheading">Expected Outcomes</p>
-                    <ul className="handbook-list handbook-list-check">
-                      {d.outcomes.map((o, idx) => (
-                        <li key={idx}>{o}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-              </div>
-            ))}
+              );
+            })}
           </div>
         </section>
 
         <section id="training" className="handbook-section">
           <h2 className="handbook-section-title">V. Training Model</h2>
-          <p className="handbook-card-label">"RPC Leadership Development Model" &mdash; Annual Structure</p>
+          <p className="handbook-card-label">"RPC Leadership Development Model": Annual Structure</p>
           <ul className="handbook-list">
             <li>Quarterly Leadership Trainings</li>
             <li>Monthly Department Meetings</li>
@@ -546,10 +583,10 @@ const HandbookPage: React.FC = () => {
 
         <section id="declaration" className="handbook-section handbook-declaration">
           <h2 className="handbook-section-title">VIII. Our Declaration</h2>
-          <p>Rikuruma Pentecostal Church shall not merely exist &mdash; it shall expand.</p>
-          <p>It shall not merely gather &mdash; it shall grow.</p>
-          <p>It shall not merely worship &mdash; it shall work.</p>
-          <p>Through servant leadership, structured training, and Spirit-led vision, we shall build a church that is:</p>
+          <p className="handbook-declaration-line">Rikuruma Pentecostal Church will not merely exist. It will expand.</p>
+          <p className="handbook-declaration-line">It will not merely gather. It will grow.</p>
+          <p className="handbook-declaration-line">It will not merely worship. It will work.</p>
+          <p>Through servant leadership, structured training, and Spirit-led vision, we will build a church that is:</p>
           <ul className="handbook-list handbook-list-check handbook-list-inline">
             <li>Spiritually strong</li>
             <li>Structurally sound</li>

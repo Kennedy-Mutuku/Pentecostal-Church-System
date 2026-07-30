@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import '../styles/Philosophies.css';
 
 interface Scripture {
@@ -29,7 +29,7 @@ const philosophies: Philosophy[] = [
     number: '02',
     icon: 'fas fa-music',
     title: 'Philosophy of Worship',
-    body: 'We believe worship is the heartbeat of the church. True worship flows from a pure heart that has encountered God through Jesus Christ and is guided by the Holy Spirit. Our worship is lively, Spirit-led, and grounded in truth — expressed through prayer, praise, thanksgiving, and obedience.',
+    body: 'We believe worship is the heartbeat of the church. True worship flows from a pure heart that has encountered God through Jesus Christ and is guided by the Holy Spirit. Our worship is lively, Spirit-led, and grounded in truth, expressed through prayer, praise, thanksgiving, and obedience.',
     scriptures: [
       { text: 'God is Spirit, and those who worship Him must worship in spirit and truth.', ref: 'John 4:24' },
       { text: 'Let everything that has breath praise the Lord.', ref: 'Psalm 150:6' },
@@ -39,7 +39,7 @@ const philosophies: Philosophy[] = [
     number: '03',
     icon: 'fas fa-book-open',
     title: 'Philosophy of the Word',
-    body: 'We believe the Bible is the inspired, infallible Word of God — our supreme authority for faith and conduct. All preaching, teaching, and decision-making in our church must align with Scripture, which is profitable for doctrine, correction, and instruction in righteousness.',
+    body: 'We believe the Bible is the inspired, infallible Word of God: our supreme authority for faith and conduct. All preaching, teaching, and decision-making in our church must align with Scripture, which is profitable for doctrine, correction, and instruction in righteousness.',
     scriptures: [
       { text: 'All Scripture is given by inspiration of God…', ref: '2 Timothy 3:16' },
     ],
@@ -76,7 +76,7 @@ const philosophies: Philosophy[] = [
     number: '07',
     icon: 'fas fa-seedling',
     title: 'Philosophy of Discipleship',
-    body: 'We believe that every believer should grow to become a true disciple of Christ — rooted in the Word, steadfast in prayer, and strong in character. Our discipleship process equips believers to live godly lives, discover their gifts, and serve effectively in the ministry.',
+    body: 'We believe that every believer should grow to become a true disciple of Christ: rooted in the Word, steadfast in prayer, and strong in character. Our discipleship process equips believers to live godly lives, discover their gifts, and serve effectively in the ministry.',
     scriptures: [
       { text: 'As you have therefore received Christ Jesus the Lord, so walk in Him.', ref: 'Colossians 2:6' },
     ],
@@ -103,7 +103,7 @@ const philosophies: Philosophy[] = [
     number: '10',
     icon: 'fas fa-shield-halved',
     title: 'Philosophy of Holiness & Integrity',
-    body: 'We believe that holiness is the mark of a true believer. As a Pentecostal church, we are committed to teaching and living out a lifestyle of purity, integrity, and godliness in all aspects of life — both public and private.',
+    body: 'We believe that holiness is the mark of a true believer. As a Pentecostal church, we are committed to teaching and living out a lifestyle of purity, integrity, and godliness in all aspects of life, both public and private.',
     scriptures: [
       { text: 'Be holy, for I am holy.', ref: '1 Peter 1:16' },
     ],
@@ -130,7 +130,7 @@ const philosophies: Philosophy[] = [
     number: '13',
     icon: 'fas fa-trophy',
     title: 'Philosophy of Growth & Excellence',
-    body: 'We believe that God desires His church to grow spiritually, numerically, and in influence. We commit to serving with excellence, accountability, and stewardship — doing all things as unto the Lord and not unto men.',
+    body: 'We believe that God desires His church to grow spiritually, numerically, and in influence. We commit to serving with excellence, accountability, and stewardship, doing all things as unto the Lord and not unto men.',
     scriptures: [
       { text: 'Whatever you do, do it heartily, as to the Lord.', ref: 'Colossians 3:23' },
     ],
@@ -138,15 +138,38 @@ const philosophies: Philosophy[] = [
 ];
 
 const PhilosophiesPage: React.FC = () => {
+  const gridRef = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
     document.title = "Our Philosophies | RPC Nyamira";
+  }, []);
+
+  useEffect(() => {
+    const cards = gridRef.current?.querySelectorAll('.philosophy-card');
+    if (!cards || cards.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('in-view');
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
+
+    cards.forEach((card) => observer.observe(card));
+    return () => observer.disconnect();
   }, []);
 
   return (
     <div className="philosophies-page">
       <div className="philosophies-hero">
         <div className="philosophies-hero-content">
+          <span className="philosophies-eyebrow">Our Core Convictions</span>
           <h1>Our Ministry Philosophy</h1>
           <p>
             The convictions and values that shape everything we do as a church family.
@@ -155,9 +178,10 @@ const PhilosophiesPage: React.FC = () => {
         </div>
       </div>
 
-      <div className="philosophies-grid">
+      <div className="philosophies-grid" ref={gridRef}>
         {philosophies.map((p, index) => (
-          <div key={index} className="philosophy-card">
+          <div key={index} className="philosophy-card" style={{ transitionDelay: `${(index % 3) * 80}ms` }}>
+            <span className="phil-watermark">{p.number}</span>
             <div className="phil-header">
               <div className="phil-icon-wrapper">
                 <i className={p.icon}></i>
@@ -167,14 +191,14 @@ const PhilosophiesPage: React.FC = () => {
                 <h3 className="phil-title">{p.title}</h3>
               </div>
             </div>
-            
+
             <p className="phil-body">{p.body}</p>
-            
+
             {p.scriptures.map((s, idx) => (
               <div key={idx} className="phil-quote">
                 <i className="fas fa-quote-left"></i>
                 <span>"{s.text}"</span>
-                <cite>— {s.ref}</cite>
+                <cite>{s.ref}</cite>
               </div>
             ))}
           </div>

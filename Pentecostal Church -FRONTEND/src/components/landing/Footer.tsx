@@ -10,7 +10,7 @@ const quickLinks: { label: string; href: string; external?: boolean }[] = [
   { label: 'Leadership', href: '/leadership' },
   { label: 'Handbook', href: '/handbook' },
   { label: 'Gallery', href: '/media' },
-  { label: 'Talk to us', href: '/recomendations' },
+  { label: 'Feedback', href: '/recomendations' },
 ];
 
 const socialLinks = [
@@ -24,7 +24,7 @@ const socialLinks = [
 const Footer = () => {
   const currentYear = new Date().getFullYear();
   const location = useLocation();
-  const isPatronDashboard = location.pathname.startsWith('/patron') || location.pathname.startsWith('/assistant-patron');
+  const isPatronDashboard = location.pathname.startsWith('/patron');
 
   return (
     <footer className="bg-[#121212] text-white border-t border-white/5">

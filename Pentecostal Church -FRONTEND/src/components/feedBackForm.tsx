@@ -4,10 +4,20 @@ import { getApiUrl } from '../config/environment';
 import styles from '../styles/feedback.module.css';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ShieldCheck, User } from 'lucide-react';
+
+const CATEGORY_LABELS: Record<string, string> = {
+    feedback: 'General Feedback',
+    suggestion: 'Suggestion',
+    complaint: 'Complaint',
+    praise: 'Praise & Appreciation',
+    prayer: 'Prayer Request',
+    technical: 'Technical Issue',
+    other: 'Other'
+};
 
 const FeedbackForm: React.FC = () => {
     const [formData, setFormData] = useState({
-        subject: '',
         message: '',
         category: 'feedback',
         isAnonymous: true
@@ -54,7 +64,7 @@ const FeedbackForm: React.FC = () => {
     const handleSubmit = async (e: { preventDefault: () => void }) => {
         e.preventDefault();
 
-        if (!formData.subject || !formData.message) {
+        if (!formData.message) {
             toast.warning('Please fill in all required fields.', {
                 position: "top-right",
                 autoClose: 3000,
@@ -71,7 +81,7 @@ const FeedbackForm: React.FC = () => {
         setLoading(true);
         try {
             const messageData = {
-                subject: formData.subject.trim(),
+                subject: CATEGORY_LABELS[formData.category] || 'General Feedback',
                 message: formData.message.trim(),
                 category: formData.category,
                 isAnonymous: formData.isAnonymous,
@@ -97,7 +107,6 @@ const FeedbackForm: React.FC = () => {
                 setIsSubmitted(true);
 
                 setFormData({
-                    subject: '',
                     message: '',
                     category: 'feedback',
                     isAnonymous: true
@@ -124,7 +133,7 @@ const FeedbackForm: React.FC = () => {
         <>
             <ToastContainer />
             <div className={styles.pageHeader}>
-                <h1 className={styles.mainTitle}>Talk to Us</h1>
+                <h1 className={styles.mainTitle}>Feedback</h1>
                 <p className={styles.subtitle}>We'd love to hear from you! Share your thoughts, suggestions, or prayer requests with us.</p>
             </div>
 
@@ -145,17 +154,31 @@ const FeedbackForm: React.FC = () => {
                     </div>
                 ) : (
                     <form className={styles.form} onSubmit={handleSubmit}>
-                        <div>
-                            <label htmlFor="subject">Subject</label>
-                            <input 
-                                type="text"
-                                id="subject" 
-                                value={formData.subject} 
-                                onChange={handleChange} 
-                                className={styles.inputs} 
-                                placeholder="Brief summary of your message..."
-                                required 
-                            />
+                        <div className={styles.privacyToggle}>
+                            <div className={styles.privacyToggleInfo}>
+                                <span className={styles.privacyIcon}>
+                                    {formData.isAnonymous ? <ShieldCheck size={20} /> : <User size={20} />}
+                                </span>
+                                <div>
+                                    <p className={styles.privacyLabel}>
+                                        {formData.isAnonymous ? 'Anonymous' : 'Identified'}
+                                    </p>
+                                    <p className={styles.privacyDescription}>
+                                        {formData.isAnonymous
+                                            ? 'Your identity will remain confidential'
+                                            : 'Shared for follow-up purposes'}
+                                    </p>
+                                </div>
+                            </div>
+                            <label className={styles.switch} htmlFor="isAnonymous">
+                                <input
+                                    type="checkbox"
+                                    id="isAnonymous"
+                                    checked={formData.isAnonymous}
+                                    onChange={handleCheckboxChange}
+                                />
+                                <span className={styles.slider} />
+                            </label>
                         </div>
 
                         <div>
@@ -181,18 +204,6 @@ const FeedbackForm: React.FC = () => {
                                 placeholder="Share your thoughts, feedback, suggestions, or prayer requests..."
                                 required 
                                 rows={6}
-                            />
-                        </div>
-
-                        <div className={styles.checkboxContainer}>
-                            <label htmlFor="isAnonymous">
-                                {formData.isAnonymous ? '🕵️‍♂️ Anonymous (Your identity will remain confidential)' : '👤 Identified (For follow-up purposes)'}
-                            </label>
-                            <input 
-                                type="checkbox" 
-                                id="isAnonymous" 
-                                checked={formData.isAnonymous} 
-                                onChange={handleCheckboxChange} 
                             />
                         </div>
 

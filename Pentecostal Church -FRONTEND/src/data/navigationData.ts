@@ -14,7 +14,7 @@ export const organizationSections: NavSection[] = [
   {
     title: 'Quick Access',
     items: [
-      { label: 'Talk to us', href: '/recomendations' },
+      { label: 'Feedback', href: '/recomendations' },
       { label: 'Financials', href: '/financial' }
     ],
   },
