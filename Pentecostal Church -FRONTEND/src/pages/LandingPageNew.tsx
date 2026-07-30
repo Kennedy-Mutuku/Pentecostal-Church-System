@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { HeroSection } from '../components/landing';
 import LiveAttendanceBanner from '../components/landing/LiveAttendanceBanner';
-import NewsEvents from '../components/landing/NewsEvents';
 import '../styles/landingRikuruma.css';
 
 interface Detail {
@@ -158,9 +157,6 @@ const LandingPageNew = () => {
 
         {/* Live Attendance Sessions — appears only when sessions are active */}
         <LiveAttendanceBanner />
-
-        {/* News & Upcoming Events */}
-        <NewsEvents />
 
         {/* About Section */}
         <section id="about" className="about-section section">
