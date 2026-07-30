@@ -48,6 +48,57 @@ function getEventStatus(ev: ChurchEvent): EventStatus {
   };
 }
 
+type SundayStatus =
+  | { type: 'countdown'; days: number; hours: number; minutes: number; seconds: number; nextLabel: string }
+  | { type: 'live' }
+  | { type: 'ended' };
+
+function getSundayServiceStatus(): SundayStatus {
+  const now = new Date();
+  const day = now.getDay(); // 0 = Sunday
+
+  // This week's Sunday at midnight
+  const thisSunday = new Date(now);
+  thisSunday.setDate(now.getDate() - day);
+  thisSunday.setHours(0, 0, 0, 0);
+
+  const serviceStart = new Date(thisSunday); serviceStart.setHours(9, 0, 0, 0);
+  const serviceEnd   = new Date(thisSunday); serviceEnd.setHours(13, 0, 0, 0);
+
+  const n = now.getTime();
+
+  // Live: Sunday 9:00 AM – 1:00 PM
+  if (day === 0 && n >= serviceStart.getTime() && n < serviceEnd.getTime()) {
+    return { type: 'live' };
+  }
+
+  // Ended: Sunday after 1:00 PM until midnight (i.e. until Monday)
+  if (day === 0 && n >= serviceEnd.getTime()) {
+    return { type: 'ended' };
+  }
+
+  // Countdown: Sunday before 9 AM → count to today; any other day → count to next Sunday
+  const target = day === 0
+    ? serviceStart
+    : (() => {
+        const d = new Date(thisSunday);
+        d.setDate(d.getDate() + 7);
+        d.setHours(9, 0, 0, 0);
+        return d;
+      })();
+
+  const nextLabel = day === 0 ? 'Today' : 'Next Sunday';
+  const diff = target.getTime() - n;
+  return {
+    type: 'countdown',
+    days:    Math.floor(diff / 86400000),
+    hours:   Math.floor((diff % 86400000) / 3600000),
+    minutes: Math.floor((diff % 3600000)  / 60000),
+    seconds: Math.floor((diff % 60000)    / 1000),
+    nextLabel,
+  };
+}
+
 const slides: Slide[] = [
   { image: hero1, title: 'Welcome to Rikuruma Pentecostal Church', subtitle: 'A Spirit-filled community transforming lives through the power of God in Nyamira', objectPosition: 'center 30%' },
   { image: hero2, title: 'Joyful Praise & Divine Worship', subtitle: 'Lifting high the name of Jesus with heart-filled adoration and thanksgiving', objectPosition: 'center 25%' },
@@ -106,20 +157,22 @@ const HeroSection = () => {
             return new Date(a.date).getTime() - new Date(b.date).getTime();
           })
           .slice(0, 3);
-        if (relevant.length > 0) {
-          setEvents(relevant);
-          setTimeout(() => setBubbleVisible(true), 800);
-        }
+        if (relevant.length > 0) setEvents(relevant);
       } catch { /* silent */ }
     })();
   }, []);
 
-  // Tick every second to keep countdowns live
+  // Bubble always visible after mount (Sunday Service is always shown)
   useEffect(() => {
-    if (events.length === 0) return;
+    const t = setTimeout(() => setBubbleVisible(true), 800);
+    return () => clearTimeout(t);
+  }, []);
+
+  // Tick every second to keep all countdowns live
+  useEffect(() => {
     const id = setInterval(() => setTick(t => t + 1), 1000);
     return () => clearInterval(id);
-  }, [events.length]);
+  }, []);
 
   return (
     <section
@@ -170,113 +223,115 @@ const HeroSection = () => {
           </div>
         </div>
 
-        {/* ── Event Bubble — sits between buttons and dots, never overlaps ── */}
-        {events.length > 0 && (
-          <div
-            className="flex justify-center px-0 mb-2"
-            style={{
-              opacity: bubbleVisible ? 1 : 0,
-              transform: bubbleVisible ? 'translateY(0)' : 'translateY(14px)',
-              transition: 'opacity 0.55s ease, transform 0.55s ease',
-            }}
-          >
-          <div
-            style={{
-              width: '100%',
-              maxWidth: 520,
-              background: 'rgba(5,16,9,0.92)',
-              backdropFilter: 'blur(18px)',
-              WebkitBackdropFilter: 'blur(18px)',
-              border: '1px solid rgba(34,197,94,0.22)',
-              borderRadius: 12,
-              overflow: 'hidden',
-            }}
-          >
-            {/* Header */}
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, padding: '9px 16px 8px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
-              <span style={{ position: 'relative', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: 8, height: 8 }}>
-                <span className="animate-ping" style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#22c55e', opacity: 0.55 }} />
-                <span style={{ display: 'block', width: 8, height: 8, borderRadius: '50%', background: '#22c55e', position: 'relative' }} />
-              </span>
-              <span style={{ fontSize: 10, fontWeight: 700, color: '#86efac', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
-                {events.length === 1 ? 'Next Event' : 'Upcoming Events'}
-              </span>
-            </div>
+        {/* ── Event Bubble — always shown, Sunday Service pinned ── */}
+        {(() => {
+          const ss = getSundayServiceStatus();
+          return (
+            <div
+              className="flex justify-center px-0 mb-2"
+              style={{
+                opacity: bubbleVisible ? 1 : 0,
+                transform: bubbleVisible ? 'translateY(0)' : 'translateY(14px)',
+                transition: 'opacity 0.55s ease, transform 0.55s ease',
+              }}
+            >
+              <div style={{ width: '100%', maxWidth: 520, background: 'rgba(5,16,9,0.92)', backdropFilter: 'blur(18px)', WebkitBackdropFilter: 'blur(18px)', border: '1px solid rgba(34,197,94,0.22)', borderRadius: 12, overflow: 'hidden' }}>
 
-            {/* Event rows */}
-            {events.map((ev, i) => {
-              const status = getEventStatus(ev);
-              return (
-                <div
-                  key={ev._id}
-                  style={{
-                    padding: '11px 20px',
-                    textAlign: 'center',
-                    borderBottom: i < events.length - 1 ? '1px solid rgba(255,255,255,0.04)' : undefined,
-                  }}
-                >
-                  <p style={{ fontSize: 19, fontWeight: 700, color: '#fff', lineHeight: 1.25, marginBottom: 7, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-                    {ev.title}
-                  </p>
+                {/* Header */}
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 7, padding: '8px 16px 7px', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                  <span style={{ position: 'relative', display: 'inline-flex', width: 8, height: 8 }}>
+                    <span className="animate-ping" style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#22c55e', opacity: 0.55 }} />
+                    <span style={{ display: 'block', width: 8, height: 8, borderRadius: '50%', background: '#22c55e', position: 'relative' }} />
+                  </span>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: '#86efac', textTransform: 'uppercase', letterSpacing: '0.15em' }}>
+                    Services &amp; Events
+                  </span>
+                </div>
 
-                  {status.type === 'live' && (
+                {/* ── Pinned: Sunday Service ── */}
+                <div style={{ padding: '10px 20px', textAlign: 'center', borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
+                  <p style={{ fontSize: 18, fontWeight: 700, color: '#fff', lineHeight: 1.2, marginBottom: 3 }}>Sunday Service</p>
+                  <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.32)', marginBottom: 7 }}>RPC Nyamira · 9:00 AM – 1:00 PM</p>
+
+                  {ss.type === 'live' && (
                     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, fontWeight: 700, color: '#4ade80', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: 20, padding: '3px 11px' }}>
                       <span className="animate-ping" style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', display: 'inline-block', flexShrink: 0 }} />
                       Happening Now
                     </span>
                   )}
 
-                  {status.type === 'ended' && (
+                  {ss.type === 'ended' && (
                     <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.38)', fontWeight: 500 }}>
-                      Ended · {new Date(status.endedAt).toLocaleDateString('en-KE', { month: 'short', day: 'numeric' })} at {new Date(status.endedAt).toLocaleTimeString('en-KE', { hour: '2-digit', minute: '2-digit' })}
+                      Service ended 1:00 PM — next Sunday coming up
                     </span>
                   )}
 
-                  {status.type === 'countdown' && (
-                    <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 5 }}>
-                      {status.days > 0 && (
-                        <>
-                          <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{status.days}</span>
-                          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', marginRight: 2 }}>d</span>
-                        </>
-                      )}
-                      <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(status.hours).padStart(2,'0')}</span>
-                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>h</span>
-                      <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(status.minutes).padStart(2,'0')}</span>
-                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>m</span>
-                      <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(status.seconds).padStart(2,'0')}</span>
-                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>s</span>
+                  {ss.type === 'countdown' && (
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+                      <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', letterSpacing: '0.1em', textTransform: 'uppercase' }}>{ss.nextLabel}</span>
+                      <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 5 }}>
+                        {ss.days > 0 && (
+                          <>
+                            <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{ss.days}</span>
+                            <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', marginRight: 2 }}>d</span>
+                          </>
+                        )}
+                        <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(ss.hours).padStart(2,'0')}</span>
+                        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>h</span>
+                        <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(ss.minutes).padStart(2,'0')}</span>
+                        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>m</span>
+                        <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(ss.seconds).padStart(2,'0')}</span>
+                        <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>s</span>
+                      </div>
                     </div>
                   )}
                 </div>
-              );
-            })}
 
-            {/* View All button */}
-            <div style={{ display: 'flex', justifyContent: 'center', padding: '8px 16px 11px' }}>
-              <button
-                onClick={() => navigate('/news')}
-                style={{
-                  fontSize: 11,
-                  fontWeight: 700,
-                  color: '#fff',
-                  background: '#16a34a',
-                  border: 'none',
-                  borderRadius: 7,
-                  padding: '6px 20px',
-                  cursor: 'pointer',
-                  letterSpacing: '0.04em',
-                  transition: 'background 0.15s',
-                }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#15803d'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#16a34a'; }}
-              >
-                View All Events
-              </button>
+                {/* Other events from backend */}
+                {events.map((ev, i) => {
+                  const status = getEventStatus(ev);
+                  return (
+                    <div key={ev._id} style={{ padding: '10px 20px', textAlign: 'center', borderBottom: i < events.length - 1 ? '1px solid rgba(255,255,255,0.04)' : undefined }}>
+                      <p style={{ fontSize: 17, fontWeight: 700, color: '#fff', lineHeight: 1.25, marginBottom: 6, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{ev.title}</p>
+
+                      {status.type === 'live' && (
+                        <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5, fontSize: 12, fontWeight: 700, color: '#4ade80', background: 'rgba(34,197,94,0.1)', border: '1px solid rgba(34,197,94,0.25)', borderRadius: 20, padding: '3px 11px' }}>
+                          <span className="animate-ping" style={{ width: 6, height: 6, borderRadius: '50%', background: '#4ade80', display: 'inline-block', flexShrink: 0 }} />
+                          Happening Now
+                        </span>
+                      )}
+                      {status.type === 'ended' && (
+                        <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.38)', fontWeight: 500 }}>
+                          Ended · {new Date(status.endedAt).toLocaleDateString('en-KE', { month: 'short', day: 'numeric' })} at {new Date(status.endedAt).toLocaleTimeString('en-KE', { hour: '2-digit', minute: '2-digit' })}
+                        </span>
+                      )}
+                      {status.type === 'countdown' && (
+                        <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 5 }}>
+                          {status.days > 0 && (<><span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{status.days}</span><span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', marginRight: 2 }}>d</span></>)}
+                          <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(status.hours).padStart(2,'0')}</span><span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>h</span>
+                          <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(status.minutes).padStart(2,'0')}</span><span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>m</span>
+                          <span style={{ fontSize: 15, fontWeight: 800, color: '#4ade80', fontFamily: 'monospace' }}>{String(status.seconds).padStart(2,'0')}</span><span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>s</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+
+                {/* View All button */}
+                <div style={{ display: 'flex', justifyContent: 'center', padding: '7px 16px 10px' }}>
+                  <button
+                    onClick={() => navigate('/news')}
+                    style={{ fontSize: 11, fontWeight: 700, color: '#fff', background: '#16a34a', border: 'none', borderRadius: 7, padding: '6px 20px', cursor: 'pointer', letterSpacing: '0.04em', transition: 'background 0.15s' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#15803d'; }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#16a34a'; }}
+                  >
+                    View All Events
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        )}
+          );
+        })()}
 
         {/* Bottom dots */}
         <div className="flex items-center justify-center gap-2 sm:gap-3 mt-1">
