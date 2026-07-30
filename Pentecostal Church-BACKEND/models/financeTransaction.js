@@ -12,6 +12,8 @@ const financeTransactionSchema = new mongoose.Schema(
     receipt_url: { type: String },
     recorded_by: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     approved_by: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
+    mpesa_receipt: { type: String, index: true, sparse: true, unique: true },
+    checkout_request_id: { type: String, index: true },
   },
   { timestamps: true, collection: "finance_transactions" }
 );

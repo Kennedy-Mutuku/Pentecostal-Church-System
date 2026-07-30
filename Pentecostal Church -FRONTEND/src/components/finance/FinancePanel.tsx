@@ -576,7 +576,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
   const renderMpesa = () => (
     <div>
       <h3 className={styles.tabTitle}>M-Pesa STK Push</h3>
-      <div style={{ padding: '10px 14px', background: '#fef3c7', color: '#92400e', borderRadius: '8px', marginBottom: '16px', fontSize: '12px', textAlign: 'center', fontWeight: 600, border: '1px solid #fde68a' }}>DOMINION SOFTWARES — FOR TESTING ONLY</div>
+      <div style={{ padding: '10px 14px', background: '#fef2f2', color: '#991b1b', borderRadius: '8px', marginBottom: '16px', fontSize: '12px', textAlign: 'center', fontWeight: 600, border: '1px solid #fecaca' }}>⚠️ Live M-Pesa — this sends a real STK push and moves real money.</div>
 
       {mpesaStatus === 'waiting' && (
         <div style={{ padding: '16px', background: '#fffbeb', borderRadius: '10px', marginBottom: '16px', border: '1px solid #fde68a', textAlign: 'center' }}>

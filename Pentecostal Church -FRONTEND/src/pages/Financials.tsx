@@ -182,7 +182,7 @@ const FinancialsPage: React.FC = () => {
 
         /* Payment form */
         .fin-form-card { background: transparent; border: 1px solid #e5e7eb; border-radius: 10px; padding: 14px 16px; margin-bottom: 16px; }
-        .fin-test-banner { padding: 5px 10px; background: #fefce8; color: #854d0e; margin-bottom: 10px; font-size: 10.5px; text-align: center; font-weight: 600; border: 1px solid #fef08a; border-radius: 6px; }
+        .fin-secure-badge { display: flex; align-items: center; justify-content: center; gap: 6px; padding: 5px 10px; background: #f0fdf4; color: #166534; margin-bottom: 10px; font-size: 10.5px; text-align: center; font-weight: 600; border: 1px solid #bbf7d0; border-radius: 6px; }
         .fin-form-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; border-bottom: 1px solid #f3f4f6; padding-bottom: 10px; }
         .fin-form-header .badge { width: 34px; height: 34px; background: #E53935; display: flex; align-items: center; justify-content: center; color: #fff; font-weight: 700; font-size: 14px; border-radius: 6px; flex-shrink: 0; }
         .fin-form-header h3 { margin: 0; font-size: 14px; color: #111827; font-weight: 600; }
@@ -264,7 +264,7 @@ const FinancialsPage: React.FC = () => {
 
       {/* M-Pesa Payment Form */}
       <div className="fin-form-card">
-        <div className="fin-test-banner">DOMINION SOFTWARES — FOR TESTING ONLY</div>
+        <div className="fin-secure-badge">🔒 Secure payment powered by M-Pesa</div>
 
         <div className="fin-form-header">
           <div className="badge">M</div>

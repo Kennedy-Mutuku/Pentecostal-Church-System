@@ -43,8 +43,10 @@ router.get('/my-contributions', financeMemberAuth, transactionController.getMyCo
 router.post('/member-pay', financeMemberAuth, mpesaController.memberPayment);
 router.get('/mpesa/status/:checkoutRequestID', anyAuth, mpesaController.checkStatus);
 
-// M-Pesa callback (public, no auth - Safaricom calls this)
-router.post('/mpesa/callback', mpesaController.callback);
+// M-Pesa callback (public, no auth - Safaricom calls this).
+// The :secret segment is checked against MPESA_CALLBACK_SECRET so a stranger
+// can't spoof a fake "payment successful" callback.
+router.post('/mpesa/callback/:secret', mpesaController.callback);
 
 // Finance authentication
 const authController = require('../../controllers/finance/authController');
