@@ -174,91 +174,86 @@ const HeroSection = () => {
       {/* ── Event Bubble ──────────────────────────────────────────── */}
       {upcomingEvent && countdown && (
         <div
-          className="absolute z-30 left-4 sm:left-6 bottom-14 sm:bottom-16"
+          className="absolute z-30 bottom-11 sm:bottom-13 left-0 right-0 flex justify-center px-4"
           style={{
             opacity: bubbleVisible ? 1 : 0,
-            transform: bubbleVisible ? 'translateY(0)' : 'translateY(20px)',
-            transition: 'opacity 0.5s ease, transform 0.5s ease',
+            transform: bubbleVisible ? 'translateY(0)' : 'translateY(28px)',
+            transition: 'opacity 0.6s cubic-bezier(0.34,1.56,0.64,1), transform 0.6s cubic-bezier(0.34,1.56,0.64,1)',
           }}
         >
           {/* Bubble */}
           <div
-            className="relative flex items-center gap-3 rounded-2xl rounded-bl-none px-4 py-3 max-w-[310px] sm:max-w-[360px]"
+            className="relative flex items-center gap-4 sm:gap-5 rounded-2xl px-5 sm:px-7 py-4 sm:py-5 w-full"
             style={{
-              background: 'rgba(10,5,20,0.82)',
-              backdropFilter: 'blur(16px)',
-              WebkitBackdropFilter: 'blur(16px)',
-              border: '1px solid rgba(255,255,255,0.12)',
-              boxShadow: `0 8px 32px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04), inset 0 1px 0 rgba(255,255,255,0.06)`,
-              borderLeft: `3px solid ${accent}`,
+              maxWidth: 580,
+              background: 'linear-gradient(135deg, rgba(4,20,10,0.93) 0%, rgba(5,30,15,0.93) 100%)',
+              backdropFilter: 'blur(24px)',
+              WebkitBackdropFilter: 'blur(24px)',
+              border: '1.5px solid rgba(34,197,94,0.5)',
+              boxShadow: '0 0 0 1px rgba(34,197,94,0.12), 0 0 40px rgba(34,197,94,0.22), 0 12px 40px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.07)',
             }}
           >
+            {/* Green glow strip at top */}
+            <div style={{ position: 'absolute', top: 0, left: '10%', right: '10%', height: 2, background: 'linear-gradient(90deg, transparent, #22c55e, transparent)', borderRadius: 2 }} />
+
             {/* Pulsing dot */}
             <div className="relative flex-shrink-0">
-              <div className="w-2 h-2 rounded-full" style={{ background: accent }} />
-              <div className="absolute inset-0 w-2 h-2 rounded-full animate-ping" style={{ background: accent, opacity: 0.6 }} />
+              <div className="w-3.5 h-3.5 rounded-full" style={{ background: '#22c55e', boxShadow: '0 0 10px #22c55e, 0 0 20px rgba(34,197,94,0.5)' }} />
+              <div className="absolute inset-0 w-3.5 h-3.5 rounded-full animate-ping" style={{ background: '#22c55e', opacity: 0.45 }} />
             </div>
 
             {/* Text content */}
             <div className="flex-1 min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-widest mb-0.5" style={{ color: accent }}>
+              <p className="text-[11px] sm:text-[12px] font-extrabold uppercase tracking-[0.2em] mb-1" style={{ color: '#4ade80' }}>
                 Coming Up
               </p>
-              <p className="text-white text-[13px] font-semibold leading-snug truncate">
+              <p className="text-white text-[15px] sm:text-[18px] font-bold leading-snug truncate">
                 {upcomingEvent.title}
               </p>
-              {/* Compact countdown */}
-              <div className="flex items-baseline gap-1 mt-1">
+              {/* Countdown */}
+              <div className="flex items-baseline gap-1.5 mt-1.5">
                 {countdown.days > 0 && (
                   <>
-                    <span className="text-amber-400 font-bold text-xs font-mono">{countdown.days}</span>
-                    <span className="text-white/35 text-[10px]">d</span>
+                    <span className="font-black text-sm sm:text-base font-mono" style={{ color: '#4ade80' }}>{countdown.days}</span>
+                    <span className="text-white/40 text-[11px] mr-0.5">d</span>
                   </>
                 )}
-                <span className="text-amber-400 font-bold text-xs font-mono">{String(countdown.hours).padStart(2,'0')}</span>
-                <span className="text-white/35 text-[10px]">h</span>
-                <span className="text-amber-400 font-bold text-xs font-mono">{String(countdown.minutes).padStart(2,'0')}</span>
-                <span className="text-white/35 text-[10px]">m</span>
-                <span className="text-amber-400 font-bold text-xs font-mono">{String(countdown.seconds).padStart(2,'0')}</span>
-                <span className="text-white/35 text-[10px]">s</span>
+                <span className="font-black text-sm sm:text-base font-mono" style={{ color: '#4ade80' }}>{String(countdown.hours).padStart(2,'0')}</span>
+                <span className="text-white/40 text-[11px]">h</span>
+                <span className="font-black text-sm sm:text-base font-mono" style={{ color: '#4ade80' }}>{String(countdown.minutes).padStart(2,'0')}</span>
+                <span className="text-white/40 text-[11px]">m</span>
+                <span className="font-black text-sm sm:text-base font-mono" style={{ color: '#4ade80' }}>{String(countdown.seconds).padStart(2,'0')}</span>
+                <span className="text-white/40 text-[11px]">s</span>
               </div>
             </div>
 
-            {/* More button */}
+            {/* Divider */}
+            <div className="hidden sm:block w-px self-stretch bg-white/10 flex-shrink-0" />
+
+            {/* View Details button */}
             <button
               onClick={() => navigate('/news')}
-              className="flex-shrink-0 flex items-center gap-1 text-[11px] font-bold rounded-lg px-2.5 py-1.5 transition-all duration-200 uppercase tracking-wide"
+              className="flex-shrink-0 flex items-center gap-2 font-extrabold rounded-xl px-4 sm:px-5 py-2.5 sm:py-3 text-[12px] sm:text-[13px] uppercase tracking-wider transition-all duration-200"
               style={{
-                color: '#ef4444',
-                border: '1px solid rgba(239,68,68,0.4)',
-                background: 'rgba(239,68,68,0.08)',
+                color: '#fff',
+                background: 'linear-gradient(135deg, #16a34a 0%, #22c55e 100%)',
+                boxShadow: '0 4px 16px rgba(34,197,94,0.45)',
               }}
               onMouseEnter={e => {
-                (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,68,68,0.2)';
-                (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(239,68,68,0.8)';
+                (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 6px 24px rgba(34,197,94,0.7)';
+                (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1.05)';
               }}
               onMouseLeave={e => {
-                (e.currentTarget as HTMLButtonElement).style.background = 'rgba(239,68,68,0.08)';
-                (e.currentTarget as HTMLButtonElement).style.borderColor = 'rgba(239,68,68,0.4)';
+                (e.currentTarget as HTMLButtonElement).style.boxShadow = '0 4px 16px rgba(34,197,94,0.45)';
+                (e.currentTarget as HTMLButtonElement).style.transform = 'scale(1)';
               }}
             >
-              More
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+              View Details
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                 <line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/>
               </svg>
             </button>
           </div>
-
-          {/* Bubble tail */}
-          <div
-            className="w-3 h-3"
-            style={{
-              background: 'rgba(10,5,20,0.82)',
-              borderBottom: '1px solid rgba(255,255,255,0.12)',
-              borderLeft: `3px solid ${accent}`,
-              clipPath: 'polygon(0 0, 100% 0, 0 100%)',
-            }}
-          />
         </div>
       )}
 
