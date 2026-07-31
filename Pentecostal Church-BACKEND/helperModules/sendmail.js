@@ -107,7 +107,7 @@ const sendRequisitionApprovalEmail = async (requisition) => {
               <p>You can now generate and download your copy of the approved requisition as proof of approval. Please keep this for your records.</p>
               
               <p style="text-align: center;">
-                <a href="${process.env.FRONTEND_URL || 'https://rpc-nyamira.co.ke'}/requisitions" class="button">View Your Requisitions</a>
+                <a href="${process.env.FRONTEND_URL || 'https://rpcnyamira.org'}/requisitions" class="button">View Your Requisitions</a>
               </p>
               
               <p>If you have any questions, please contact the admin at the provided contact number or email.</p>

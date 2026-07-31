@@ -204,7 +204,10 @@ const developmentConfig: ApiConfig = {
 };
 
 const productionConfig: ApiConfig = {
-  baseUrl: import.meta.env.VITE_API_BASE_URL || 'https://pentecostal-church-backend.onrender.com',
+  // Same-origin deployment on rpcnyamira.org: one Node process serves both the
+  // built frontend and the API, so relative paths avoid CORS/cookie issues entirely.
+  // Only set VITE_API_BASE_URL at build time if the API ever moves to a separate origin/subdomain.
+  baseUrl: import.meta.env.VITE_API_BASE_URL || '',
   endpoints: {
     users: '/users/data',
     usersSignup: '/users/signup',

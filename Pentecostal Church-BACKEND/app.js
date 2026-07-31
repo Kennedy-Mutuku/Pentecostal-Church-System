@@ -72,6 +72,10 @@ const corsOptions = {
     } else {
       // Production: be more permissive to fix the login issues
       const prodOrigins = [
+        'https://www.rpcnyamira.org',
+        'https://rpcnyamira.org',
+        'http://www.rpcnyamira.org',
+        'http://rpcnyamira.org',
         'https://www.rpc-nyamira.co.ke',
         'https://rpc-nyamira.co.ke',
         'http://www.rpc-nyamira.co.ke',
@@ -84,6 +88,7 @@ const corsOptions = {
       // More flexible matching for production
       if (!origin ||
         prodOrigins.includes(origin) ||
+        (origin && origin.includes('rpcnyamira.org')) ||
         (origin && origin.includes('rpc-nyamira.co.ke')) ||
         (origin && origin.includes('.netlify.app'))) {
         console.log(`CORS allowed for production origin: ${origin}`);
@@ -191,6 +196,7 @@ const io = socketIo(server, {
         if (!origin ||
           (origin && (origin.includes('localhost') ||
             origin.includes('127.0.0.1') ||
+            origin.includes('rpcnyamira.org') ||
             origin.includes('rpc-nyamira.co.ke')))) {
           callback(null, true);
         } else {
