@@ -1,308 +1,319 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { getApiUrl } from '../config/environment';
-import styles from '../styles/NewsPage.module.css';
+import React, { useState, useEffect, useCallback } from 'react';
+import { getBaseUrl, getImageUrl } from '../config/environment';
 
-interface NewsData {
+interface ChurchEvent {
+  _id: string;
   title: string;
-  summary: string;
-  body: string;
-  imageUrl: string;
-  eventDate?: string;
-  eventTime?: string;
+  description: string;
+  date: string;
+  endDate?: string;
+  location: string;
+  category: string;
+  poster?: string;
+  isActive: boolean;
+  isPermanent?: boolean;
 }
 
-interface CountdownTime {
-  days: number;
-  hours: number;
-  minutes: number;
-  seconds: number;
-}
-
-const NewsPage: React.FC = () => {
-  const [newsData, setNewsData] = useState<NewsData | null>(null);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string | null>(null);
-  const [countdown, setCountdown] = useState<CountdownTime | null>(null);
-  const [eventPassed, setEventPassed] = useState<boolean>(false);
-
+/* ── Countdown helper (live text) ───────────────────────── */
+function useCountdown(dateStr: string) {
+  const [, setTick] = useState(0);
   useEffect(() => {
-    // Fetch the news data from the backend
-    const fetchNewsData = async () => {
-      try {
-        const response = await fetch(getApiUrl('news'), {
-          method: 'GET',
-          credentials: 'include'
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch news data');
-        }
-        const data = await response.json();
-        setNewsData(data);
-        setLoading(false);
-      } catch (error: any) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
-
-    fetchNewsData();
-
-    // Auto-refresh news every 30 seconds to ensure all devices get updates
-    const newsRefreshInterval = setInterval(() => {
-      fetchNewsData();
-    }, 30000);
-
-    // Refresh when user returns to the page
-    const handleFocus = () => {
-      fetchNewsData();
-    };
-
-    window.addEventListener('focus', handleFocus);
-
-    return () => {
-      clearInterval(newsRefreshInterval);
-      window.removeEventListener('focus', handleFocus);
-    };
+    const id = setInterval(() => setTick(t => t + 1), 1000);
+    return () => clearInterval(id);
   }, []);
+  const diff = new Date(dateStr).getTime() - Date.now();
+  if (diff <= 0) return null;
+  const days = Math.floor(diff / 86400000);
+  const hrs  = Math.floor((diff % 86400000) / 3600000);
+  const mins = Math.floor((diff % 3600000) / 60000);
+  const secs = Math.floor((diff % 60000) / 1000);
+  if (days > 0)  return `${days}d ${hrs}h`;
+  if (hrs > 0)   return `${hrs}h ${mins}m`;
+  if (mins > 0)  return `${mins}m ${secs}s`;
+  return `${secs}s`;
+}
 
-  // Calculate countdown timer
-  const calculateCountdown = (eventDate: string, eventTime: string): CountdownTime | null => {
-    try {
-      console.log('NewsPage: Calculating countdown for:', eventDate, eventTime);
-      
-      // Parse the date more robustly
-      let eventDateTime: Date;
-      
-      // Handle different date formats
-      if (eventTime && eventTime !== '') {
-        // Try different formats for combining date and time
-        if (eventDate.includes('T')) {
-          // ISO format
-          eventDateTime = new Date(`${eventDate.split('T')[0]}T${eventTime}`);
-        } else {
-          // Try standard format
-          eventDateTime = new Date(`${eventDate}T${eventTime}`);
-        }
-        
-        // If that fails, try parsing separately
-        if (isNaN(eventDateTime.getTime())) {
-          eventDateTime = new Date(eventDate);
-          const timeParts = eventTime.match(/(\d{1,2}):(\d{2})/);
-          if (timeParts) {
-            eventDateTime.setHours(parseInt(timeParts[1], 10), parseInt(timeParts[2], 10), 0, 0);
-          }
-        }
-      } else {
-        // If no time specified, use noon as default
-        eventDateTime = new Date(eventDate);
-        eventDateTime.setHours(12, 0, 0, 0);
-      }
-      
-      console.log('NewsPage: Parsed event date:', eventDateTime);
-      
-      // Validate the date
-      if (isNaN(eventDateTime.getTime())) {
-        console.error('NewsPage: Invalid date/time format:', eventDate, eventTime);
-        return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-      }
-      
-      const now = new Date();
-      const difference = eventDateTime.getTime() - now.getTime();
-      
-      console.log('NewsPage: Time difference:', difference, 'ms');
+function getSundayStatus(ev: ChurchEvent) {
+  const now = Date.now();
+  const start = new Date(ev.date).getTime();
+  const end   = ev.endDate ? new Date(ev.endDate).getTime() : null;
+  if (end && now >= end)   return 'ended' as const;
+  if (now >= start)        return 'live'  as const;
+  return 'upcoming' as const;
+}
 
-      if (difference <= 0) {
-        console.log('NewsPage: Event has passed');
-        return null; // Event has passed
-      }
+function formatDate(d: string) {
+  return new Date(d).toLocaleDateString('en-KE', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+}
+function formatTime(d: string) {
+  return new Date(d).toLocaleTimeString('en-KE', { hour: '2-digit', minute: '2-digit' });
+}
+function formatShortDate(d: string) {
+  return new Date(d).toLocaleDateString('en-KE', { weekday: 'short', month: 'short', day: 'numeric' });
+}
 
-      const days = Math.floor(difference / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      const minutes = Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60));
-      const seconds = Math.floor((difference % (1000 * 60)) / 1000);
-
-      const result = { days, hours, minutes, seconds };
-      console.log('NewsPage: Countdown result:', result);
-      
-      // Ensure no NaN values
-      if (isNaN(days) || isNaN(hours) || isNaN(minutes) || isNaN(seconds)) {
-        console.error('NewsPage: NaN values detected in countdown');
-        return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-      }
-
-      return result;
-    } catch (error) {
-      console.error('NewsPage: Error calculating countdown:', error);
-      return { days: 0, hours: 0, minutes: 0, seconds: 0 };
-    }
-  };
-
-  // Update countdown every second
-  useEffect(() => {
-    if (!newsData?.eventDate) return;
-
-    const updateCountdown = () => {
-      const countdownData = calculateCountdown(newsData.eventDate!, newsData.eventTime || '12:00');
-      if (countdownData) {
-        setCountdown(countdownData);
-        setEventPassed(false);
-      } else {
-        setCountdown(null);
-        setEventPassed(true);
-      }
-    };
-
-    // Update immediately
-    updateCountdown();
-
-    // Update every second
-    const interval = setInterval(updateCountdown, 1000);
-
-    return () => clearInterval(interval);
-  }, [newsData]);
-
-  if (loading) {
-    return (
-      <div className={styles.newsPageContainer} style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{ textAlign: 'center', padding: '3rem 1.5rem' }}>
-          <div style={{ width: '48px', height: '48px', border: '4px solid rgba(255,255,255,0.2)', borderTopColor: '#fff', borderRadius: '50%', animation: 'spin 0.8s linear infinite', margin: '0 auto 1.5rem' }} />
-          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '1.1rem' }}>Loading news...</p>
-          <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
-        </div>
-      </div>
-    );
-  }
-
-  if (error || !newsData) {
-    return (
-      <div className={styles.newsPageContainer} style={{ minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-        <div style={{
-          textAlign: 'center',
-          padding: '3rem 2rem',
-          maxWidth: '480px',
-          background: 'rgba(255,255,255,0.95)',
-          borderRadius: '20px',
-          boxShadow: '0 12px 40px rgba(0,0,0,0.15)',
-          margin: '2rem'
-        }}>
-          <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'linear-gradient(135deg, #3b1a62, #5a2d8a)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 1.5rem', fontSize: '1.8rem' }}>
-            📰
-          </div>
-          <h2 style={{ color: '#3b1a62', fontSize: '1.5rem', fontWeight: 700, marginBottom: '0.75rem' }}>
-            {error ? 'Unable to Load News' : 'No News Available'}
-          </h2>
-          <p style={{ color: '#6b7280', fontSize: '0.95rem', lineHeight: 1.6, marginBottom: '2rem' }}>
-            {error
-              ? 'We couldn\'t fetch the latest news. Please sign in to your account and try again.'
-              : 'There are no news updates at the moment. Check back later for the latest from RPC Nyamira.'}
-          </p>
-          <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link to="/signIn" style={{
-              padding: '10px 24px',
-              background: 'linear-gradient(135deg, #3b1a62, #5a2d8a)',
-              color: 'white',
-              borderRadius: '10px',
-              textDecoration: 'none',
-              fontWeight: 600,
-              fontSize: '0.9rem',
-              transition: 'transform 0.2s',
-            }}>
-              Sign In
-            </Link>
-            <Link to="/" style={{
-              padding: '10px 24px',
-              background: '#f3f4f6',
-              color: '#374151',
-              borderRadius: '10px',
-              textDecoration: 'none',
-              fontWeight: 600,
-              fontSize: '0.9rem',
-              transition: 'transform 0.2s',
-            }}>
-              Go Home
-            </Link>
-          </div>
-        </div>
-      </div>
-    );
-  }
+/* ── Sunday Service Banner ──────────────────────────────── */
+function SundayBanner({ ev }: { ev: ChurchEvent }) {
+  const status = getSundayStatus(ev);
+  const cd = useCountdown(ev.date);
 
   return (
-    <>
-      <div className={styles.newsPageContainer}>
-        <h2 className={styles.title}>Communication Board</h2>
+    <div style={{
+      borderRadius: 12,
+      overflow: 'hidden',
+      border: '1px solid #d1fae5',
+      background: '#fff',
+      marginBottom: 36,
+    }}>
+      {ev.poster && (
+        <div style={{ height: 220, overflow: 'hidden', position: 'relative' }}>
+          <img src={getImageUrl(ev.poster)} alt="Sunday Service" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+          <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, transparent 40%, rgba(0,0,0,0.55))' }} />
+        </div>
+      )}
 
-        {/* Event Countdown Timer */}
-        {newsData.eventDate && (
-          <div className={styles.eventSection}>
-            <div className={styles.eventInfo}>
-              <h3 className={styles.eventTitle}>Upcoming Event</h3>
-              <p className={styles.eventDateTime}>
-                {new Date(newsData.eventDate).toLocaleDateString('en-US', {
-                  weekday: 'long',
-                  year: 'numeric',
-                  month: 'long',
-                  day: 'numeric'
-                })}
-                {newsData.eventTime ? ` at ${newsData.eventTime}` : ' at 12:00'}
-              </p>
-            </div>
-            
-            {countdown && !eventPassed && (
-              <div className={styles.countdownTimer}>
-                <h4 className={styles.countdownTitle}>Time Remaining</h4>
-                <div className={styles.countdownGrid}>
-                  <div className={styles.timeUnit}>
-                    <span className={styles.timeNumber}>{String(countdown.days || 0).padStart(2, '0')}</span>
-                    <span className={styles.timeLabel}>Days</span>
-                  </div>
-                  <div className={styles.timeUnit}>
-                    <span className={styles.timeNumber}>{String(countdown.hours || 0).padStart(2, '0')}</span>
-                    <span className={styles.timeLabel}>Hours</span>
-                  </div>
-                  <div className={styles.timeUnit}>
-                    <span className={styles.timeNumber}>{String(countdown.minutes || 0).padStart(2, '0')}</span>
-                    <span className={styles.timeLabel}>Minutes</span>
-                  </div>
-                  <div className={styles.timeUnit}>
-                    <span className={styles.timeNumber}>{String(countdown.seconds || 0).padStart(2, '0')}</span>
-                    <span className={styles.timeLabel}>Seconds</span>
-                  </div>
-                </div>
-              </div>
-            )}
-            
-            {eventPassed && (
-              <div className={styles.eventPassed}>
-                <h4 className={styles.eventPassedTitle}>Event Has Started/Ended</h4>
-                <p>This event is no longer upcoming.</p>
-              </div>
-            )}
+      <div style={{ background: 'linear-gradient(135deg, #052e16 0%, #064e3b 100%)', padding: '20px 24px 22px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 10 }}>
+          <div>
+            <p style={{ margin: 0, fontSize: 10, fontWeight: 700, color: '#6ee7b7', letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 5 }}>
+              Every Sunday
+            </p>
+            <h2 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: '#fff', letterSpacing: -0.3 }}>
+              {ev.title}
+            </h2>
+            <p style={{ margin: '4px 0 0', fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>
+              {formatTime(ev.date)}{ev.endDate ? ` – ${formatTime(ev.endDate)}` : ''} &nbsp;·&nbsp; {ev.location}
+            </p>
           </div>
-        )}
 
-        <div className={styles.newsPage}>
-          {newsData.imageUrl && (
-            <div className={styles.imageSection}>
-              <img src={newsData.imageUrl} alt="News Image" />
-            </div>
-          )}
-          <div className={styles.contentText}>
-            <h3 className={styles.newsTextTitle}>{newsData.title}</h3>
-            <div className={styles.contextTextP}>
-              {newsData.body.split('\n').map((paragraph, index) => (
-                <p key={index} style={{marginBottom: '15px', lineHeight: '1.8'}}>
-                  {paragraph}
-                </p>
-              ))}
-            </div>
+          <div style={{ textAlign: 'right', flexShrink: 0 }}>
+            {status === 'live' && (
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#fff', background: '#16a34a', borderRadius: 20, padding: '5px 13px' }}>
+                <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#fff', display: 'inline-block', animation: 'pulse 1.5s infinite' }} />
+                Happening Now
+              </span>
+            )}
+            {status === 'ended' && (
+              <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.45)', fontStyle: 'italic' }}>
+                Service ended {ev.endDate ? formatTime(ev.endDate) : ''}<br />Next Sunday coming up
+              </p>
+            )}
+            {status === 'upcoming' && cd && (
+              <div style={{ textAlign: 'right' }}>
+                <p style={{ margin: 0, fontSize: 10, color: '#6ee7b7', textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 2 }}>Starting in</p>
+                <p style={{ margin: 0, fontSize: 20, fontWeight: 800, color: '#fff', fontFamily: 'monospace', letterSpacing: 1 }}>{cd}</p>
+              </div>
+            )}
           </div>
         </div>
-        
+
+        {ev.description && (
+          <p style={{ margin: '14px 0 0', fontSize: 13, color: 'rgba(255,255,255,0.6)', lineHeight: 1.65, borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 12 }}>
+            {ev.description}
+          </p>
+        )}
       </div>
-    </>
+    </div>
+  );
+}
+
+/* ── Regular Event Card ─────────────────────────────────── */
+function EventCard({ ev, status }: { ev: ChurchEvent; status: 'live' | 'upcoming' | 'past' }) {
+  const cd = useCountdown(ev.date);
+
+  const accentColor = status === 'past' ? '#d1d5db'
+    : status === 'live' ? '#16a34a'
+    : '#482078';
+
+  const d = new Date(ev.date);
+  const dayNum  = d.toLocaleDateString('en-KE', { day: 'numeric' });
+  const dayName = d.toLocaleDateString('en-KE', { weekday: 'short' }).toUpperCase();
+  const mon     = d.toLocaleDateString('en-KE', { month: 'short' }).toUpperCase();
+
+  return (
+    <div style={{
+      display: 'flex',
+      background: '#fff',
+      borderRadius: 10,
+      overflow: 'hidden',
+      border: '1px solid #e5e7eb',
+      opacity: status === 'past' ? 0.65 : 1,
+    }}>
+      {/* Date column */}
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center',
+        background: status === 'live' ? '#f0fdf4' : status === 'past' ? '#f9fafb' : '#faf5ff',
+        borderRight: `3px solid ${accentColor}`,
+        padding: '14px 16px',
+        minWidth: 64,
+        flexShrink: 0,
+      }}>
+        <span style={{ fontSize: 10, fontWeight: 700, color: accentColor, letterSpacing: '0.12em' }}>{mon}</span>
+        <span style={{ fontSize: 28, fontWeight: 900, color: '#111827', lineHeight: 1.1, marginTop: 1 }}>{dayNum}</span>
+        <span style={{ fontSize: 9, fontWeight: 700, color: '#9ca3af', letterSpacing: '0.12em', marginTop: 2 }}>{dayName}</span>
+      </div>
+
+      {/* Poster (if any) */}
+      {ev.poster && (
+        <div style={{ width: 90, flexShrink: 0, overflow: 'hidden' }}>
+          <img src={getImageUrl(ev.poster)} alt={ev.title} style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+        </div>
+      )}
+
+      {/* Body */}
+      <div style={{ flex: 1, padding: '14px 18px', minWidth: 0 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 8, marginBottom: 4 }}>
+          <div>
+            <p style={{ margin: 0, fontSize: 10, color: '#9ca3af', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 3 }}>
+              {ev.category} &nbsp;·&nbsp; {formatTime(ev.date)}{ev.endDate ? ` – ${formatTime(ev.endDate)}` : ''}
+            </p>
+            <h3 style={{ margin: 0, fontSize: 16, fontWeight: 800, color: '#111827', lineHeight: 1.25 }}>
+              {ev.title}
+            </h3>
+          </div>
+
+          {/* Status badge */}
+          {status === 'live' && (
+            <span style={{ flexShrink: 0, display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#16a34a', background: '#f0fdf4', border: '1px solid #bbf7d0', borderRadius: 20, padding: '3px 9px', whiteSpace: 'nowrap' }}>
+              <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#22c55e', display: 'inline-block', animation: 'pulse 1.5s infinite' }} />
+              Live
+            </span>
+          )}
+          {status === 'upcoming' && cd && (
+            <span style={{ flexShrink: 0, fontSize: 11, fontWeight: 700, color: '#482078', background: '#faf5ff', border: '1px solid #e9d5ff', borderRadius: 20, padding: '3px 9px', whiteSpace: 'nowrap' }}>
+              in {cd}
+            </span>
+          )}
+        </div>
+
+        <p style={{ margin: '6px 0 10px', fontSize: 12.5, color: '#6b7280', lineHeight: 1.6, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' as const, overflow: 'hidden' }}>
+          {ev.description}
+        </p>
+
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5, fontSize: 11.5, color: '#9ca3af' }}>
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          {ev.location}
+          {status === 'past' && ev.endDate && (
+            <span style={{ marginLeft: 6, color: '#d1d5db' }}>· Ended {formatShortDate(ev.endDate)}</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ── Main Page ──────────────────────────────────────────── */
+const NewsPage: React.FC = () => {
+  const [events, setEvents]   = useState<ChurchEvent[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchEvents = useCallback(async () => {
+    try {
+      const res = await fetch(`${getBaseUrl()}/api/events`, { credentials: 'include' });
+      if (res.ok) setEvents(await res.json());
+    } catch { /* silent */ }
+    finally { setLoading(false); }
+  }, []);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    document.title = 'News & Events | RPC Nyamira';
+    fetchEvents();
+  }, [fetchEvents]);
+
+  const sunday  = events.find(e => e.isPermanent);
+  const rest    = events.filter(e => !e.isPermanent);
+  const now     = Date.now();
+  const live    = rest.filter(e => new Date(e.date).getTime() <= now && (!e.endDate || new Date(e.endDate).getTime() > now));
+  const upcoming = rest.filter(e => new Date(e.date).getTime() > now);
+  const past    = rest.filter(e => new Date(e.date).getTime() <= now && e.endDate && new Date(e.endDate).getTime() <= now);
+
+  return (
+    <div style={{ minHeight: '100vh', background: '#f5f4f0', fontFamily: "'Inter','Segoe UI',sans-serif" }}>
+
+      {/* Hero */}
+      <div style={{
+        background: 'linear-gradient(135deg, #0d0520 0%, #1e0a3c 50%, #2d0a0a 100%)',
+        padding: '56px 24px 48px',
+        textAlign: 'center',
+      }}>
+        <span style={{ display: 'inline-block', fontSize: 10, fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: '#f59e0b', padding: '3px 14px', border: '1px solid rgba(245,158,11,0.3)', borderRadius: 20, background: 'rgba(245,158,11,0.07)', marginBottom: 14 }}>
+          Stay Connected
+        </span>
+        <h1 style={{ fontSize: 'clamp(1.7rem,5vw,2.8rem)', fontWeight: 800, color: '#fff', margin: '0 0 12px', letterSpacing: -0.5, lineHeight: 1.1 }}>
+          News &amp; Events
+        </h1>
+        <p style={{ fontSize: 14, color: 'rgba(255,255,255,0.5)', maxWidth: 440, margin: '0 auto', lineHeight: 1.7 }}>
+          Everything happening at Rikuruma Pentecostal Church — services, revivals, concerts and more.
+        </p>
+      </div>
+
+      {/* Content */}
+      <div style={{ maxWidth: 740, margin: '0 auto', padding: '36px 20px 72px' }}>
+
+        {loading && (
+          <p style={{ textAlign: 'center', color: '#9ca3af', padding: 48, fontSize: 14 }}>Loading…</p>
+        )}
+
+        {!loading && (
+          <>
+            {/* Sunday Service — always first */}
+            {sunday && <SundayBanner ev={sunday} />}
+
+            {/* Happening Now */}
+            {live.length > 0 && (
+              <section style={{ marginBottom: 36 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 16 }}>
+                  <span style={{ width: 8, height: 8, background: '#22c55e', borderRadius: '50%', display: 'inline-block', animation: 'pulse 1.5s infinite', flexShrink: 0 }} />
+                  <h2 style={{ margin: 0, fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#16a34a' }}>Happening Now</h2>
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  {live.map(ev => <EventCard key={ev._id} ev={ev} status="live" />)}
+                </div>
+              </section>
+            )}
+
+            {/* Upcoming */}
+            {upcoming.length > 0 && (
+              <section style={{ marginBottom: 36 }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                  <span style={{ flex: 1, height: 1, background: '#e5e7eb' }} />
+                  <h2 style={{ margin: 0, fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#482078', whiteSpace: 'nowrap' }}>Upcoming</h2>
+                  <span style={{ flex: 1, height: 1, background: '#e5e7eb' }} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+                  {upcoming.map(ev => <EventCard key={ev._id} ev={ev} status="upcoming" />)}
+                </div>
+              </section>
+            )}
+
+            {/* Past */}
+            {past.length > 0 && (
+              <section>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+                  <span style={{ flex: 1, height: 1, background: '#e5e7eb' }} />
+                  <h2 style={{ margin: 0, fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#9ca3af', whiteSpace: 'nowrap' }}>Past Events</h2>
+                  <span style={{ flex: 1, height: 1, background: '#e5e7eb' }} />
+                </div>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                  {past.map(ev => <EventCard key={ev._id} ev={ev} status="past" />)}
+                </div>
+              </section>
+            )}
+
+            {!sunday && rest.length === 0 && (
+              <div style={{ textAlign: 'center', padding: '60px 20px', color: '#9ca3af' }}>
+                <p style={{ fontSize: 15, fontWeight: 600, margin: '0 0 6px' }}>No events at the moment</p>
+                <p style={{ fontSize: 13, margin: 0 }}>Check back soon — something is always coming up at RPC Nyamira!</p>
+              </div>
+            )}
+          </>
+        )}
+      </div>
+    </div>
   );
 };
 

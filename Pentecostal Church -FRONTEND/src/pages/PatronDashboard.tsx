@@ -15,6 +15,7 @@ import FinancePanel from '../components/finance/FinancePanel';
 import AnalyticsCharts from '../components/patron/AnalyticsCharts';
 import FamilyAnalyticsCharts from '../components/patron/FamilyAnalyticsCharts';
 import PatronAssets from '../components/patron/PatronAssets';
+import NewsManager from '../components/patron/NewsManager';
 import { AGE_GROUPS } from '../utils/constants';
 import cuLogo from '../assets/RPC logo updated document.png';
 
@@ -1700,12 +1701,18 @@ const PatronDashboard: React.FC = () => {
             return renderMembers();
         }
 
+        /* ── renderNews ─────────────────────────────────────── */
+        function renderNews() {
+            return <NewsManager />;
+        }
+
         switch (activeSection) {
             case 'dashboard': return renderDashboard();
             case 'families': return renderFamilies();
             case 'feedback': return renderFeedback();
             case 'gallery': return renderGallery();
             case 'assets': return <PatronAssets />;
+            case 'news': return renderNews();
             case 'settings': return renderSettings();
             case 'finance': 
             case 'finance-dashboard': return <FinancePanel isPatron initialTab="dashboard" />;

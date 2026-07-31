@@ -465,9 +465,8 @@ const AdmissionAdmin: React.FC = () => {
                 <div className="af-row">
                   <label className={errorField === 'familyId' ? 'err-label' : ''}>Family<span className="req">*</span></label>
                   <div className="af-field">
-                    <Home size={16} className="af-icon" />
                     <select id="familyId" className="af-select"
-                      style={{ border: fieldBorder('familyId'), backgroundColor: errorField === 'familyId' ? '#fff5f5' : '#F7F4EF' }}
+                      style={{ border: fieldBorder('familyId'), backgroundColor: errorField === 'familyId' ? '#fff5f5' : '#F7F4EF', paddingLeft: '14px' }}
                       value={formData.familyId} onChange={handleChange}>
                       <option value="">{familiesLoading ? 'Loading families...' : 'choose...'}</option>
                       {families.map(f => (
@@ -481,9 +480,8 @@ const AdmissionAdmin: React.FC = () => {
                 <div className="af-row">
                   <label className={errorField === 'relationToHead' ? 'err-label' : ''}>Relationship to Head<span className="req">*</span></label>
                   <div className="af-field">
-                    <UsersIcon size={16} className="af-icon" />
                     <select id="relationToHead" className="af-select"
-                      style={{ border: fieldBorder('relationToHead'), backgroundColor: errorField === 'relationToHead' ? '#fff5f5' : '#F7F4EF' }}
+                      style={{ border: fieldBorder('relationToHead'), backgroundColor: errorField === 'relationToHead' ? '#fff5f5' : '#F7F4EF', paddingLeft: '14px' }}
                       value={formData.relationToHead} onChange={handleChange}>
                       <option value="">choose...</option>
                       <option value="Spouse">Spouse</option>
@@ -559,9 +557,8 @@ const AdmissionAdmin: React.FC = () => {
             <div className="af-row">
               <label className={errorField === 'gender' ? 'err-label' : ''}>Gender<span className="req">*</span></label>
               <div className="af-field">
-                <UsersIcon size={16} className="af-icon" />
                 <select id="gender" className="af-select"
-                  style={{ border: fieldBorder('gender'), backgroundColor: errorField === 'gender' ? '#fff5f5' : '#F7F4EF' }}
+                  style={{ border: fieldBorder('gender'), backgroundColor: errorField === 'gender' ? '#fff5f5' : '#F7F4EF', paddingLeft: '14px' }}
                   value={formData.gender} onChange={handleChange}>
                   <option value="">choose...</option>
                   <option value="Male">Male</option>
@@ -576,9 +573,8 @@ const AdmissionAdmin: React.FC = () => {
             <div className="af-row">
               <label className={errorField === 'ageGroup' ? 'err-label' : ''}>Age Group<span className="req">*</span></label>
               <div className="af-field">
-                <Calendar size={16} className="af-icon" />
                 <select id="ageGroup" className="af-select"
-                  style={{ border: fieldBorder('ageGroup'), backgroundColor: errorField === 'ageGroup' ? '#fff5f5' : '#F7F4EF' }}
+                  style={{ border: fieldBorder('ageGroup'), backgroundColor: errorField === 'ageGroup' ? '#fff5f5' : '#F7F4EF', paddingLeft: '14px' }}
                   value={formData.ageGroup} onChange={handleChange}>
                   <option value="">choose...</option>
                   <option value="Kid (12 and below)">Kid (≤12)</option>
@@ -594,9 +590,8 @@ const AdmissionAdmin: React.FC = () => {
             <div className="af-row">
               <label className={errorField === 'yearJoined' ? 'err-label' : ''}>Year Joined{!isJoinFamily && <span className="req">*</span>}</label>
               <div className="af-field">
-                <Clock size={16} className="af-icon" />
                 <select id="yearJoined" className="af-select"
-                  style={{ border: fieldBorder('yearJoined'), backgroundColor: errorField === 'yearJoined' ? '#fff5f5' : '#F7F4EF' }}
+                  style={{ border: fieldBorder('yearJoined'), backgroundColor: errorField === 'yearJoined' ? '#fff5f5' : '#F7F4EF', paddingLeft: '14px' }}
                   value={formData.yearJoined} onChange={handleChange}>
                   <option value="">choose...</option>
                   {Array.from(

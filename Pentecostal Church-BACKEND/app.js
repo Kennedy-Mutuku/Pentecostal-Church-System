@@ -20,6 +20,7 @@ const ministryRegistrationRoutes = require('./routes/ministryRegistrationRoutes'
 const profilePhotoRoutes = require('./routes/profilePhotoRoutes')
 const overseerRoutes = require('./routes/overseerRoutes')
 const patronRoutes = require('./routes/patronRoutes')
+const eventRoutes = require('./routes/eventRoutes')
 require('dotenv').config();
 const fs = require('fs');
 const cors = require('cors')
@@ -141,6 +142,7 @@ app.use('/api/ministry-registration', ministryRegistrationRoutes);
 app.use('/api/users', profilePhotoRoutes);
 app.use('/overseer', overseerRoutes);
 app.use('/patron', patronRoutes);
+app.use('/api/events', eventRoutes);
 
 // Finance API routes
 app.use('/api/finance', require('./routes/finance/index'));

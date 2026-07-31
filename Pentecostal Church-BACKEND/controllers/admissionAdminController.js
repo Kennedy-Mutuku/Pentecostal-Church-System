@@ -152,17 +152,19 @@ exports.admitUser = async (req, res) => {
 
             const hashedPassword = phone ? await bcrypt.hash(phone, 10) : undefined;
 
-            const newUser = new User({
+            const userData = {
                 username,
                 ageGroup,
                 gender,
-                yearJoined: yearJoined || undefined,
-                residence: residence || undefined,
-                email: email ? email.toLowerCase() : undefined,
-                phone: phone || undefined,
-                idNumber: idNumber || undefined,
-                password: hashedPassword,
-            });
+            };
+            if (yearJoined) userData.yearJoined = yearJoined;
+            if (residence) userData.residence = residence;
+            if (email) userData.email = email.toLowerCase();
+            if (phone) userData.phone = phone;
+            if (idNumber) userData.idNumber = idNumber;
+            if (hashedPassword) userData.password = hashedPassword;
+
+            const newUser = new User(userData);
 
             await attachMemberToFamily(family, newUser, relationToHead);
             await newUser.save();
@@ -355,15 +357,31 @@ exports.updateUser = async (req, res) => {
         }
 
         const update = { username };
-        if (email !== undefined) update.email = email ? email.toLowerCase() : undefined;
-        if (phone !== undefined) update.phone = phone || undefined;
-        if (idNumber !== undefined) update.idNumber = idNumber || undefined;
-        if (gender !== undefined) update.gender = gender || undefined;
-        if (ageGroup !== undefined) update.ageGroup = ageGroup || undefined;
-        if (yearJoined !== undefined) update.yearJoined = yearJoined || undefined;
-        if (residence !== undefined) update.residence = residence || undefined;
+        const unset = {};
+
+        if (email !== undefined) {
+            if (email) update.email = email.toLowerCase();
+            else unset.email = 1;
+        }
+        if (phone !== undefined) {
+            if (phone) update.phone = phone;
+            else unset.phone = 1;
+        }
+        if (idNumber !== undefined) {
+            if (idNumber) update.idNumber = idNumber;
+            else unset.idNumber = 1;
+        }
+        if (gender !== undefined) update.gender = gender;
+        if (ageGroup !== undefined) update.ageGroup = ageGroup;
+        if (yearJoined !== undefined) update.yearJoined = yearJoined;
+        if (residence !== undefined) update.residence = residence;
         if (relationToHead !== undefined) update.relationToHead = relationToHead || null;
         if (familyId !== undefined) update.family = newFamilyIdToSet;
+
+        const updateObj = { $set: update };
+        if (Object.keys(unset).length > 0) {
+            updateObj.$unset = unset;
+        }
 
         // Graduation: a dependent gaining their first phone number becomes login-capable.
         // Only fires on the no-password -> has-phone transition, never overwrites an existing password.
@@ -373,7 +391,7 @@ exports.updateUser = async (req, res) => {
 
         const updatedUser = await User.findByIdAndUpdate(
             userId,
-            update,
+            updateObj,
             { new: true, runValidators: true }
         ).populate('family', 'familyName residence');
 
