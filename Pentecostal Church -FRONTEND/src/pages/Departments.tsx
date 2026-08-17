@@ -36,14 +36,6 @@ const departments = [
     photo: null as string | null,
   },
   {
-    slug: 'sunday-school',
-    name: 'Sunday School',
-    tag: 'Children & Education',
-    description:
-      'Sunday School is a vital ministry dedicated to teaching the next generation about the Word of God, biblical values, and a personal relationship with Jesus Christ. Children are nurtured in a fun, safe, and spiritually enriching environment every Sunday morning.',
-    photo: null as string | null,
-  },
-  {
     slug: 'men-fellowship',
     name: 'Men Fellowship',
     tag: "Men's Ministry",
@@ -65,6 +57,30 @@ const departments = [
     tag: 'Youth Ministry',
     description:
       "The Youth Department is a dynamic, Spirit-led ministry that exists to disciple young people in their faith, equip them to live out the Gospel, and empower them to impact their generation for Christ. Through worship, Bible study, and fellowship, the youth of RPC are raised to be tomorrow's leaders.",
+    photo: null as string | null,
+  },
+  {
+    slug: 'sunday-school',
+    name: 'Sunday School',
+    tag: 'Children & Education',
+    description:
+      'Sunday School is a vital ministry dedicated to teaching the next generation about the Word of God, biblical values, and a personal relationship with Jesus Christ. Children are nurtured in a fun, safe, and spiritually enriching environment every Sunday morning.',
+    photo: null as string | null,
+  },
+  {
+    slug: 'korera',
+    name: 'Korera',
+    tag: 'Discipleship & Growth',
+    description:
+      'Korera is a Christian fellowship group for the elderly members of Rikuruma Pentecostal Church. It provides a warm, faith-filled community where senior believers gather for prayer, Bible study, and mutual encouragement. The group honours the wisdom and faithfulness of those who have walked long with the Lord, ensuring they remain valued, active, and supported within the church family.',
+    photo: null as string | null,
+  },
+  {
+    slug: 'welfare',
+    name: 'Welfare',
+    tag: 'Care & Benevolence',
+    description:
+      'The Welfare Department is the compassionate arm of Rikuruma Pentecostal Church, extending practical care and support to members and the wider community in times of need. Through benevolence programmes, visitation, and coordinated assistance, the department ensures that no one in the church family walks through hardship alone.',
     photo: null as string | null,
   },
 ];
@@ -125,7 +141,7 @@ const Departments: React.FC = () => {
           <span className="dept-eyebrow">Our Church Family</span>
           <h1>Departments</h1>
           <p>
-            Each department is a family within the family — serving God, growing together,
+            Each department is a family within the family, serving God, growing together,
             and impacting our community through the gifts He has placed within us.
           </p>
         </div>

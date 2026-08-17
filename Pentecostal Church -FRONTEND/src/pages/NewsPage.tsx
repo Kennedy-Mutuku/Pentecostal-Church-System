@@ -69,13 +69,43 @@ function SundayHero({ ev }: { ev: ChurchEvent }) {
   const status = getEventStatus(ev);
   const cd = useCountdown(ev.date);
 
-  return (
-    <>
-      {lightbox && ev.poster && (
-        <Lightbox src={getImageUrl(ev.poster)} alt="Sunday Service Poster" caption="Sunday Service Poster" onClose={() => setLightbox(false)} />
-      )}
-      <div style={{ position: 'relative', borderRadius: 14, overflow: 'hidden', marginBottom: 48, boxShadow: '0 8px 40px rgba(0,0,0,0.13)' }}>
-        {ev.poster ? (
+  const timeStr = ev.endDate
+    ? `${formatTime(ev.date)} to ${formatTime(ev.endDate)}`
+    : formatTime(ev.date);
+
+  const StatusBadge = () => {
+    if (status === 'live') return (
+      <span style={{
+        display: 'inline-flex', alignItems: 'center', gap: 7,
+        fontSize: 11, fontWeight: 700, color: '#fff',
+        background: '#16a34a', borderRadius: 20, padding: '6px 16px',
+      }}>
+        <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#fff', display: 'inline-block', animation: 'pulse 1.5s infinite' }} />
+        Happening Now
+      </span>
+    );
+    if (status === 'upcoming' && cd) return (
+      <div style={{ textAlign: 'right' }}>
+        <p style={{ margin: '0 0 4px', fontSize: 9, fontWeight: 600, color: '#86efac', textTransform: 'uppercase', letterSpacing: '0.18em' }}>Starting in</p>
+        <p style={{ margin: 0, fontSize: 22, fontWeight: 700, color: '#fff', letterSpacing: 0.5, fontVariantNumeric: 'tabular-nums' }}>{cd}</p>
+      </div>
+    );
+    if (status === 'past') return (
+      <p style={{ margin: 0, fontSize: 11, color: 'rgba(255,255,255,0.35)', fontStyle: 'italic' }}>
+        Ended · Back next Sunday
+      </p>
+    );
+    return null;
+  };
+
+  /* ── With poster ── */
+  if (ev.poster) {
+    return (
+      <>
+        {lightbox && (
+          <Lightbox src={getImageUrl(ev.poster)} alt="Sunday Service Poster" caption="Sunday Service Poster" onClose={() => setLightbox(false)} />
+        )}
+        <div style={{ position: 'relative', borderRadius: 16, overflow: 'hidden', marginBottom: 48, boxShadow: '0 8px 40px rgba(0,0,0,0.14)' }}>
           <div
             style={{ position: 'relative', height: 340, cursor: 'zoom-in' }}
             onClick={() => setLightbox(true)}
@@ -86,68 +116,91 @@ function SundayHero({ ev }: { ev: ChurchEvent }) {
               alt="Sunday Service"
               style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
-            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(5,46,22,0.15) 0%, rgba(5,46,22,0.82) 60%, rgba(3,30,15,0.97) 100%)' }} />
+            <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to bottom, rgba(5,46,22,0.10) 0%, rgba(5,46,22,0.78) 55%, rgba(3,30,15,0.97) 100%)' }} />
             <span style={{
-              position: 'absolute', top: 12, right: 12,
-              fontSize: 9, fontWeight: 600, color: 'rgba(255,255,255,0.7)',
-              background: 'rgba(0,0,0,0.35)', borderRadius: 4, padding: '3px 8px',
-              backdropFilter: 'blur(4px)',
-            }}>
-              Click to view
+              position: 'absolute', top: 14, right: 14,
+              fontSize: 9, fontWeight: 600, color: 'rgba(255,255,255,0.65)',
+              background: 'rgba(0,0,0,0.30)', borderRadius: 4, padding: '4px 9px',
+              backdropFilter: 'blur(6px)', letterSpacing: '0.06em',
+            }}>View poster</span>
+          </div>
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, padding: '24px 28px 26px' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 16 }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <span style={{ display: 'inline-block', fontSize: 9, fontWeight: 700, color: '#6ee7b7', textTransform: 'uppercase', letterSpacing: '0.2em', marginBottom: 8 }}>
+                  Every Sunday · RPC Nyamira
+                </span>
+                <h2 style={{ margin: '0 0 6px', fontSize: 26, fontWeight: 800, color: '#fff', lineHeight: 1.15, letterSpacing: -0.4 }}>{ev.title}</h2>
+                <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.48)' }}>{timeStr} &nbsp;·&nbsp; {ev.location}</p>
+              </div>
+              <div style={{ flexShrink: 0 }}><StatusBadge /></div>
+            </div>
+            {ev.description && (
+              <p style={{ margin: '14px 0 0', fontSize: 13, color: 'rgba(255,255,255,0.50)', lineHeight: 1.65, maxWidth: 620, borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 12 }}>
+                {ev.description}
+              </p>
+            )}
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  /* ── No poster — designed feature card ── */
+  return (
+    <div style={{
+      borderRadius: 16, overflow: 'hidden', marginBottom: 48,
+      background: 'linear-gradient(135deg, #031c0d 0%, #052e16 45%, #073d20 100%)',
+      boxShadow: '0 4px 24px rgba(5,46,22,0.28)',
+      position: 'relative',
+    }}>
+      {/* Decorative rings */}
+      <div style={{ position: 'absolute', right: -70, top: -70, width: 320, height: 320, borderRadius: '50%', border: '1px solid rgba(110,231,183,0.07)', pointerEvents: 'none' }} />
+      <div style={{ position: 'absolute', right: -20, top: -20, width: 200, height: 200, borderRadius: '50%', border: '1px solid rgba(110,231,183,0.06)', pointerEvents: 'none' }} />
+      {/* Subtle cross watermark */}
+      <svg style={{ position: 'absolute', right: 32, top: '50%', transform: 'translateY(-50%)', opacity: 0.04, pointerEvents: 'none' }} width="140" height="140" viewBox="0 0 100 100" fill="white">
+        <rect x="42" y="10" width="16" height="80" rx="4"/>
+        <rect x="15" y="35" width="70" height="16" rx="4"/>
+      </svg>
+
+      <div style={{ position: 'relative', padding: '32px 36px 30px' }}>
+        {/* Top row: label + status badge */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12, marginBottom: 20 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+            <div style={{ width: 28, height: 28, borderRadius: 8, background: 'rgba(110,231,183,0.12)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#6ee7b7" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+            </div>
+            <span style={{ fontSize: 10, fontWeight: 700, color: '#6ee7b7', textTransform: 'uppercase', letterSpacing: '0.2em' }}>
+              Every Sunday · RPC Nyamira
             </span>
           </div>
-        ) : (
-          <div style={{ height: 160, background: 'linear-gradient(135deg, #052e16 0%, #064e3b 60%, #065f46 100%)' }} />
-        )}
+          <StatusBadge />
+        </div>
 
-        <div style={{
-          position: ev.poster ? 'absolute' : 'relative',
-          bottom: 0, left: 0, right: 0,
-          padding: '24px 28px 22px',
-          background: ev.poster ? 'transparent' : 'linear-gradient(135deg, #052e16 0%, #064e3b 100%)',
-        }}>
-          <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', flexWrap: 'wrap', gap: 12 }}>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <span style={{ display: 'inline-block', fontSize: 9, fontWeight: 700, color: '#6ee7b7', textTransform: 'uppercase', letterSpacing: '0.18em', marginBottom: 7 }}>
-                Every Sunday · RPC Nyamira
-              </span>
-              <h2 style={{ margin: 0, fontSize: 26, fontWeight: 800, color: '#fff', lineHeight: 1.15, letterSpacing: -0.5 }}>
-                {ev.title}
-              </h2>
-              <p style={{ margin: '5px 0 0', fontSize: 13, color: 'rgba(255,255,255,0.52)' }}>
-                {formatTime(ev.date)}{ev.endDate ? ` – ${formatTime(ev.endDate)}` : ''} &nbsp;·&nbsp; {ev.location}
+        {/* Main content row */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 32, flexWrap: 'wrap' }}>
+          <div style={{ flex: 1, minWidth: 220 }}>
+            <h2 style={{ margin: '0 0 10px', fontSize: 32, fontWeight: 800, color: '#fff', lineHeight: 1.1, letterSpacing: -0.8 }}>
+              {ev.title}
+            </h2>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 14 }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="2" strokeLinecap="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>{timeStr}</span>
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.20)' }}>·</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,0.35)" strokeWidth="2" strokeLinecap="round"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)' }}>{ev.location}</span>
+            </div>
+            {ev.description && (
+              <p style={{ margin: 0, fontSize: 13.5, color: 'rgba(255,255,255,0.50)', lineHeight: 1.7, maxWidth: 520 }}>
+                {ev.description}
               </p>
-            </div>
-
-            <div style={{ flexShrink: 0, textAlign: 'right' }}>
-              {status === 'live' && (
-                <span style={{ display: 'inline-flex', alignItems: 'center', gap: 6, fontSize: 12, fontWeight: 700, color: '#fff', background: '#16a34a', borderRadius: 20, padding: '6px 14px' }}>
-                  <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#fff', display: 'inline-block' }} />
-                  Happening Now
-                </span>
-              )}
-              {status === 'past' && (
-                <p style={{ margin: 0, fontSize: 11, color: 'rgba(255,255,255,0.4)', fontStyle: 'italic' }}>
-                  Ended · Next Sunday coming up
-                </p>
-              )}
-              {status === 'upcoming' && cd && (
-                <div>
-                  <p style={{ margin: '0 0 2px', fontSize: 9, color: '#6ee7b7', textTransform: 'uppercase', letterSpacing: '0.12em' }}>Starting in</p>
-                  <p style={{ margin: 0, fontSize: 20, fontWeight: 800, color: '#fff', fontFamily: 'monospace', letterSpacing: 1 }}>{cd}</p>
-                </div>
-              )}
-            </div>
+            )}
           </div>
-
-          {ev.description && (
-            <p style={{ margin: '14px 0 0', fontSize: 13, color: 'rgba(255,255,255,0.52)', lineHeight: 1.65, borderTop: '1px solid rgba(255,255,255,0.1)', paddingTop: 12, maxWidth: 640 }}>
-              {ev.description}
-            </p>
-          )}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
@@ -228,7 +281,7 @@ function EventCard({ ev, status }: { ev: ChurchEvent; status: 'live' | 'upcoming
           <p style={{ margin: '0 0 5px', fontSize: 10, color: status === 'past' ? '#9ca3af' : accent, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.06em' }}>
             {status === 'past'
               ? `Held ${formatShortDate(ev.date)}${ev.endDate ? ` · Ended ${formatShortDate(ev.endDate)}` : ''}`
-              : `${formatShortDate(ev.date)} · ${formatTime(ev.date)}${ev.endDate ? ` – ${formatTime(ev.endDate)}` : ''}`
+              : `${formatShortDate(ev.date)} · ${formatTime(ev.date)}${ev.endDate ? ` to ${formatTime(ev.endDate)}` : ''}`
             }
           </p>
 
@@ -336,7 +389,7 @@ const NewsPage: React.FC = () => {
           News &amp; Events
         </h1>
         <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.38)', margin: 0 }}>
-          Services, revivals, concerts and more — RPC Nyamira
+          Services, revivals, concerts and more at RPC Nyamira
         </p>
       </div>
 

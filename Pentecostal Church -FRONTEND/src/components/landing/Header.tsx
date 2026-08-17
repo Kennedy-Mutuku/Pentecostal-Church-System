@@ -179,12 +179,12 @@ const mobileNavTabs: { key: string; icon: React.ElementType; label: string; }[] 
   { key: 'dashboard', icon: Home, label: 'Home' },
   { key: 'aboutUs', icon: Info, label: 'About Us' },
   { key: 'departments', icon: Building2, label: 'Departments' },
-  { key: 'news', icon: Newspaper, label: 'News' },
   { key: 'philosophies', icon: BookOpen, label: 'Philosophies' },
   { key: 'financials', icon: Coins, label: 'Financials' },
   { key: 'leadership', icon: Crown, label: 'Leadership' },
   { key: 'handbook', icon: FileText, label: 'Handbook' },
   { key: 'media', icon: Tv2, label: 'Gallery' },
+  { key: 'news', icon: Newspaper, label: 'News' },
   { key: 'feedback', icon: MessageSquare, label: 'Feedback' },
 ];
 
@@ -784,10 +784,12 @@ const Header = () => {
     { label: 'Born to Worship Choir',   href: '/departments#born-to-worship'    },
     { label: 'Agape Hearts Choir',      href: '/departments#agape-hearts'       },
     { label: 'Agape Voices',            href: '/departments#agape-voices'       },
-    { label: 'Sunday School',           href: '/departments#sunday-school'      },
     { label: 'Men Fellowship',          href: '/departments#men-fellowship'     },
     { label: 'Women Fellowship',        href: '/departments#women-fellowship'   },
     { label: 'Youths',                  href: '/departments#youths'             },
+    { label: 'Sunday School',           href: '/departments#sunday-school'      },
+    { label: 'Korera',                  href: '/departments#korera'             },
+    { label: 'Welfare',                 href: '/departments#welfare'            },
   ];
 
   const renderDepartmentsPanel = () => (
@@ -954,8 +956,6 @@ const Header = () => {
                     {activeDropdown === 'departments' && renderDepartmentsPanel()}
                   </div>
 
-                  <Link to="/news" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'news' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>News</Link>
-
                   <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'philosophies' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Philosophies</Link>
 
                   <Link to="/financial" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'financials' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Financials</Link>
@@ -966,6 +966,8 @@ const Header = () => {
 
                   {/* Gallery Link */}
                   <Link to="/media" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'media' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Gallery</Link>
+
+                  <Link to="/news" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'news' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>News</Link>
 
                   <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'feedback' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Feedback</Link>
                 </div>
