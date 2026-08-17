@@ -14,7 +14,7 @@
     url('/images/about-church.jpg') center / cover no-repeat;
   background-attachment: fixed;
   color: #fff;
-  padding: 72px 24px 64px;
+  padding: 40px 24px 32px;
   text-align: center;
   position: relative;
   overflow: hidden;
@@ -37,28 +37,28 @@
 
 .dept-eyebrow {
   display: block;
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 3.5px;
   opacity: 0.78;
-  margin-bottom: 16px;
+  margin-bottom: 10px;
 }
 
 .dept-hero h1 {
-  font-size: 3.2rem;
+  font-size: 2.4rem;
   font-weight: 800;
-  margin: 0 0 20px;
-  letter-spacing: -1.5px;
+  margin: 0 0 12px;
+  letter-spacing: -1px;
   line-height: 1.1;
 }
 
 .dept-hero p {
-  font-size: 1.1rem;
-  opacity: 0.88;
-  max-width: 620px;
+  font-size: 0.97rem;
+  opacity: 0.85;
+  max-width: 560px;
   margin: 0 auto;
-  line-height: 1.75;
+  line-height: 1.65;
 }
 
 /* ── Department list wrapper ───────────────────────────────── */
@@ -71,12 +71,12 @@
 .dept-section {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  min-height: 440px;
+  min-height: 280px;
 
   /* Entrance animation */
   opacity: 0;
-  transform: translateY(32px);
-  transition: opacity 0.65s ease, transform 0.65s ease;
+  transform: translateY(24px);
+  transition: opacity 0.55s ease, transform 0.55s ease;
 }
 
 .dept-section.dept-visible {
@@ -119,8 +119,8 @@
 .dept-photo-placeholder {
   width: 100%;
   height: 100%;
-  min-height: 420px;
-  background: linear-gradient(135deg, #ede0f0 0%, #e8d8e8 50%, #f0e0e0 100%);
+  min-height: 200px;
+  background: linear-gradient(135deg, #f5eef8 0%, #f0e6f0 50%, #f8eded 100%);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -150,7 +150,7 @@
 
 /* ── Text side ─────────────────────────────────────────────── */
 .dept-body {
-  padding: 60px 56px;
+  padding: 32px 44px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -158,37 +158,30 @@
 
 .dept-tag {
   display: inline-block;
-  font-size: 0.7rem;
+  font-size: 0.65rem;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 3px;
+  letter-spacing: 2.5px;
   color: #9b2226;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 .dept-name {
-  font-size: 2rem;
+  font-size: 1.6rem;
   font-weight: 800;
   color: #8B0000;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
   line-height: 1.2;
-  text-decoration: underline;
-  text-underline-offset: 7px;
-  text-decoration-thickness: 2px;
-  text-decoration-color: #c62828;
+  text-decoration: none;
 }
 
 .dept-rule {
-  width: 48px;
-  height: 3px;
-  background: linear-gradient(to right, #8B0000, #c62828);
-  border-radius: 2px;
-  margin-bottom: 22px;
+  display: none;
 }
 
 .dept-desc {
-  font-size: 1rem;
-  line-height: 1.88;
+  font-size: 0.95rem;
+  line-height: 1.72;
   color: #484848;
   max-width: 520px;
   margin: 0;
@@ -196,43 +189,34 @@
 
 /* ── Divider between sections ──────────────────────────────── */
 .dept-divider {
-  height: 2px;
-  background: linear-gradient(
-    to right,
-    transparent 0%,
-    #8B0000 15%,
-    #8B0000 85%,
-    transparent 100%
-  );
-  opacity: 0.45;
-  margin: 0 60px;
+  display: none;
 }
 
 /* ── Tablet (768–1024 px) ──────────────────────────────────── */
 @media (max-width: 1024px) {
   .dept-body {
-    padding: 44px 40px;
+    padding: 28px 32px;
   }
 
   .dept-name {
-    font-size: 1.75rem;
+    font-size: 1.4rem;
   }
 }
 
 /* ── Mobile (≤768 px) ──────────────────────────────────────── */
 @media (max-width: 768px) {
   .dept-hero {
-    padding: 52px 20px 44px;
+    padding: 32px 20px 24px;
     background-attachment: scroll;
   }
 
   .dept-hero h1 {
-    font-size: 2.2rem;
+    font-size: 1.8rem;
     letter-spacing: -0.5px;
   }
 
   .dept-hero p {
-    font-size: 0.97rem;
+    font-size: 0.92rem;
   }
 
   /* Stack sections vertically on mobile – photo always on top */
@@ -252,20 +236,20 @@
   }
 
   .dept-photo-placeholder {
-    min-height: 260px;
+    min-height: 180px;
   }
 
   .dept-body {
-    padding: 36px 22px 40px;
+    padding: 24px 20px 28px;
   }
 
   .dept-name {
-    font-size: 1.55rem;
+    font-size: 1.3rem;
   }
 
   .dept-desc {
-    font-size: 0.95rem;
-    line-height: 1.78;
+    font-size: 0.92rem;
+    line-height: 1.68;
   }
 
   .dept-divider {
@@ -276,32 +260,32 @@
 /* ── Small mobile (≤480 px) ────────────────────────────────── */
 @media (max-width: 480px) {
   .dept-hero {
-    padding: 40px 16px 36px;
+    padding: 26px 16px 20px;
   }
 
   .dept-hero h1 {
-    font-size: 1.8rem;
+    font-size: 1.55rem;
   }
 
   .dept-eyebrow {
-    font-size: 0.65rem;
-    letter-spacing: 2.5px;
+    font-size: 0.62rem;
+    letter-spacing: 2px;
   }
 
   .dept-photo-placeholder {
-    min-height: 220px;
+    min-height: 150px;
   }
 
   .dept-body {
-    padding: 28px 18px 32px;
+    padding: 20px 16px 22px;
   }
 
   .dept-name {
-    font-size: 1.35rem;
+    font-size: 1.2rem;
   }
 
   .dept-desc {
-    font-size: 0.92rem;
+    font-size: 0.9rem;
   }
 
   .dept-divider {

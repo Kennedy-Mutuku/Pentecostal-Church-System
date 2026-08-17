@@ -162,7 +162,6 @@ const Departments: React.FC = () => {
 
                 {/* Text side */}
                 <div className="dept-body">
-                  <span className="dept-tag">{dept.tag}</span>
                   <h2 className="dept-name">{dept.name}</h2>
                   <div className="dept-rule" />
                   <p className="dept-desc">{dept.description}</p>
