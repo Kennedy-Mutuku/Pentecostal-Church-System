@@ -273,8 +273,6 @@ const HeroSection = () => {
               background: 'rgba(3,10,5,0.82)',
               backdropFilter: 'blur(14px)',
               WebkitBackdropFilter: 'blur(14px)',
-              border: '1px solid rgba(34,197,94,0.2)',
-              borderRadius: 8,
               boxShadow: '0 4px 20px rgba(0,0,0,0.35)',
             }}
           >
