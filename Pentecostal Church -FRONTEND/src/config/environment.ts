@@ -96,6 +96,7 @@ interface ApiConfig {
     patronMedia: string;
     patronFamilies: string;
     patronChangePassword: string;
+    financeLogin: string;
   };
 }
 
@@ -200,6 +201,7 @@ const developmentConfig: ApiConfig = {
     patronMedia: '/patron/media',
     patronFamilies: '/patron/families',
     patronChangePassword: '/patron/change-password',
+    financeLogin: '/api/finance/auth/login',
   }
 };
 
@@ -304,6 +306,7 @@ const productionConfig: ApiConfig = {
     patronMedia: '/patron/media',
     patronFamilies: '/patron/families',
     patronChangePassword: '/patron/change-password',
+    financeLogin: '/api/finance/auth/login',
   }
 };
 

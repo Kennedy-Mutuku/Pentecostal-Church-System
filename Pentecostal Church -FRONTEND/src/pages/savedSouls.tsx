@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from '../styles/savedSouls.module.css';
 import axios from 'axios';
+import { getBaseUrl } from '../config/environment';
 
 const SavedSouls: React.FC = () => {
   const [name, setName] = useState<string>('');
@@ -11,7 +12,7 @@ const SavedSouls: React.FC = () => {
   const [error, setError] = useState('');
   const [userCount, setUserCount] = useState<number | null>(null);
 
-  const backEndURL = 'https://rpc-nyamira.co.ke';
+  const backEndURL = getBaseUrl();
 
   useEffect(() => {
     fetchUserCount()
@@ -70,7 +71,7 @@ const SavedSouls: React.FC = () => {
   
   const fetchUserCount = async () => {
     try {
-      const response = await axios.get<{ count: number }>('https://rpc-nyamira.co.ke/users/countSaved', { withCredentials: true });
+      const response = await axios.get<{ count: number }>(`${backEndURL}/users/countSaved`, { withCredentials: true });
       setUserCount(response.data.count);
     } catch (err) {
       console.error('Error fetching user count:');

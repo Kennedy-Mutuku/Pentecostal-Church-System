@@ -54,7 +54,7 @@ self.addEventListener('fetch', (event) => {
       request.url.includes('/settings/') ||
       request.url.includes('localhost:3000') ||
       request.url.includes('localhost:5000') ||
-      (url.hostname === 'rpc-nyamira.co.ke' && (
+      (url.hostname === 'rpcnyamira.org' && (
         url.pathname.includes('/users/') ||
         url.pathname.includes('/attendance/') ||
         url.pathname.includes('/api/') ||

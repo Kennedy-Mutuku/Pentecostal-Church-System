@@ -5,7 +5,7 @@ const Soul = require('../models/savedSouls')
 const bs = require('../models/biblestudy')
 const FeedBack = require('../models/feedbackSchema')
 const { sendMail, generateToken } = require('../helperModules/sendmail');
-const backendURL = 'https://rpc-nyamira.co.ke'
+const backendURL = 'https://rpcnyamira.org'
 
 
 exports.login = async (req, res) => {
@@ -48,8 +48,6 @@ exports.login = async (req, res) => {
       secure: process.env.NODE_ENV === 'production',
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days in milliseconds
       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-      // Add domain if in production for better cookie sharing
-      ...(process.env.NODE_ENV === 'production' && { domain: '.rpc-nyamira.co.ke' })
     };
 
     console.log('🍪 Setting cookie with options:', cookieOptions);
@@ -241,7 +239,6 @@ exports.getUserData = async (req, res) => {
       secure: process.env.NODE_ENV === 'production',
       maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days
       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
-      ...(process.env.NODE_ENV === 'production' && { domain: '.rpc-nyamira.co.ke' })
     };
 
     res.cookie('socket_token', token, socketCookieOptions);
@@ -401,19 +398,6 @@ exports.logout = async (req, res) => {
         sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
         path: '/'
       },
-      // With domain for production
-      ...(process.env.NODE_ENV === 'production' ? [{
-        httpOnly: true,
-        secure: true,
-        sameSite: 'None',
-        path: '/',
-        domain: '.rpc-nyamira.co.ke'
-      }, {
-        secure: true,
-        sameSite: 'None',
-        path: '/',
-        domain: '.rpc-nyamira.co.ke'
-      }] : [])
     ];
 
     // Clear each cookie with all possible option combinations

@@ -38,7 +38,7 @@ const FinancialsPage: React.FC = () => {
 
   const fetchContributions = async () => {
     try {
-      const res = await fetch('/api/finance/my-contributions', { credentials: 'include' });
+      const res = await fetch(`${getBaseUrl()}/api/finance/my-contributions`, { credentials: 'include' });
       if (res.ok) setContributions(await res.json());
       else if (res.status === 401) setError('Please log in to view your contributions.');
       else setError('Unable to load contributions.');
@@ -97,7 +97,7 @@ const FinancialsPage: React.FC = () => {
       if (resolvedRef.current) return;
       attempts++;
       try {
-        const res = await fetch(`/api/finance/mpesa/status/${checkoutRequestID}`, { credentials: 'include' });
+        const res = await fetch(`${getBaseUrl()}/api/finance/mpesa/status/${checkoutRequestID}`, { credentials: 'include' });
         const data = await res.json();
         if (data.status === 'success' || data.status === 'cancelled' || data.status === 'timeout' || data.status === 'failed') {
           handlePaymentResult(data.status, data.message);
@@ -118,7 +118,7 @@ const FinancialsPage: React.FC = () => {
     e.preventDefault();
     setPayLoading(true); setPayMsg(''); setPayError(''); setPayStatus('idle');
     try {
-      const res = await fetch('/api/finance/member-pay', {
+      const res = await fetch(`${getBaseUrl()}/api/finance/member-pay`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
         body: JSON.stringify({ phone: payForm.phone, amount: Number(payForm.amount), category: payForm.category }),
       });

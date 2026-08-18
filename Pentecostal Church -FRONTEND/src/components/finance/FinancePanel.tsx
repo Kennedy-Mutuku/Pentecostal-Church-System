@@ -239,8 +239,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
       if (resolved) return;
       attempts++;
       try {
-        const res = await fetch(`/api/finance/mpesa/status/${checkoutRequestID}`, { credentials: 'include' });
-        const data = await res.json();
+        const data = await financeApi.get(`/mpesa/status/${checkoutRequestID}`);
         if (data.status === 'success') {
           resolved = true;
           setMpesaStatus('success'); setMpesaMsg('Payment completed successfully!');
@@ -260,13 +259,7 @@ const FinancePanel: React.FC<FinancePanelProps> = ({ isPatron = false, initialTa
     e.preventDefault();
     setError(''); setSuccess(''); setMpesaStatus('sending'); setMpesaMsg('');
     try {
-      const res = await fetch('/api/finance/mpesa/stkpush', {
-        method: 'POST', credentials: 'include',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...mpesaForm, amount: Number(mpesaForm.amount) }),
-      });
-      const result = await res.json();
-      if (!res.ok) { setMpesaStatus('idle'); setError(result.message || 'STK push failed.'); return; }
+      const result = await financeApi.post('/mpesa/stkpush', { ...mpesaForm, amount: Number(mpesaForm.amount) });
       const checkoutID = result?.data?.CheckoutRequestID;
       if (checkoutID) {
         pollMpesaStatus(checkoutID);

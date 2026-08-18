@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 import styles from '../styles/signin.module.css';
 import cuLogo from '../assets/RPC logo updated document.png';
+import { getBaseUrl } from '../config/environment';
 
 const PasswordReset: React.FC = () => {
     const queryParams = new URLSearchParams(location.search);
@@ -46,7 +47,7 @@ const PasswordReset: React.FC = () => {
     setError('');
 
     try {
-      const response = await axios.post(`https://rpc-nyamira.co.ke/users/reset-password?token=${token}`, { password });
+      const response = await axios.post(`${getBaseUrl()}/users/reset-password?token=${token}`, { password });
       if(response.status = 200){
         setSuccessMessage('Password reset successful! You can now log in ...redirecting to login');
         setTimeout(() => {

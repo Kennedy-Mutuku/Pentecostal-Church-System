@@ -12,8 +12,8 @@ const rpName = 'RPC Nyamira Portal';
 const getWebAuthnConfig = (req) => {
     const isDev = (process.env.NODE_ENV || '').trim() !== 'production';
     // For localhost development
-    const origin = req.headers.origin || (isDev ? 'http://localhost:5173' : 'https://rpc-nyamira.co.ke');
-    let rpID = 'rpc-nyamira.co.ke';
+    const origin = req.headers.origin || (isDev ? 'http://localhost:5173' : 'https://rpcnyamira.org');
+    let rpID = 'rpcnyamira.org';
     
     if (isDev) {
         if (origin.includes('localhost')) rpID = 'localhost';

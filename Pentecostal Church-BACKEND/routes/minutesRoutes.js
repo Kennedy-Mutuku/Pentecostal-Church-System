@@ -8,9 +8,7 @@ const superAdminMiddleware = require('../middlewares/superAdmin');
 const router = express.Router();
 
 // Set up multer for minutes uploads
-const uploadDir = process.env.NODE_ENV === 'production'
-  ? '/home/ken/rpc-uploads/minutes/'
-  : path.join(__dirname, '../uploads/minutes/');
+const uploadDir = path.join(__dirname, '../uploads/minutes/');
 
 // Ensure the upload directory exists
 if (!fs.existsSync(uploadDir)) {

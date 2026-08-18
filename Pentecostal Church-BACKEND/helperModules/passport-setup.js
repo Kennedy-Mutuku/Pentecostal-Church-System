@@ -23,7 +23,7 @@ passport.use(
     {
       clientID: process.env.GOOGLE_CLIENT_ID,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-      callbackURL: 'https://rpc-nyamira.co.ke/auth/google/callback',
+      callbackURL: 'https://rpcnyamira.org/auth/google/callback',
     },
     async (accessToken, refreshToken, profile, done) => {
       try {

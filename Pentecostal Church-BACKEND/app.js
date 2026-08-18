@@ -171,13 +171,12 @@ app.use('/uploads', (req, res, next) => {
 }));
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../Pentecostal Church -FRONTEND/dist')));
-
-  app.get('*', (req, res) => {
-    res.sendFile(
-      path.resolve(__dirname, '../', 'Pentecostal Church -FRONTEND', 'dist', 'index.html')
-    )
-  })
+  // Frontend is served directly by nginx from /var/www/rpcnyamira on this
+  // deployment (separate api.rpcnyamira.org subdomain), not by this Express
+  // process, so any request reaching here unmatched is a genuine 404.
+  app.use((req, res) => {
+    res.status(404).json({ message: 'Not found' });
+  });
 } else {
   app.get('/', (req, res) => res.send('Please set to production'))
 }

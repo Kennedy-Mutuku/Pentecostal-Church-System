@@ -17,7 +17,6 @@ const accounts = [
   { model: SuperAdmin, match: { email: 'admin@rpcmcsuperadmin.co.ke' }, data: { email: 'admin@rpcmcsuperadmin.co.ke', phone: '+254700000000' }, password: 'newsAdmin01q7' },
   { model: AdmissionAdmin, match: { email: 'admin@rpcadmissionadmin.org' }, data: { email: 'admin@rpcadmissionadmin.org', phone: '0700000001' }, password: 'AdmissionAdmin' },
   { model: Patron, match: { email: 'admin@rpcpastor.org' }, data: { email: 'admin@rpcpastor.org' }, password: 'SeniourPastor' },
-  { model: FinanceUser, match: { email: 'treasurer@ksucu.ac.ke' }, data: { name: 'Treasurer', email: 'treasurer@ksucu.ac.ke', role: 'treasurer' }, password: 'Treasurer@2026' },
   { model: FinanceUser, match: { email: 'admin@rpctreasurer.org' }, data: { name: 'Church Treasurer', email: 'admin@rpctreasurer.org', role: 'treasurer' }, password: 'Treasurer' },
   { model: Overseer, match: { email: 'overseer@rpc-nyamira.co.ke' }, data: { email: 'overseer@rpc-nyamira.co.ke' }, password: 'Overseer@2026' },
 ];

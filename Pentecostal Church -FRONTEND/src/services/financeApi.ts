@@ -1,4 +1,6 @@
-const BASE = '/api/finance';
+import { getBaseUrl } from '../config/environment';
+
+const BASE = `${getBaseUrl()}/api/finance`;
 
 async function handleResponse(response: Response) {
   if (!response.ok) {

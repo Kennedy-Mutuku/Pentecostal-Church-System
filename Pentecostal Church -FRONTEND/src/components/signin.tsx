@@ -306,7 +306,7 @@ const SignIn: React.FC = () => {
                 route = '/chairperson';
             } else if (processedEmail.startsWith('treasurer@') || processedEmail.endsWith('@rpctreasurer.org')) {
                 // Treasurer login
-                endpoint = '/api/finance/auth/login'; // Authenticates directly against the finance backend
+                endpoint = getApiUrl('financeLogin'); // Authenticates directly against the finance backend
                 route = '/treasurer';
             } else if (mapping) {
                 // Admin domain found
@@ -344,7 +344,7 @@ const SignIn: React.FC = () => {
              console.log('✅ SignIn: Login successful, response:', response.data);
              
              // If the primary login was against the finance backend, immediately store the JWT token
-             if (endpoint === '/api/finance/auth/login' && response.data && response.data.token) {
+             if (endpoint === getApiUrl('financeLogin') && response.data && response.data.token) {
                  localStorage.setItem('finance_token', response.data.token);
              }
 
@@ -352,7 +352,7 @@ const SignIn: React.FC = () => {
             if (processedEmail === 'admin@rpcpastor.org') {
                 try {
                     // Use the finance backend's dedicated read-only patron account
-                    const financeRes = await axios.post('/api/finance/auth/login', {
+                    const financeRes = await axios.post(getApiUrl('financeLogin'), {
                         email: 'patron@rpc.ac.ke',
                         password: 'Patron@2026'
                     }, {
