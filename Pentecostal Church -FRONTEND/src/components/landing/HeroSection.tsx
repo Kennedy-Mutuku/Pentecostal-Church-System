@@ -1,23 +1,8 @@
-import { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { getBaseUrl } from '../../config/environment';
 
-// Import all 7 hero images from assets
-import hero1 from '../../assets/hero-1.jpg';
-import hero2 from '../../assets/hero-2.jpg';
-import hero3 from '../../assets/hero-3.jpg';
-import hero4 from '../../assets/hero-4.jpg';
-import hero5 from '../../assets/hero-5.jpg';
-import hero6 from '../../assets/hero-6.jpg';
-import hero7 from '../../assets/hero-7.jpg';
-
-interface Slide {
-  image: string;
-  title: string;
-  subtitle: string;
-  objectPosition?: string;
-}
+import churchOutside from '../../assets/church outside.jpg';
 
 interface ChurchEvent {
   _id: string;
@@ -28,315 +13,151 @@ interface ChurchEvent {
   isPermanent?: boolean;
 }
 
-type EventStatus =
-  | { type: 'countdown'; days: number; hours: number; minutes: number; seconds: number }
-  | { type: 'live' }
-  | { type: 'ended'; endedAt: string };
-
-function getEventStatus(ev: ChurchEvent): EventStatus {
-  const now = Date.now();
-  const start = new Date(ev.date).getTime();
-  const end = ev.endDate ? new Date(ev.endDate).getTime() : null;
-  if (end && now >= end) return { type: 'ended', endedAt: ev.endDate! };
-  if (now >= start) return { type: 'live' };
-  const diff = start - now;
-  return {
-    type: 'countdown',
-    days:    Math.floor(diff / 86400000),
-    hours:   Math.floor((diff % 86400000) / 3600000),
-    minutes: Math.floor((diff % 3600000)  / 60000),
-    seconds: Math.floor((diff % 60000)    / 1000),
-  };
-}
-
-type SundayStatus =
-  | { type: 'countdown'; days: number; hours: number; minutes: number; seconds: number; nextLabel: string }
-  | { type: 'live' }
-  | { type: 'ended' };
-
-function getSundayServiceStatus(): SundayStatus {
-  const now = new Date();
-  const day = now.getDay(); // 0 = Sunday
-
-  // This week's Sunday at midnight
-  const thisSunday = new Date(now);
-  thisSunday.setDate(now.getDate() - day);
-  thisSunday.setHours(0, 0, 0, 0);
-
-  const serviceStart = new Date(thisSunday); serviceStart.setHours(9, 0, 0, 0);
-  const serviceEnd   = new Date(thisSunday); serviceEnd.setHours(13, 0, 0, 0);
-
-  const n = now.getTime();
-
-  // Live: Sunday 9:00 AM – 1:00 PM
-  if (day === 0 && n >= serviceStart.getTime() && n < serviceEnd.getTime()) {
-    return { type: 'live' };
-  }
-
-  // Ended: Sunday after 1:00 PM until midnight (i.e. until Monday)
-  if (day === 0 && n >= serviceEnd.getTime()) {
-    return { type: 'ended' };
-  }
-
-  // Countdown: Sunday before 9 AM → count to today; any other day → count to next Sunday
-  const target = day === 0
-    ? serviceStart
-    : (() => {
-        const d = new Date(thisSunday);
-        d.setDate(d.getDate() + 7);
-        d.setHours(9, 0, 0, 0);
-        return d;
-      })();
-
-  const nextLabel = day === 0 ? 'Today' : 'Next Sunday';
-  const diff = target.getTime() - n;
-  return {
-    type: 'countdown',
-    days:    Math.floor(diff / 86400000),
-    hours:   Math.floor((diff % 86400000) / 3600000),
-    minutes: Math.floor((diff % 3600000)  / 60000),
-    seconds: Math.floor((diff % 60000)    / 1000),
-    nextLabel,
-  };
-}
-
-const slides: Slide[] = [
-  { image: hero1, title: 'Welcome to Rikuruma Pentecostal Church', subtitle: 'A Spirit-filled community transforming lives through the power of God in Nyamira', objectPosition: 'center 30%' },
-  { image: hero2, title: 'Joyful Praise & Divine Worship', subtitle: 'Lifting high the name of Jesus with heart-filled adoration and thanksgiving', objectPosition: 'center 25%' },
-  { image: hero3, title: 'Growing Together in Faith', subtitle: 'Building a strong foundation in Christ through fellowship and biblical teaching', objectPosition: 'center center' },
-  { image: hero4, title: "The Truth of God's Word", subtitle: 'Preaching the unadulterated Gospel of Jesus Christ to transform generations', objectPosition: 'center 30%' },
-  { image: hero5, title: 'Unity in Fervent Prayer', subtitle: 'Standing together in prayer for our community, church family, and the world', objectPosition: 'center center' },
-  { image: hero6, title: 'Empowered Church Ministries', subtitle: 'Equipping believers to serve, lead, and make an impact in every sphere of life', objectPosition: 'center 25%' },
-  { image: hero7, title: 'Fellowship & Love in Action', subtitle: "Demonstrating Christ's love through genuine fellowship and compassionate outreach", objectPosition: 'center 30%' },
-];
-
 const HeroSection = () => {
   const navigate = useNavigate();
-  const [currentSlide, setCurrentSlide]   = useState(0);
-  const [touchStart, setTouchStart]       = useState<number | null>(null);
-  const [touchEnd, setTouchEnd]           = useState<number | null>(null);
-  const [events, setEvents]               = useState<ChurchEvent[]>([]);
-  const [bubbleVisible, setBubbleVisible] = useState(false);
-  const [, setTick]                       = useState(0);
-
-  const nextSlide = useCallback(() => setCurrentSlide((p) => (p + 1) % slides.length), []);
-  const prevSlide = useCallback(() => setCurrentSlide((p) => (p - 1 + slides.length) % slides.length), []);
-
-  // Preload first hero image immediately for fastest LCP
-  useEffect(() => {
-    const link = document.createElement('link');
-    link.rel = 'preload';
-    link.as = 'image';
-    link.href = slides[0].image;
-    document.head.appendChild(link);
-    return () => { document.head.removeChild(link); };
-  }, []);
-
-  // Auto-advance
-  useEffect(() => {
-    const id = setInterval(nextSlide, 5500);
-    return () => clearInterval(id);
-  }, [nextSlide]);
-
-  // Touch swipe
-  const handleTouchStart = (e: React.TouchEvent) => { setTouchEnd(null); setTouchStart(e.targetTouches[0].clientX); };
-  const handleTouchMove  = (e: React.TouchEvent) => setTouchEnd(e.targetTouches[0].clientX);
-  const handleTouchEnd   = () => {
-    if (!touchStart || !touchEnd) return;
-    const d = touchStart - touchEnd;
-    if (d > 50) nextSlide(); else if (d < -50) prevSlide();
-  };
-
-  // Fetch events for bubble
-  useEffect(() => {
-    (async () => {
-      try {
-        const res = await fetch(`${getBaseUrl()}/api/events`, { credentials: 'include' });
-        if (!res.ok) return;
-        const all: ChurchEvent[] = await res.json();
-        const now = Date.now();
-        const relevant = all
-          .filter(e => {
-            if (e.isPermanent) return false; // shown as pinned Sunday Service row
-            const end = e.endDate ? new Date(e.endDate).getTime() : null;
-            return !end || now < end + 7200000; // hide >2h after ending
-          })
-          .sort((a, b) => {
-            const aStarted = now >= new Date(a.date).getTime();
-            const bStarted = now >= new Date(b.date).getTime();
-            if (aStarted && !bStarted) return -1;
-            if (!aStarted && bStarted) return 1;
-            return new Date(a.date).getTime() - new Date(b.date).getTime();
-          })
-          .slice(0, 3);
-        if (relevant.length > 0) setEvents(relevant);
-      } catch { /* silent */ }
-    })();
-  }, []);
-
-  // Bubble always visible after mount (Sunday Service is always shown)
-  useEffect(() => {
-    const t = setTimeout(() => setBubbleVisible(true), 800);
-    return () => clearTimeout(t);
-  }, []);
-
-  // Tick every second to keep all countdowns live
-  useEffect(() => {
-    const id = setInterval(() => setTick(t => t + 1), 1000);
-    return () => clearInterval(id);
-  }, []);
 
   return (
-    <section
-      className="relative w-full h-[460px] sm:h-[540px] md:h-[620px] lg:h-[680px] overflow-hidden bg-slate-950 select-none group"
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-    >
-      {/* Slide Images */}
-      {slides.map((slide, index) => {
-        const isActive = index === currentSlide;
-        return (
-          <div key={index} className={`absolute inset-0 transition-opacity duration-1000 ease-in-out ${isActive ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'}`}>
-            <img
-              src={slide.image}
-              alt={slide.title}
-              className="w-full h-full object-cover"
-              style={{ objectPosition: slide.objectPosition || 'center 30%' }}
-              loading={index === 0 ? 'eager' : 'lazy'}
-              decoding={index === 0 ? 'sync' : 'async'}
-              fetchPriority={index === 0 ? 'high' : index === 1 ? 'low' : 'auto'}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/30" />
-            <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-transparent to-black/40" />
+    <section className="relative w-full min-h-[650px] md:h-[750px] flex flex-col overflow-visible bg-black select-none font-sans mt-0 md:mt-0 mb-[550px] sm:mb-[580px] md:mb-0">
+      
+      {/* Background Image with slow zoom animation */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <img
+          src={churchOutside}
+          alt="Church Outside"
+          className="w-full h-full object-cover transform scale-105 animate-[kenburns_20s_ease-in-out_infinite_alternate]"
+          style={{ objectPosition: 'center 40%' }}
+        />
+        {/* Tint Overlay to match the reddish-brown warm look */}
+        <div className="absolute inset-0 bg-gradient-to-tr from-[#3a1a15]/90 via-[#4f201d]/60 to-transparent" />
+        <div className="absolute inset-0 bg-black/20" />
+      </div>
+
+      {/* Main Content Overlay */}
+      <div className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 lg:px-8 flex flex-col justify-center pb-24 pt-16">
+        
+        <div className="max-w-3xl space-y-5">
+
+
+          {/* Heading */}
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tight leading-[1.05] drop-shadow-2xl" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <span className="text-white block">Come expecting.</span>
+            <span className="text-[#f58b44] block mt-1">Leave transformed.</span>
+          </h1>
+
+          {/* Subheading */}
+          <p className="text-base md:text-lg text-white/90 max-w-xl leading-relaxed mt-6 font-medium drop-shadow-md" style={{ fontFamily: "'Inter', sans-serif" }}>
+            A house of prayer for all nations. Join us this Sunday at our sanctuary in Nyamira, or watch online from wherever you are.
+          </p>
+
+          {/* Buttons */}
+          <div className="pt-6 flex flex-row gap-4 items-center">
+            <a href="#about" className="px-8 py-3.5 bg-[#b25712] hover:bg-[#9a4a0f] text-white text-sm font-bold rounded shadow-lg transition-all hover:shadow-xl hover:scale-105 cursor-pointer text-center">
+              Plan your visit
+            </a>
+            <button onClick={() => navigate('/media')} className="px-8 py-3.5 bg-white/80 hover:bg-white text-black text-sm font-bold rounded shadow-lg transition-all hover:scale-105 cursor-pointer text-center">
+              Watch sermons
+            </button>
           </div>
-        );
-      })}
-
-      {/* Content Overlay */}
-      <div className="relative z-20 h-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col pt-8 pb-3 md:pt-12 md:pb-4">
-
-        {/* Center Main Slide Text — flex-1 centers it in remaining space */}
-        <div className="flex-1 flex items-center justify-center">
-          <div className="text-center max-w-4xl mx-auto">
-            {slides.map((slide, index) => {
-              if (index !== currentSlide) return null;
-              return (
-                <div key={index} className="space-y-4 md:space-y-6 transition-all duration-500">
-                  <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-white font-extrabold tracking-tight leading-tight drop-shadow-lg" style={{ fontFamily: "'Archivo Black', 'Poppins', sans-serif", textShadow: '0 3px 8px rgba(0,0,0,0.9)' }}>
-                    {slide.title}
-                  </h1>
-                  <p className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-200 max-w-2xl mx-auto leading-relaxed font-normal drop-shadow-md px-2" style={{ fontFamily: "'Poppins', sans-serif", textShadow: '0 2px 4px rgba(0,0,0,0.85)' }}>
-                    {slide.subtitle}
-                  </p>
-                  <div className="pt-2 md:pt-4 flex flex-row gap-3.5 justify-center items-center">
-                    <a href="#about" className="px-6 py-2.5 sm:px-8 sm:py-3.5 bg-[#FF3B30] hover:bg-[#E0221A] text-white text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg transition-all duration-300 hover:scale-105 shadow-xl shadow-red-900/30 cursor-pointer text-center">
-                      Learn More
-                    </a>
-                    <button onClick={() => navigate('/signIn')} className="px-6 py-2.5 sm:px-8 sm:py-3.5 bg-white/10 hover:bg-white text-white hover:text-black text-xs sm:text-sm font-bold uppercase tracking-wider rounded-lg backdrop-blur-md transition-all duration-300 hover:scale-105 border border-white/40 hover:border-white cursor-pointer text-center">
-                      Join Us
-                    </button>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-
-        {/* Bottom dots */}
-        <div className="flex items-center justify-center gap-2 sm:gap-3 mt-1">
-          {slides.map((_, index) => {
-            const isActive = index === currentSlide;
-            return (
-              <button key={index} onClick={() => setCurrentSlide(index)}
-                className={`group relative h-2.5 rounded-full transition-all duration-500 focus:outline-none ${isActive ? 'w-10 sm:w-12 bg-amber-400' : 'w-2.5 sm:w-3 bg-white/40 hover:bg-white/70'}`}
-                aria-label={`Go to slide ${index + 1}`}
-              />
-            );
-          })}
         </div>
       </div>
 
-      {/* ── Event Strip — slim bar pinned to carousel bottom ── */}
-      {(() => {
-        const ss = getSundayServiceStatus();
-        return (
-          <div
-            className="absolute z-20"
-            style={{
-              bottom: 55,
-              left: 24,
-              right: 24,
-              opacity: bubbleVisible ? 1 : 0,
-              transition: 'opacity 0.6s ease',
-              background: 'rgba(3,10,5,0.82)',
-              backdropFilter: 'blur(14px)',
-              WebkitBackdropFilter: 'blur(14px)',
-              boxShadow: '0 4px 20px rgba(0,0,0,0.35)',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'center', height: 34, padding: '0 12px', gap: 0 }}>
-
-              {/* Left label */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 5, paddingRight: 11, borderRight: '1px solid rgba(255,255,255,0.08)', flexShrink: 0 }}>
-                <span style={{ position: 'relative', display: 'inline-flex', width: 6, height: 6 }}>
-                  <span className="animate-ping" style={{ position: 'absolute', inset: 0, borderRadius: '50%', background: '#22c55e', opacity: 0.55 }} />
-                  <span style={{ display: 'block', width: 6, height: 6, borderRadius: '50%', background: '#22c55e', position: 'relative' }} />
-                </span>
-                <span className="hidden sm:inline" style={{ fontSize: 9, fontWeight: 700, color: '#86efac', textTransform: 'uppercase', letterSpacing: '0.13em', whiteSpace: 'nowrap' }}>
-                  Services &amp; Events
-                </span>
+      {/* Mobile Floating Info Cards (Wrapped in a cream container to match screenshot) */}
+      <div className="absolute top-[100%] -mt-4 left-0 right-0 z-30 block md:hidden">
+        <div className="bg-[#f8f6f0] mx-4 rounded-3xl p-6 sm:p-8 pt-8 sm:pt-10 shadow-2xl border border-[#e8e4db]">
+          <div className="flex flex-col gap-4">
+            {/* Card 1 */}
+            <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
+              <div className="flex flex-col space-y-1.5">
+                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">When we gather</span>
+                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Service Times</h3>
+                <p className="text-gray-600 text-[13px]">Sunday, Wednesday, Friday</p>
+                <a href="#" className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline">Open &rarr;</a>
               </div>
-
-              {/* Event info — flex-1 scrollable overflow */}
-              <div style={{ flex: 1, display: 'flex', alignItems: 'center', gap: 8, paddingLeft: 11, overflow: 'hidden', minWidth: 0 }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: '#fff', whiteSpace: 'nowrap' }}>Sunday Service</span>
-                <span className="hidden sm:inline" style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)', whiteSpace: 'nowrap' }}>RPC Nyamira · 9:00 AM – 1:00 PM</span>
-
-                {ss.type === 'live' && (
-                  <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4, fontSize: 10, fontWeight: 700, color: '#4ade80', whiteSpace: 'nowrap' }}>
-                    <span className="animate-ping" style={{ width: 5, height: 5, borderRadius: '50%', background: '#4ade80', display: 'inline-block', flexShrink: 0 }} />
-                    Live Now
-                  </span>
-                )}
-                {ss.type === 'ended' && (
-                  <span style={{ fontSize: 10, color: 'rgba(255,255,255,0.28)', whiteSpace: 'nowrap' }}>Next Sunday coming up</span>
-                )}
-                {ss.type === 'countdown' && (
-                  <span style={{ fontSize: 11, fontWeight: 700, color: '#4ade80', fontFamily: 'monospace', whiteSpace: 'nowrap' }}>
-                    {ss.days > 0 ? `${ss.days}d ` : ''}{String(ss.hours).padStart(2,'0')}h {String(ss.minutes).padStart(2,'0')}m {String(ss.seconds).padStart(2,'0')}s
-                  </span>
-                )}
-
-                {events.length > 0 && (
-                  <span className="hidden md:inline" style={{ fontSize: 9, color: 'rgba(255,255,255,0.22)', whiteSpace: 'nowrap' }}>
-                    +{events.length} more event{events.length > 1 ? 's' : ''}
-                  </span>
-                )}
+            </div>
+            {/* Card 2 */}
+            <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
+              <div className="flex flex-col space-y-1.5">
+                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Find your home</span>
+                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Our Centres</h3>
+                <p className="text-gray-600 text-[13px]">Mombasa, Nairobi and the US</p>
+                <a href="#" className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline">Open &rarr;</a>
               </div>
-
-              {/* CTA */}
-              <button
-                onClick={() => navigate('/news')}
-                style={{ flexShrink: 0, fontSize: 10, fontWeight: 700, color: '#fff', background: '#16a34a', border: 'none', borderRadius: 5, padding: '5px 13px', cursor: 'pointer', whiteSpace: 'nowrap', letterSpacing: '0.04em', transition: 'background 0.15s', marginLeft: 10 }}
-                onMouseEnter={e => { (e.currentTarget as HTMLButtonElement).style.background = '#15803d'; }}
-                onMouseLeave={e => { (e.currentTarget as HTMLButtonElement).style.background = '#16a34a'; }}
-              >
-                View Events →
-              </button>
+            </div>
+            {/* Card 3 */}
+            <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
+              <div className="flex flex-col space-y-1.5">
+                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Set apart</span>
+                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Prayer & Fasting</h3>
+                <p className="text-gray-600 text-[13px]">Our weekly rhythms</p>
+                <a href="#" className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline">Open &rarr;</a>
+              </div>
+            </div>
+            {/* Card 4 */}
+            <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
+              <div className="flex flex-col space-y-1.5">
+                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">This week</span>
+                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Latest News</h3>
+                <p className="text-gray-600 text-[13px]">From the pulpit and around RPC</p>
+                <a href="#" className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline">Open &rarr;</a>
+              </div>
             </div>
           </div>
-        );
-      })()}
+        </div>
+      </div>
 
-      {/* Navigation Arrows */}
-      <button onClick={prevSlide} className="absolute left-3 sm:left-6 top-1/2 -translate-y-1/2 z-30 p-2.5 sm:p-3 rounded-full bg-black/30 hover:bg-black/70 text-white/80 hover:text-white backdrop-blur-md border border-white/20 transition-all duration-300 hover:scale-110 shadow-xl opacity-90 hover:opacity-100 focus:outline-none" aria-label="Previous Slide">
-        <ChevronLeft className="w-5 h-5 sm:w-6 sm:h-6" />
-      </button>
-      <button onClick={nextSlide} className="absolute right-3 sm:right-6 top-1/2 -translate-y-1/2 z-30 p-2.5 sm:p-3 rounded-full bg-black/30 hover:bg-black/70 text-white/80 hover:text-white backdrop-blur-md border border-white/20 transition-all duration-300 hover:scale-110 shadow-xl opacity-90 hover:opacity-100 focus:outline-none" aria-label="Next Slide">
-        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
-      </button>
+
+      {/* Floating Info Cards (Overlapping bottom edge) */}
+      <div className="absolute -bottom-16 left-0 right-0 z-30 hidden md:block px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto flex justify-center">
+          <div className="bg-[#f8f6f0] rounded-2xl shadow-2xl p-6 md:p-8 flex items-center justify-between gap-8 md:gap-16 border border-[#e8e4db] w-auto">
+            
+            <div className="flex flex-col space-y-1">
+              <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">When we gather</span>
+              <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Service Times</h3>
+              <p className="text-gray-600 text-xs">Sunday, Wednesday, Friday</p>
+              <a href="#" className="text-red-900 text-xs font-bold mt-1 hover:underline">Open &rarr;</a>
+            </div>
+
+            <div className="w-[1px] h-16 bg-gray-200"></div>
+
+            <div className="flex flex-col space-y-1">
+              <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Find your home</span>
+              <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Our Centres</h3>
+              <p className="text-gray-600 text-xs">Nyamira and beyond</p>
+              <a href="#" className="text-red-900 text-xs font-bold mt-1 hover:underline">Open &rarr;</a>
+            </div>
+
+            <div className="w-[1px] h-16 bg-gray-200"></div>
+
+            <div className="flex flex-col space-y-1">
+              <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Set apart</span>
+              <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Prayer & Fasting</h3>
+              <p className="text-gray-600 text-xs">Our weekly rhythms</p>
+              <a href="#" className="text-red-900 text-xs font-bold mt-1 hover:underline">Open &rarr;</a>
+            </div>
+
+            <div className="w-[1px] h-16 bg-gray-200"></div>
+
+            <div className="flex flex-col space-y-1">
+              <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">This week</span>
+              <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Latest News</h3>
+              <p className="text-gray-600 text-xs">From the pulpit and around RPC</p>
+              <a href="#" className="text-red-900 text-xs font-bold mt-1 hover:underline">Open &rarr;</a>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <style>{`
+        @keyframes kenburns {
+          0% { transform: scale(1.0); }
+          100% { transform: scale(1.15) translate(-1%, -1%); }
+        }
+      `}</style>
     </section>
   );
 };

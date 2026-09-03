@@ -809,41 +809,34 @@ const Header = () => {
   );
   return (
     <>
-      <header className={`fixed top-0 left-0 right-0 z-[100005] transition-all duration-300 border-b-2 border-[#482078]/15 ${isScrolled ? 'bg-white shadow-lg shadow-black/5' : 'bg-white/95 backdrop-blur-sm'}`}>
-        {/* Creative Top Bar */}
-        <div className="bg-[#482078] text-white h-10 md:h-9 border-b border-white/10">
-          <div className="max-w-7xl mx-auto px-4 md:px-6 h-full flex flex-col md:flex-row justify-between items-center text-[10px] xl:text-xs font-semibold gap-1 py-1 md:py-0 select-none">
-            <div className="flex items-center gap-4">
-              <a href="mailto:communityofbelieversinjesus@gmail.com" className="flex items-center gap-1.5 hover:text-yellow-400 transition-colors">
-                <span className="text-[#FFB300]"><i className="fas fa-envelope"></i></span>
-                <span className="hidden sm:inline">communityofbelieversinjesus@gmail.com</span>
-                <span className="sm:hidden">Email Us</span>
-              </a>
-              <span className="text-white/30 hidden sm:inline">|</span>
-              <a href="tel:+254762053876" className="flex items-center gap-1.5 hover:text-yellow-400 transition-colors">
-                <span className="text-[#FFB300]"><i className="fas fa-phone"></i></span>
-                <span>+254 762 053 876</span>
-              </a>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-2">
-                <span className="text-[#FFB300] text-xs flex items-center gap-1.5 font-bold">
-                  <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-pulse"></span>
-                  Lipa Na M-PESA Till: 5173289
-                </span>
-              </div>
-              <span className="text-white/30 hidden md:inline">|</span>
-              <div className="flex items-center gap-2.5">
-                <a href="https://www.facebook.com/share/18rhcZ1XpA/" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors" title="Facebook"><i className="fab fa-facebook-f"></i></a>
-                <a href="https://www.youtube.com/@savedbychriststainedbylove" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors" title="YouTube"><i className="fab fa-youtube"></i></a>
-                <a href="https://www.tiktok.com/@rikurumapentecostal" target="_blank" rel="noopener noreferrer" className="hover:text-yellow-400 transition-colors" title="TikTok"><i className="fab fa-tiktok"></i></a>
-              </div>
-            </div>
+      <header className={`fixed top-0 left-0 right-0 z-[100005] transition-all duration-300 ${isScrolled ? 'bg-[#f8f6f0] shadow-lg shadow-black/5' : 'bg-[#f8f6f0]'}`}>
+        <div className="bg-[#4a1012] text-[#f8f6f0] h-10 border-b border-[#3a0a0c]">
+          <div className="max-w-7xl mx-auto px-4 md:px-8 h-full flex justify-center md:justify-end items-center text-[13px] md:text-xs font-medium gap-5 md:gap-6 select-none">
+            <a href="#new" className="hover:text-white transition-colors">I'm New</a>
+            <a href="#prayer" className="hover:text-white transition-colors">Prayer Request</a>
+            <a href="#contact" className="hover:text-white transition-colors">Contact</a>
           </div>
         </div>
 
         <div className="max-w-7xl mx-auto px-4 md:px-6">
-          <div className="flex items-center h-16 md:h-16 xl:h-20 md:pl-0">
+          <div className="flex items-center h-16 md:h-16 xl:h-20 md:pl-0 w-full justify-between">
+            {/* Logo aligned to left */}
+            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="md:hidden flex-1 flex items-center justify-start gap-3.5 min-w-0">
+              <img src={cuLogo} alt="RPC Logo" className="w-10 h-10 object-contain flex-shrink-0" />
+              <div className="flex flex-col items-start justify-center min-w-0 h-full py-1">
+                <span className="text-[#1a1a1a] tracking-tight text-left leading-[1.05]" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 900, fontSize: '17px' }}>
+                  Rikuruma Pentecostal Church
+                </span>
+                <div className="flex items-center justify-start mt-[3px] w-full">
+                  <span className="text-[#555555] font-medium whitespace-nowrap uppercase text-left leading-none" style={{ fontFamily: "'Inter', sans-serif", fontSize: '10px', letterSpacing: '0.25em' }}>
+                    NYAMIRA
+                  </span>
+                </div>
+              </div>
+            </Link>
+
+            <div className="flex items-center gap-2">
+            {/* Hamburger Menu (Aligned to right) */}
             <button
               onClick={() => {
                 if (isDashboard) {
@@ -856,78 +849,26 @@ const Header = () => {
                   setIsSidebarExpanded(!isSidebarExpanded);
                 }
               }}
-              className="md:hidden w-[52px] h-full flex items-center justify-center flex-shrink-0 hover:bg-red-50 active:scale-95 transition-all duration-200 -ml-4"
+              className="md:hidden flex flex-col justify-center gap-[7px] flex-shrink-0 active:scale-95 transition-all duration-200 pl-4 py-2"
               aria-label="Toggle Menu"
             >
-              <Menu size={24} className="text-[#482078] hover:text-[#341558] transition-colors" />
+              <div className="w-[28px] h-[2px] bg-[#1a1a1a] rounded-full"></div>
+              <div className="w-[28px] h-[2px] bg-[#1a1a1a] rounded-full"></div>
+              <div className="w-[28px] h-[2px] bg-[#1a1a1a] rounded-full"></div>
             </button>
+          </div>
 
-            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="md:hidden flex-1 flex items-center justify-center gap-1 min-w-0 pr-1">
-              <img src={cuLogo} alt="RPC Logo" className="w-8 h-8 object-contain flex-shrink-0" />
-              <div className="flex flex-col items-center overflow-hidden min-w-0">
-                <span className="text-gray-900 leading-none text-[10px] tracking-tight truncate w-full text-center" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
-                  Rikuruma Pentecostal Church
-                </span>
-                <div className="flex items-center justify-center gap-1 mt-0.5 w-full">
-                  <div className="h-[1px] w-2 bg-[#482078]/30 hidden sm:block"></div>
-                  <span className="text-[#482078] text-[10px] tracking-wider truncate font-semibold" style={{ fontFamily: "'Montserrat', sans-serif" }}>
-                      NYAMIRA
-                    </span>
-                  <div className="h-[1px] w-2 bg-[#482078]/30 hidden sm:block"></div>
-                </div>
-              </div>
-            </Link>
-
-            {/* Mobile User/Sign In Button */}
-            {!isDashboard && (
-              <div className="md:hidden flex-shrink-0">
-                {isAdmin && isPatron ? (
-                  <button onClick={() => navigate('/patron')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-red-50 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap">
-                    <div className="w-6 h-6 rounded-full flex items-center justify-center bg-[#FF3B30] text-white">
-                      <Crown size={12} strokeWidth={2.5} />
-                    </div>
-                    <span className="text-[10px] leading-none tracking-tight">Patron</span>
-                  </button>
-                ) : isAdmin ? (
-                  <button onClick={handleAdminLogout} className="flex items-center gap-1 pl-1 pr-2 py-1 bg-[#FF3B30] text-white rounded-full transition-all shadow-sm active:scale-95 whitespace-nowrap">
-                    <LogOut size={12} strokeWidth={2.5} />
-                    <span className="text-[10px] font-bold">Log Out</span>
-                  </button>
-                ) : userData ? (
-                  <button onClick={() => navigate('/changeDetails')} className="flex items-center gap-1.5 pl-1.5 pr-2.5 py-1 bg-white hover:bg-purple-50 border border-[#482078]/20 rounded-full font-bold text-[#482078] transition-all shadow-sm active:scale-95 whitespace-nowrap group">
-                    <div className="w-6 h-6 rounded-full overflow-hidden border-2 border-[#482078] flex items-center justify-center bg-[#482078]/5 transition-transform group-hover:scale-110">
-                      {userData.profilePhoto ? (
-                        <img src={profilePhotoUrl} alt="" className="w-full h-full object-cover" />
-                      ) : (
-                        <User size={14} className="text-[#482078]" strokeWidth={2.5} />
-                      )}
-                    </div>
-                    <span className="text-[10px] capitalize leading-none tracking-tight">{userData.username}</span>
-                  </button>
-                ) : (
-                  <Link to="/signIn" className="flex items-center gap-1 pl-1 pr-2 py-1 bg-red-50 hover:bg-[#FF3B30]/10 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap">
-                    <div className="bg-[#FF3B30] text-white p-0.5 rounded-full flex items-center justify-center">
-                      <LogIn size={12} strokeWidth={2.5} />
-                    </div>
-                    <span className="text-[10px] leading-none tracking-tight">Log In</span>
-                  </Link>
-                )}
-              </div>
-            )}
-
-            <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hidden md:flex items-center gap-2 xl:gap-3 flex-shrink-0">
+          <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hidden md:flex items-center gap-2 xl:gap-3 flex-shrink-0">
               <img src={cuLogo} alt="RPC Logo" className="w-10 h-10 xl:w-14 xl:h-14 object-contain flex-shrink-0" />
               <div className="flex flex-col min-w-0">
-                <div className="text-gray-900 leading-none tracking-tight uppercase" style={{ fontFamily: "'Archivo Black', sans-serif" }}>
-                  <span className="hidden xl:inline text-base">Rikuruma Pentecostal Church</span>
-                  <span className="xl:hidden text-[11px]">RPC</span>
+                <div className="text-gray-900 leading-none tracking-tight" style={{ fontFamily: "'Playfair Display', serif", fontWeight: 800 }}>
+                  <span className="hidden xl:inline text-[15px] xl:text-[16px]">Rikuruma Pentecostal Church</span>
+                  <span className="xl:hidden text-lg">RPC</span>
                 </div>
-                <div className="hidden xl:flex items-center gap-2 mt-1.5 w-full">
-                  <div className="h-[1px] flex-1 bg-[#482078]/30"></div>
-                  <span className="text-[#482078] text-xs xl:text-sm font-semibold tracking-wider whitespace-nowrap px-2" style={{ fontFamily: "'Montserrat', sans-serif" }}>
+                <div className="hidden xl:flex items-center gap-2 mt-1 w-full">
+                  <span className="text-gray-500 text-[10px] xl:text-[11px] font-semibold tracking-[0.2em] whitespace-nowrap uppercase" style={{ fontFamily: "'Inter', sans-serif" }}>
                     NYAMIRA
                   </span>
-                  <div className="h-[1px] flex-1 bg-[#482078]/30"></div>
                 </div>
               </div>
             </Link>
@@ -935,12 +876,12 @@ const Header = () => {
             {!isDashboard ? (
               <nav className="hidden md:flex items-center flex-1 min-w-0 md:ml-2 lg:ml-4 xl:ml-8">
                 {/* Centered nav links */}
-                <div className="flex-1 flex items-center justify-center gap-0 lg:gap-0.5 xl:gap-1 min-w-0">
-                  <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${location.pathname === '/' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Home</Link>
+                <div className="flex-1 flex items-center justify-center gap-0.5 xl:gap-1.5 min-w-0">
+                  <Link to="/" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${location.pathname === '/' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Home</Link>
 
                   {/* About Us dropdown */}
                   <div className="relative" onMouseEnter={() => handleMouseEnter('aboutUs')} onMouseLeave={handleMouseLeave}>
-                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeDropdown === 'aboutUs' || activeNav === 'aboutUs' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>
+                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeDropdown === 'aboutUs' || activeNav === 'aboutUs' ? 'nav-link-active text-white' : 'text-gray-700'}`}>
                       About Us
                       <ChevronDown size={12} className={`xl:w-[14px] xl:h-[14px] transition-transform ${activeDropdown === 'aboutUs' ? 'rotate-180' : ''}`} />
                     </button>
@@ -949,27 +890,27 @@ const Header = () => {
 
                   {/* Departments dropdown */}
                   <div className="relative" onMouseEnter={() => handleMouseEnter('departments')} onMouseLeave={handleMouseLeave}>
-                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeDropdown === 'departments' || activeNav === 'departments' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>
+                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeDropdown === 'departments' || activeNav === 'departments' ? 'nav-link-active text-white' : 'text-gray-700'}`}>
                       Departments
                       <ChevronDown size={12} className={`xl:w-[14px] xl:h-[14px] transition-transform ${activeDropdown === 'departments' ? 'rotate-180' : ''}`} />
                     </button>
                     {activeDropdown === 'departments' && renderDepartmentsPanel()}
                   </div>
 
-                  <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'philosophies' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Philosophies</Link>
+                  <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'philosophies' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Philosophies</Link>
 
-                  <Link to="/financial" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'financials' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Financials</Link>
+                  <Link to="/financial" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'financials' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Financials</Link>
 
-                  <Link to="/leadership" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'leadership' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Leadership</Link>
+                  <Link to="/leadership" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'leadership' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Leadership</Link>
 
-                  <Link to="/handbook" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'handbook' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Handbook</Link>
+                  <Link to="/handbook" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'handbook' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Handbook</Link>
 
                   {/* Gallery Link */}
-                  <Link to="/media" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'media' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Gallery</Link>
+                  <Link to="/media" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'media' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Gallery</Link>
 
-                  <Link to="/news" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'news' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>News</Link>
+                  <Link to="/news" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'news' ? 'nav-link-active text-white' : 'text-gray-700'}`}>News</Link>
 
-                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[9px] lg:text-[10px] xl:text-[11.5px] whitespace-nowrap ${activeNav === 'feedback' ? 'text-[#482078] nav-link-active' : 'text-gray-700'}`}>Feedback</Link>
+                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'feedback' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Feedback</Link>
                 </div>
 
                 {/* Sign In / User / Admin Logout / Patron button - always right */}
@@ -1027,15 +968,58 @@ const Header = () => {
 
       {activeDropdown && <div className="fixed inset-0 z-40 hidden md:block" onClick={closeDropdown} />}
 
-      {!isDashboard && (
-        <MobileSidebarMenu
-          userData={userData}
-          activeSessions={activeSessions}
-          onNavigate={(path: string) => navigate(path)}
-          activeNav={activeNav}
-          isManualExpanded={isSidebarExpanded}
-          setIsManualExpanded={setIsSidebarExpanded}
-        />
+      {/* New Mobile Dropdown Menu replacing MobileSidebarMenu */}
+      {!isDashboard && isSidebarExpanded && (
+        <div className="fixed inset-0 z-[100004]" onClick={() => setIsSidebarExpanded(false)}>
+          <div 
+            className="absolute top-[104px] right-4 w-56 max-h-[70vh] overflow-y-auto bg-[#f8f6f0] rounded-2xl shadow-xl py-3 flex flex-col border border-black/5"
+            onClick={e => e.stopPropagation()}
+          >
+            <Link to="/" onClick={() => { setIsSidebarExpanded(false); window.scrollTo({ top: 0, behavior: 'smooth' }) }} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${location.pathname === '/' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Home</Link>
+            
+            <Link to="/about" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'aboutUs' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>About Us</Link>
+            
+            <Link to="/departments" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'departments' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Departments</Link>
+            
+            <Link to="/philosophy" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'philosophies' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Philosophies</Link>
+            
+            <Link to="/financial" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'financials' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Financials</Link>
+            
+            <Link to="/leadership" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'leadership' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Leadership</Link>
+
+            <Link to="/handbook" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'handbook' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Handbook</Link>
+            
+            <Link to="/media" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'media' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Gallery</Link>
+            
+            <Link to="/news" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'news' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>News</Link>
+            
+            <Link to="/recomendations" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'feedback' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Feedback</Link>
+            
+            <div className="mt-2 pt-4 pb-5 border-t border-black/5 flex justify-center px-4">
+                {isAdmin && isPatron ? (
+                  <button onClick={() => { setIsSidebarExpanded(false); navigate('/patron'); }} className="w-full flex items-center justify-center gap-2 py-2.5 bg-white border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] shadow-sm">
+                    <Crown size={18} strokeWidth={2.5} />
+                    <span>Patron</span>
+                  </button>
+                ) : isAdmin ? (
+                  <button onClick={() => { setIsSidebarExpanded(false); handleAdminLogout(); }} className="w-full flex items-center justify-center gap-2 py-2.5 bg-[#FF3B30] text-white rounded-full font-bold shadow-sm">
+                    <LogOut size={18} strokeWidth={2.5} />
+                    <span>Log Out</span>
+                  </button>
+                ) : userData ? (
+                  <button onClick={() => { setIsSidebarExpanded(false); navigate('/changeDetails'); }} className="w-full flex items-center justify-center gap-2 py-2.5 bg-white border border-[#482078]/20 rounded-full font-bold text-[#482078] shadow-sm">
+                    <User size={18} strokeWidth={2.5} />
+                    <span className="capitalize">{userData.username}</span>
+                  </button>
+                ) : (
+                  <Link to="/signIn" onClick={() => setIsSidebarExpanded(false)} className="w-full flex items-center justify-center gap-2 py-2.5 bg-red-50 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] shadow-sm">
+                    <LogIn size={18} strokeWidth={2.5} />
+                    <span>Log In</span>
+                  </Link>
+                )}
+            </div>
+          </div>
+        </div>
       )}
 
       {signingSession && (
@@ -1056,30 +1040,18 @@ const Header = () => {
         }
         .nav-link-underline {
           position: relative;
-          transition: color 0.2s ease;
-        }
-        .nav-link-underline::after {
-          content: '';
-          position: absolute;
-          bottom: 2px;
-          left: 50%;
-          transform: translateX(-50%) scaleX(0);
-          transform-origin: center;
-          width: 80%;
-          height: 3px;
-          background: #482078;
-          border-radius: 2px;
-          transition: transform 0.25s ease;
+          transition: all 0.2s ease;
+          border-radius: 9999px; /* Pill shape */
+          padding: 4px 8px;
+          margin: 0 1px;
         }
         .nav-link-underline:hover {
-          color: #482078 !important;
-        }
-        .nav-link-underline:hover::after,
-        .nav-link-underline.nav-link-active::after {
-          transform: translateX(-50%) scaleX(1);
+          background-color: #4a1012;
+          color: #ffffff !important;
         }
         .nav-link-underline.nav-link-active {
-          color: #482078 !important;
+          background-color: #4a1012;
+          color: #ffffff !important;
         }
       `}</style>
     </>

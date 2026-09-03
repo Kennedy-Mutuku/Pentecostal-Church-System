@@ -230,7 +230,7 @@ const SignIn: React.FC = () => {
         const adminPatterns = [
             { pattern: /^admin@rpcmcsuperadmi/i, complete: 'admin@rpcmcsuperadmin.co.ke' },  // Handle typos
             { pattern: /^admin@rpcmcsuperadmin$/i, complete: 'admin@rpcmcsuperadmin.co.ke' },  // Exact match without .co.ke
-            { pattern: /^admin@rpcadmissionadmin/i, complete: 'admin@rpcadmissionadmin.org' }
+            { pattern: /^admin@rpcmcadmissionadmin/i, complete: 'admin@rpcmcadmissionadmin.org' }
         ];
 
         // Check if the email matches any pattern and doesn't already end with .co.ke
@@ -247,7 +247,7 @@ const SignIn: React.FC = () => {
         const domainMappings = [
             { domain: '@rpcmcsuperadmin.co.ke', endpoint: getApiUrl('superAdmin'), route: '/admin' },
             { domain: '@rikurumachurch.com', endpoint: getApiUrl('superAdmin'), route: '/admin' },
-            { domain: '@rpcadmissionadmin.org', endpoint: getApiUrl('admissionAdmin'), route: '/admission' },
+            { domain: '@rpcmcadmissionadmin.org', endpoint: getApiUrl('admissionAdmin'), route: '/admission' },
         ];
 
         // Overseer login — check by exact email match
