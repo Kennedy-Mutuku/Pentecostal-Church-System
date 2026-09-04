@@ -158,7 +158,7 @@ const ChairpersonDashboard: React.FC = () => {
     const fetchUsers = async (showLoader = false) => {
         if (showLoader) setMembersLoading(true);
         const response = await axios.get(getApiUrl('superAdmin').replace('/login', '/users'), { withCredentials: true });
-        const userData = response.data;
+        const userData = Array.isArray(response.data) ? response.data : [];
 
         setUsers(userData);
         setUserCount(userData.length);
@@ -211,7 +211,7 @@ const ChairpersonDashboard: React.FC = () => {
 
     const fetchMessages = async () => {
         const response = await axios.get(getApiUrl('superAdmin').replace('/login', '/messages'), { withCredentials: true });
-        const msgs = response.data;
+        const msgs = Array.isArray(response.data) ? response.data : [];
         
         // Track new feedback
         if (lastCounts.current.messages > 0 && msgs.length > lastCounts.current.messages) {

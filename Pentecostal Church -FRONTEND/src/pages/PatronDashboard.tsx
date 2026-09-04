@@ -197,7 +197,7 @@ const PatronDashboard: React.FC = () => {
     const fetchUsers = async (showLoader = false) => {
         if (showLoader) setMembersLoading(true);
         const response = await axios.get(getApiUrl('patronUsers'), { withCredentials: true });
-        const userData = response.data;
+        const userData = Array.isArray(response.data) ? response.data : [];
 
         setUsers(userData);
         setUserCount(userData.length);
@@ -232,7 +232,7 @@ const PatronDashboard: React.FC = () => {
 
     const fetchMessages = async () => {
         const response = await axios.get(getApiUrl('patronMessages'), { withCredentials: true });
-        const msgs = response.data;
+        const msgs = Array.isArray(response.data) ? response.data : [];
         
         // Track new feedback
         if (lastCounts.current.messages > 0 && msgs.length > lastCounts.current.messages) {
