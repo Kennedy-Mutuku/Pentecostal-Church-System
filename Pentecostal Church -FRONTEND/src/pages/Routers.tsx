@@ -6,7 +6,6 @@ import App from "../App.tsx";
 const LandingPage = lazy(() => import("./LandingPageNew"));
 const AboutUsPage = lazy(() => import("./AboutUsPage"));
 const PhilosophiesPage = lazy(() => import("./Philosophies"));
-const HandbookPage = lazy(() => import("./Handbook"));
 const FinancialsPage = lazy(() => import("./Financials"));
 const MinistriesPage = lazy(() => import("./Ministries"));
 const Etpage = lazy(() => import("./Et"));
@@ -92,7 +91,6 @@ export const router = createBrowserRouter([
             { path: "/about", element: <AboutUsPage /> },
             { path: "/departments", element: <DepartmentsPage /> },
             { path: "/philosophy", element: <PhilosophiesPage /> },
-            { path: "/handbook", element: <HandbookPage /> },
             { path: "/financial", element: <FinancialsPage /> },
             { path: "/ministries", element: <MinistriesPage /> },
             { path: "/ets", element: <Etpage /> },

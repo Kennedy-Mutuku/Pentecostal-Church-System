@@ -180,12 +180,11 @@ const mobileNavTabs: { key: string; icon: React.ElementType; label: string; }[] 
   { key: 'aboutUs', icon: Info, label: 'About Us' },
   { key: 'departments', icon: Building2, label: 'Departments' },
   { key: 'philosophies', icon: BookOpen, label: 'Philosophies' },
-  { key: 'financials', icon: Coins, label: 'Financials' },
   { key: 'leadership', icon: Crown, label: 'Leadership' },
-  { key: 'handbook', icon: FileText, label: 'Handbook' },
   { key: 'media', icon: Tv2, label: 'Gallery' },
   { key: 'news', icon: Newspaper, label: 'News' },
-  { key: 'feedback', icon: MessageSquare, label: 'Feedback' },
+  { key: 'feedback', icon: MessageSquare, label: 'Contact Us' },
+  { key: 'financials', icon: Coins, label: 'Give' },
 ];
 
 interface TabSection {
@@ -203,14 +202,14 @@ const getTabSections = (key: string, activeSessions: Session[]): TabSection[] =>
     case 'fellowships': return [{ title: 'Fellowships', icon: UsersRound, items: organizationSections[4].items }];
     case 'biblestudy': return [{ title: 'Bible Study', icon: BookOpen, items: [{ label: 'Register for Bible Study', href: '/Bs' }, { label: 'View BS Groups', href: '/Bs' }] }];
     case 'classes': return [{ title: 'Classes', icon: GraduationCap, items: organizationSections[6].items }];
-    case 'feedback': return [{ title: 'Feedback', icon: MessageSquare, items: [{ label: 'Submit Anonymously', href: '/recomendations' }, { label: 'Submit with Identity', href: '/recomendations' }] }];
-    case 'financials': return [{ title: 'Financials', icon: Coins, items: [{ label: 'View Financial Statements', href: '/financial' }, { label: 'My Contributions', href: '/financial' }] }];
+    case 'feedback': return [{ title: 'Contact Us', icon: MessageSquare, items: [{ label: 'Submit Anonymously', href: '/recomendations' }, { label: 'Submit with Identity', href: '/recomendations' }] }];
+    case 'financials': return [{ title: 'Give', icon: Coins, items: [{ label: 'View Financial Statements', href: '/financial' }, { label: 'My Contributions', href: '/financial' }] }];
     case 'requisitions': return [{ title: 'Requisitions', icon: FileText, items: [{ label: 'My Requisitions', href: '/requisitions' }, { label: 'New Requisition', href: '/requisitions' }] }];
     case 'filemanager': return [{ title: 'File Manager', icon: Folder, items: [{ label: 'My Documents', href: '/my-docs' }, { label: 'Shared Files', href: '/my-docs' }] }];
     case 'library': return [{ title: 'Library', icon: Book, items: [{ label: 'Search Books', href: '/library' }, { label: 'My Borrows', href: '/library' }] }];
     case 'winasoul': return [{ title: 'Win a Soul', icon: UserPlus, items: [{ label: 'Mission Reports', href: '/save' }, { label: 'Evangelism Guide', href: '/save' }] }];
     case 'leadership': return [{ title: 'Leadership', icon: Crown, items: organizationSections[7].items }];
-    case 'governingdocs': return [{ title: 'Governing Docs', icon: FileText, items: [{ label: 'Constitution', href: '/pdfs/constitution.pdf', external: true }, { label: 'Church Handbook', href: '/handbook' }, { label: 'Financial Policy', href: '#' }] }];
+    case 'governingdocs': return [{ title: 'Governing Docs', icon: FileText, items: [{ label: 'Constitution', href: '/pdfs/constitution.pdf', external: true }, { label: 'Financial Policy', href: '#' }] }];
     case 'attendance':
       if (activeSessions.length === 0) return [];
       return [{ title: 'Active Sessions', icon: ClipboardList, items: activeSessions.map(s => ({ label: s.title, href: `/attendance?session=${s._id}` })) }];
@@ -294,13 +293,6 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
       setExpandedNestedItem(null);
       setIsManualExpanded(false);
       onNavigate('/financial');
-      return;
-    }
-    if (key === 'handbook') {
-      setActiveTab(null);
-      setExpandedNestedItem(null);
-      setIsManualExpanded(false);
-      onNavigate('/handbook');
       return;
     }
     if (key === 'feedback') {
@@ -673,7 +665,6 @@ const Header = () => {
     if (path.startsWith('/boards')) return 'boards';
     if (path.startsWith('/other-committees')) return 'committees';
     if (path.startsWith('/leadership')) return 'leadership';
-    if (path.startsWith('/handbook')) return 'handbook';
     if (path.startsWith('/governing-docs')) return 'governingdocs';
     if (path.startsWith('/attendance') || path.startsWith('/session')) return 'attendance';
     return null;
@@ -899,18 +890,16 @@ const Header = () => {
 
                   <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'philosophies' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Philosophies</Link>
 
-                  <Link to="/financial" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'financials' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Financials</Link>
-
                   <Link to="/leadership" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'leadership' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Leadership</Link>
-
-                  <Link to="/handbook" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'handbook' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Handbook</Link>
 
                   {/* Gallery Link */}
                   <Link to="/media" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'media' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Gallery</Link>
 
                   <Link to="/news" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'news' ? 'nav-link-active text-white' : 'text-gray-700'}`}>News</Link>
 
-                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'feedback' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Feedback</Link>
+                  <Link to="/recomendations" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'feedback' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Contact Us</Link>
+
+                  <Link to="/financial" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'financials' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Give</Link>
                 </div>
 
                 {/* Sign In / User / Admin Logout / Patron button - always right */}
@@ -983,17 +972,15 @@ const Header = () => {
             
             <Link to="/philosophy" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'philosophies' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Philosophies</Link>
             
-            <Link to="/financial" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'financials' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Financials</Link>
-            
             <Link to="/leadership" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'leadership' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Leadership</Link>
-
-            <Link to="/handbook" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'handbook' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Handbook</Link>
             
             <Link to="/media" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'media' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Gallery</Link>
             
             <Link to="/news" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'news' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>News</Link>
             
-            <Link to="/recomendations" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'feedback' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Feedback</Link>
+            <Link to="/recomendations" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'feedback' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Contact Us</Link>
+            
+            <Link to="/financial" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'financials' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Give</Link>
             
             <div className="mt-2 pt-4 pb-5 border-t border-black/5 flex justify-center px-4">
                 {isAdmin && isPatron ? (

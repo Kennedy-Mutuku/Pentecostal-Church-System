@@ -14,8 +14,8 @@ export const organizationSections: NavSection[] = [
   {
     title: 'Quick Access',
     items: [
-      { label: 'Feedback', href: '/recomendations' },
-      { label: 'Financials', href: '/financial' }
+      { label: 'Contact Us', href: '/recomendations' },
+      { label: 'Give', href: '/financial' }
     ],
   },
   {
@@ -150,7 +150,6 @@ export const headerNavGroups = {
       title: 'Governing Docs',
       items: [
         { label: 'Constitution', href: '/pdfs/constitution.pdf', external: true },
-        { label: 'Church Handbook', href: '/handbook' },
         { label: 'Financial Policy', href: '#' },
         { label: 'Partnership Policies', href: '#' },
       ],

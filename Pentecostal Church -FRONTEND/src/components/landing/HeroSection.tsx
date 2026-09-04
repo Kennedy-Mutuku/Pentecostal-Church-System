@@ -17,7 +17,7 @@ const HeroSection = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="relative w-full min-h-[650px] md:h-[750px] flex flex-col overflow-visible bg-black select-none font-sans mt-0 md:mt-0 mb-[550px] sm:mb-[580px] md:mb-0">
+    <section className="relative w-full min-h-[520px] md:min-h-[750px] flex flex-col overflow-visible bg-black select-none font-sans mt-0 md:mt-0 mb-[550px] sm:mb-[580px] md:mb-0">
       
       {/* Background Image with slow zoom animation */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -33,7 +33,7 @@ const HeroSection = () => {
       </div>
 
       {/* Main Content Overlay */}
-      <div className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 lg:px-8 flex flex-col justify-center pb-24 pt-16">
+      <div className="relative z-10 flex-1 w-full max-w-7xl mx-auto px-6 lg:px-8 flex flex-col justify-center pb-16 md:pb-24 pt-16">
         
         <div className="max-w-3xl space-y-5">
 

@@ -6,11 +6,10 @@ const quickLinks: { label: string; href: string; external?: boolean }[] = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about' },
   { label: 'Philosophies', href: '/philosophy' },
-  { label: 'Financials', href: '/financial' },
   { label: 'Leadership', href: '/leadership' },
-  { label: 'Handbook', href: '/handbook' },
   { label: 'Gallery', href: '/media' },
-  { label: 'Feedback', href: '/recomendations' },
+  { label: 'Contact Us', href: '/recomendations' },
+  { label: 'Give', href: '/financial' },
 ];
 
 const socialLinks = [
