@@ -12,47 +12,53 @@ exports.login = async (req, res) => {
   try {
     let { email, password } = req.body;
 
-    // Enhanced logging for debugging device-specific issues
-    console.log('🔐 LOGIN ATTEMPT:', {
-      email: email?.toLowerCase(),
-      passwordProvided: !!password,
-      userAgent: req.headers['user-agent'],
-      origin: req.headers.origin,
-      ip: req.ip || req.connection.remoteAddress,
-      referer: req.headers.referer,
-      timestamp: new Date().toISOString()
-    });
-
-    email = email.toLowerCase();
-
     if (!email || !password) {
       return res.status(400).json({ message: 'Email and password are required' });
     }
 
-    const user = await User.findOne({ email });
-    if (!user) {
-      console.log('invalid username');
+    const identifier = (email || '').trim();
+    const normalizedEmail = identifier.toLowerCase();
+    const escapedEmail = normalizedEmail.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 
+    console.log('🔐 LOGIN ATTEMPT:', {
+      email: normalizedEmail,
+      passwordProvided: !!password,
+      userAgent: req.headers['user-agent'],
+      origin: req.headers.origin,
+      timestamp: new Date().toISOString()
+    });
+
+    const user = await User.findOne({
+      $or: [
+        { email: normalizedEmail },
+        { email: { $regex: new RegExp('^' + escapedEmail + '$', 'i') } },
+        { phone: identifier },
+        { idNumber: identifier }
+      ]
+    });
+
+    if (!user) {
+      console.log('User not found:', identifier);
       return res.status(401).json({ message: 'Invalid username or password' });
     }
+
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
-      console.log('invalid pswd');
+      console.log('Invalid password for user:', identifier);
       return res.status(401).json({ message: 'Invalid username or password' });
     }
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_USER_SECRET, { expiresIn: '3d' });
 
-    // Enhanced cookie settings for better cross-device compatibility
+    const secretKey = process.env.JWT_USER_SECRET || 'local_dev_user_secret_key_2025';
+    const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '7d' });
+
+    // Enhanced cookie settings for cross-domain and mobile compatibility
     const cookieOptions = {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      maxAge: 3 * 24 * 60 * 60 * 1000, // 3 days in milliseconds
+      maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
       sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
+      path: '/'
     };
-
-    console.log('🍪 Setting cookie with options:', cookieOptions);
-    console.log('🍪 User agent:', req.headers['user-agent']);
-    console.log('🍪 Origin:', req.headers.origin);
 
     // Set httpOnly cookie for API requests (secure)
     res.cookie('user_s', token, cookieOptions);
@@ -60,7 +66,7 @@ exports.login = async (req, res) => {
     // Set accessible cookie for socket authentication
     const socketCookieOptions = {
       ...cookieOptions,
-      httpOnly: false // Make this accessible to JavaScript for socket auth
+      httpOnly: false
     };
     res.cookie('socket_token', token, socketCookieOptions);
 

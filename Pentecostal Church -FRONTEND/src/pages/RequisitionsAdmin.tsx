@@ -157,10 +157,10 @@ const RequisitionsAdmin: React.FC = () => {
     if (search) {
       filtered = filtered.filter(
         (req) =>
-          req.recipientName.toLowerCase().includes(search.toLowerCase()) ||
-          req.purpose.toLowerCase().includes(search.toLowerCase()) ||
+          (req.recipientName || '').toLowerCase().includes((search || '').toLowerCase()) ||
+          (req.purpose || '').toLowerCase().includes((search || '').toLowerCase()) ||
           req.items.some((item) =>
-            item.itemName.toLowerCase().includes(search.toLowerCase()),
+            (item.itemName || '').toLowerCase().includes((search || '').toLowerCase()),
           ),
       );
     }

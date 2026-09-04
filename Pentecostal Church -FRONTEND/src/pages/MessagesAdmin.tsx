@@ -143,9 +143,9 @@ const MessagesAdmin = () => {
     // Filter by search term
     if (searchTerm) {
       filtered = filtered.filter(message =>
-        message.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        message.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (message.senderInfo?.username.toLowerCase().includes(searchTerm.toLowerCase()))
+        (message.subject || '').toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+        (message.message || '').toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+        ((message.senderInfo?.username || '').toLowerCase().includes((searchTerm || '').toLowerCase()))
       );
     }
 

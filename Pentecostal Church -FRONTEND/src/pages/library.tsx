@@ -83,7 +83,7 @@ const Library: React.FC = () => {
   const filterBooks = () => {
     setFilteredBooks(
       books.filter(book =>
-        book.title.toLowerCase().includes(search.toLowerCase()) &&
+        (book.title || '').toLowerCase().includes((search || '').toLowerCase()) &&
         (selectedCategory === '' || book.category === selectedCategory)
       )
     );

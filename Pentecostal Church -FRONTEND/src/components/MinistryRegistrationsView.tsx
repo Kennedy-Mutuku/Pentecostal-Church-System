@@ -100,9 +100,9 @@ const MinistryRegistrationsView: React.FC<MinistryRegistrationsViewProps> = ({ m
 
     const filtered = registrations.filter(reg => {
         const statusMatch = filter === 'all' || reg.status === filter;
-        const searchMatch = reg.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            reg.registrationNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            reg.ministry.toLowerCase().includes(searchTerm.toLowerCase());
+        const searchMatch = reg.fullName.toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+            reg.registrationNumber.toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+            reg.ministry.toLowerCase().includes((searchTerm || '').toLowerCase());
         return statusMatch && searchMatch;
     });
 

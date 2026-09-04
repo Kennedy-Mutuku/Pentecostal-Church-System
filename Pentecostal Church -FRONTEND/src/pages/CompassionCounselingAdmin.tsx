@@ -397,8 +397,8 @@ const CompassionCounselingAdmin: React.FC = () => {
   };
 
   const filteredRequests = helpRequests.filter(request => {
-    const matchesSearch = request.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         request.description.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = (request.name || '').toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+                         (request.description || '').toLowerCase().includes((searchTerm || '').toLowerCase()) ||
                          request.phone.includes(searchTerm);
     const matchesStatus = statusFilter === 'all' || request.status === statusFilter;
     const matchesUrgency = urgencyFilter === 'all' || request.urgency === urgencyFilter;
@@ -407,8 +407,8 @@ const CompassionCounselingAdmin: React.FC = () => {
   });
 
   const filteredDonations = donations.filter(donation => {
-    const matchesSearch = donation.donorName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         donation.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    const matchesSearch = (donation.donorName || '').toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+                         (donation.email || '').toLowerCase().includes((searchTerm || '').toLowerCase()) ||
                          donation.phone.includes(searchTerm);
     const matchesStatus = statusFilter === 'all' || donation.status === statusFilter;
     

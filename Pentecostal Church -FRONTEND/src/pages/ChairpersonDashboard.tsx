@@ -752,13 +752,13 @@ const ChairpersonDashboard: React.FC = () => {
         // Combined filter: year + search + section
         const displayUsers = users.filter(user => {
             const matchesYos = selectedAgeGroup === 'all' || user.ageGroup === selectedAgeGroup;
-            const q = searchQuery.toLowerCase();
+            const q = (searchQuery || '').toLowerCase();
             const matchesSearch = !q ||
-                user.username?.toLowerCase().includes(q) ||
-                user.email?.toLowerCase().includes(q) ||
+                (user.username || '').toLowerCase().includes(q) ||
+                (user.email || '').toLowerCase().includes(q) ||
                 user.phone?.includes(searchQuery) ||
-                user.reg?.toLowerCase().includes(q) ||
-                user.course?.toLowerCase().includes(q);
+                (user.reg || '').toLowerCase().includes(q) ||
+                (user.course || '').toLowerCase().includes(q);
                 
             const isEtView = activeSection.startsWith('age-');
             const isMinView = activeSection.startsWith('gender-');

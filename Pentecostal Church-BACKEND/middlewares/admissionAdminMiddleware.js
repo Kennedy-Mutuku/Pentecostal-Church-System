@@ -1,7 +1,4 @@
 const jwt = require('jsonwebtoken');
-const { verify } = jwt;
-
-const secretKey = process.env.JWT_ADMISSION_ADMIN_SECRET;
 
 module.exports = (req, res, next) => {
   const token = req.cookies.admission_admin_token;
@@ -11,7 +8,9 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ message: 'Authentication failed: No token provided.' });
   }
 
-  verify(token, secretKey, (err, decoded) => {
+  const secretKey = process.env.JWT_ADMISSION_ADMIN_SECRET || process.env.JWT_ADMIN_SECRET || 'local_dev_admission_admin_secret_2025';
+
+  jwt.verify(token, secretKey, (err, decoded) => {
     if (err) {
       return res.status(403).json({ message: `Authentication failed: ${err.message}` });
     }

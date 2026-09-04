@@ -418,7 +418,7 @@ const AttendanceSessionManagement: React.FC = () => {
                 </div>
 
                 {message && (
-                    <div className={`${styles.message} ${message.toLowerCase().includes('error') ? styles.errorMessage : ''}`}>
+                    <div className={`${styles.message} ${(message || '').toLowerCase().includes('error') ? styles.errorMessage : ''}`}>
                         {message}
                     </div>
                 )}

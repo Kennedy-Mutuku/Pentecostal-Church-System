@@ -142,9 +142,9 @@ const MinistryMessagesView: React.FC<MinistryMessagesViewProps> = ({ role }) => 
     };
 
     const filteredMessages = messages.filter(msg =>
-        msg.subject.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        msg.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        (msg.senderInfo?.username || '').toLowerCase().includes(searchTerm.toLowerCase())
+        msg.subject.toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+        msg.(message || '').toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+        (msg.senderInfo?.username || '').toLowerCase().includes((searchTerm || '').toLowerCase())
     );
 
     if (!role) return null;

@@ -300,8 +300,8 @@ const Media: React.FC = () => {
   // Sort and filter events
   const sortedEvents = allEvents
     .filter(item => 
-      item.event.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.date.toLowerCase().includes(searchTerm.toLowerCase())
+      (item.event || '').toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+      (item.date || '').toLowerCase().includes((searchTerm || '').toLowerCase())
     )
     .sort((a, b) => {
       // Create unified timestamps for both items

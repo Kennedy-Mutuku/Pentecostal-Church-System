@@ -62,10 +62,10 @@ const AdminUserSelector = ({ onUserSelected, selectedUserId }: AdminUserSelector
     }
 
     const filtered = users.filter(user =>
-      user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.username.toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+      user.email.toLowerCase().includes((searchTerm || '').toLowerCase()) ||
       user.phone.includes(searchTerm) ||
-      user.reg.toLowerCase().includes(searchTerm.toLowerCase())
+      user.reg.toLowerCase().includes((searchTerm || '').toLowerCase())
     );
 
     setFilteredUsers(filtered);

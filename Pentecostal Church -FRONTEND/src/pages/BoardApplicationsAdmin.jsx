@@ -101,8 +101,8 @@ function BoardApplicationsAdmin() {
   };
 
   const filtered = applications.filter((a) =>
-    a.applicantName.toLowerCase().includes(search.toLowerCase()) ||
-    a.boardId.toLowerCase().includes(search.toLowerCase())
+    (a.applicantName || '').toLowerCase().includes((search || '').toLowerCase()) ||
+    (a.boardId || '').toLowerCase().includes((search || '').toLowerCase())
   );
 
   const totalByBoard = (boardId) => {

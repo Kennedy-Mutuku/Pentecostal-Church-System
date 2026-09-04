@@ -221,7 +221,7 @@ const Requisitions: React.FC = () => {
       });
       const userReqs = response.data.filter(
         (req: RequisitionForm) =>
-          req.recipientName.toLowerCase() === userName.toLowerCase(),
+          (req.recipientName || '').toLowerCase() === userName.toLowerCase(),
       );
       setUserRequisitions(userReqs);
     } catch (error) {
@@ -232,7 +232,7 @@ const Requisitions: React.FC = () => {
       );
       const userReqs = allRequisitions.filter(
         (req: RequisitionForm) =>
-          req.recipientName.toLowerCase() === userName.toLowerCase(),
+          (req.recipientName || '').toLowerCase() === userName.toLowerCase(),
       );
       setUserRequisitions(userReqs);
     }

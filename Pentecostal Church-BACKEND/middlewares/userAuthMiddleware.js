@@ -1,8 +1,4 @@
 const jwt = require('jsonwebtoken');
-const pkg = require('jsonwebtoken');
-const { verify } = pkg;
-
-const secretKey = process.env.JWT_USER_SECRET;
 
 module.exports = (req, res, next) => {
   const token = req.cookies.user_s;
@@ -11,7 +7,9 @@ module.exports = (req, res, next) => {
     return res.status(401).json({ message: 'Authentication failed: No token provided.' });
   }
 
-  verify(token, secretKey, (err, decoded) => {
+  const secretKey = process.env.JWT_USER_SECRET || 'local_dev_user_secret_key_2025';
+
+  jwt.verify(token, secretKey, (err, decoded) => {
     if (err) {
       return res.status(403).json({ message: `Authentication failed: ${err.message}` });
     }

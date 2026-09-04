@@ -119,12 +119,12 @@ const UserManagement: React.FC = () => {
       return;
     }
 
-    const term = searchTerm.toLowerCase();
+    const term = (searchTerm || '').toLowerCase();
     const filtered = users.filter(user =>
-      user.username?.toLowerCase().includes(term) ||
-      user.email?.toLowerCase().includes(term) ||
+      (user.username || '').toLowerCase().includes(term) ||
+      (user.email || '').toLowerCase().includes(term) ||
       user.phone?.includes(searchTerm) ||
-      user.residence?.toLowerCase().includes(term)
+      (user.residence || '').toLowerCase().includes(term)
     );
     
     setFilteredUsers(filtered);

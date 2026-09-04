@@ -117,8 +117,8 @@ const WorshipCoordinatorCommitmentsView: React.FC<CommitmentsViewProps> = ({ rol
     const filtered = commitments.filter(c => {
         const statusMatch = filter === 'all' || c.status === filter;
         const ministryMatch = ministryFilter === 'all' || c.ministry === ministryFilter;
-        const searchMatch = c.fullName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            c.regNo.toLowerCase().includes(searchTerm.toLowerCase());
+        const searchMatch = c.fullName.toLowerCase().includes((searchTerm || '').toLowerCase()) ||
+            c.regNo.toLowerCase().includes((searchTerm || '').toLowerCase());
         return statusMatch && ministryMatch && searchMatch;
     });
 

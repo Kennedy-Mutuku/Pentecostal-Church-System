@@ -154,8 +154,8 @@ const AdminManager: React.FC = () => {
         <h3 className={styles.tabTitle}>{currentTab.label} Management</h3>
         <p style={{ color: '#666', fontSize: '13px', marginBottom: '16px' }}>
           {currentTab.singleOnly
-            ? `Only one ${currentTab.label.toLowerCase()} account can exist.`
-            : `Create and manage ${currentTab.label.toLowerCase()} accounts.`
+            ? `Only one ${(currentTab.label || '').toLowerCase()} account can exist.`
+            : `Create and manage ${(currentTab.label || '').toLowerCase()} accounts.`
           }
         </p>
 
@@ -187,7 +187,7 @@ const AdminManager: React.FC = () => {
             <thead><tr><th>Email</th>{currentTab.hasPhone && <th>Phone</th>}<th>Created</th><th>Actions</th></tr></thead>
             <tbody>
               {admins.length === 0 ? (
-                <tr><td colSpan={currentTab.hasPhone ? 4 : 3} style={{ textAlign: 'center', color: '#999', padding: '20px' }}>No {currentTab.label.toLowerCase()} accounts yet.</td></tr>
+                <tr><td colSpan={currentTab.hasPhone ? 4 : 3} style={{ textAlign: 'center', color: '#999', padding: '20px' }}>No {(currentTab.label || '').toLowerCase()} accounts yet.</td></tr>
               ) : admins.map(u => (
                 <tr key={u._id}>
                   <td style={{ cursor: 'pointer' }} onClick={() => handleCopyEmail(u.email)} title="Click to copy">{u.email}</td>

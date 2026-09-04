@@ -1,7 +1,5 @@
 const jwt = require('jsonwebtoken');
 
-const secretKey = process.env.JWT_USER_SECRET;
-
 module.exports = (req, res, next) => {
   // Try to get token from cookies first, then from Authorization header
   let token = req.cookies.user_s;
@@ -16,6 +14,8 @@ module.exports = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: 'Authentication failed: No token provided.' });
   }
+
+  const secretKey = process.env.JWT_USER_SECRET || 'local_dev_user_secret_key_2025';
 
   jwt.verify(token, secretKey, (err, decoded) => {
     if (err) {

@@ -216,8 +216,6 @@ const SignIn: React.FC = () => {
     };
 
     const handleSubmit = async () => {
-        // Define mappings for email domains to endpoints and routes
-
         if (formData.email === '' || formData.password === '') {
             setError('All fields required 🙂')
             return
@@ -228,30 +226,59 @@ const SignIn: React.FC = () => {
 
         // More flexible auto-completion for admin emails
         const adminPatterns = [
-            { pattern: /^admin@rpcmcsuperadmi/i, complete: 'admin@rpcmcsuperadmin.co.ke' },  // Handle typos
-            { pattern: /^admin@rpcmcsuperadmin$/i, complete: 'admin@rpcmcsuperadmin.co.ke' },  // Exact match without .co.ke
-            { pattern: /^admin@rpcmcadmissionadmin/i, complete: 'admin@rpcmcadmissionadmin.org' }
+            { pattern: /^admin@rpcmcsuperadmi/i, complete: 'admin@rpcmcsuperadmin.co.ke' },
+            { pattern: /^admin@rpcmcsuperadmin$/i, complete: 'admin@rpcmcsuperadmin.co.ke' },
+            { pattern: /^admin@rpcmcadmissionadmin$/i, complete: 'admin@rpcmcadmissionadmin.org' },
+            { pattern: /^admin@rpcadmissionadmin$/i, complete: 'admin@rpcadmissionadmin.org' }
         ];
 
-        // Check if the email matches any pattern and doesn't already end with .co.ke
-        if (!processedEmail.endsWith('.co.ke')) {
-            for (const { pattern, complete } of adminPatterns) {
-                if (pattern.test(processedEmail)) {
-                    console.log('📧 SignIn: Auto-completing email from:', processedEmail, 'to:', complete);
-                    processedEmail = complete;
-                    break;
-                }
+        for (const { pattern, complete } of adminPatterns) {
+            if (pattern.test(processedEmail)) {
+                console.log('📧 SignIn: Auto-completing email from:', processedEmail, 'to:', complete);
+                processedEmail = complete;
+                break;
             }
         }
 
-        const domainMappings = [
-            { domain: '@rpcmcsuperadmin.co.ke', endpoint: getApiUrl('superAdmin'), route: '/admin' },
-            { domain: '@rikurumachurch.com', endpoint: getApiUrl('superAdmin'), route: '/admin' },
-            { domain: '@rpcmcadmissionadmin.org', endpoint: getApiUrl('admissionAdmin'), route: '/admission' },
-        ];
+        // Determine admin role matches
+        const isAdmissionAdmin = 
+            processedEmail.includes('admissionadmin') || 
+            processedEmail.includes('admission') ||
+            processedEmail === 'admin@rpcadmissionadmin.org' ||
+            processedEmail === 'admin@rpcmcadmissionadmin.org' ||
+            processedEmail === 'admin@rpcmcadmissionadmin.co.ke';
 
-        // Overseer login — check by exact email match
-        if (processedEmail === 'overseer@rpc-nyamira.co.ke' || processedEmail === 'overseer@ksucu-mc.co.ke') {
+        const isSuperAdmin = 
+            processedEmail.includes('superadmin') || 
+            processedEmail.endsWith('@rpcmcsuperadmin.co.ke') || 
+            processedEmail.endsWith('@rikurumachurch.com') ||
+            processedEmail === 'superadmin@rpc.ac.ke' ||
+            processedEmail === 'admin@rpcmcsuperadmin.co.ke';
+
+        const isPatron = 
+            processedEmail === 'admin@rpcpastor.org' || 
+            processedEmail.includes('pastor') || 
+            processedEmail.includes('patron');
+
+        const isChairperson = 
+            processedEmail === 'chairperson@rpc.ac.ke' || 
+            processedEmail.startsWith('chairperson@');
+
+        const isTreasurer = 
+            processedEmail.startsWith('treasurer@') || 
+            processedEmail.endsWith('@rpctreasurer.org') ||
+            processedEmail === 'treasurer@rpc.ac.ke' ||
+            processedEmail === 'auditor@rpc.ac.ke' ||
+            processedEmail === 'chair_accounts@rpc.ac.ke';
+
+        const isOverseer = 
+            processedEmail === 'overseer@rpc-nyamira.co.ke' || 
+            processedEmail === 'overseer@ksucu-mc.co.ke' || 
+            processedEmail === 'overseer@rpc.ac.ke' ||
+            processedEmail.startsWith('overseer@');
+
+        // Overseer login — check by email match
+        if (isOverseer) {
             // Local dev mode bypass
             if (isDevMode() && formData.password === 'Admin01q7') {
                 sessionStorage.setItem('adminAuth', 'authenticated');
@@ -273,12 +300,6 @@ const SignIn: React.FC = () => {
             }
         }
 
-        // Offline check disabled - always try to login
-        // if (!navigator.onLine) {
-        //     setError('Check your internet and try again...');
-        //     return;
-        // }
-
         window.scrollTo({
             top: 0,
             behavior: 'auto', // 'auto' for instant scroll
@@ -287,33 +308,26 @@ const SignIn: React.FC = () => {
         setgeneralLoading(true);
 
         try {
-            // Find the matching configuration based on the email domain
-            const mapping = domainMappings.find(mapping =>
-                processedEmail?.endsWith(mapping.domain)
-            );
-
             // Determine endpoint and route
             let endpoint: string;
             let route: string;
 
-            if (processedEmail === 'admin@rpcpastor.org') {
-                // Patron login
+            if (isPatron) {
                 endpoint = getApiUrl('patronLogin');
                 route = '/patron';
-            } else if (processedEmail === 'chairperson@rpc.ac.ke') {
-                // Chairperson login
+            } else if (isChairperson) {
                 endpoint = getApiUrl('superAdmin');
                 route = '/chairperson';
-            } else if (processedEmail.startsWith('treasurer@') || processedEmail.endsWith('@rpctreasurer.org')) {
-                // Treasurer login
-                endpoint = getApiUrl('financeLogin'); // Authenticates directly against the finance backend
+            } else if (isTreasurer) {
+                endpoint = getApiUrl('financeLogin');
                 route = '/treasurer';
-            } else if (mapping) {
-                // Admin domain found
-                endpoint = mapping.endpoint;
-                route = mapping.route;
+            } else if (isAdmissionAdmin) {
+                endpoint = getApiUrl('admissionAdmin');
+                route = '/admission';
+            } else if (isSuperAdmin) {
+                endpoint = getApiUrl('superAdmin');
+                route = '/admin';
             } else {
-                // Default to regular user login
                 endpoint = getApiUrl('usersLogin');
                 route = '/profile';
             }
@@ -321,7 +335,7 @@ const SignIn: React.FC = () => {
             console.log('🔐 SignIn: Email entered:', formData.email);
             console.log('🔐 SignIn: Processed email:', processedEmail);
             console.log('🔐 SignIn: Password length:', formData.password?.length);
-            console.log('🔐 SignIn: Mapping found:', mapping ? 'Yes (Admin)' : 'No (User)');
+            console.log('🔐 SignIn: Target role:', isAdmissionAdmin ? 'AdmissionAdmin' : isSuperAdmin ? 'SuperAdmin' : isPatron ? 'Patron' : isChairperson ? 'Chairperson' : isTreasurer ? 'Treasurer' : 'User');
             console.log('🔐 SignIn: Attempting login to:', endpoint);
             console.log('🔐 SignIn: Will redirect to:', route);
 
@@ -330,8 +344,6 @@ const SignIn: React.FC = () => {
                 email: processedEmail,
                 password: formData.password
             };
-
-            console.log('📤 SignIn: Sending login data:', { email: loginData.email, password: '***hidden***' });
 
             const response = await axios.post(endpoint, loginData, {
                 withCredentials: true, // Include cookies in the request
@@ -349,7 +361,7 @@ const SignIn: React.FC = () => {
              }
 
             // Log into the finance backend in the background to get a JWT token if patron
-            if (processedEmail === 'admin@rpcpastor.org') {
+            if (isPatron) {
                 try {
                     // Use the finance backend's dedicated read-only patron account
                     const financeRes = await axios.post(getApiUrl('financeLogin'), {
@@ -370,10 +382,10 @@ const SignIn: React.FC = () => {
             console.log('🔐 SignIn: Navigating to:', route);
 
             // Track admin/patron session for navbar display
-            if (processedEmail === 'admin@rpcpastor.org') {
+            if (isPatron) {
                 localStorage.setItem('adminSession', 'true');
                 localStorage.setItem('patronSession', 'true');
-            } else if (mapping || processedEmail.startsWith('treasurer@') || processedEmail.endsWith('@rpctreasurer.org') || processedEmail === 'chairperson@rpc.ac.ke') {
+            } else if (isSuperAdmin || isAdmissionAdmin || isTreasurer || isChairperson) {
                 localStorage.setItem('adminSession', 'true');
                 localStorage.removeItem('patronSession');
             } else {
