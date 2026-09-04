@@ -59,7 +59,7 @@ exports.initiatePayment = async (req, res) => {
 // Member-facing STK push (authenticated via user_s cookie)
 exports.memberPayment = async (req, res) => {
   try {
-    const { phone, amount, category } = req.body;
+    const { phone, amount, category, name, email } = req.body;
     if (!phone || !amount) {
       return res.status(400).json({ message: 'Phone number and amount are required.' });
     }
@@ -86,6 +86,8 @@ exports.memberPayment = async (req, res) => {
         user_id: req.user?.id || null,
         category: cat,
         phone,
+        payer_name: name || null,
+        email: email || null,
         amount: Math.round(amount),
       });
     }
@@ -224,7 +226,8 @@ exports.callback = async (req, res) => {
         amount,
         source: 'mpesa',
         phone: phoneStr,
-        payer_name: payerName || phoneStr,
+        payer_name: pending?.payer_name || payerName || phoneStr,
+        email: pending?.email || null,
         description: `M-Pesa payment ${mpesaCode}`,
         mpesa_receipt: mpesaCode,
         checkout_request_id: CheckoutRequestID,

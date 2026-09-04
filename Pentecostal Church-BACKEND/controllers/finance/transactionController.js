@@ -49,13 +49,25 @@ exports.getById = async (req, res) => {
 
 exports.getMyContributions = async (req, res) => {
   try {
-    // Match by user ID or by phone number (for M-Pesa payments)
-    const User = require("../../models/user");
-    const user = await User.findById(req.user.id).select("phone");
     const query = { type: "cash_in" };
 
+    // Anonymous: phone passed as query param (no login required)
+    if (!req.user && req.query.phone) {
+      let phone254 = req.query.phone.replace(/\s+/g, '');
+      if (phone254.startsWith('0')) phone254 = '254' + phone254.substring(1);
+      else if (phone254.startsWith('+')) phone254 = phone254.substring(1);
+      query.$or = [{ phone: phone254 }, { phone: req.query.phone }];
+      const transactions = await Transaction.find(query).sort({ createdAt: -1 });
+      return res.json(transactions);
+    }
+
+    if (!req.user) return res.status(401).json({ message: 'Please log in to view your contributions.' });
+
+    // Logged-in user: match by user ID or phone
+    const User = require("../../models/user");
+    const user = await User.findById(req.user.id).select("phone");
+
     if (user && user.phone) {
-      // Format phone to 254... to match M-Pesa format
       let phone254 = user.phone.replace(/\s+/g, '');
       if (phone254.startsWith('0')) phone254 = '254' + phone254.substring(1);
       else if (phone254.startsWith('+')) phone254 = phone254.substring(1);

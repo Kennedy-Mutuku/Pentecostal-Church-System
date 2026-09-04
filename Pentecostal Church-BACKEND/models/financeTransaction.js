@@ -8,6 +8,7 @@ const financeTransactionSchema = new mongoose.Schema(
     source: { type: String, enum: ["mpesa", "cash"], required: true },
     phone: { type: String },
     payer_name: { type: String },
+    email: { type: String },
     description: { type: String },
     receipt_url: { type: String },
     recorded_by: { type: mongoose.Schema.Types.ObjectId, ref: "User" },

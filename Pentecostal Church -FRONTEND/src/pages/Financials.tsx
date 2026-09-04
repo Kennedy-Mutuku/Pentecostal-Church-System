@@ -24,7 +24,8 @@ const FinancialsPage: React.FC = () => {
   const [contributions, setContributions] = useState<Contribution[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [payForm, setPayForm] = useState({ phone: '', amount: '', category: '' });
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [payForm, setPayForm] = useState({ phone: '', amount: '', category: '', name: '', email: '' });
   const [payLoading, setPayLoading] = useState(false);
   const [payMsg, setPayMsg] = useState('');
   const [payError, setPayError] = useState('');
@@ -34,14 +35,30 @@ const FinancialsPage: React.FC = () => {
   const pollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const resolvedRef = useRef(false);
 
-  useEffect(() => { fetchContributions(); }, []);
+  useEffect(() => {
+    // Check if user is logged in
+    fetch(`${getBaseUrl()}/api/users/me`, { credentials: 'include' })
+      .then(r => { if (r.ok) setIsLoggedIn(true); })
+      .catch(() => {});
 
-  const fetchContributions = async () => {
+    // Load saved phone from localStorage for anon history
+    const savedPhone = localStorage.getItem('rpc_donor_phone');
+    fetchContributions(savedPhone || undefined);
+  }, []);
+
+  const fetchContributions = async (phone?: string) => {
     try {
-      const res = await fetch(`${getBaseUrl()}/api/finance/my-contributions`, { credentials: 'include' });
-      if (res.ok) setContributions(await res.json());
-      else if (res.status === 401) setError('Please log in to view your contributions.');
-      else setError('Unable to load contributions.');
+      let url = `${getBaseUrl()}/api/finance/my-contributions`;
+      if (phone) url += `?phone=${encodeURIComponent(phone)}`;
+      const res = await fetch(url, { credentials: 'include' });
+      if (res.ok) {
+        setContributions(await res.json());
+        setError('');
+      } else if (res.status === 401) {
+        setError(''); // No error shown — anonymous view just shows empty
+      } else {
+        setError('Unable to load contributions.');
+      }
     } catch { setError('Unable to connect to server.'); }
     setLoading(false);
   };
@@ -120,10 +137,18 @@ const FinancialsPage: React.FC = () => {
     try {
       const res = await fetch(`${getBaseUrl()}/api/finance/member-pay`, {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, credentials: 'include',
-        body: JSON.stringify({ phone: payForm.phone, amount: Number(payForm.amount), category: payForm.category }),
+        body: JSON.stringify({
+          phone: payForm.phone,
+          amount: Number(payForm.amount),
+          category: payForm.category,
+          name: payForm.name || undefined,
+          email: payForm.email || undefined,
+        }),
       });
       const data = await res.json();
       if (res.ok) {
+        // Save phone to localStorage so they can see history next time
+        if (payForm.phone) localStorage.setItem('rpc_donor_phone', payForm.phone);
         const checkoutID = data.data?.CheckoutRequestID;
         if (checkoutID) {
           pollStatus(checkoutID);
@@ -158,13 +183,13 @@ const FinancialsPage: React.FC = () => {
         .fin-verse span { font-size: 11px; color: #991b1b; font-weight: 600; }
 
         /* Till card — compact banner */
-        .fin-till { max-width: 420px; margin: 0 auto 14px; background: #D32F2F; border-radius: 12px; padding: 10px; box-shadow: 0 6px 16px rgba(211, 47, 47, 0.22); }
-        .fin-till-inner { background: rgba(255,255,255,0.15); backdrop-filter: blur(8px); border-radius: 9px; padding: 10px 14px; border: 1px solid rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+        .fin-till { max-width: 420px; margin: 0 auto 14px; background: #ffffff; border-radius: 12px; padding: 12px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); border: 1px solid #e5e7eb; }
+        .fin-till-inner { background: #f8fafc; border-radius: 9px; padding: 12px 16px; border: 1px solid #f1f5f9; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
         .fin-till-brand { text-align: left; }
-        .fin-till-brand .lipa { color: #86efac; font-weight: 800; font-size: 12px; letter-spacing: 0.8px; display: block; }
-        .fin-till-brand .mpesa { color: #fff; font-weight: 900; font-style: italic; font-size: 15px; }
-        .fin-till-sub { color: #fff; font-size: 9.5px; font-weight: 700; letter-spacing: 1.5px; opacity: 0.85; display: block; margin-top: 2px; }
-        .fin-till-number { color: #fbbf24; font-size: 28px; font-weight: 800; letter-spacing: 1.5px; text-shadow: 0 2px 8px rgba(0,0,0,0.15); font-family: Georgia, serif; line-height: 1; }
+        .fin-till-brand .lipa { color: #16a34a; font-weight: 700; font-size: 11px; letter-spacing: 0.5px; display: block; }
+        .fin-till-brand .mpesa { color: #111827; font-weight: 800; font-style: italic; font-size: 16px; }
+        .fin-till-sub { color: #6b7280; font-size: 10px; font-weight: 600; letter-spacing: 1px; display: block; margin-top: 2px; }
+        .fin-till-number { color: #111827; font-size: 26px; font-weight: 800; letter-spacing: 1px; font-family: 'Inter', sans-serif; line-height: 1; }
 
         /* Category selector */
         .fin-categories { display: grid; grid-template-columns: repeat(auto-fit, minmax(105px, 1fr)); gap: 6px; margin-bottom: 12px; }
@@ -248,14 +273,7 @@ const FinancialsPage: React.FC = () => {
       <div className="fin-form-card">
         <div className="fin-secure-badge">🔒 Secure payment powered by M-Pesa</div>
 
-        <div className="fin-form-header">
-          <div className="badge">M</div>
-          <div>
-            <h3>Lipa Na M-Pesa</h3>
-            <p>Contributing as: <strong>{payForm.category ? payForm.category.charAt(0).toUpperCase() + payForm.category.slice(1) : '—'}</strong></p>
-          </div>
-        </div>
-
+        {/* Status banners FIRST */}
         {payStatus === 'waiting' && (
           <div className="fin-status waiting">
             <div className="fin-spinner" />
@@ -274,7 +292,28 @@ const FinancialsPage: React.FC = () => {
           </div>
         )}
 
+        <div className="fin-form-header">
+          <div className="badge">M</div>
+          <div>
+            <h3>Lipa Na M-Pesa</h3>
+            <p>Contributing as: <strong>{payForm.category ? payForm.category.charAt(0).toUpperCase() + payForm.category.slice(1) : '—'}</strong></p>
+          </div>
+        </div>
+
         <form onSubmit={handlePay}>
+          {/* Name & Email — only for non-logged-in users */}
+          {!isLoggedIn && (
+            <>
+              <div className="fin-field">
+                <label>Your Name <span style={{ color: '#E53935' }}>*</span></label>
+                <input type="text" value={payForm.name} onChange={e => setPayForm({ ...payForm, name: e.target.value })} placeholder="e.g. John Kamau" required />
+              </div>
+              <div className="fin-field">
+                <label>Email Address <span style={{ color: '#6b7280', fontWeight: 400 }}>(optional — to receive a giving summary)</span></label>
+                <input type="email" value={payForm.email} onChange={e => setPayForm({ ...payForm, email: e.target.value })} placeholder="john@example.com" />
+              </div>
+            </>
+          )}
           <div className="fin-field">
             <label>Contribution Type <span style={{ color: '#E53935' }}>*</span></label>
             <select
@@ -291,7 +330,7 @@ const FinancialsPage: React.FC = () => {
           </div>
           <div className="fin-field">
             <label>Phone Number <span style={{ color: '#E53935' }}>*</span></label>
-            <input type="tel" value={payForm.phone} onChange={e => setPayForm({ ...payForm, phone: e.target.value })} placeholder="0712345678" required />
+            <input type="tel" pattern="^(?:254|\+254|0)?(7[0-9]{8}|1[0-9]{8})$" title="Please enter a valid Kenyan Safaricom/M-Pesa phone number e.g. 0712345678 or 254712345678" maxLength={13} value={payForm.phone} onChange={e => setPayForm({ ...payForm, phone: e.target.value.replace(/[^0-9+]/g, '') })} placeholder="0712345678" required />
           </div>
           <div className="fin-field">
             <label>Amount (KES)</label>
@@ -319,7 +358,7 @@ const FinancialsPage: React.FC = () => {
         ) : contributions.length === 0 ? (
           <div className="fin-history-empty">
             <p>No giving records found.</p>
-            <p>Your contributions will appear here once confirmed.</p>
+            <p>{isLoggedIn ? 'Your contributions will appear here once confirmed.' : 'Give above using your phone number — your history will automatically appear here next time you visit.'}</p>
           </div>
         ) : (
           <div className="fin-table-wrap">

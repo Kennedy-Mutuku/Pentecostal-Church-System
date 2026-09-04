@@ -11,6 +11,8 @@ const financePendingPaymentSchema = new mongoose.Schema(
     user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User", default: null },
     category: { type: String, default: "offering" },
     phone: { type: String, required: true },
+    payer_name: { type: String, default: null },
+    email: { type: String, default: null },
     amount: { type: Number, required: true },
     status: { type: String, enum: ["pending", "completed", "failed"], default: "pending" },
     createdAt: { type: Date, default: Date.now, expires: 3600 },

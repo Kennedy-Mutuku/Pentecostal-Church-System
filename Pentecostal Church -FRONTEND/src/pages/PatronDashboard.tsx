@@ -167,25 +167,28 @@ const PatronDashboard: React.FC = () => {
     const verifyAndFetchData = async () => {
         try {
             await axios.get(getApiUrl('patronVerify'), { withCredentials: true });
-            
-            // Check for welcome session
-            if (!sessionStorage.getItem('patron_welcomed')) {
-                setShowWelcome(true);
-                sessionStorage.setItem('patron_welcomed', 'true');
-                setTimeout(() => setShowWelcome(false), 3000);
-            }
-
-            await Promise.all([fetchUsers(), fetchMessages(), fetchMedia(), fetchFinanceData(), fetchFamilies()]);
-            
-            // Set initial counts after first full fetch to avoid "new login" spam notifications
-            // However, the user wants to see "what has changed", so if we want to show things 
-            // since last login, we should keep track in localStorage instead of just session.
         } catch (err: any) {
             if (err.response?.status === 401 || err.response?.status === 403) {
                 navigate('/signIn');
+                return;
             } else {
-                setError('Failed to load data. Please try again.');
+                setError('Failed to verify session. Please try again.');
+                setLoading(false);
+                return;
             }
+        }
+
+        // Check for welcome session
+        if (!sessionStorage.getItem('patron_welcomed')) {
+            setShowWelcome(true);
+            sessionStorage.setItem('patron_welcomed', 'true');
+            setTimeout(() => setShowWelcome(false), 3000);
+        }
+
+        try {
+            await Promise.allSettled([fetchUsers(), fetchMessages(), fetchMedia(), fetchFinanceData(), fetchFamilies()]);
+        } catch (err: any) {
+            console.error('Error fetching dashboard data:', err);
         } finally {
             setLoading(false);
         }

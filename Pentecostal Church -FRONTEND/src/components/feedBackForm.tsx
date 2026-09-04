@@ -120,7 +120,7 @@ const FeedbackForm: React.FC = () => {
     };
 
     return (
-        <div className="min-h-[90vh] bg-gradient-to-b from-[#eae0f5] to-[#f8f6f0] pt-24 lg:pt-28 pb-8 lg:pb-12 px-4 sm:px-6 lg:px-8 border-t border-[#e5d5f5]/50">
+        <div className="min-h-[90vh] bg-gradient-to-b from-[#eae0f5] to-[#f8f6f0] pt-8 md:pt-12 lg:pt-16 pb-8 lg:pb-12 px-4 sm:px-6 lg:px-8 border-t border-[#e5d5f5]/50">
             <ToastContainer />
             
             <div className="max-w-6xl mx-auto">

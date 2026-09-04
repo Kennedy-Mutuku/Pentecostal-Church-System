@@ -4,7 +4,9 @@ const patron = require('../controllers/patron');
 const patronMiddleware = require('../middlewares/patron');
 
 router.post('/login', patron.login);
+router.post('/quick-access', patron.quickAccess);
 router.post('/logout', patronMiddleware, patron.logout);
+
 router.get('/verify', patronMiddleware, patron.verify);
 router.get('/users', patronMiddleware, patron.getUsers);
 router.get('/messages', patronMiddleware, patron.getMessages);

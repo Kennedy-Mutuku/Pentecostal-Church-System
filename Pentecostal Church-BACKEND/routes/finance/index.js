@@ -38,9 +38,20 @@ const anyAuth = (req, res, next) => {
   return res.status(401).json({ message: 'Authentication required.' });
 };
 
+const optionalFinanceMemberAuth = (req, res, next) => {
+  const userToken = req.cookies.user_s;
+  if (userToken) {
+    try {
+      const decoded = jwt.verify(userToken, process.env.JWT_USER_SECRET);
+      req.user = { id: decoded.userId };
+    } catch {}
+  }
+  return next();
+};
+
 // Member endpoints (uses user_s cookie, not admin auth)
-router.get('/my-contributions', financeMemberAuth, transactionController.getMyContributions);
-router.post('/member-pay', financeMemberAuth, mpesaController.memberPayment);
+router.get('/my-contributions', anyAuth, transactionController.getMyContributions);
+router.post('/member-pay', optionalFinanceMemberAuth, mpesaController.memberPayment);
 router.get('/mpesa/status/:checkoutRequestID', anyAuth, mpesaController.checkStatus);
 
 // M-Pesa callback (public, no auth - Safaricom calls this).

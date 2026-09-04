@@ -201,6 +201,7 @@ const developmentConfig: ApiConfig = {
     patronMedia: '/patron/media',
     patronFamilies: '/patron/families',
     patronChangePassword: '/patron/change-password',
+    patronQuickAccess: '/patron/quick-access',
     financeLogin: '/api/finance/auth/login',
   }
 };

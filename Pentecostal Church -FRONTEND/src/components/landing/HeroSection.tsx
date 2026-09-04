@@ -53,7 +53,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative w-full min-h-[520px] md:min-h-[750px] flex flex-col overflow-visible bg-black select-none font-sans mt-0 md:mt-0 mb-[550px] sm:mb-[580px] md:mb-0">
+    <section className="relative w-full min-h-[520px] md:min-h-[750px] flex flex-col overflow-visible bg-black select-none font-sans mt-0 md:mt-0 mb-[330px] sm:mb-[350px] md:mb-0">
       
       {/* Background Image with slow zoom animation */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -87,10 +87,10 @@ const HeroSection = () => {
 
           {/* Buttons */}
           <div className="pt-6 flex flex-row gap-4 items-center">
-            <a href="#about" className="px-8 py-3.5 bg-[#b25712] hover:bg-[#9a4a0f] text-white text-sm font-bold rounded shadow-lg transition-all hover:shadow-xl hover:scale-105 cursor-pointer text-center">
-              Plan your visit
-            </a>
-            <button onClick={() => navigate('/media')} className="px-8 py-3.5 bg-white/80 hover:bg-white text-black text-sm font-bold rounded shadow-lg transition-all hover:scale-105 cursor-pointer text-center">
+            <button onClick={() => navigate('/financial')} className="px-8 py-3.5 bg-[#b25712] hover:bg-[#9a4a0f] text-white text-sm font-bold rounded shadow-lg transition-all hover:shadow-xl hover:scale-105 cursor-pointer text-center">
+              Give
+            </button>
+            <button onClick={() => navigate('/sermons')} className="px-8 py-3.5 bg-white/80 hover:bg-white text-black text-sm font-bold rounded shadow-lg transition-all hover:scale-105 cursor-pointer text-center">
               Watch sermons
             </button>
           </div>
@@ -99,44 +99,26 @@ const HeroSection = () => {
 
       {/* Mobile Floating Info Cards (Wrapped in a cream container to match screenshot) */}
       <div className="absolute top-[100%] -mt-4 left-0 right-0 z-30 block md:hidden">
-        <div className="bg-[#f8f6f0] mx-4 rounded-3xl p-6 sm:p-8 pt-8 sm:pt-10 shadow-2xl border border-[#e8e4db]">
-          <div className="flex flex-col gap-4">
-            {/* Card 1 */}
-            <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
-              <div className="flex flex-col space-y-1.5">
-                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">When we gather</span>
-                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Service Times</h3>
-                <p className="text-gray-600 text-[13px]">Sunday, Wednesday, Friday</p>
-                <button onClick={() => navigate('/news')} className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline text-left">Open &rarr;</button>
-              </div>
-            </div>
-            {/* Card 2 */}
-            <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
-              <div className="flex flex-col space-y-1.5">
-                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Worship with us</span>
-                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Our Choirs</h3>
-                <p className="text-gray-600 text-[13px]">Praise, worship & adoration</p>
-                <button onClick={() => navigate('/choirs')} className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline text-left">Open &rarr;</button>
-              </div>
-            </div>
-            {/* Card 3 */}
-            <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
-              <div className="flex flex-col space-y-1.5">
-                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Word of God</span>
-                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Sermons</h3>
-                <p className="text-gray-600 text-[13px]">Watch our latest messages</p>
-                <button onClick={() => navigate('/media')} className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline text-left">Open &rarr;</button>
-              </div>
-            </div>
-            {/* Card 4 */}
-            <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
-              <div className="flex flex-col space-y-1.5">
+        <div className="bg-[#f8f6f0] mx-4 rounded-3xl p-5 sm:p-6 shadow-2xl border border-[#e8e4db]">
+          <div className="flex flex-col gap-3">
+            {/* Card 4 (Next Service) */}
+            <div className="bg-white rounded-[14px] shadow-sm p-4 py-3 border border-gray-100">
+              <div className="flex flex-col space-y-1">
                 <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Next Service</span>
                 <h3 className="text-gray-900 font-bold text-lg tabular-nums tracking-tight" style={{ fontFamily: "'Inter', sans-serif" }}>
                   {countdown || 'Loading...'}
                 </h3>
                 <p className="text-gray-600 text-[13px]">Sunday at 9:00 AM</p>
-                <button onClick={() => navigate('/news')} className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline text-left">Open &rarr;</button>
+                <button onClick={() => navigate('/news')} className="text-[#7c2d12] text-xs font-bold mt-1.5 hover:underline text-left">Open &rarr;</button>
+              </div>
+            </div>
+            {/* Card 3 (Sermons) */}
+            <div className="bg-white rounded-[14px] shadow-sm p-4 py-3 border border-gray-100">
+              <div className="flex flex-col space-y-1">
+                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Word of God</span>
+                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Sermons</h3>
+                <p className="text-gray-600 text-[13px]">Watch our latest messages</p>
+                <button onClick={() => navigate('/sermons')} className="text-[#7c2d12] text-xs font-bold mt-1.5 hover:underline text-left">Open &rarr;</button>
               </div>
             </div>
           </div>
@@ -171,7 +153,7 @@ const HeroSection = () => {
               <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Word of God</span>
               <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Sermons</h3>
               <p className="text-gray-600 text-xs">Watch our latest messages</p>
-              <button onClick={() => navigate('/media')} className="text-red-900 text-xs font-bold mt-1 hover:underline text-left">Open &rarr;</button>
+              <button onClick={() => navigate('/sermons')} className="text-red-900 text-xs font-bold mt-1 hover:underline text-left">Open &rarr;</button>
             </div>
 
             <div className="w-[1px] h-16 bg-gray-200"></div>
