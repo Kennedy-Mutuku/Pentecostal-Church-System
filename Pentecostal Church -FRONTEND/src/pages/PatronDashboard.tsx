@@ -156,7 +156,7 @@ const PatronDashboard: React.FC = () => {
         setFamiliesLoading(true);
         try {
             const response = await axios.get(getApiUrl('patronFamilies'), { withCredentials: true });
-            setFamilies(response.data || []);
+            setFamilies(Array.isArray(response.data) ? response.data : []);
         } catch (err) {
             console.error('Error fetching families for patron:', err);
         } finally {
@@ -314,7 +314,7 @@ const PatronDashboard: React.FC = () => {
     const fetchMedia = async () => {
         try {
             const response = await axios.get(getApiUrl('patronMedia'), { withCredentials: true });
-            const apiItems = response.data || [];
+            const apiItems = Array.isArray(response.data) ? response.data : [];
             // Merge API items with defaults
             const merged = [...apiItems];
             defaultMediaEvents.forEach(def => {
@@ -909,7 +909,7 @@ const PatronDashboard: React.FC = () => {
 
     const renderMembers = () => {
         // Combined filter: ageGroup + search + section
-        const displayUsers = (users || []).filter(user => {
+        const displayUsers = (Array.isArray(users) ? users : []).filter(user => {
             const matchesAgeGroup = selectedAgeGroup === 'all' || user?.ageGroup === selectedAgeGroup;
             const q = (searchQuery || '').toLowerCase();
             const matchesSearch = !q ||
@@ -1240,7 +1240,7 @@ const PatronDashboard: React.FC = () => {
     );
 
     const [gallerySearch, setGallerySearch] = useState('');
-    const filteredGallery = (mediaItems || []).filter(item =>
+    const filteredGallery = (Array.isArray(mediaItems) ? mediaItems : []).filter(item =>
         (item?.event || '').toLowerCase().includes((gallerySearch || '').toLowerCase()) ||
         (item?.date || '').toLowerCase().includes((gallerySearch || '').toLowerCase())
     );
@@ -1417,7 +1417,7 @@ const PatronDashboard: React.FC = () => {
         const avgFamilySize = totalFamiliesCount > 0 ? (totalFamilyMembersCount / totalFamiliesCount).toFixed(1) : '0';
         const maxFamilySize = totalFamiliesCount > 0 ? Math.max(...families.map(f => f.members?.length || 0)) : 0;
 
-        const filteredFamilies = (families || []).filter(fam => {
+        const filteredFamilies = (Array.isArray(families) ? families : []).filter(fam => {
             const query = (familySearchQuery || '').toLowerCase();
             const nameMatch = !query ||
                 (fam?.familyName || '').toLowerCase().includes(query) ||

@@ -250,7 +250,7 @@ const ChairpersonDashboard: React.FC = () => {
     const fetchMedia = async () => {
         try {
             const response = await axios.get(getApiUrl('patronMedia'), { withCredentials: true });
-            const apiItems = response.data || [];
+            const apiItems = Array.isArray(response.data) ? response.data : [];
             // Merge API items with defaults
             const merged = [...apiItems];
             defaultMediaEvents.forEach(def => {
@@ -1081,7 +1081,7 @@ const ChairpersonDashboard: React.FC = () => {
     );
 
     const [gallerySearch, setGallerySearch] = useState('');
-    const filteredGallery = (mediaItems || []).filter(item =>
+    const filteredGallery = (Array.isArray(mediaItems) ? mediaItems : []).filter(item =>
         (item?.event || '').toLowerCase().includes((gallerySearch || '').toLowerCase()) ||
         (item?.date || '').toLowerCase().includes((gallerySearch || '').toLowerCase())
     );
