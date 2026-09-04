@@ -2,48 +2,13 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <link rel="icon" type="image" href="./src/assets/cuLogoUAR.png" />
-    
-    <!-- Prevent caching for immediate updates -->
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
-
-    <!-- PWA Manifest -->
-    <link rel="manifest" href="/manifest.json" />
-
-    <!-- PWA Meta Tags -->
-    <meta name="theme-color" content="#667eea" />
-    <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
-    <meta name="apple-mobile-web-app-title" content="RPC" />
-
-    <!-- Apple Touch Icons -->
-    <link
-      rel="apple-touch-icon"
-      sizes="152x152"
-      href="/icons/icon-152x152.png"
-    />
-    <link
-      rel="apple-touch-icon"
-      sizes="192x192"
-      href="/icons/icon-192x192.png"
-    />
-
-    <!-- Microsoft Tiles -->
-    <meta name="msapplication-TileColor" content="#667eea" />
-    <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
-
-    <!-- Canonical URL -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="icon" type="image/png" href="./src/assets/cuLogoUAR.png" />
     <link rel="canonical" href="https://rpcnyamira.org/" />
 
     <!-- Primary Meta Tags -->
     <title>Rikuruma Pentecostal Church Nyamira - Kenya</title>
-    <meta
-      name="title"
-      content="Rikuruma Pentecostal Church Nyamira - Kenya"
-    />
+    <meta name="title" content="Rikuruma Pentecostal Church Nyamira - Kenya" />
     <meta
       name="description"
       content="Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ."
@@ -55,27 +20,28 @@
     <meta name="author" content="Rikuruma Pentecostal Church" />
     <meta name="robots" content="index, follow" />
 
-    <!-- Open Graph / Facebook / WhatsApp -->
+    <!-- Open Graph / WhatsApp / Facebook Preview -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://rpcnyamira.org/" />
     <meta property="og:site_name" content="Rikuruma Pentecostal Church" />
+    <meta property="og:url" content="https://rpcnyamira.org/" />
     <meta property="og:title" content="Rikuruma Pentecostal Church Nyamira - Kenya" />
     <meta
       property="og:description"
       content="Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ."
     />
-    <meta property="og:image" content="https://rpcnyamira.org/preview-image.png" />
-    <meta property="og:image:secure_url" content="https://rpcnyamira.org/preview-image.png" />
-    <meta property="og:image:type" content="image/png" />
-    <meta property="og:image:width" content="1911" />
-    <meta property="og:image:height" content="913" />
+    <meta property="og:image" content="https://rpcnyamira.org/preview.jpg" />
+    <meta property="og:image:secure_url" content="https://rpcnyamira.org/preview.jpg" />
+    <meta property="og:image:type" content="image/jpeg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="573" />
     <meta property="og:image:alt" content="Rikuruma Pentecostal Church Nyamira - Kenya" />
     <meta property="og:locale" content="en_KE" />
 
-    <!-- WhatsApp & Schema Fallback -->
+    <!-- WhatsApp & Search Engine Fallbacks -->
+    <link rel="image_src" href="https://rpcnyamira.org/preview.jpg" />
     <meta itemprop="name" content="Rikuruma Pentecostal Church Nyamira - Kenya" />
     <meta itemprop="description" content="Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ." />
-    <meta itemprop="image" content="https://rpcnyamira.org/preview-image.png" />
+    <meta itemprop="image" content="https://rpcnyamira.org/preview.jpg" />
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -85,8 +51,20 @@
       name="twitter:description"
       content="Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ."
     />
-    <meta name="twitter:image" content="https://rpcnyamira.org/preview-image.png" />
+    <meta name="twitter:image" content="https://rpcnyamira.org/preview.jpg" />
     <meta name="twitter:image:alt" content="Rikuruma Pentecostal Church Nyamira - Kenya" />
+
+    <!-- PWA Manifest & Icons -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#667eea" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="RPC" />
+    <link rel="apple-touch-icon" sizes="152x152" href="/icons/icon-152x152.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="/icons/icon-192x192.png" />
+    <meta name="msapplication-TileColor" content="#667eea" />
+    <meta name="msapplication-TileImage" content="/icons/icon-144x144.png" />
 
     <!-- Structured Data (JSON-LD) for Google Search & Sitelinks -->
     <script type="application/ld+json">
@@ -108,7 +86,7 @@
           "alternateName": ["RPC Nyamira", "Rikuruma Pentecostal Church"],
           "url": "https://rpcnyamira.org",
           "logo": "https://rpcnyamira.org/icons/icon-512x512.png",
-          "image": "https://rpcnyamira.org/preview-image.png",
+          "image": "https://rpcnyamira.org/preview.jpg",
           "description": "Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ.",
           "parentOrganization": {
             "@type": "Organization",
