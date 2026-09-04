@@ -8,11 +8,12 @@ import dominionLogo from "../../assets/dominion softwares main logo.png";
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  { label: "Choirs", href: "/choirs" },
+  { label: "Sermons", href: "/sermons" },
+  { label: "Our Choirs", href: "/choirs" },
+  { label: "Online Giving", href: "/financial" },
+  { label: "Ministries", href: "/ministries" },
   { label: "Leadership", href: "/leadership" },
-  { label: "Gallery", href: "/media" },
-  { label: "Contact Us", href: "/recomendations" },
-  { label: "Give", href: "/financial" },
+  { label: "Contact Us", href: "/contact-us" },
 ];
 
 const socialLinks = [

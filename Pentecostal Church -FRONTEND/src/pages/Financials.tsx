@@ -36,6 +36,8 @@ const FinancialsPage: React.FC = () => {
   const resolvedRef = useRef(false);
 
   useEffect(() => {
+    document.title = "Online Giving & Tithes | Rikuruma Pentecostal Church Nyamira";
+
     // Check if user is logged in
     fetch(`${getBaseUrl()}/api/users/me`, { credentials: 'include' })
       .then(r => { if (r.ok) setIsLoggedIn(true); })

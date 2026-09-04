@@ -6,7 +6,7 @@ const ChoirsPage: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    document.title = "Our Choirs | RPC Nyamira";
+    document.title = "Our Choirs & Music Ministry | Rikuruma Pentecostal Church Nyamira";
     
     if (location.hash) {
       const id = location.hash.replace('#', '');

@@ -6,7 +6,7 @@ const SermonsPage: React.FC = () => {
   const location = useLocation();
 
   useEffect(() => {
-    document.title = "Sermons | RPC Nyamira";
+    document.title = "Sermons & Messages | Rikuruma Pentecostal Church Nyamira";
     
     if (location.hash) {
       const id = location.hash.replace('#', '');

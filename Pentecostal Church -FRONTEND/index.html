@@ -64,8 +64,18 @@
       property="og:description"
       content="Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ."
     />
-    <meta property="og:image" content="https://rpcnyamira.org/og-image.png" />
+    <meta property="og:image" content="https://rpcnyamira.org/preview-image.png" />
+    <meta property="og:image:secure_url" content="https://rpcnyamira.org/preview-image.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1911" />
+    <meta property="og:image:height" content="913" />
+    <meta property="og:image:alt" content="Rikuruma Pentecostal Church Nyamira - Kenya" />
     <meta property="og:locale" content="en_KE" />
+
+    <!-- WhatsApp & Schema Fallback -->
+    <meta itemprop="name" content="Rikuruma Pentecostal Church Nyamira - Kenya" />
+    <meta itemprop="description" content="Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ." />
+    <meta itemprop="image" content="https://rpcnyamira.org/preview-image.png" />
 
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
@@ -75,37 +85,101 @@
       name="twitter:description"
       content="Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ."
     />
-    <meta name="twitter:image" content="https://rpcnyamira.org/og-image.png" />
+    <meta name="twitter:image" content="https://rpcnyamira.org/preview-image.png" />
+    <meta name="twitter:image:alt" content="Rikuruma Pentecostal Church Nyamira - Kenya" />
 
-    <!-- Structured Data (JSON-LD) for Google Search Rich Results -->
+    <!-- Structured Data (JSON-LD) for Google Search & Sitelinks -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Church",
-      "name": "Rikuruma Pentecostal Church Nyamira - Kenya",
-      "alternateName": ["RPC Nyamira", "Rikuruma Pentecostal Church"],
-      "url": "https://rpcnyamira.org",
-      "logo": "https://rpcnyamira.org/icons/icon-512x512.png",
-      "image": "https://rpcnyamira.org/og-image.png",
-      "description": "Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ.",
-      "parentOrganization": {
-        "@type": "Organization",
-        "name": "Kisii Pentecostal Church"
-      },
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Rikuruma",
-        "addressLocality": "Nyamira",
-        "addressRegion": "Nyamira County",
-        "postalCode": "40200",
-        "addressCountry": "KE"
-      },
-      "telephone": "+254762053876",
-      "email": "communityofbelieversinjesus@gmail.com",
-      "sameAs": [
-        "https://www.youtube.com/@savedbychriststainedbylove",
-        "https://www.instagram.com/rpc_nyamira",
-        "https://twitter.com/rpcnyamira"
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://rpcnyamira.org/#website",
+          "url": "https://rpcnyamira.org/",
+          "name": "Rikuruma Pentecostal Church",
+          "description": "Official website of Rikuruma Pentecostal Church, Nyamira - Kenya. Sermons, Choirs, Ministries, and Online Giving.",
+          "inLanguage": "en-KE"
+        },
+        {
+          "@type": "Church",
+          "@id": "https://rpcnyamira.org/#church",
+          "name": "Rikuruma Pentecostal Church Nyamira - Kenya",
+          "alternateName": ["RPC Nyamira", "Rikuruma Pentecostal Church"],
+          "url": "https://rpcnyamira.org",
+          "logo": "https://rpcnyamira.org/icons/icon-512x512.png",
+          "image": "https://rpcnyamira.org/preview-image.png",
+          "description": "Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ.",
+          "parentOrganization": {
+            "@type": "Organization",
+            "name": "Kisii Pentecostal Church"
+          },
+          "address": {
+            "@type": "PostalAddress",
+            "streetAddress": "Rikuruma",
+            "addressLocality": "Nyamira",
+            "addressRegion": "Nyamira County",
+            "postalCode": "40200",
+            "addressCountry": "KE"
+          },
+          "telephone": "+254762053876",
+          "email": "communityofbelieversinjesus@gmail.com",
+          "sameAs": [
+            "https://www.youtube.com/@savedbychriststainedbylove",
+            "https://www.instagram.com/rpc_nyamira",
+            "https://twitter.com/rpcnyamira",
+            "https://www.facebook.com/share/18rhcZ1XpA/"
+          ]
+        },
+        {
+          "@type": "ItemList",
+          "@id": "https://rpcnyamira.org/#sitelinks",
+          "name": "Featured Links & Services",
+          "itemListElement": [
+            {
+              "@type": "SiteNavigationElement",
+              "position": 1,
+              "name": "Sermons & Messages",
+              "description": "Watch and listen to inspiring Sunday sermons and biblical teachings from Rikuruma Pentecostal Church.",
+              "url": "https://rpcnyamira.org/sermons"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 2,
+              "name": "Our Choirs",
+              "description": "Listen to worship songs and music albums from Trumpet of Yahweh, Born to Worship, and Agape Hearts singers.",
+              "url": "https://rpcnyamira.org/choirs"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 3,
+              "name": "Online Giving & Tithes",
+              "description": "Support God's work, give your tithes, offerings, and donations securely online via M-Pesa.",
+              "url": "https://rpcnyamira.org/financial"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 4,
+              "name": "About Us",
+              "description": "Learn about our history, mission, vision, and beliefs at Rikuruma Pentecostal Church.",
+              "url": "https://rpcnyamira.org/about"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 5,
+              "name": "Ministries",
+              "description": "Discover our church ministries including Youth, Women, Men, Sunday School, and Compassion.",
+              "url": "https://rpcnyamira.org/ministries"
+            },
+            {
+              "@type": "SiteNavigationElement",
+              "position": 6,
+              "name": "News & Events",
+              "description": "Stay updated with upcoming church events, revival meetings, and announcements.",
+              "url": "https://rpcnyamira.org/news"
+            }
+          ]
+        }
       ]
     }
     </script>
