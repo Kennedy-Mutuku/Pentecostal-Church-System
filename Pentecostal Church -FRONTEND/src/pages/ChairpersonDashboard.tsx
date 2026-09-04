@@ -1081,9 +1081,9 @@ const ChairpersonDashboard: React.FC = () => {
     );
 
     const [gallerySearch, setGallerySearch] = useState('');
-    const filteredGallery = mediaItems.filter(item =>
-        item.event.toLowerCase().includes(gallerySearch.toLowerCase()) ||
-        item.date.toLowerCase().includes(gallerySearch.toLowerCase())
+    const filteredGallery = (mediaItems || []).filter(item =>
+        (item?.event || '').toLowerCase().includes((gallerySearch || '').toLowerCase()) ||
+        (item?.date || '').toLowerCase().includes((gallerySearch || '').toLowerCase())
     );
 
     const renderGallery = () => (

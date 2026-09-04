@@ -57,9 +57,10 @@ const PatronAssets: React.FC = () => {
         ensureFinanceToken().then(() => fetchAssets());
     }, []);
 
-    const filteredAssets = assets.filter(a => {
-        return a.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            (a.description && a.description.toLowerCase().includes(searchQuery.toLowerCase()));
+    const filteredAssets = (assets || []).filter(a => {
+        const q = (searchQuery || '').toLowerCase();
+        return (a?.name || '').toLowerCase().includes(q) ||
+            (a?.description && a.description.toLowerCase().includes(q));
     });
 
     const formatCurrency = (amount: number) => {

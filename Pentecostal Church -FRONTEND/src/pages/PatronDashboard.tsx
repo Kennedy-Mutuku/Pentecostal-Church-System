@@ -909,15 +909,15 @@ const PatronDashboard: React.FC = () => {
 
     const renderMembers = () => {
         // Combined filter: ageGroup + search + section
-        const displayUsers = users.filter(user => {
-            const matchesAgeGroup = selectedAgeGroup === 'all' || user.ageGroup === selectedAgeGroup;
-            const q = searchQuery.toLowerCase();
+        const displayUsers = (users || []).filter(user => {
+            const matchesAgeGroup = selectedAgeGroup === 'all' || user?.ageGroup === selectedAgeGroup;
+            const q = (searchQuery || '').toLowerCase();
             const matchesSearch = !q ||
-                user.username?.toLowerCase().includes(q) ||
-                user.email?.toLowerCase().includes(q) ||
-                user.phone?.includes(searchQuery) ||
-                user.idNumber?.toLowerCase().includes(q) ||
-                user.residence?.toLowerCase().includes(q);
+                (user?.username || '').toLowerCase().includes(q) ||
+                (user?.email || '').toLowerCase().includes(q) ||
+                (user?.phone || '').includes(searchQuery) ||
+                (user?.idNumber || '').toLowerCase().includes(q) ||
+                (user?.residence || '').toLowerCase().includes(q);
                 
             const isAgeView = activeSection.startsWith('age-');
             const isGenderView = activeSection.startsWith('gender-');
@@ -1240,9 +1240,9 @@ const PatronDashboard: React.FC = () => {
     );
 
     const [gallerySearch, setGallerySearch] = useState('');
-    const filteredGallery = mediaItems.filter(item =>
-        item.event.toLowerCase().includes(gallerySearch.toLowerCase()) ||
-        item.date.toLowerCase().includes(gallerySearch.toLowerCase())
+    const filteredGallery = (mediaItems || []).filter(item =>
+        (item?.event || '').toLowerCase().includes((gallerySearch || '').toLowerCase()) ||
+        (item?.date || '').toLowerCase().includes((gallerySearch || '').toLowerCase())
     );
 
     const renderGallery = () => (
@@ -1417,12 +1417,13 @@ const PatronDashboard: React.FC = () => {
         const avgFamilySize = totalFamiliesCount > 0 ? (totalFamilyMembersCount / totalFamiliesCount).toFixed(1) : '0';
         const maxFamilySize = totalFamiliesCount > 0 ? Math.max(...families.map(f => f.members?.length || 0)) : 0;
 
-        const filteredFamilies = families.filter(fam => {
-            const nameMatch = !familySearchQuery ||
-                fam.familyName?.toLowerCase().includes(familySearchQuery.toLowerCase()) ||
-                fam.residence?.toLowerCase().includes(familySearchQuery.toLowerCase()) ||
-                (fam.headOfFamily?.username && fam.headOfFamily.username.toLowerCase().includes(familySearchQuery.toLowerCase())) ||
-                (fam.members && fam.members.some((m: any) => m.username?.toLowerCase().includes(familySearchQuery.toLowerCase())));
+        const filteredFamilies = (families || []).filter(fam => {
+            const query = (familySearchQuery || '').toLowerCase();
+            const nameMatch = !query ||
+                (fam?.familyName || '').toLowerCase().includes(query) ||
+                (fam?.residence || '').toLowerCase().includes(query) ||
+                (fam?.headOfFamily?.username && fam.headOfFamily.username.toLowerCase().includes(query)) ||
+                (fam?.members && fam.members.some((m: any) => (m?.username || '').toLowerCase().includes(query)));
 
             const sizeCount = fam.members?.length || 0;
             let sizeMatch = true;
