@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
+import VideoPlayer from '../components/VideoPlayer';
 import '../styles/Departments.css';
 
 const departments = [
@@ -10,6 +11,7 @@ const departments = [
     description:
       'The Trumpet of Yahweh Choir is a Spirit-filled ensemble dedicated to ushering the congregation into the presence of God through powerful, anointed praise and worship. They lead the church in corporate worship every Sunday and special services, proclaiming the glory of God through song.',
     photo: null as string | null,
+    video: { url: 'https://www.youtube.com/embed/dCYImKcZTjk', title: 'MWANADAMU ll TRUMPET OF YAWEH CHOIR ll RPC NYAMIRA' },
   },
   {
     slug: 'born-to-worship',
@@ -18,6 +20,7 @@ const departments = [
     description:
       'Born to Worship Choir exists to glorify God through contemporary worship music. Their ministry is characterised by heartfelt adoration and a deep commitment to leading people into an encounter with the Living God. They perform at Sunday services, revivals, and special church events.',
     photo: null as string | null,
+    video: { url: 'https://www.youtube.com/embed/byQVtcrxDRs', title: 'ENYANGI, TRUMPET OF YAWEH CHOIR, R.P.C  NYAMRA' },
   },
   {
     slug: 'agape-hearts',
@@ -26,6 +29,7 @@ const departments = [
     description:
       'Agape Hearts Choir ministers through songs of love, grace, and redemption. Rooted in the love of Christ, this choir brings warmth and joy to every service. Their music transcends generations, touching hearts and drawing souls closer to God.',
     photo: null as string | null,
+    video: { url: 'https://www.youtube.com/embed/yym9Xi0o5Uw', title: 'YESU ALIWAMBIA ll TRUMPET OF YAWEH CHOIR ll RPC NYAMIRA' },
   },
   {
     slug: 'agape-voices',
@@ -158,9 +162,13 @@ const Departments: React.FC = () => {
                 className={`dept-section${isReverse ? ' dept-section--reverse' : ''}${isReverse ? ' dept-section--alt' : ''}${skipAnimations ? ' dept-visible' : ''}`}
                 ref={(el) => { sectionRefs.current[index] = el; }}
               >
-                {/* Photo side */}
+                {/* Photo / Video side */}
                 <div className="dept-media">
-                  {dept.photo ? (
+                  {dept.video ? (
+                    <div className="w-full h-full flex items-center justify-center p-2 sm:p-4 bg-gray-100">
+                      <VideoPlayer videoUrl={dept.video.url} title={dept.video.title} />
+                    </div>
+                  ) : dept.photo ? (
                     <img src={dept.photo} alt={dept.name} className="dept-img" />
                   ) : (
                     <div className="dept-photo-placeholder">

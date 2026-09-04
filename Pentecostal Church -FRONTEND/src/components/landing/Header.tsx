@@ -179,7 +179,7 @@ const mobileNavTabs: { key: string; icon: React.ElementType; label: string; }[] 
   { key: 'dashboard', icon: Home, label: 'Home' },
   { key: 'aboutUs', icon: Info, label: 'About Us' },
   { key: 'departments', icon: Building2, label: 'Departments' },
-  { key: 'philosophies', icon: BookOpen, label: 'Philosophies' },
+  { key: 'choirs', icon: BookOpen, label: 'Choirs' },
   { key: 'leadership', icon: Crown, label: 'Leadership' },
   { key: 'media', icon: Tv2, label: 'Gallery' },
   { key: 'news', icon: Newspaper, label: 'News' },
@@ -274,11 +274,11 @@ const MobileSidebarMenu = ({ userData, activeSessions, onNavigate, activeNav, is
       onNavigate('/news');
       return;
     }
-    if (key === 'philosophies') {
+    if (key === 'choirs') {
       setActiveTab(null);
       setExpandedNestedItem(null);
       setIsManualExpanded(false);
-      onNavigate('/philosophy');
+      onNavigate('/choirs');
       return;
     }
     if (key === 'biblestudy') {
@@ -646,7 +646,8 @@ const Header = () => {
   const getActiveNav = (path: string): string | null => {
     if (path.startsWith('/about') || path.startsWith('/history') || path.startsWith('/vision-mission') || path.startsWith('/statement-of-faith')) return 'aboutUs';
     if (path.startsWith('/departments')) return 'departments';
-    if (path.startsWith('/philosophy')) return 'philosophies';
+    if (path.startsWith('/choirs')) return 'choirs';
+    if (path.startsWith('/sermons')) return 'sermons';
     if (path === '/') return 'dashboard';
     if (path.startsWith('/news')) return 'news';
     if (path.startsWith('/media')) return 'mediadesk';
@@ -791,6 +792,20 @@ const Header = () => {
     </div>
   );
 
+  const choirsNavItems = [
+    { label: 'Trumpet of Yahweh Choir', href: '/choirs#trumpet' },
+    { label: 'Agape Voice Choir', href: '/choirs#agape' },
+    { label: 'Born to Worship Ministers', href: '/choirs#born-to-worship' },
+  ];
+
+  const renderChoirsPanel = () => (
+    <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-xl border border-gray-200 py-2 min-w-[240px] z-50">
+      {choirsNavItems.map((item, i) => (
+        <FlyoutItem key={i} item={item} onClose={closeDropdown} />
+      ))}
+    </div>
+  );
+
   const renderMediaDeskPanel = () => (
     <div className="absolute top-full left-0 mt-1 bg-white rounded-lg shadow-xl border border-gray-200 py-2 min-w-[220px] z-50">
       {headerNavGroups.mediaDesk.map((item, i) => (
@@ -803,9 +818,9 @@ const Header = () => {
       <header className={`fixed top-0 left-0 right-0 z-[100005] transition-all duration-300 ${isScrolled ? 'bg-[#f8f6f0] shadow-lg shadow-black/5' : 'bg-[#f8f6f0]'}`}>
         <div className="bg-[#4a1012] text-[#f8f6f0] h-10 border-b border-[#3a0a0c]">
           <div className="max-w-7xl mx-auto px-4 md:px-8 h-full flex justify-center md:justify-end items-center text-[13px] md:text-xs font-medium gap-5 md:gap-6 select-none">
-            <a href="#new" className="hover:text-white transition-colors">I'm New</a>
-            <a href="#prayer" className="hover:text-white transition-colors">Prayer Request</a>
-            <a href="#contact" className="hover:text-white transition-colors">Contact</a>
+            <Link to="/recomendations" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">I'm New</Link>
+            <Link to="/recomendations" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Prayer Request</Link>
+            <Link to="/recomendations" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className="hover:text-white transition-colors">Contact</Link>
           </div>
         </div>
 
@@ -872,7 +887,7 @@ const Header = () => {
 
                   {/* About Us dropdown */}
                   <div className="relative" onMouseEnter={() => handleMouseEnter('aboutUs')} onMouseLeave={handleMouseLeave}>
-                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeDropdown === 'aboutUs' || activeNav === 'aboutUs' ? 'nav-link-active text-white' : 'text-gray-700'}`}>
+                    <button onClick={() => { navigate('/about'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeDropdown === 'aboutUs' || activeNav === 'aboutUs' ? 'nav-link-active text-white' : 'text-gray-700'}`}>
                       About Us
                       <ChevronDown size={12} className={`xl:w-[14px] xl:h-[14px] transition-transform ${activeDropdown === 'aboutUs' ? 'rotate-180' : ''}`} />
                     </button>
@@ -881,16 +896,25 @@ const Header = () => {
 
                   {/* Departments dropdown */}
                   <div className="relative" onMouseEnter={() => handleMouseEnter('departments')} onMouseLeave={handleMouseLeave}>
-                    <button className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeDropdown === 'departments' || activeNav === 'departments' ? 'nav-link-active text-white' : 'text-gray-700'}`}>
+                    <button onClick={() => { navigate('/departments'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeDropdown === 'departments' || activeNav === 'departments' ? 'nav-link-active text-white' : 'text-gray-700'}`}>
                       Departments
                       <ChevronDown size={12} className={`xl:w-[14px] xl:h-[14px] transition-transform ${activeDropdown === 'departments' ? 'rotate-180' : ''}`} />
                     </button>
                     {activeDropdown === 'departments' && renderDepartmentsPanel()}
                   </div>
 
-                  <Link to="/philosophy" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'philosophies' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Philosophies</Link>
+                  {/* Choirs dropdown */}
+                  <div className="relative" onMouseEnter={() => handleMouseEnter('choirs')} onMouseLeave={handleMouseLeave}>
+                    <button onClick={() => { navigate('/choirs'); window.scrollTo({ top: 0, behavior: 'smooth' }); }} className={`nav-link-underline flex items-center gap-0.5 px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeDropdown === 'choirs' || activeNav === 'choirs' ? 'nav-link-active text-white' : 'text-gray-700'}`}>
+                      Choirs
+                      <ChevronDown size={12} className={`xl:w-[14px] xl:h-[14px] transition-transform ${activeDropdown === 'choirs' ? 'rotate-180' : ''}`} />
+                    </button>
+                    {activeDropdown === 'choirs' && renderChoirsPanel()}
+                  </div>
 
-                  <Link to="/leadership" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'leadership' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Leadership</Link>
+                  <Link to="/sermons" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'sermons' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Sermons</Link>
+
+                  <Link to="/leadership" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'leadership' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Leadership</Link>
 
                   {/* Gallery Link */}
                   <Link to="/media" className={`nav-link-underline px-1 lg:px-1.5 xl:px-2 py-2 font-medium text-[11px] lg:text-[12px] xl:text-[13px] whitespace-nowrap ${activeNav === 'media' ? 'nav-link-active text-white' : 'text-gray-700'}`}>Gallery</Link>
@@ -928,8 +952,8 @@ const Header = () => {
                       <span className="text-[12px] xl:text-[13px] capitalize leading-none tracking-tight">{userData.username}</span>
                     </button>
                   ) : (
-                    <Link to="/signIn" className="flex items-center gap-1.5 pl-1.5 pr-3 py-1 bg-red-50 hover:bg-[#FF3B30]/10 border border-[#FF3B30]/20 rounded-full font-bold text-[#FF3B30] transition-all shadow-sm active:scale-95 whitespace-nowrap">
-                      <div className="bg-[#FF3B30] text-white p-1 rounded-full flex items-center justify-center">
+                    <Link to="/signIn" className="flex items-center gap-1.5 pl-1.5 pr-3 py-1 bg-gray-50 hover:bg-gray-200 border border-black/20 rounded-full font-bold text-black transition-all shadow-sm active:scale-95 whitespace-nowrap">
+                      <div className="bg-black text-white p-1 rounded-full flex items-center justify-center">
                         <LogIn size={14} className="xl:w-[16px] xl:h-[16px]" strokeWidth={2.5} />
                       </div>
                       <span className="text-[11px] xl:text-sm leading-none tracking-tight">Log In</span>
@@ -970,7 +994,9 @@ const Header = () => {
             
             <Link to="/departments" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'departments' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Departments</Link>
             
-            <Link to="/philosophy" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'philosophies' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Philosophies</Link>
+            <Link to="/choirs" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'choirs' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Choirs</Link>
+            
+            <Link to="/sermons" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'sermons' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Sermons</Link>
             
             <Link to="/leadership" onClick={() => setIsSidebarExpanded(false)} className={`mx-3 my-0.5 px-4 py-2 rounded-full text-[15px] ${activeNav === 'leadership' ? 'bg-[#4a1012] text-white font-bold' : 'text-gray-900 font-medium hover:bg-black/5'}`}>Leadership</Link>
             

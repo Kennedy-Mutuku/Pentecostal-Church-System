@@ -5,7 +5,7 @@ import cuLogo from '../../assets/RPC logo updated document.png';
 const quickLinks: { label: string; href: string; external?: boolean }[] = [
   { label: 'Home', href: '/' },
   { label: 'About Us', href: '/about' },
-  { label: 'Philosophies', href: '/philosophy' },
+  { label: 'Choirs', href: '/choirs' },
   { label: 'Leadership', href: '/leadership' },
   { label: 'Gallery', href: '/media' },
   { label: 'Contact Us', href: '/recomendations' },

@@ -13,8 +13,44 @@ interface ChurchEvent {
   isPermanent?: boolean;
 }
 
+const getNextSunday = () => {
+  const now = new Date();
+  const nextSunday = new Date();
+  nextSunday.setDate(now.getDate() + ((7 - now.getDay()) % 7));
+  nextSunday.setHours(9, 0, 0, 0);
+  if (now > nextSunday) {
+    nextSunday.setDate(nextSunday.getDate() + 7);
+  }
+  return nextSunday;
+};
+
 const HeroSection = () => {
   const navigate = useNavigate();
+  const [countdown, setCountdown] = useState('');
+
+  useEffect(() => {
+    const target = getNextSunday().getTime();
+    const interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = target - now;
+      if (distance < 0) {
+        setCountdown('Live Now');
+        return;
+      }
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      
+      const pad = (n: number) => n.toString().padStart(2, '0');
+      if (days > 0) {
+        setCountdown(`${days}d ${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`);
+      } else {
+        setCountdown(`${pad(hours)}h ${pad(minutes)}m ${pad(seconds)}s`);
+      }
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <section className="relative w-full min-h-[520px] md:min-h-[750px] flex flex-col overflow-visible bg-black select-none font-sans mt-0 md:mt-0 mb-[550px] sm:mb-[580px] md:mb-0">
@@ -71,34 +107,36 @@ const HeroSection = () => {
                 <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">When we gather</span>
                 <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Service Times</h3>
                 <p className="text-gray-600 text-[13px]">Sunday, Wednesday, Friday</p>
-                <a href="#" className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline">Open &rarr;</a>
+                <button onClick={() => navigate('/news')} className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline text-left">Open &rarr;</button>
               </div>
             </div>
             {/* Card 2 */}
             <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
               <div className="flex flex-col space-y-1.5">
-                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Find your home</span>
-                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Our Centres</h3>
-                <p className="text-gray-600 text-[13px]">Mombasa, Nairobi and the US</p>
-                <a href="#" className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline">Open &rarr;</a>
+                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Worship with us</span>
+                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Our Choirs</h3>
+                <p className="text-gray-600 text-[13px]">Praise, worship & adoration</p>
+                <button onClick={() => navigate('/choirs')} className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline text-left">Open &rarr;</button>
               </div>
             </div>
             {/* Card 3 */}
             <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
               <div className="flex flex-col space-y-1.5">
-                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Set apart</span>
-                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Prayer & Fasting</h3>
-                <p className="text-gray-600 text-[13px]">Our weekly rhythms</p>
-                <a href="#" className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline">Open &rarr;</a>
+                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Word of God</span>
+                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Sermons</h3>
+                <p className="text-gray-600 text-[13px]">Watch our latest messages</p>
+                <button onClick={() => navigate('/media')} className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline text-left">Open &rarr;</button>
               </div>
             </div>
             {/* Card 4 */}
             <div className="bg-white rounded-[14px] shadow-sm p-5 border border-gray-100">
               <div className="flex flex-col space-y-1.5">
-                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">This week</span>
-                <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Latest News</h3>
-                <p className="text-gray-600 text-[13px]">From the pulpit and around RPC</p>
-                <a href="#" className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline">Open &rarr;</a>
+                <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Next Service</span>
+                <h3 className="text-gray-900 font-bold text-lg tabular-nums tracking-tight" style={{ fontFamily: "'Inter', sans-serif" }}>
+                  {countdown || 'Loading...'}
+                </h3>
+                <p className="text-gray-600 text-[13px]">Sunday at 9:00 AM</p>
+                <button onClick={() => navigate('/news')} className="text-[#7c2d12] text-xs font-bold mt-2 hover:underline text-left">Open &rarr;</button>
               </div>
             </div>
           </div>
@@ -115,34 +153,36 @@ const HeroSection = () => {
               <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">When we gather</span>
               <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Service Times</h3>
               <p className="text-gray-600 text-xs">Sunday, Wednesday, Friday</p>
-              <a href="#" className="text-red-900 text-xs font-bold mt-1 hover:underline">Open &rarr;</a>
+              <button onClick={() => navigate('/news')} className="text-red-900 text-xs font-bold mt-1 hover:underline text-left">Open &rarr;</button>
             </div>
 
             <div className="w-[1px] h-16 bg-gray-200"></div>
 
             <div className="flex flex-col space-y-1">
-              <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Find your home</span>
-              <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Our Centres</h3>
-              <p className="text-gray-600 text-xs">Nyamira and beyond</p>
-              <a href="#" className="text-red-900 text-xs font-bold mt-1 hover:underline">Open &rarr;</a>
+              <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Worship with us</span>
+              <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Our Choirs</h3>
+              <p className="text-gray-600 text-xs">Praise, worship & adoration</p>
+              <button onClick={() => navigate('/choirs')} className="text-red-900 text-xs font-bold mt-1 hover:underline text-left">Open &rarr;</button>
             </div>
 
             <div className="w-[1px] h-16 bg-gray-200"></div>
 
             <div className="flex flex-col space-y-1">
-              <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Set apart</span>
-              <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Prayer & Fasting</h3>
-              <p className="text-gray-600 text-xs">Our weekly rhythms</p>
-              <a href="#" className="text-red-900 text-xs font-bold mt-1 hover:underline">Open &rarr;</a>
+              <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Word of God</span>
+              <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Sermons</h3>
+              <p className="text-gray-600 text-xs">Watch our latest messages</p>
+              <button onClick={() => navigate('/media')} className="text-red-900 text-xs font-bold mt-1 hover:underline text-left">Open &rarr;</button>
             </div>
 
             <div className="w-[1px] h-16 bg-gray-200"></div>
 
-            <div className="flex flex-col space-y-1">
-              <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">This week</span>
-              <h3 className="text-gray-900 font-bold text-lg" style={{ fontFamily: "'Playfair Display', serif" }}>Latest News</h3>
-              <p className="text-gray-600 text-xs">From the pulpit and around RPC</p>
-              <a href="#" className="text-red-900 text-xs font-bold mt-1 hover:underline">Open &rarr;</a>
+            <div className="flex flex-col space-y-1 min-w-[140px]">
+              <span className="text-[#b25712] text-[10px] font-bold uppercase tracking-widest">Next Service</span>
+              <h3 className="text-gray-900 font-bold text-lg tabular-nums tracking-tight" style={{ fontFamily: "'Inter', sans-serif" }}>
+                {countdown || 'Loading...'}
+              </h3>
+              <p className="text-gray-600 text-xs">Sunday at 9:00 AM</p>
+              <button onClick={() => navigate('/news')} className="text-red-900 text-xs font-bold mt-1 hover:underline text-left">Open &rarr;</button>
             </div>
 
           </div>

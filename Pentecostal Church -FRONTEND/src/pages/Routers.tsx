@@ -5,7 +5,8 @@ import App from "../App.tsx";
 // Lazy-loaded components
 const LandingPage = lazy(() => import("./LandingPageNew"));
 const AboutUsPage = lazy(() => import("./AboutUsPage"));
-const PhilosophiesPage = lazy(() => import("./Philosophies"));
+const ChoirsPage = lazy(() => import("./Choirs"));
+const SermonsPage = lazy(() => import("./Sermons"));
 const FinancialsPage = lazy(() => import("./Financials"));
 const MinistriesPage = lazy(() => import("./Ministries"));
 const Etpage = lazy(() => import("./Et"));
@@ -90,7 +91,8 @@ export const router = createBrowserRouter([
             { path: "/Home", element: <LandingPage /> },
             { path: "/about", element: <AboutUsPage /> },
             { path: "/departments", element: <DepartmentsPage /> },
-            { path: "/philosophy", element: <PhilosophiesPage /> },
+            { path: "/choirs", element: <ChoirsPage /> },
+            { path: "/sermons", element: <SermonsPage /> },
             { path: "/financial", element: <FinancialsPage /> },
             { path: "/ministries", element: <MinistriesPage /> },
             { path: "/ets", element: <Etpage /> },
