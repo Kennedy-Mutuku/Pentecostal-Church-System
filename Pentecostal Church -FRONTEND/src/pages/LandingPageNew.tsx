@@ -168,7 +168,7 @@ const LandingPageNew = () => {
             <div className="about-content">
               <div className="about-text">
                 <p className="lead">
-                  Rikuruma Pentecostal Church is a Christ-centered, Bible-believing ministry dedicated to preaching the Gospel of Jesus Christ and raising disciples through the power of the Holy Spirit. Guided by the Word of God, we believe in the sovereignty and eternal existence of God.
+                  Welcome to Rikuruma Pentecostal Church, a ministry of Kisii Pentecostal Church in Nyamira County. We are a Christ-centered, Bible-believing church committed to worship, discipleship, evangelism, fellowship, and transforming lives through the Gospel of Jesus Christ.
                 </p>
                 <div className="location-badge">
                   <i className="fas fa-map-marker-alt"></i>

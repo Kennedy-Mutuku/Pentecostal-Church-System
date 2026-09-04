@@ -1,0 +1,14 @@
+User-agent: *
+Allow: /
+Disallow: /patron/
+Disallow: /sadmin/
+Disallow: /admission/
+Disallow: /messages-admin/
+Disallow: /worship-docket-admin/
+Disallow: /media-admin/
+Disallow: /requisitions-admin/
+Disallow: /compassion-counseling-admin/
+Disallow: /committee-admin/
+Disallow: /chat-admin/
+
+Sitemap: https://rpcnyamira.org/sitemap.xml
